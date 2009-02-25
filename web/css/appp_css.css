@@ -1,0 +1,156 @@
+@charset "utf-8";
+/**
+* @{#}appp_css.css 0.01 09/01/18
+*
+* Copyright (c) 2009 Equipe SiGePAPP
+* 
+* Este código apresenta os estilos de formatação encontrados no sistema SiGePAPP
+* e parte integrante do projeto de formatura, do curso de ciências da computação,
+* do Centro Universitário da FEI, sob orientação do Prof. Dr. Plinio T. Aquino Jr.
+*
+* |------------------------------------------------------------------|
+* |                   Modificações no Código                         |
+* |------------------------------------------------------------------|
+* |   Autor     |   Data      |   Descrição                          |
+* |------------------------------------------------------------------|
+* |  Andrey     |  09/01/18   | Criação do Arquivo                   |
+* |------------------------------------------------------------------|
+* |  Andrey     |  09/01/23   | Alteração na formatação do menu para |
+* |             |             | compatibilidade entre IE e Firefox.  |
+* |------------------------------------------------------------------|
+* |  Andrey     |  09/01/26   | Inclusão das formatações dos         |
+* |             |             | elementos body e table               |
+* |------------------------------------------------------------------|
+* | Guilherme   |  09/02/21   | Alteracao de nome do stilo de ID para|
+* |             |             | CLASS. Eliminada propriedade width da|
+* |             |             | classe menubv(global) para fins de   |
+* |             |             | compatibilidade com IE e FIREFOX     |
+* |------------------------------------------------------------------|
+*/
+
+/**
+* Código das cores ecologicas para utilização no sistema
+* (remover estes códigos na versão final do sistema)
+* #822007 (vermelho oxidado) 
+* #000000 (preto) 
+* #b2bbc0 (azul esverdeado) 
+* #19472a (verde bosque) 
+* #3d414c (cobalto) 
+* #ffffff (branco) 
+*
+*/
+
+/* Formatação Global do sistema, todos os elementos sofrem este estilo*/
+* {
+    font-family: tahoma, arial, sans-serif;
+    font-size: 11px;
+}
+
+/* Formatação do elemento <body> */
+body {
+    background: #CCCCCC;
+    margin: 0px;
+}
+
+/* Formatação do elemento <table> */
+table {
+    background: #FFFFFF;
+}
+
+/* Formatação da classe utilizada no componete Text */
+.edit {
+    background-color:#CCCCCC;
+    border: 2px solid #3d414c;
+    color:#000000;
+}
+
+/* Formatação dos botoes */
+.botao {
+    background-color: #3d414c;
+    border: 1px outset;
+    color:#FFFFFF;
+}
+
+/* Formatação da classe titulo, para aplicar aos titulos do sistema */
+td.titulo {
+    background: url(../images/navBG.png);
+}
+
+font.titulo {
+    color: #000000;
+    font-size: 13px;
+    font-weight: bold;
+}
+
+/* Formatação dos elementos <td> encontrados no cabeçalho da página */
+.top_td {
+    border-bottom: 2px solid #3d414c;
+}
+
+/* Formatação de texto */
+.texto {
+    background: #FFFFFF;
+    color: #3d414c;
+    font-size:11px;
+    text-align: justify;
+    vertical-align: text-top;
+    margin-left: inherit;
+    margin-right: auto;
+}
+
+/* Formantação de todos os elementos <a>link</a> no sistema */
+a {
+    text-decoration:none;
+}
+/* Formatação do Menu na posição vertical */
+/* Formatação global para todos os elementos que possuem como classe: menubv */
+.menubv {
+    padding: 0;
+    margin: 0;
+    font-family: "arial";
+    font-size: 11px;
+}
+
+/* Formatação dos elementos <td> que possuem como classe: menubv */
+.menubv td {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+/* Formatação dos elementos <tr> que possuem como classe: menubv */
+.menubv tr {
+    background-color: #3d414c;
+}
+
+/* Formatação dos elementos <td> e dentro deles um elemento <a>link</a> que possuem
+* como classe: menubv
+*/
+.menubv td a {
+    display: block;
+    padding: 5px 5px 5px 0.5em;
+    font-weight: bold;
+    /*border-top: 2px solid #000000;
+    border-right: 2px solid #000000;*/
+    border-left: 2px solid #000000;
+    border-bottom: 2px solid #000000;
+    background-color: #3d414c;
+    color: #ffffff;
+    text-decoration: none;
+}
+
+/* Formatação dos elementos <td> e dentro deles um elemento <a>link</a> com o mouse
+* posicionado sobre ele, que tem como classe: menubv
+*/
+.menubv td a:hover {
+    /*border-top: 2px solid #3d414c;
+    border-right: 2px solid #3d414c;*/
+    border-left: 2px solid #3d414c;
+    border-bottom: 2px solid #3d414c;    
+    background-color: #ffffff;
+    color: #000000;
+}
+
+#fundo {
+    background-color: #999;
+}
