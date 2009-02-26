@@ -3,34 +3,105 @@
  *
  * Copyright (c) 2009 Equipe SiGePAPP
  * 
- * Este código apresenta as funções dos scripts encontradas no sistema SiGePAPP
- * e parte integrante do projeto de formatura, do curso de ciências da computação,
- * do Centro Universitário da FEI, sob orientação do Prof. Dr. Plinio T. Aquino Jr.
+ * Este codigo apresenta as funcoes dos scripts encontradas no sistema SiGePAPP
+ * e parte integrante do projeto de formatura, do curso de ciencias da computacao,
+ * do Centro Universitario da FEI, sob orientação do Prof. Dr. Plinio T. Aquino Jr.
  *
  * |------------------------------------------------------------------|
- * |                   Modificações no Código                         |
+ * |                   Modificacoes no Codigo                         |
  * |------------------------------------------------------------------|
- * |   Autor     |   Data      |   Descrição                          |
+ * |   Autor     |   Data      |   Descricao                          |
  * |------------------------------------------------------------------|
- * |  Andrey     |  09/01/18   | Criação do Arquivo                   |
+ * |  Andrey     |  09/01/18   | Criacao do Arquivo                   |
  * |------------------------------------------------------------------|
  * | Guilherme   |  09/02/21   | Alteracao da funcao de carregamento: |
  * |             |             |trocado $("menubv li") p/ $(menubv td)|
  * |------------------------------------------------------------------|
+ * |  Andrey     |  09/02/23   | Inclusao da funcao para chamada do   |
+ * |             |             |LoginServlet e validacao de login.    |
+ * |------------------------------------------------------------------|
+ * |  Andrey     |  09/02/25   | Inclusao da funcao LogonSigepapp e   |
+ * |             |             | LogoffSigepapp                       |
+ * |------------------------------------------------------------------|
  *
  */
 
-/** As funções contidas dentro do método ready, são poderam ser executadas após o carregamento da página */
+/** As funcoes contidas dentro do metodo ready, sao poderam ser executadas apos o carregamento da pagina */
 $(document).ready(function(){
-    /** Função que da o efeito de fadein e fadeout no elemento li do menubv e também da classe botao */
+    /** Funcao que da o efeito de fadein e fadeout no elemento li do menubv e tambem da classe botao */
     $(".menubv td, .botao").hover(function () {
         $(this).fadeTo("slow", 0.4) // Quando o mouse for posicionado sobre o elemento
         },function () {
-        $(this).fadeTo("slow", 1); // Após a retirada do mouse de cima do elemento
+        $(this).fadeTo("slow", 1); // Apos a retirada do mouse de cima do elemento
     });
+    
+    /** Funcao para efetuar o login no sistema */
+    $("#enviar_login").click(function (){ // identifica o id do elemento que esta gerando o evento
+    	LogonSigepapp(); // chama a funcao para efetuar o login
+    });
+    
 });
 
-/** A função Data retorna por extenso a data, e.g.: Segunda-Feira, 19 de janeiro de 2009 */
+/** Funcao para chamar a servlet de verificacao do login */
+function LogonSigepapp(){
+	var usuario = $("#usuario").val(); // atribui o valor de elemento identificado como usuario para a variavel usuario
+	var senha = $("#senha").val(); // atribui o valor de elemento identificado como senha para a variavel senha
+	
+	// exibe mensagem de aguarde
+	$("#syslogin").html("<center><img src='images/aguarde.gif'/> <h2>Por favor, aguarde...</h2></center>");
+	
+	// metodo post do jquery composto pelo programa/pagina chamada, array de atributos e seus valores, funcao passando xml para verificar o retorno
+	$.post("LoginServlet",{usuario: usuario, senha: senha, logoff: ""}, function(xml){
+		
+		// converter o valor da tag xml confirma em inteiro
+		var confirma = parseInt($("confirma",xml).text());
+	
+		// verifica a valor do flag confirma
+		if(confirma == 1){// se 1, exibe codigo html na posicao do elemento identificado como syslogin
+			$("#syslogin").html(
+				"<h2>Seja bemvindo,<br /> " + $("usuario",xml).text() + "</h2>" +
+				"<div align='right' style='margin-right: 10px;'>| " +
+				"<a id='envia_logoff' href='#' class='painelcontrole' title='Sair do sistema'>Sair</a>" +
+				//"<input id='envia_logoff' type='button' class='painelcontrole' title='Sair do sistema' value='Sair' /></div>" +
+				"</div>"+
+				"<input type='hidden' id='status' value='logoff' />" 
+			);
+			/** Funcao para efetuar logoff do sistema */
+			$("#envia_logoff").click(function(){ // E deixa pronto para receber o evento click do identificador envia_logoff
+				LogoffSigepapp(); // apos evento do click no identificador chama a fun�ao de logoff
+				//$("#syslogin").html("<h2>Funcionou!</h2>");
+			});
+
+		}else{
+			$("#syslogin").html( // em caso de erro exibe mensagem de erro no a tela e espera 2 seg para liberar o formulario de login
+					"<center><h2 style='color: red;'>Erro no login!</h2></center>" +
+					"<script type='text/javascript'>window.setTimeout('window.location.replace(" +
+					'"index.jsp")' +
+					"',2000);</script>" +
+					"<center><img src='images/aguarde.gif'/><h2>Por favor, aguarde...</h2></center>"
+			);
+		}
+		
+	});
+}
+
+/** Funcao para efetuar logoff do sistema */
+function LogoffSigepapp(){
+	var logoff = $("#status").val(); // atribui o valor do identificador status para a variavel logoff
+	
+	$.post("LoginServlet", {usuario: "", senha: "", logoff: logoff}, function(xml){ // envia para a servlet os atributos de senha e usuario vazio e o atributo de logoff como ativo 
+		var confirma = parseInt($("confirma",xml).text()); // converter o valor da tag xml confirma em inteiro
+			if(confirma == 0){ // se confirma igual a 0 entao ele aguarda 2 seg para liberar o formulario novamente
+			//load("index.jsp");
+				$("#syslogin").html("<script type='text/javascript'>window.setTimeout('window.location.replace(" +
+		    						'"index.jsp")' +
+		    						"',2000);</script>" +
+		    						"<center><img src='images/aguarde.gif'/><h2>Por favor, aguarde...</h2></center>");
+			}
+	});
+}
+
+/** A funcao Data retorna por extenso a data, e.g.: Segunda-Feira, 19 de janeiro de 2009 */
 function Data(){
     function SetNameArray(item) {
         this.length = item

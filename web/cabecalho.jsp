@@ -33,7 +33,6 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 
 <html xmlns="http://www.w3.org/1999/xhtml">
-
     <!-- Inicio do cabecalho da pagina HTML -->
     <head>
 
@@ -77,11 +76,11 @@
                                 <img title="SiGePAPP - Sistema de Gerenciamento de Patterns, Anti-Patterns e Personas" align="left" src="images/logo.png" style='display: block' />
                             </td>
                             <td width="188" class="top_td">
-                                <form action="LoginServlet" name="login" method="post">
+                                <form name="login" type="get" method="post">
                                     <table>
                                         <tr>
                                             <td colspan="2" valign="top" align="right">
-                                                <font style="font-size: x-small;">.: <script>Data();</script></font>
+                                                <div style="font-size: xx-small; margin-right: 5px;">.: <script>Data();</script></div>
                                             </td>
                                         </tr>
                                         <tr>
@@ -92,49 +91,11 @@
                                         <tr>
                                             <td colspan="2">
                                                 <div id="syslogin">
-                                                    <fieldset style="background:#FFFFFF;">
-                                                        <legend style="font-weight:bold">
-                                                            Efetuar login:
-                                                        </legend>
-                                                        <br />
-                                                        <table align="right">
-                                                            <tr>
-                                                                <td align="right">
-                                                                    Usu&aacute;rio:
-                                                                </td>
-                                                                <td>
-                                                                    <input id="usuario" type="text" name="usuario" class="edit" width="150px" title="Digite seu usu&aacute;rio" />
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td align="right">
-                                                                    Senha:
-                                                                </td>
-                                                                <td>
-                                                                    <input id="senha" type="password" name="senha" class="edit" width="150px" title="Digite sua senha" />
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td colspan="2" align="center">
-                                                                    <table align="center">
-                                                                        <tr>
-                                                                            <td align="right">
-                                                                                <input id="enviar" type="submit" class="botao" title="Confirmar login" value="&nbsp;OK&nbsp;" />
-                                                                            </td>
-                                                                            <td align="center">
-                                                                                <input id="limpar" type="button" class="botao" title="Limpar dados" value="&nbsp;Limpar&nbsp;"/>
-                                                                            </td>
-                                                                        </tr>
-                                                                    </table>
-                                                                </td>
-                                                            </tr>
-                                                        </table>
-                                                    </fieldset>
+                                                  <%@include file="frmLogin.jsp" %>
                                                 </div>
                                             </td>
                                         </tr>
                                     </table>
-                                    <input type="hidden" name="acao" value="login" />
                                 </form>
                             </td>
                         </tr>

@@ -26,6 +26,8 @@
 * |             |             | classe menubv(global) para fins de   |
 * |             |             | compatibilidade com IE e FIREFOX     |
 * |------------------------------------------------------------------|
+* |   Andrey    |  09/02/25   | Inclusao da classe painelcontrole    |
+* |------------------------------------------------------------------|
 */
 
 /**
@@ -71,6 +73,12 @@ table {
     color:#FFFFFF;
 }
 
+.painelcontrole {
+	background: #ffffff;
+	border: none;
+	color: #3d414c;
+}
+
 /* Formatação da classe titulo, para aplicar aos titulos do sistema */
 td.titulo {
     background: url(../images/navBG.png);
@@ -103,7 +111,7 @@ a {
     text-decoration:none;
 }
 /* Formatação do Menu na posição vertical */
-/* Formatação global para todos os elementos que possuem como classe: menubv */
+/* Formatação global para todos os elementos que possuem este id #menubv */	
 .menubv {
     padding: 0;
     margin: 0;
@@ -111,20 +119,20 @@ a {
     font-size: 11px;
 }
 
-/* Formatação dos elementos <td> que possuem como classe: menubv */
+/* Formatação dos elementos <ul> que possuem este id #menubv */
 .menubv td {
     list-style: none;
     margin: 0;
     padding: 0;
 }
 
-/* Formatação dos elementos <tr> que possuem como classe: menubv */
+/* Formatação dos elementos <li> que possuem este id #menubv */
 .menubv tr {
     background-color: #3d414c;
 }
 
-/* Formatação dos elementos <td> e dentro deles um elemento <a>link</a> que possuem
-* como classe: menubv
+/* Formatação dos elementos <li> e dentro deles um elemnteo <a>link</a> que possuem
+* este id #menubv 
 */
 .menubv td a {
     display: block;
@@ -139,8 +147,8 @@ a {
     text-decoration: none;
 }
 
-/* Formatação dos elementos <td> e dentro deles um elemento <a>link</a> com o mouse
-* posicionado sobre ele, que tem como classe: menubv
+/* Formatação dos elementos <li> e dentro deles um elemnteo <a>link</a> com o mouse 
+* posicionado sobre ele, que possuem este id #menubv 
 */
 .menubv td a:hover {
     /*border-top: 2px solid #3d414c;
