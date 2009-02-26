@@ -22,8 +22,6 @@
     <H1>Testando um texto no meinho</H1>
     <H2> AFJHAJKFHSKJFHDJFHSHHFKHFSD</H2>
 
-    <H2>ALTERACAO GUILHERME</H2>
-    <H2>TESTE NO FINÁRZINHO do toba do PS!!fdfd!!</H2>
     
     </body>
 </html>
