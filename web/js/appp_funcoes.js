@@ -23,7 +23,7 @@
  * |  Andrey     |  09/02/25   | Inclusao da funcao LogonSigepapp e   |
  * |             |             | LogoffSigepapp                       |
  * |------------------------------------------------------------------|
- * |  Guilherme  |             | Ao teclar "Enter" no campo senha     |
+ * |  Guilherme  |  09/02/26   | Ao teclar "Enter" no campo senha     |
  * |             |             | o formulari e submetido              |
  * |------------------------------------------------------------------|
  */
