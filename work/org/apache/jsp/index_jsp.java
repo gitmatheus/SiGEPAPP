@@ -223,9 +223,15 @@ public final class index_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("        </tr>\r\n");
       out.write("    </table>\r\n");
       out.write("</fieldset>\r\n");
-      out.write("<div style=\"align: right;\">\r\n");
-      out.write("\tCaso não possua senha, <a href=\"/sigepapp/frmCadUsuario.jsp\"> clique aqui</a> para se registrar.\r\n");
-      out.write("</div>\r\n");
+      out.write("<table align=\"right\">\r\n");
+      out.write("<tr>\r\n");
+      out.write("\t<td align=\"right\">\r\n");
+      out.write("\t\t<div style=\"margin-right: 5px;\">\r\n");
+      out.write("\t\t\tCaso não possua senha, <a href=\"/sigepapp/frmCadUsuario.jsp\" style=\"color: #822007;\"> clique aqui</a> para registrar-se.\r\n");
+      out.write("\t\t</div>\r\n");
+      out.write("\t</td>\r\n");
+      out.write("</tr>\r\n");
+      out.write("</table>\r\n");
 } else { 
       out.write("\r\n");
       out.write("<h2>Seja bemvindo,<br /> ");
@@ -255,7 +261,7 @@ public final class index_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("                            <td width=\"20%\" valign=\"top\">\r\n");
       out.write("                                <table width=\"100%\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\">\r\n");
       out.write("                                \t<tr class=\"menubv\"><td>\r\n");
-      out.write("                                    <a id=\"menubv\" href=\"/sigepapp\" title=\"Pagina principal\" >Home</a></tr>\r\n");
+      out.write("                                    <a id=\"menubv\" href=\"/sigepapp\" title=\"P&aacute;gina principal\" >Home</a></tr>\r\n");
       out.write("                                    <tr class=\"menubv\"><td>\r\n");
       out.write("                                    <a id=\"menubv\" href=\"/sigepapp/frmCadEstrutura.jsp\" title=\"Cadastro das Estruturas disponiveis no sistema\" >Cadastro de Estruturas</a></tr>\r\n");
       out.write("                                    <tr class=\"menubv\"><td>\r\n");

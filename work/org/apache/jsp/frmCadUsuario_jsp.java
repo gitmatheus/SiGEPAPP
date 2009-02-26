@@ -191,9 +191,15 @@ public final class frmCadUsuario_jsp extends org.apache.jasper.runtime.HttpJspBa
       out.write("        </tr>\r\n");
       out.write("    </table>\r\n");
       out.write("</fieldset>\r\n");
-      out.write("<div style=\"align: right;\">\r\n");
-      out.write("\tCaso não possua senha, <a href=\"/sigepapp/frmCadUsuario.jsp\"> clique aqui</a> para se registrar.\r\n");
-      out.write("</div>\r\n");
+      out.write("<table align=\"right\">\r\n");
+      out.write("<tr>\r\n");
+      out.write("\t<td align=\"right\">\r\n");
+      out.write("\t\t<div style=\"margin-right: 5px;\">\r\n");
+      out.write("\t\t\tCaso não possua senha, <a href=\"/sigepapp/frmCadUsuario.jsp\" style=\"color: #822007;\"> clique aqui</a> para registrar-se.\r\n");
+      out.write("\t\t</div>\r\n");
+      out.write("\t</td>\r\n");
+      out.write("</tr>\r\n");
+      out.write("</table>\r\n");
 } else { 
       out.write("\r\n");
       out.write("<h2>Seja bemvindo,<br /> ");
@@ -223,7 +229,7 @@ public final class frmCadUsuario_jsp extends org.apache.jasper.runtime.HttpJspBa
       out.write("                            <td width=\"20%\" valign=\"top\">\r\n");
       out.write("                                <table width=\"100%\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\">\r\n");
       out.write("                                \t<tr class=\"menubv\"><td>\r\n");
-      out.write("                                    <a id=\"menubv\" href=\"/sigepapp\" title=\"Pagina principal\" >Home</a></tr>\r\n");
+      out.write("                                    <a id=\"menubv\" href=\"/sigepapp\" title=\"P&aacute;gina principal\" >Home</a></tr>\r\n");
       out.write("                                    <tr class=\"menubv\"><td>\r\n");
       out.write("                                    <a id=\"menubv\" href=\"/sigepapp/frmCadEstrutura.jsp\" title=\"Cadastro das Estruturas disponiveis no sistema\" >Cadastro de Estruturas</a></tr>\r\n");
       out.write("                                    <tr class=\"menubv\"><td>\r\n");
@@ -241,7 +247,26 @@ public final class frmCadUsuario_jsp extends org.apache.jasper.runtime.HttpJspBa
       out.write("\r\n");
       out.write("<table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" width=\"100%\" align=\"right\">\r\n");
       out.write("<tr>\r\n");
-      out.write("\t<td class=\"titulo\" align=\"center\"> <h1>..:: Cadastro de Usu&aacute;rio ::..</h1> </td>\r\n");
+      out.write("\t<td align=\"center\" class=\"titulo\" style=\"height: 25px; vertical-align: middle;\"> <font class=\"titulo\">..:: Cadastro de Usu&aacute;rio ::..</font> </td>\r\n");
+      out.write("</tr>\r\n");
+      out.write("<tr>\r\n");
+      out.write("\t<td align=\"center\">\r\n");
+      out.write("\t<br />\r\n");
+      out.write("\t<table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" width=\"100%\">\r\n");
+      out.write("\t\t<tr>\r\n");
+      out.write("\t\t\t<td width=\"30%\" align=\"right\">\r\n");
+      out.write("\t\t\t\t<div style=\"margin-right: 10px;\">\r\n");
+      out.write("\t\t\t\t\tLogin:\r\n");
+      out.write("\t\t\t\t</div>\r\n");
+      out.write("\t\t\t</td>\r\n");
+      out.write("\t\t\t<td width=\"70%\" align=\"left\">\r\n");
+      out.write("\t\t\t\t<div  style=\"margin-left: 5px;\">\r\n");
+      out.write("\t\t\t\t\t<input id=\"frmCadUserLogin\" type=\"text\" name=\"frmCadUserLogin\" class=\"edit\" width=\"150px\" maxlength=\"30\" title=\"Digite o login desejado\" />\r\n");
+      out.write("\t\t\t\t</div>\r\n");
+      out.write("\t\t\t</td>\r\n");
+      out.write("\t\t</tr>\r\n");
+      out.write("\t</table>\r\n");
+      out.write("\t</td>\r\n");
       out.write("</tr>\r\n");
       out.write("</table>\r\n");
 

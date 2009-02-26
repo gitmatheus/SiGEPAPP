@@ -37,9 +37,15 @@
         </tr>
     </table>
 </fieldset>
-<div style="align: right;">
-	Caso não possua senha, <a href="/sigepapp/frmCadUsuario.jsp"> clique aqui</a> para se registrar.
-</div>
+<table align="right">
+<tr>
+	<td align="right">
+		<div style="margin-right: 5px;">
+			Caso não possua senha, <a href="/sigepapp/frmCadUsuario.jsp" style="color: #822007;"> clique aqui</a> para registrar-se.
+		</div>
+	</td>
+</tr>
+</table>
 <%} else { %>
 <h2>Seja bemvindo,<br /> <% out.print(request.getSession().getAttribute("usuario")); %></h2>
 <div align='right' style='margin-right: 10px;'>|
