@@ -108,6 +108,7 @@ font.titulo {
 
 /* Formantação de todos os elementos <a>link</a> no sistema */
 a {
+	color: #303030;
     text-decoration:none;
 }
 /* Formatação do Menu na posição vertical */

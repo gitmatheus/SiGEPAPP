@@ -4,7 +4,7 @@ import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.jsp.*;
 
-public final class index_jsp extends org.apache.jasper.runtime.HttpJspBase
+public final class frmCadUsuario_jsp extends org.apache.jasper.runtime.HttpJspBase
     implements org.apache.jasper.runtime.JspSourceDependent {
 
   private static final JspFactory _jspxFactory = JspFactory.getDefaultFactory();
@@ -57,38 +57,6 @@ public final class index_jsp extends org.apache.jasper.runtime.HttpJspBase
       out = pageContext.getOut();
       _jspx_out = out;
 
-        /**
-         * @{#}cabecalho.jsp 0.01 09/01/18
-         *
-         * Copyright (c) 2009 Equipe SiGePAPP
-         *
-         * Este codigo apresenta os estilos de formatacao encontrados no sistema SiGePAPP
-         * e parte integrante do projeto de formatura, do curso de ciencias da computacao,
-         * do Centro Universitario da FEI, sob orientacao do Prof. Dr. Plinio T. Aquino Jr.
-         *
-         * |------------------------------------------------------------------|
-         * |                   Modificacoes no Codigo                         |
-         * |------------------------------------------------------------------|
-         * |   Autor     |   Data      |   Descricao                          |
-         * |------------------------------------------------------------------|
-         * |  Andrey     |  09/01/18   | Criacao do Arquivo                   |
-         * |------------------------------------------------------------------|
-         * |  Andrey     |  09/01/23   | Alteracao na formatacao do menu para |
-         * |             |             | compatibilidade entre IE e Firefox.  |
-         * |------------------------------------------------------------------|
-         * |  Andrey     |  09/01/26   | Inclusao das formatacoes dos         |
-         * |             |             | elementos body e table               |
-         * |------------------------------------------------------------------|
-         * |  Guilherme  |  09/02/21   | Troca do menu (de lista para tabela) |
-         * |             |             | para reparar o bug de largura no menu|
-         * |------------------------------------------------------------------|
-         * |  Guilherme  |  09/02/21   | Quebra do arquivo index em cabecalho |
-         * |             |             | e rodape.                            |
-         * |------------------------------------------------------------------|
-         **/
-
-      out.write('\r');
-      out.write('\n');
         /**
          * @{#}cabecalho.jsp 0.01 09/01/18
          *
@@ -223,8 +191,8 @@ public final class index_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("        </tr>\r\n");
       out.write("    </table>\r\n");
       out.write("</fieldset>\r\n");
-      out.write("<div style=\"align: right; margin-right: 5px;\">\r\n");
-      out.write("\tCaso não possua senha, <a href=\"frmCadUsuario.jsp\"> Registre-se aqui! </a>\r\n");
+      out.write("<div style=\"align: right;\">\r\n");
+      out.write("\tCaso não possua senha, <a href=\"/sigepapp/frmCadUsuario.jsp\"> clique aqui</a> para se registrar.\r\n");
       out.write("</div>\r\n");
 } else { 
       out.write("\r\n");
@@ -269,66 +237,11 @@ public final class index_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("                            <td width=\"80%\" valign=\"top\" align=\"center\">\r\n");
       out.write("<!--Fim da inclusao do cabecalho-->");
       out.write("\r\n");
-      out.write("\r\n");
       out.write("<table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" width=\"100%\" align=\"right\">\r\n");
-      out.write("\t<tr>\r\n");
-      out.write("    \t<td class=\"titulo\" width=\"50%\">\r\n");
-      out.write("        \t<div style=\"margin-left: 10px; text-align:left\">\r\n");
-      out.write("            \t<font class=\"titulo\">.: Patterns</font>\r\n");
-      out.write("            </div>\r\n");
-      out.write("        </td>\r\n");
-      out.write("        <td class=\"titulo\" width=\"50%\">\r\n");
-      out.write("        \t<div style=\"margin-left: 10px; text-align:left\">\r\n");
-      out.write("            \t<font class=\"titulo\">.: Anti-Patterns</font>\r\n");
-      out.write("            </div>\r\n");
-      out.write("        </td>\r\n");
-      out.write("\t</tr>\r\n");
-      out.write("\t<tr>\r\n");
-      out.write("        <td width=\"50%\" style=\"border-right: 1px dotted #3d414c;\">\r\n");
-      out.write("        \t<div style=\" margin-left: 10px; margin-right: 10px; margin-top: 5px; margin-bottom: 15px; text-align:justify;\">\r\n");
-      out.write("            \t<font class=\"texto\">\r\n");
-      out.write("                \tLorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.\r\n");
-      out.write("                </font>\r\n");
-      out.write("            </div>\r\n");
-      out.write("\t\t</td>\r\n");
-      out.write("        <td width=\"50%\">\r\n");
-      out.write("        \t<div style=\" margin-left: 10px; margin-right: 10px; margin-top: 5px; margin-bottom: 15px; text-align:justify;\">\r\n");
-      out.write("            \t<font class=\"texto\">\r\n");
-      out.write("                \tLorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.\r\n");
-      out.write("                </font>\r\n");
-      out.write("            </div>\r\n");
-      out.write("\t\t</td>\r\n");
-      out.write("\t</tr>\r\n");
-      out.write("\t<tr>\r\n");
-      out.write("\t\t<td class=\"titulo\" width=\"50%\" style=\"border-right: 1px dotted #3d414c;\">\r\n");
-      out.write("        \t<div style=\"margin-left: 10px; text-align:left;\">\r\n");
-      out.write("            \t<font class=\"titulo\">.: Personas</font>\r\n");
-      out.write("\t\t\t</div>\r\n");
-      out.write("        </td>\r\n");
-      out.write("        <td class=\"titulo\" width=\"50%\">\r\n");
-      out.write("        \t<div style=\"margin-left: 10px; text-align:left\">\r\n");
-      out.write("            \t<font class=\"titulo\"> &nbsp;</font>\r\n");
-      out.write("            </div>\r\n");
-      out.write("\t\t</td>\r\n");
-      out.write("\t</tr>\r\n");
-      out.write("\t<tr>\r\n");
-      out.write("        <td width=\"50%\" style=\"border-right: 1px dotted #3d414c;\">\r\n");
-      out.write("        \t<div style=\" margin-left: 10px; margin-right: 10px; margin-top: 5px; margin-bottom: 15px; text-align:justify;\">\r\n");
-      out.write("            \t<font class=\"texto\">\r\n");
-      out.write("                \tLorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.\r\n");
-      out.write("                </font>\r\n");
-      out.write("\t\t\t</div>\r\n");
-      out.write("\t\t</td>\r\n");
-      out.write("\t\t<td width=\"50%\">\r\n");
-      out.write("        \t<div style=\" margin-left: 10px; margin-right: 10px; margin-top: 5px; margin-bottom: 15px; text-align:justify;\">\r\n");
-      out.write("            \t<font class=\"texto\">\r\n");
-      out.write("                \t&nbsp;\r\n");
-      out.write("\t\t\t\t</font>\r\n");
-      out.write("\t\t\t</div>\r\n");
-      out.write("        </td>\r\n");
-      out.write("\t</tr>\r\n");
+      out.write("<tr>\r\n");
+      out.write("\t<td class=\"titulo\" align=\"center\"> <h1>..:: Cadastro de Usu&aacute;rio ::..</h1> </td>\r\n");
+      out.write("</tr>\r\n");
       out.write("</table>\r\n");
-      out.write("\r\n");
 
 /**
          * @{#}rodape.jsp 0.01 09/01/18
