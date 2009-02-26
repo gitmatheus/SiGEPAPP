@@ -3,16 +3,16 @@ package br.edu.fei.sigepapp.bancodedados;
 /*
  * @(#)ConnectionFactory.java 0.01 15/02/09
  *
- * Este cï¿½digo ï¿½ parte integrante do projeto de formatura,
- * do curso de ciï¿½ncias da computaï¿½ï¿½o, do Centro Universitï¿½rio da FEI
+ * Este código é parte integrante do projeto de formatura,
+ * do curso de ciências da computação, do Centro Universitário da FEI
  * Orientado pelo Prof Plinio T. Aquino Jr.
  *
- * ATENï¿½ï¿½O:
- * Para essa classe se conectar com o banco de dados ï¿½ necessï¿½rio modificar o
- * arquivo context.xml e web.xml de sua aplicaï¿½ï¿½o da seguinte forma:
+ * ATENÇÃO:
+ * Para essa classe se conectar com o banco de dados é necessário modificar o
+ * arquivo context.xml e web.xml de sua aplicação da seguinte forma:
  *
  * context.xml (Dentro da tag: <Context>) 
- * (diretï¿½rio onde o arquivo ï¿½ encontrado: %CATALINA_HOME%\conf)
+ * (diretório onde o arquivo é encontrado: %CATALINA_HOME%\conf)
  *    </resource-ref>
  *    <Resource name="jdbc/sigepapp" auth="Application"
  *    type="javax.sql.DataSource" driverClassName="oracle.jdbc.OracleDriver"
@@ -29,15 +29,15 @@ package br.edu.fei.sigepapp.bancodedados;
  * 
  * Copyright (c) 2009 Equipe SiGePAPP
  * |------------------------------------------------------------------|
- * |                   Modificaï¿½ï¿½es no Cï¿½digo                         |
+ * |                   Modificações no Código                         |
  * |------------------------------------------------------------------|
- * |   Autor     |   Data      |   Descriï¿½ï¿½o                          |
+ * |   Autor     |   Data      |   Descrição                          |
  * |------------------------------------------------------------------|
- * | Guilherme   | 15/02/09    | Criaï¿½ï¿½o e elaboraï¿½ï¿½o inicial         |
+ * | Guilherme   | 15/02/09    | Criação e elaboração inicial         |
  * |------------------------------------------------------------------|
- * | Andrey      | 19/02/09    | Alteraï¿½ï¿½o do mï¿½todo de conexï¿½o com o |
+ * | Andrey      | 19/02/09    | Alteração do método de conexão com o |
  * |             |             | Banco de Dados, para uma Factory de  |
- * |             |             | Conexï¿½o.                             |
+ * |             |             | Conexão.                             |
  * |------------------------------------------------------------------|
  * 
  */
@@ -49,51 +49,32 @@ import javax.naming.InitialContext;
 import javax.sql.DataSource;
 /**
 *
-* Classe responsï¿½vel pela conexï¿½o com banco de dados ORACLE 10g Express Edition
+* Classe responsável pela conexão com banco de dados ORACLE 10g Express Edition
 *
 *<p>
-*  <b>Para usar essa classe, sua aplicaï¿½ï¿½o deve estar configurada corretamente.
-* Olhar cabeï¿½alho do arquivo para maiores informaï¿½ï¿½es.</b>
+*  <b>Para usar essa classe, sua aplicação deve estar configurada corretamente.
+* Olhar cabeçalho do arquivo para maiores informações.</b>
 *</p>
 * @author Guilherme Wachs Lopes
 * @version 0.01 15 Fev 2009 
 */
 public class ConnectionFactory {
 	/**
-	 * @return Retorna a conexï¿½o com o banco de dados
+	 * @return Retorna a conexão com o banco de dados
 	 * @throws SQLException
 	 */
-    
 	public static Connection getConnection() throws SQLException{
 		try{
 			// Tenta ler o contexto para encontrar o banco de dados do sigepapp.
             Context initContext = new InitialContext();
             // Seta o DataSource ds com o jndi sigepapp.
             DataSource ds = (DataSource) initContext.lookup("java:/comp/env/jdbc/sigepapp");
-            
-            // Retorna a conexï¿½o com o banco de dados.
-            
+            // Retorna a conexão com o banco de dados.
             return ds.getConnection();
 		}catch (Exception e){
-			// Lanca um Exception caso ocorra algum erro.
+			// Lança um Exception caso ocorra algum erro.
 			throw new SQLException(e.getMessage());
 		}
 	}
-    /*public static Connection getConnection() throws SQLException{
-		try{
-			// Tenta ler o contexto para encontrar o banco de dados do sigepapp.
 
-            // Seta o DataSource ds com o jndi sigepapp.
-            Class.forName("oracle.jdbc.OracleDriver");
-            return DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe","system","admin");
-
-
-            // Retorna a conexï¿½o com o banco de dados.
-
-            
-		}catch (Exception e){
-			// Lanï¿½a um Exception caso ocorra algum erro.
-			throw new SQLException(e.getMessage());
-		}
-    }*/
 }
