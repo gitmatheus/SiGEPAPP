@@ -1,0 +1,5 @@
+#Thu Feb 19 18:06:04 GMT-03:00 2009
+eclipse.preferences.version=1
+org.eclipse.jdt.apt.aptEnabled=true
+org.eclipse.jdt.apt.genSrcDir=.apt_generated
+org.eclipse.jdt.apt.reconcileEnabled=true
