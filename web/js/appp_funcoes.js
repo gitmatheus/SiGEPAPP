@@ -23,7 +23,9 @@
  * |  Andrey     |  09/02/25   | Inclusao da funcao LogonSigepapp e   |
  * |             |             | LogoffSigepapp                       |
  * |------------------------------------------------------------------|
- *
+ * |  Guilherme  |             | Ao teclar "Enter" no campo senha     |
+ * |             |             | o formulari e submetido              |
+ * |------------------------------------------------------------------|
  */
 
 /** As funcoes contidas dentro do metodo ready, sao poderam ser executadas apos o carregamento da pagina */
@@ -38,6 +40,13 @@ $(document).ready(function(){
     /** Funcao para efetuar o login no sistema */
     $("#enviar_login").click(function (){ // identifica o id do elemento que esta gerando o evento
     	LogonSigepapp(); // chama a funcao para efetuar o login
+    });
+    
+    /** Caso o usuario tecle "Enter" no campo senha envia o formulario **/
+    $("#senha").keypress(function(event){
+        if(event.keyCode==13){
+            $("#enviar_login").click();
+        }
     });
     
 });
