@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app version="2.5" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
     <servlet>
-        <servlet-name>user_login</servlet-name>
-        <servlet-class>user_login</servlet-class>
+        <description>Servlet responsavel pelo login do usuario no sistema. Este servlet ira setar variaveis de
+ Sessao para serem utilizadadas na aplicacao.</description>
+        <servlet-name>LoginServlet</servlet-name>
+        <servlet-class>br.edu.fei.sigepapp.servlet.LoginServlet</servlet-class>
     </servlet>
     <servlet-mapping>
-        <servlet-name>user_login</servlet-name>
-        <url-pattern>/user_login</url-pattern>
+        <servlet-name>LoginServlet</servlet-name>
+        <url-pattern>/LoginServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
