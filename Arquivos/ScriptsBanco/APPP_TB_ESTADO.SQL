@@ -32,20 +32,5 @@ alter table APPP_TB_ESTADO
 grant select, insert, UPDATE, delete, references, alter, index on APPP_TB_ESTADO to admin;
 grant select, insert, update, delete, references on APPP_TB_ESTADO to usuario;
 
-  -- Sequences
-  create sequence APPP_SEQ_ESTADO
-  minvalue 1
-  maxvalue 999999999999999
-  start with 1
-  increment by 1;
- 
-  -- Triggers
- create or replace trigger APPP_TG_BEFINS_TB_ESTADO
-  before insert on APPP_TB_ESTADO  
-  FOR EACH ROW
-begin
-  SELECT APPP_SEQ_ESTADO.NEXTVAL INTO :NEW.CD_ESTADO FROM DUAL; 
-end APPP_TG_BEFINS_TB_CIDADE;
-
 /
   

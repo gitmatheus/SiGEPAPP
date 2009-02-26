@@ -32,7 +32,7 @@ alter table APPP_TB_TIPO modify DS_TIPO varchar2(160);
 alter table APPP_TB_TIPO add FL_EXP_REG varchar2(1) default 'N';
 -- Add comments to the columns 
 comment on column APPP_TB_TIPO.FL_EXP_REG
-  is '"S" - Sim; "N" - Não';
+  is 'É expressão regular? "S" - Sim; "N" - Não';
 -- Create/Recreate check constraints 
 alter table APPP_TB_TIPO
   add constraint CK_APPP_TB_TIPO01
