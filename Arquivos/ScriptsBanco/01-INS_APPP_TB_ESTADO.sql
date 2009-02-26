@@ -16,17 +16,7 @@
   start with 1
   increment by 1;
  
- SELECT '(re)Criando trigger APPP_TG_BEFINS_TB_ESTADO...' from dual;  
-  -- Triggers
- create or replace trigger APPP_TG_BEFINS_TB_ESTADO
-        before insert on APPP_TB_ESTADO  
-        FOR EACH ROW
-    begin
-        SELECT APPP_SEQ_ESTADO.NEXTVAL INTO :NEW.CD_ESTADO FROM DUAL;
-    end APPP_TG_BEFINS_TB_ESTADO; 
-
-
-SELECT '***********************************' from dual;
+ SELECT '***********************************' from dual;
 SELECT '  Inserindo registros dos estados  ' from dual;
 SELECT '***********************************' from dual;
 

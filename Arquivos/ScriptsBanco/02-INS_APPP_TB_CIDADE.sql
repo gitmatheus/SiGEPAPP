@@ -16,16 +16,6 @@
   start with 1
   increment by 1;
  
- SELECT '(re)Criando trigger APPP_TG_BEFINS_TB_CIDADE...' from dual;  
-  -- Triggers
- create or replace trigger APPP_TG_BEFINS_TB_CIDADE
-        before insert on appp_tb_cidade  
-        FOR EACH ROW
-    begin
-        SELECT APPP_SEQ_CIDADE.NEXTVAL INTO :NEW.CD_CIDADE FROM DUAL;
-    end APPP_TG_BEFINS_TB_CIDADE; 
-
-
 SELECT '                                   ' from dual;
 SELECT '***********************************' from dual;
 SELECT '  Inserindo registros das cidades  ' from dual;

@@ -27,10 +27,19 @@ tablespace SYSTEM
 alter table APPP_TB_ESTADO
   add constraint PK_APPP_TB_ESTADO primary key (CD_ESTADO);
   
-
   -- Grant/Revoke object privileges 
 grant select, insert, UPDATE, delete, references, alter, index on APPP_TB_ESTADO to admin;
 grant select, insert, update, delete, references on APPP_TB_ESTADO to usuario;
+
+SELECT '(re)Criando trigger APPP_TG_BEFINS_TB_ESTADO...' from dual;  
+  -- Triggers
+ create or replace trigger APPP_TG_BEFINS_TB_ESTADO
+        before insert on APPP_TB_ESTADO  
+        FOR EACH ROW
+    begin
+        SELECT APPP_SEQ_ESTADO.NEXTVAL INTO :NEW.CD_ESTADO FROM DUAL;
+    end APPP_TG_BEFINS_TB_ESTADO; 
+
 
 /
   
