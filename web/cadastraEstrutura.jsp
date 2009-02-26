@@ -25,7 +25,7 @@
             <td class="titulo"><div style="margin-left: 10px; text-align:left"> <font class="titulo">.: 1: Tipo de Estrutura</font> </div></td>
         </tr>
         <tr>
-            <td align="center" valign="top" style="border-right: 1px dotted #3d414c;"><p>Escolha entre as op��es abaixo para escolher o tipo de estrutura que est� sendo criada:</p>
+            <td align="center" valign="top" style="border-right: 1px dotted #3d414c;"><p>Escolher Tipo:</p>
                 <p>
                     <select name="cb_tipo_estrutura" class="edit" id="cb_tipo_estrutura">
                         <option value="pattern">Pattern</option>
@@ -40,37 +40,22 @@
         <tr>
             <td style="border-right: 1px dotted #3d414c;"><table width="70%" border="0" align="center" cellpadding="0" cellspacing="0">
                     <tr>
-                        <td>Nome</td>
-                        <td>&nbsp;</td>
+                        <td>Nome:</td>
+                        <td><input type="textfield" size="50"/></td>
                     </tr>
+                    <tr><td height="15"></td></tr>
                     <tr>
-                        <td>Descrição</td>
-                        <td>&nbsp;</td>
-                    </tr>
-                    <tr>
-                        <td>&nbsp;</td>
-                        <td>&nbsp;</td>
+                        <td>Descrição:</td>
+                        <td><textarea name="textarea" id="textarea" cols="50" rows="5"></textarea></td>
                     </tr>
                     <tr>
                         <td>&nbsp;</td>
                         <td>&nbsp;</td>
                     </tr>
-                    <%
-                    TipoDAO a=new TipoDAO();
-                    AtributoDAO b=new AtributoDAO();
-                    Estrutura_ObjDAO c = new Estrutura_ObjDAO();
-
-                    for(int i=0;i<8;i++){
-                    a.adiciona(new Tipo(1, "tipogui", "cc"));
-                    out.println("i="+i);
-                    //b.adiciona(new Atributo(1, "atribgui", "descricaoatribgui", "ns", 1, "S"));
-                    //c.adiciona(new Estrutura_Obj(2, "estrutGui", "descGui", new java.sql.Date(2009, 02, 21), 5, "PA"));
-                    
-                    a.deleta(a.seleciona("select * from APPP_TB_TIPO").get(0));
-                    //b.deleta(b.seleciona("select * from APPP_TB_ATRIBUTO_OBJ").get(0));
-                    //c.deleta(c.seleciona("select * from APPP_TB_ESTRUT_OBJ").get(0));
-                    }
-                    %>
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                    </tr>
                     <tr>
                         <td></td>
                         <td></td>
@@ -83,7 +68,33 @@
             <td class="titulo" style="border-right: 1px dotted #3d414c;"><div style="margin-left: 10px; text-align:left"> <font class="titulo">.: 3: Atributos Complementares</font></div></td>
         </tr>
         <tr>
-            <td style="border-right: 1px dotted #3d414c;">&nbsp;</td>
+            <td style="border-right: 1px dotted #3d414c;"><table width="70%" border="0" align="center" cellpadding="0" cellspacing="0">
+              <tr>
+                <td width="13%" align="right">&nbsp;</td>
+                <td width="60%">NOME</td>
+                <td width="27%">&nbsp;</td>
+              </tr>
+              <tr>
+                <td>&nbsp;</td>
+                <td>CONTEXTO</td>
+                <td>&nbsp;</td>
+              </tr>
+              <tr>
+                <td>&nbsp;</td>
+                <td>PROBLEMA</td>
+                <td>&nbsp;</td>
+              </tr>
+              <tr>
+                <td>&nbsp;</td>
+                <td>SOLUÇÃO</td>
+                <td>&nbsp;</td>
+              </tr>
+              <tr>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+              </tr>
+            </table></td>
         </tr>
     </table>
 </form>
