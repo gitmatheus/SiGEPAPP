@@ -223,8 +223,8 @@ public final class index_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("        </tr>\r\n");
       out.write("    </table>\r\n");
       out.write("</fieldset>\r\n");
-      out.write("<div style=\"align: right; margin-right: 5px;\">\r\n");
-      out.write("\tCaso não possua senha, <a href=\"frmCadUsuario.jsp\"> Registre-se aqui! </a>\r\n");
+      out.write("<div style=\"align: right;\">\r\n");
+      out.write("\tCaso não possua senha, <a href=\"/sigepapp/frmCadUsuario.jsp\"> clique aqui</a> para se registrar.\r\n");
       out.write("</div>\r\n");
 } else { 
       out.write("\r\n");
@@ -254,14 +254,16 @@ public final class index_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("                        <tr>\r\n");
       out.write("                            <td width=\"20%\" valign=\"top\">\r\n");
       out.write("                                <table width=\"100%\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\">\r\n");
+      out.write("                                \t<tr class=\"menubv\"><td>\r\n");
+      out.write("                                    <a id=\"menubv\" href=\"/sigepapp\" title=\"Pagina principal\" >Home</a></tr>\r\n");
       out.write("                                    <tr class=\"menubv\"><td>\r\n");
-      out.write("                                    <a id=\"menubv\" href=\"#\" title=\"Cadastro das Estruturas disponiveis no sistema\" >Cadastro de Estruturas</a>                                  </tr>\r\n");
+      out.write("                                    <a id=\"menubv\" href=\"/sigepapp/frmCadEstrutura.jsp\" title=\"Cadastro das Estruturas disponiveis no sistema\" >Cadastro de Estruturas</a></tr>\r\n");
       out.write("                                    <tr class=\"menubv\"><td>\r\n");
-      out.write("                                    <a id=\"menubv\" href=\"#\" title=\"Cadastro de Patterns, Anti-Patterns e Personas\" >Cadastro dos APPP</a>                                  </tr>\r\n");
+      out.write("                                    <a id=\"menubv\" href=\"#\" title=\"Cadastro de Patterns, Anti-Patterns e Personas\" >Cadastro dos APPP</a></tr>\r\n");
       out.write("                                    <tr class=\"menubv\"><td>\r\n");
-      out.write("                                    <a id=\"menubv\" href=\"#\" title=\"Cadastro das Estruturas disponiveis no sistema\" >Cadastro de Estruturas</a>                                  </tr>\r\n");
+      out.write("                                    <a id=\"menubv\" href=\"#\" title=\"Cadastro das Estruturas disponiveis no sistema\" >Cadastro de Estruturas</a></tr>\r\n");
       out.write("                                    <tr class=\"menubv\"><td>\r\n");
-      out.write("                                    <a id=\"menubv\" href=\"#\" title=\"Sistema de busca de Patterns, Anti-Patterns e Personas\" >Busca de APPP</a>                                  </tr>\r\n");
+      out.write("                                    <a id=\"menubv\" href=\"#\" title=\"Sistema de busca de Patterns, Anti-Patterns e Personas\" >Busca de APPP</a></tr>\r\n");
       out.write("\r\n");
       out.write("\r\n");
       out.write("                                </table>\r\n");
