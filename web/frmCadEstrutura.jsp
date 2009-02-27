@@ -47,7 +47,7 @@
                     </tr>
                     <tr><td height="15"></td></tr>
                     <tr>
-                        <td>Descrição:</td>
+                        <td>Descri&ccedil;&atilde;o:</td>
                         <td><textarea name="textarea" id="textarea" cols="50" rows="5"></textarea></td>
                     </tr>
                     <tr>
