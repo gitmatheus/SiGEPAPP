@@ -10,7 +10,7 @@ SELECT 'Criando a tabela APPP_TB_CIDADE' FROM DUAL;
 create table APPP_TB_CIDADE
 (
   CD_CIDADE         NUMBER(5)    NOT NULL,
-  NM_CIDADE         VARCHAR2(30) NOT NULL,
+  NM_CIDADE         VARCHAR2(60) NOT NULL,
   NM_ABREV          VARCHAR2(10)         ,
   CD_ESTADO         NUMBER(5)    NOT NULL
 )
