@@ -153,10 +153,11 @@
     </tr>
 </table>
 
-<div id="formEscolheAtributos" style="position: absolute; left: 50%; top: 50%; background-color:silver; width: auto; height:auto;">
+<div id="formEscolheAtributos" style="position: absolute; left: 50%; top: 50%; background-color:silver; width: auto;">
+    <div align="right"><a style="height:5px" onclick="$('#formEscolheAtributos').hide();" href="#">X</a></div>
     <fieldset>
         <legend>Selecionar atributos:</legend>
-        <table width="200">
+        <table width="250">
             <tr><td align="center">Busca de Atributo:</td><td><input type="text" style="width: 145px"></input></td></tr>
             <tr><td>Atributo:</td><td>
                     <select size="8" style="width: 150px">
@@ -169,13 +170,17 @@
             <tr><td colspan="2" align="center">Ou crie um atributo novo:</td></tr>
             <tr><td>Nome:</td><td><input type="text"></input></td></tr>
             <tr><td>Descrição:</td><td><input type="text"></input></td></tr>
-            <tr><td>Tipo:</td><td><select id="frmCadAtribTipo" name="frmCadAtribTipo" class="edit" width="100px" maxlength="50" title="Escolha o tipo de dados do atributo">
-                                    <option label="" >data</option>
-                                    <option label="" >numero</option>
-                                    <option label="" >texto</option>
-                                    <option label="" style="background: #EEEEEE" onclick="alert('Aqui abre janela para procurar por estruturas existentes')" >Novo atributo</option>
-                                    </select><p align="right"><a onclick="alert('Adiciona o novo atributo e inclui')" href="#">Adicionar</a></p></td></tr>
-            <tr><td colspan="2"><p align="right"><a onclick="$('#formEscolheAtributos').hide();" href="#">Fechar</a></p></td></tr>
+            <tr><td>Tipo:</td>
+                <td><select id="frmCadAtribTipo" name="frmCadAtribTipo" class="edit" width="100px" maxlength="50" title="Escolha o tipo de dados do atributo">
+                        <option label="" >data</option>
+                        <option label="" >numero</option>
+                        <option label="" >texto</option>
+                        <option label="" style="background: #EEEEEE" onclick="alert('Aqui abre janela para procurar por estruturas existentes')" >Novo atributo</option>
+                    </select>
+                    <a onclick="alert('Adiciona o novo atributo e inclui')" href="#">Adicionar</a>
+            </td></tr>
+            <tr><td colspan="2"></td>
+            </tr>
         </table>
     </fieldset>
 </div>
