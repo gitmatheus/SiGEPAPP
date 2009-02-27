@@ -125,4 +125,7 @@
     </tr>
 
 </table>
+<div style="position: absolute; top: 20%; left: 20%">
+    Testetsetsetse
+</div>
 <%@include file="rodape.jsp"%>
