@@ -1,13 +1,33 @@
+<%        /**
+         * @{#}cabecalho.jsp 0.01 09/01/18
+         *
+         * Copyright (c) 2009 Equipe SiGePAPP
+         *
+         * Este codigo apresenta os estilos de formatacao encontrados no sistema SiGePAPP
+         * e parte integrante do projeto de formatura, do curso de ciencias da computacao,
+         * do Centro Universitario da FEI, sob orientacao do Prof. Dr. Plinio T. Aquino Jr.
+         *
+         * |------------------------------------------------------------------|
+         * |                   Modificacoes no Codigo                         |
+         * |------------------------------------------------------------------|
+         * |   Autor     |   Data      |   Descricao                          |
+         * |------------------------------------------------------------------|
+         * |  Tom e Gui  |  09/02/25   | Definicao do Cadastro                |
+         * |------------------------------------------------------------------|
+         * |  Guilherme  |  09/02/26   | Criacao do Arquivo e dos Fildsets    |
+         * |------------------------------------------------------------------|
+         * |  Tom Mix    |  09/02/27   |                                      |
+         * |------------------------------------------------------------------|
+         **/
+%>
 <%@include file="cabecalho.jsp"%>
 <script type="text/javascript" language="javascript">
     $(document).ready(function(){
         $("#formEscolheAtributos").hide();
 
     });
-
-
-
 </script>
+
 <table border="0" cellpadding="0" cellspacing="0" width="100%" align="right">
     <tr>
         <td align="center" class="titulo" style="height: 25px; vertical-align: middle;"> <font class="titulo">..:: Cadastro&nbsp;de&nbsp;Estruturas APPP ::..</font> </td>
@@ -131,8 +151,8 @@
 
         </td>
     </tr>
-
 </table>
+
 <div id="formEscolheAtributos" style="position: absolute; left: 50%; top: 50%; background-color:silver; width: auto; height:auto;">
     <fieldset>
         <legend>Selecionar atributos:</legend>
@@ -149,8 +169,13 @@
             <tr><td colspan="2" align="center">Ou crie um atributo novo:</td></tr>
             <tr><td>Nome:</td><td><input type="text"></input></td></tr>
             <tr><td>Descrição:</td><td><input type="text"></input></td></tr>
-            <tr><td>Tipo:</td><td><input type="text"></input></td></tr>
-            <tr><td colspan="2"><a onclick="$('#formEscolheAtributos').hide();" href="#">Fechar</a></td></tr>
+            <tr><td>Tipo:</td><td><select id="frmCadAtribTipo" name="frmCadAtribTipo" class="edit" width="100px" maxlength="50" title="Escolha o tipo de dados do atributo">
+                                    <option label="" >data</option>
+                                    <option label="" >numero</option>
+                                    <option label="" >texto</option>
+                                    <option label="" style="background: #EEEEEE" onclick="alert('Aqui abre janela para procurar por estruturas existentes')" >Novo atributo</option>
+                                    </select><p align="right"><a onclick="alert('Adiciona o novo atributo e inclui')" href="#">Adicionar</a></p></td></tr>
+            <tr><td colspan="2"><p align="right"><a onclick="$('#formEscolheAtributos').hide();" href="#">Fechar</a></p></td></tr>
         </table>
     </fieldset>
 </div>
