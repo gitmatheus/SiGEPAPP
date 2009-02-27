@@ -21,6 +21,13 @@
          **/
 %>
 <%@include file="cabecalho.jsp"%>
+<style>
+    .formulario input{
+        height: 20px;
+        background-color: #CCCCCC;
+
+    }
+</style>
 <script type="text/javascript" language="javascript">
     $(document).ready(function(){
         $("#formEscolheAtributos").hide();
@@ -28,7 +35,7 @@
     });
 </script>
 
-<table border="0" cellpadding="0" cellspacing="0" width="100%" align="right">
+<table border="0" cellpadding="0" cellspacing="0" width="100%" align="right" class="formulario">
     <tr>
         <td align="center" class="titulo" style="height: 25px; vertical-align: middle;"> <font class="titulo">..:: Cadastro&nbsp;de&nbsp;Estruturas APPP ::..</font> </td>
     </tr>

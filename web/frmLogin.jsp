@@ -1,10 +1,10 @@
-<% if(request.getSession().getAttribute("usuario") == null || request.getSession().getAttribute("usuario") == "") { %>
+<% if (request.getSession().getAttribute("usuario") == null || request.getSession().getAttribute("usuario") == "") {%>
 <fieldset style="background:#FFFFFF;">
     <legend style="font-weight:bold">
         Efetuar login:
     </legend>
     <br />
-    <table align="right">
+    <table align="right" width="150">
         <tr>
             <td align="right">
                 Usu&aacute;rio:
@@ -38,18 +38,18 @@
     </table>
 </fieldset>
 <table align="right">
-<tr>
-	<td align="right">
-		<div style="margin-right: 5px;">
-			Caso não possua senha, <a href="/sigepapp/frmCadUsuario.jsp" style="color: #822007;"> clique aqui</a> para registrar-se.
-		</div>
-	</td>
-</tr>
+    <tr>
+        <td align="right">
+            <div style="margin-right: 5px;">
+                Caso não possua senha, <a href="/sigepapp/frmCadUsuario.jsp" style="color: #822007;"> clique aqui</a> para registrar-se.
+            </div>
+        </td>
+    </tr>
 </table>
-<%} else { %>
-<h2>Seja bemvindo,<br /> <% out.print(request.getSession().getAttribute("usuario")); %></h2>
+<%} else {%>
+<h2>Seja bemvindo,<br /> <% out.print(request.getSession().getAttribute("usuario"));%></h2>
 <div align='right' style='margin-right: 10px;'>|
- 	<a id='envia_logoff' href='#' class='painelcontrole' title='Sair do sistema' onclick='javascript:LogoffSigepapp();' >Sair</a> 
+    <a id='envia_logoff' href='#' class='painelcontrole' title='Sair do sistema' onclick='javascript:LogoffSigepapp();' >Sair</a>
 </div> 
 <input type='hidden' id='status' value='logoff' />
-<%} %> 
+<%}%> 

@@ -67,15 +67,15 @@
 
     <!-- Inicio do corpo da pagina HTML, o que estiver dentro desta TAG body sera exibido no browser para o usuario visualizar -->
     <body>
-        <table width="750px" align="center" border="0" cellpadding="0" cellspacing="0">
+        <table width="90%" align="center" border="0" cellpadding="0" cellspacing="0">
             <tr>
                 <td>
-                    <table border="0" cellpadding="0" cellspacing="0" align="center">
+                    <table border="0" cellpadding="0" cellspacing="0" align="center" width="100%">
                         <tr>
-                            <td width="562" class="top_td">
+                            <td width="50%" class="top_td" align="left">
                                 <img title="SiGePAPP - Sistema de Gerenciamento de Patterns, Anti-Patterns e Personas" align="left" src="images/logo.png" style='display: block' />
                             </td>
-                            <td width="188" class="top_td">
+                            <td width="50%" class="top_td" align="right">
                                 <form name="login" type="get" method="post">
                                     <table>
                                         <tr>
@@ -90,7 +90,7 @@
                                         </tr>
                                         <tr>
                                             <td colspan="2">
-                                                <div id="syslogin">
+                                                <div id="syslogin" align="right">
                                                   <%@include file="frmLogin.jsp" %>
                                                 </div>
                                             </td>
