@@ -30,8 +30,7 @@ begin
          U.DS_AREA_INTERESSE,
          U.NM_MSN,
          U.NM_SKYPE      
-  from   appp_tb_user  U,
-         appp_tb_login L
+  from   appp_tb_user  U
   where (U.CD_USER = pCDUser or pCDUser is null)
   AND   (U.NM_PRIM_NOME LIKE '%'||pPrimNome||'%' OR pPrimNome      IS NULL)
   AND   (U.NM_ULT_NOME  LIKE '%'||pUltNome ||'%' OR pUltNome       IS NULL)
