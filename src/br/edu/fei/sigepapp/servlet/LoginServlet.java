@@ -146,9 +146,9 @@ public class LoginServlet extends HttpServlet {
 			//Cria um objeto dao da classe usuario
 			UsuarioDAO dao = new UsuarioDAO();
 		
-			// Cria um lista de registros encontrados, neste caso nao pode ser maior do que 1 por se tratar do login
-			List<Usuario> user_list = dao.seleciona("select * from appp_tb_user u where cd_user = " +
-				"(select cd_user from appp_tb_login l where l.nm_login = '" + login + "' and l.pw_senha = '" + senha + "')");
+	
+		// Cria um lista de registros encontrados, neste caso nao pode ser maior do que 1 por se tratar do login
+		List<Usuario> user_list = dao.seleciona(login,senha);
 		
 			//Verifica se o tamanho da lista é realmente 1
 			if(user_list.size() == 1){

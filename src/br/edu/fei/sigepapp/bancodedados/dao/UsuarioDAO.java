@@ -21,6 +21,7 @@ package br.edu.fei.sigepapp.bancodedados.dao;
 //~-- JDK import --------------------------------------------------------------
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.Ref;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -31,6 +32,9 @@ import br.edu.fei.sigepapp.bancodedados.ConnectionFactory;
 import br.edu.fei.sigepapp.bancodedados.model.Usuario;
 import br.edu.fei.sigepapp.interfaces.DAO;
 import br.edu.fei.sigepapp.log.*;
+import java.sql.CallableStatement;
+import java.util.Date;
+import oracle.jdbc.OracleTypes;
 
 /**
  * 
@@ -189,14 +193,18 @@ public class UsuarioDAO implements DAO<Usuario>{
 	 * 
 	 * @see DAO#seleciona(String) seleciona
 	 */
-	@Override
-	public List<Usuario> seleciona(String query) {
-		try{
+	public List<Usuario> seleciona(String pLogin, String pSenha) {
+		CallableStatement cstmt = null;
+        ResultSet rs = null;
+        try{
 			//Instancia um objeto da classe PreparedStatement com o comando para pesquisar registros no banco
-			PreparedStatement stmt = this.conn.prepareStatement(query);
-			
-			//Executa a query e armazenando em um Objeto ResultSet
-			ResultSet rs = stmt.executeQuery();
+			//PreparedStatement stmt = this.conn.prepareStatement(query);
+            cstmt = conn.prepareCall("begin  APPP_SEL_LOGIN(?, ?, ?); end;");
+			cstmt.setString(1, pLogin);
+            cstmt.setString(2, pSenha);
+            cstmt.registerOutParameter(3, OracleTypes.CURSOR);
+            cstmt.execute();
+            rs = (ResultSet) cstmt.getObject(3);
 			
 			//Cria um array do tipo Usuarios
 			List<Usuario> usuarios = new ArrayList<Usuario>();
@@ -226,7 +234,7 @@ public class UsuarioDAO implements DAO<Usuario>{
 			
 			//fecha a instancia dos objetos
 			rs.close();
-			stmt.close();
+			cstmt.close();
 			
 			//Grava log com a informação de sucesso
 			GravarLog.gravaInformacao(Usuario.class.getName() + ": pesquisa no banco de dados realizada com sucesso");
@@ -246,5 +254,79 @@ public class UsuarioDAO implements DAO<Usuario>{
 			return null;
 		}
 	}
+   public List<Usuario> selecionaUsers(long pCDUser, String pPrimNome, String pUltNome, Date pDtNascIni, Date pDtNascFim, long pNrNotaIni, long pNrNotaFim, Date pDtCadastroIni, Date pDtCadastroFim, String pDSInteresse, String pMSN, String pSkype) {
+		CallableStatement cstmt = null;
+        ResultSet rs = null;
+        try{
+			//Instancia um objeto da classe PreparedStatement com o comando para pesquisar registros no banco
+			//PreparedStatement stmt = this.conn.prepareStatement(query);
+            cstmt = conn.prepareCall("begin  APPP_SEL_USERS(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?); end;");
+			cstmt.setLong(1, pCDUser);
+            cstmt.setString(2, pPrimNome);
+            cstmt.setString(3, pUltNome);
+            cstmt.setDate(4,(java.sql.Date) pDtNascIni);
+            cstmt.setDate(5,(java.sql.Date) pDtNascFim);
+            cstmt.setLong(6, pNrNotaIni);
+            cstmt.setLong(7, pNrNotaFim);
+            cstmt.setDate(8,(java.sql.Date) pDtCadastroIni);
+            cstmt.setDate(9,(java.sql.Date) pDtCadastroFim);
+            cstmt.setString(10, pDSInteresse);
+            cstmt.setString(11, pMSN);
+            cstmt.setString(12, pSkype);
+            cstmt.registerOutParameter(13, OracleTypes.CURSOR);
+            cstmt.execute();
+            rs = (ResultSet) cstmt.getObject(13);
+
+			//Cria um array do tipo Usuarios
+			List<Usuario> usuarios = new ArrayList<Usuario>();
+
+
+			//Enquando a pesquisa não chegar ao fim ele armazena no array os resultados e permanece no loop
+			while(rs.next()){
+
+				//Cria um objeto do tipo Usuario
+				Usuario usuario = new Usuario();
+
+
+				//armazena os valores do ResultSet no Usuario
+				usuario.setCd_user(rs.getLong("cd_user"));
+				usuario.setNm_prim_nome(rs.getString("nm_prim_nome"));
+				usuario.setNm_ult_nome(rs.getString("nm_ult_nome"));
+				usuario.setDt_nasc(rs.getDate("dt_nasc"));
+				usuario.setNr_nota(rs.getDouble("nr_nota"));
+				usuario.setDt_cadastro(rs.getDate("dt_cadastro"));
+				usuario.setDs_area_interesse(rs.getString("ds_area_interesse"));
+				usuario.setNm_msn(rs.getString("nm_msn"));
+				usuario.setNm_skype(rs.getString("nm_skype"));
+
+				//adiciona a lista de Usuarios encontrados
+				usuarios.add(usuario);
+			}
+
+			//fecha a instancia dos objetos
+			rs.close();
+			cstmt.close();
+
+			//Grava log com a informação de sucesso
+			GravarLog.gravaInformacao(Usuario.class.getName() + ": pesquisa no banco de dados realizada com sucesso");
+
+			//Fecha conexao com o banco de dados
+			this.conn.close();
+
+			//retorna uma lista com os usuarios selecionados
+			return usuarios;
+
+		}catch (SQLException e){
+
+			//Grava log com o erro que ocorreu durante a execução do comando SQL
+			GravarLog.gravaErro(Usuario.class.getName() + ": erro na pesquisa referente a uma exceção de SQL: " + e.getMessage());
+
+			//Retorno da função como null em caso de erro
+			return null;
+		}
+	}
+    public List<Usuario> seleciona(String query) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
 
 }

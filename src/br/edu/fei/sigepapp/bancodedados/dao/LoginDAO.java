@@ -65,7 +65,7 @@ public class LoginDAO implements DAO<Login>{
 			stmt.setLong(1, login.getCd_user());
 			stmt.setString(2, login.getNm_login());
 			stmt.setString(3, login.getPw_senha());
-                        stmt.setInt(4, result);
+            stmt.setInt(4, result);
 			
 			//executa o comando e fecha a instancia do objeto
 			stmt.execute();
