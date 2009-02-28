@@ -24,7 +24,8 @@ begin
   from appp_tb_user  U,
        appp_tb_login L
   where L.NM_LOGIN = pNm_login
-  and   L.PW_SENHA = pPw_Senha;     
+  and   L.PW_SENHA = pPw_Senha
+  and   U.CD_USER = L.CD_USER;     
    
                
 end APPP_SEL_LOGIN;
