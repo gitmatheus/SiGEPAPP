@@ -25,12 +25,17 @@
 <style>
     .formulario input, .select_uma_linha{
         height: 20px;
-        font-size:medium;
+        font-size:small;
         background-color: #CCCCCC;
 
     }
 
-    
+    .select_varias_linhas, .select_varias_linhas option{
+        font-size:small;
+        background-color: #CCCCCC;
+
+    }
+
     .atributoAdicional{
         height: 2em;
         font-weight:bold;
@@ -44,36 +49,47 @@
 
 <script type="text/javascript" language="javascript">
     var nro_atributos;
-    $(document).ready(function(){
-        $("#formEscolheAtributos").hide();
-        nro_atributos=0;
-    });
+$(document).ready(function(){
+    $("#formEscolheAtributos").hide();
+    nro_atributos=0;
+});
 
-    function func_incluiAtributo(){
-        //Armazena na variavel selecao o objeto selecionado no combo box do formulario.
-        var selecao=$("#cmbSelecionaAtributo option:selected");
-        //Adiciona na tabela de atributos o atributo selecionado no combo.O id da
-        $("#tabAtributos").append("<tr id=\"atributo_"+selecao.val()+"\">\n\
+function func_incluiAtributo(){
+    //Armazena na variavel selecao o objeto selecionado no combo box do formulario.
+    var selecao=$("#cmbSelecionaAtributo option:selected");
+    //Adiciona na tabela de atributos o atributo selecionado no combo.O id da
+    $("#tabAtributos").append("<tr id=\"atributo_"+selecao.val()+"\">\n\
             <td colspam=\"2\" class=\"atributoAdicional\" align=\"center\">\n\
                 <input type=\"hidden\" name=\"atributos_ids\" value=\""+
-            selecao.val()+"\">"+
-            "<a href=\"javascript:func_removeAtributo(\'"+selecao.val()+"\')\">"+
-            selecao.text()+
-            "</a>"+
-            "</td>\
+        selecao.val()+"\">"+
+        "<a href=\"javascript:func_removeAtributo(\'"+selecao.val()+"\')\">"+
+        selecao.text()+
+        "</a>"+
+        "</td>\
             </tr>");
-        selecao.hide();
-        nro_atributos++;
-    };
+    selecao.hide();
+    nro_atributos++;
+};
 
-    function func_removeAtributo(cod_atrib){
+function func_removeAtributo(cod_atrib){
 
-        $("#atributo_"+cod_atrib).hide("normal",function(){
-            $("#atributo_"+cod_atrib).remove();
-        });
-        $("#cmbSelecionaAtributo option[value='"+cod_atrib+"']").show("normal");
-        nro_atributos--;
+$("#atributo_"+cod_atrib).hide("normal",function(){
+    $("#atributo_"+cod_atrib).remove();
+});
+$("#cmbSelecionaAtributo option[value='"+cod_atrib+"']").show("normal").removeAttr("selected");
+nro_atributos--;
+}
+
+function filtraCombo(){
+var texto=$("#txtBusca").val().toLowerCase();
+$("#cmbSelecionaAtributo option").hide();
+$("#cmbSelecionaAtributo option").each(function(index,elemento){
+    if($(elemento).text().toLowerCase().indexOf($("#txtBusca").val().toLowerCase(), 0)>=0){
+        $(elemento).show();
     }
+});
+//$("#cmbSelecionaAtributo option:contains('"+$("#txtBusca").val()+"')").show("normal");
+}
 </script>
 
 <table border="0" cellpadding="0" cellspacing="0" width="100%" align="right" class="formulario">
@@ -149,7 +165,7 @@
                         <tr>
                             <td colspan="2" width="30%" align="center">
                                 <div style="margin-right: 10px;">
-                                     Nome
+                                    Nome
                                 </div>
                             </td>
                         </tr>
@@ -196,16 +212,24 @@
                             <div style="margin-right: 10px;">
 
                                 <br>
-                                <fieldset>
+                                <fieldset style="background-color:#eeeeee;">
                                     <legend>Selecionar atributos:</legend>
-                                    <table width="300">
-                                        <tr><td align="center">Busca de Atributo:</td><td><input type="text" style="width: 145px"></input></td></tr>
-                                        <tr><td>Atributo:</td><td>
-                                                <select size="8" style="width: 150px" id="cmbSelecionaAtributo" ondblclick="func_incluiAtributo();">
-                                                    <option value="2">At1</option>
-                                                    <option value="3">At2</option>
-                                                    <option value="4">At3</option>
-                                                    <option value="5">At4</option>
+                                    <table width="300" style="background-color:#eeeeee;">
+                                        <tr>
+                                            <td align="right">
+                                                Busca de Atributo:
+                                            </td>
+                                            <td>
+                                                <input id="txtBusca" type="text" style="width: 145px" onkeyup="filtraCombo();"></input>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td align="right">Atributo:</td><td>
+                                                <select class="select_varias_linhas" size="8" style="width: 150px" id="cmbSelecionaAtributo" ondblclick="func_incluiAtributo();">
+                                                    <option value="2">Consequencias</option>
+                                                    <option value="3">Aplicado em</option>
+                                                    <option value="4">Prazo para entrega</option>
+                                                    <option value="5">Esforço</option>
                                                 </select>
                                         </td></tr>
                                         <tr><td colspan="2" align="center">
