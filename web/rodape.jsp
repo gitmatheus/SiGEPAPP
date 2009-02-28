@@ -42,7 +42,7 @@
             <tr>
                 <td style="background: #3d414c; border: 1px dotted #000000;">
                     <div style="margin-left: 10px; margin-bottom: 5px; margin-top: 5px; color: #FFFFFF;">
-                        <font style="font-size:small;">
+                        <font style="font-size:xx-small;">
                             SiGePAPP - Copyright&copy; 2009 - Todos os direitos reservados <br />
                             Projeto de Formatura do Curso de Ci&ecirc;ncia da Computa&ccedil;&atilde;o, apresentado no Centro Universit&aacute;rio da FEI.
                         </font>
