@@ -64,7 +64,6 @@ function LogonSigepapp(){
 		
 		// converter o valor da tag xml confirma em inteiro
 		var confirma = parseInt($("confirma",xml).text());
-	
 		// verifica a valor do flag confirma
 		if(confirma == 1){// se 1, exibe codigo html na posicao do elemento identificado como syslogin
 			$("#syslogin").html(

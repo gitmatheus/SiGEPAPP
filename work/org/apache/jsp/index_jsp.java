@@ -139,7 +139,7 @@ public final class index_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("        <link rel=\"stylesheet\" type=\"text/css\" href=\"css/appp_css.css\" />\r\n");
       out.write("\r\n");
       out.write("        <!-- Link dos scripts necessarios para o sistema -->\r\n");
-      out.write("        <script type=\"text/javascript\" src=\"js/jquery-1.3.min.js\" ></script>\r\n");
+      out.write("        <script type=\"text/javascript\" src=\"js/jquery-1.3.1.min.js\" ></script>\r\n");
       out.write("        <script type=\"text/javascript\" src=\"js/appp_funcoes.js\" ></script>\r\n");
       out.write("\r\n");
       out.write("        <!-- Codigo dos scripts utilizados apenas nesta pagina  -->\r\n");
@@ -171,7 +171,7 @@ public final class index_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("                                    <table>\r\n");
       out.write("                                        <tr>\r\n");
       out.write("                                            <td colspan=\"2\" valign=\"top\" align=\"right\">\r\n");
-      out.write("                                                <div style=\"font-size: xx-small; margin-right: 5px;\">.: <script>Data();</script></div>\r\n");
+      out.write("                                                <div style=\"font-size: small; margin-right: 5px;\">.: <script>Data();</script></div>\r\n");
       out.write("                                            </td>\r\n");
       out.write("                                        </tr>\r\n");
       out.write("                                        <tr>\r\n");
@@ -382,7 +382,7 @@ public final class index_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("            <tr>\r\n");
       out.write("                <td style=\"background: #3d414c; border: 1px dotted #000000;\">\r\n");
       out.write("                    <div style=\"margin-left: 10px; margin-bottom: 5px; margin-top: 5px; color: #FFFFFF;\">\r\n");
-      out.write("                        <font style=\"font-size:xx-small;\">\r\n");
+      out.write("                        <font style=\"font-size:small;\">\r\n");
       out.write("                            SiGePAPP - Copyright&copy; 2009 - Todos os direitos reservados <br />\r\n");
       out.write("                            Projeto de Formatura do Curso de Ci&ecirc;ncia da Computa&ccedil;&atilde;o, apresentado no Centro Universit&aacute;rio da FEI.\r\n");
       out.write("                        </font>\r\n");

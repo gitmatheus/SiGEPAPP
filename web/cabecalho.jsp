@@ -80,7 +80,7 @@
                                     <table>
                                         <tr>
                                             <td colspan="2" valign="top" align="right">
-                                                <div style="font-size: xx-small; margin-right: 5px;">.: <script>Data();</script></div>
+                                                <div style="font-size: small; margin-right: 5px;">.: <script>Data();</script></div>
                                             </td>
                                         </tr>
                                         <tr>

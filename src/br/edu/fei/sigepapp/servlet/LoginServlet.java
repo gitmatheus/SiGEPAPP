@@ -1,7 +1,7 @@
 package br.edu.fei.sigepapp.servlet;
 
 /**
- * @(#)LoginServlet.java 0.03 09/02/25
+ * @(#)LoginServlet.java 0.04 09/02/28
  * 
  * Copyright (c) 2009 Equipe SiGePAPP
  * 
@@ -24,6 +24,9 @@ package br.edu.fei.sigepapp.servlet;
  * |------------------------------------------------------------------|
  * |   Andrey    |  25/02/09   |   Adequação da classe para efetuar o |
  * |             |             | Login e o Logout                     |
+ * |------------------------------------------------------------------|
+ * |   Andrey    |  28/02/09   |   Tratamento de excecao para quando o|
+ * |             |             | banco de dados estiver inativo       |
  * |------------------------------------------------------------------|
  * 
  */
@@ -48,7 +51,7 @@ import br.edu.fei.sigepapp.log.GravarLog;
 /**
  * Classe reponsavel pela validação do login dos usuarios do sistema
  * 
- * @version 0.03 25 Fev 2009
+ * @version 0.04 28 Fev 2009
  * @author Andrey Masiero
  * 
  */
@@ -139,22 +142,27 @@ public class LoginServlet extends HttpServlet {
 	 * @throws SQLException
 	 */
 	private String retornaUsuario(String login, String senha) throws SQLException{
+		try{
+			//Cria um objeto dao da classe usuario
+			UsuarioDAO dao = new UsuarioDAO();
 		
-		// Cria um objeto dao da classe usuario
-		UsuarioDAO dao = new UsuarioDAO();
-		
-		// Cria um lista de registros encontrados, neste caso nao pode ser maior do que 1 por se tratar do login
-		List<Usuario> user_list = dao.seleciona("select * from appp_tb_user u where cd_user = " +
+			// Cria um lista de registros encontrados, neste caso nao pode ser maior do que 1 por se tratar do login
+			List<Usuario> user_list = dao.seleciona("select * from appp_tb_user u where cd_user = " +
 				"(select cd_user from appp_tb_login l where l.nm_login = '" + login + "' and l.pw_senha = '" + senha + "')");
 		
-		// Verifica se o tamanho da lista é realmente 1
-		if(user_list.size() == 1){
-			this.setUser(user_list.get(0).getNm_prim_nome() + " " + user_list.get(0).getNm_ult_nome()); // Caso positivo retorna os Nome e Ultimo Nome do usuario
-		}else{
-			this.setUser(""); // Caso contrario retorna vazio
-		}
+			//Verifica se o tamanho da lista é realmente 1
+			if(user_list.size() == 1){
+				this.setUser(user_list.get(0).getNm_prim_nome() + " " + user_list.get(0).getNm_ult_nome()); // Caso positivo retorna os Nome e Ultimo Nome do usuario
+			}else{
+				this.setUser(""); // Caso contrario retorna vazio
+			}
 		
-		return this.getUser(); // Retorna o valor de usuario
+			return this.getUser(); // Retorna o valor de usuario
+		}catch(Exception e){
+			this.setUser("");
+			GravarLog.gravaErro(LoginServlet.class.getName() + ": erro de consulta no sql: " + e.getMessage());
+			return this.getUser();
+		}
 	}
 }
 	
