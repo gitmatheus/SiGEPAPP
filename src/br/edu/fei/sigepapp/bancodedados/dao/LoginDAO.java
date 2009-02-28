@@ -56,21 +56,26 @@ public class LoginDAO implements DAO<Login>{
 	 */
 	@Override
 	public boolean adiciona(Login login) {
-		try{
+	      int result = 0;
+              try{
 			//Instancia um objeto da classe PreparedStatement com o comando para inserção do registro no banco
-			PreparedStatement stmt = this.conn.prepareStatement("insert into appp_tb_login (cd_user, nm_login, pw_senha) values( ?, ?, ?)");
+			PreparedStatement stmt = this.conn.prepareStatement("APPP_INS_TB_LOGIN( ?, ?, ?, ?)");
 			
 			//Seta os valores para os pontos de interrogação indexados pela ordem deles na string
 			stmt.setLong(1, login.getCd_user());
 			stmt.setString(2, login.getNm_login());
 			stmt.setString(3, login.getPw_senha());
+                        stmt.setInt(4, result);
 			
 			//executa o comando e fecha a instancia do objeto
 			stmt.execute();
 			stmt.close();
 			
 			//Grava log com a informação de sucesso
-			GravarLog.gravaInformacao(Login.class.getName() + ": inserção no banco de dados realizada com sucesso");
+                        if(result==1)
+			   GravarLog.gravaInformacao(Login.class.getName() + ": inserção no banco de dados realizada com sucesso");
+                        if(result==-99)
+			   GravarLog.gravaInformacao(Login.class.getName() + ": Erro ao inserir o login.");
 			
 			//Fecha conexao com o banco de dados
 			this.conn.close();
