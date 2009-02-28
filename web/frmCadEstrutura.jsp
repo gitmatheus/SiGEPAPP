@@ -39,8 +39,11 @@
     .atributoAdicional{
         height: 2em;
         font-weight:bold;
-        width: 100%;
-        vertical-align:bottom;
+        
+        vertical-align:middle;
+    }
+    .atributoAdicional img{
+        vertical-align:middle;
     }
     .atributoMinimo{
 
@@ -49,47 +52,46 @@
 
 <script type="text/javascript" language="javascript">
     var nro_atributos;
-$(document).ready(function(){
-    $("#formEscolheAtributos").hide();
-    nro_atributos=0;
-});
+    $(document).ready(function(){
+        $("#formEscolheAtributos").hide();
+        nro_atributos=0;
+    });
 
-function func_incluiAtributo(){
-    //Armazena na variavel selecao o objeto selecionado no combo box do formulario.
-    var selecao=$("#cmbSelecionaAtributo option:selected");
-    //Adiciona na tabela de atributos o atributo selecionado no combo.O id da
-    $("#tabAtributos").append("<tr id=\"atributo_"+selecao.val()+"\">\n\
-            <td colspam=\"2\" class=\"atributoAdicional\" align=\"center\">\n\
+    function func_incluiAtributo(){
+        //Armazena na variavel selecao o objeto selecionado no combo box do formulario.
+        var selecao=$("#cmbSelecionaAtributo option:selected");
+        //Adiciona na tabela de atributos o atributo selecionado no combo.O id da
+        $("#tabAtributos").append("<tr id=\"atributo_"+selecao.val()+"\">\n\
+            <td width=\"50%\" class=\"atributoAdicional\" align=\"right\">\n\
                 <input type=\"hidden\" name=\"atributos_ids\" value=\""+
-        selecao.val()+"\">"+
-        "<a href=\"javascript:func_removeAtributo(\'"+selecao.val()+"\')\">"+
-        selecao.text()+
-        "</a>"+
-        "</td>\
-            </tr>");
-    selecao.hide();
-    nro_atributos++;
-};
+            selecao.val()+"\">"+
+            selecao.text()+
+            "</td><td width=\"50%\" align=\"left\"><a href=\"javascript:func_removeAtributo(\'"+selecao.val()+"\')\">\
+            <img src=\"images/remover.gif\" border=\"none\" ></a></td></tr>");
+        selecao.hide();
+        selecao.removeAttr("selected");
+        nro_atributos++;
+    };
 
-function func_removeAtributo(cod_atrib){
+    function func_removeAtributo(cod_atrib){
 
-$("#atributo_"+cod_atrib).hide("normal",function(){
-    $("#atributo_"+cod_atrib).remove();
-});
-$("#cmbSelecionaAtributo option[value='"+cod_atrib+"']").show("normal").removeAttr("selected");
-nro_atributos--;
-}
+        //$("#atributo_"+cod_atrib).hide()
+        $("#atributo_"+cod_atrib).remove();
 
-function filtraCombo(){
-var texto=$("#txtBusca").val().toLowerCase();
-$("#cmbSelecionaAtributo option").hide();
-$("#cmbSelecionaAtributo option").each(function(index,elemento){
-    if($(elemento).text().toLowerCase().indexOf($("#txtBusca").val().toLowerCase(), 0)>=0){
-        $(elemento).show();
+        $("#cmbSelecionaAtributo option[value='"+cod_atrib+"']").show("normal").removeAttr("selected");
+        nro_atributos--;
     }
-});
-//$("#cmbSelecionaAtributo option:contains('"+$("#txtBusca").val()+"')").show("normal");
-}
+
+    function filtraCombo(){
+        var texto=$("#txtBusca").val().toLowerCase();
+        $("#cmbSelecionaAtributo option").hide();
+        $("#cmbSelecionaAtributo option").each(function(index,elemento){
+            if($(elemento).text().toLowerCase().indexOf($("#txtBusca").val().toLowerCase(), 0)>=0){
+                $(elemento).show();
+            }
+        });
+        //$("#cmbSelecionaAtributo option:contains('"+$("#txtBusca").val()+"')").show("normal");
+    }
 </script>
 
 <table border="0" cellpadding="0" cellspacing="0" width="100%" align="right" class="formulario">
@@ -233,7 +235,7 @@ $("#cmbSelecionaAtributo option").each(function(index,elemento){
                                                 </select>
                                         </td></tr>
                                         <tr><td colspan="2" align="center">
-                                                <a onclick="" href="javascript:func_incluiAtributo();"><img src="images/add.gif" border="none">Adicionar</a>
+                                                <a onclick="" href="javascript:if($('#cmbSelecionaAtributo option:selected').length>0){func_incluiAtributo();}"><img src="images/add.gif" border="none">Adicionar</a>
                                         </td></tr>
                                         <tr><td colspan="2"></td>
                                         </tr>
