@@ -21,6 +21,13 @@
          **/
 %>
 <%@include file="cabecalho.jsp"%>
+<style>
+    .formulario input{
+        height: 20px;
+        background-color: #CCCCCC;
+
+    }
+</style>
 <script type="text/javascript" language="javascript">
     $(document).ready(function(){
         $("#formEscolheAtributos").hide();
@@ -28,7 +35,7 @@
     });
 </script>
 
-<table border="0" cellpadding="0" cellspacing="0" width="100%" align="right">
+<table border="0" cellpadding="0" cellspacing="0" width="100%" align="right" class="formulario">
     <tr>
         <td align="center" class="titulo" style="height: 25px; vertical-align: middle;"> <font class="titulo">..:: Cadastro&nbsp;de&nbsp;Estruturas APPP ::..</font> </td>
     </tr>
@@ -138,13 +145,13 @@
                     <tr>
                         <td colspan="2" width="30%" align="center">
                         <div style="margin-right: 10px;">
-                            Solução
+                            Solu&ccedil;&atilde;o
                         </div>
 
 
                     </tr>
                     <tr>
-                        <td colspan="2"><a href="#" onclick="javascript: $('#formEscolheAtributos').show('normal').css('left', event.screenX).css('top', event.screenY-200);">+Adicionar Atributo...</a></td>
+                        <td colspan="2"><a href="#" onclick="javascript: $('#formEscolheAtributos').show('normal');"><img src="images/add.gif" border="none">Adicionar novo atributo</a></td>
                     </tr>
                 </table>
             </fieldset>
@@ -154,10 +161,11 @@
 </table>
 
 <div id="formEscolheAtributos" style="position: absolute; left: 50%; top: 50%; background-color:silver; width: auto;">
-    <div align="right"><a style="height:5px" onclick="$('#formEscolheAtributos').hide();" href="#">X</a></div>
+    <div align="right" style="background-color:#3d414c"><a style="height:5px" onclick="$('#formEscolheAtributos').hide();" href="#"><img border="nome" src="images/fechar.gif"/></a></div>
+    <br>
     <fieldset>
         <legend>Selecionar atributos:</legend>
-        <table width="250">
+        <table width="300">
             <tr><td align="center">Busca de Atributo:</td><td><input type="text" style="width: 145px"></input></td></tr>
             <tr><td>Atributo:</td><td>
                     <select size="8" style="width: 150px">
@@ -169,7 +177,7 @@
             </td></tr>
             <tr><td colspan="2" align="center">Ou crie um atributo novo:</td></tr>
             <tr><td>Nome:</td><td><input type="text"></input></td></tr>
-            <tr><td>Descrição:</td><td><input type="text"></input></td></tr>
+            <tr><td>Descri&cedil;&atilde;o:</td><td><input type="text"></input></td></tr>
             <tr><td>Tipo:</td>
                 <td><select id="frmCadAtribTipo" name="frmCadAtribTipo" class="edit" width="100px" maxlength="50" title="Escolha o tipo de dados do atributo">
                         <option label="" >data</option>
@@ -177,7 +185,7 @@
                         <option label="" >texto</option>
                         <option label="" style="background: #EEEEEE" onclick="alert('Aqui abre janela para procurar por estruturas existentes')" >Novo atributo</option>
                     </select>
-                    <a onclick="alert('Adiciona o novo atributo e inclui')" href="#">Adicionar</a>
+                    <a onclick="alert('Adiciona o novo atributo e inclui')" href="#"><img src="images/add.gif" border="none">Adicionar</a>
             </td></tr>
             <tr><td colspan="2"></td>
             </tr>
