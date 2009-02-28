@@ -29,12 +29,10 @@ begin
          U.DT_CADASTRO,
          U.DS_AREA_INTERESSE,
          U.NM_MSN,
-         U.NM_SKYPE,
-         L.NM_LOGIN      
+         U.NM_SKYPE      
   from   appp_tb_user  U,
          appp_tb_login L
-  where  U.CD_USER = L.CD_USER
-  AND   (U.CD_USER = pCDUser or pCDUser is null)
+  where (U.CD_USER = pCDUser or pCDUser is null)
   AND   (U.NM_PRIM_NOME LIKE '%'||pPrimNome||'%' OR pPrimNome      IS NULL)
   AND   (U.NM_ULT_NOME  LIKE '%'||pUltNome ||'%' OR pUltNome       IS NULL)
   AND   (U.DT_NASC     >= pDtNascIni             OR pDtNascIni     IS NULL)
