@@ -45,7 +45,7 @@
 /* Formatação Global do sistema, todos os elementos sofrem este estilo*/
 * {
     font-family: tahoma, arial, sans-serif;
-    font-size: 11px;
+    font-size: 13px;
 }
 
 /* Formatação do elemento <body> */
@@ -86,7 +86,7 @@ td.titulo {
 
 font.titulo {
     color: #000000;
-    font-size: 13px;
+    font-size: 16px;
     font-weight: bold;
 }
 
@@ -99,7 +99,7 @@ font.titulo {
 .texto {
     background: #FFFFFF;
     color: #3d414c;
-    font-size:11px;
+    font-size:13px;
     text-align: justify;
     vertical-align: text-top;
     margin-left: inherit;

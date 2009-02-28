@@ -48,7 +48,7 @@
         <link rel="stylesheet" type="text/css" href="css/appp_css.css" />
 
         <!-- Link dos scripts necessarios para o sistema -->
-        <script type="text/javascript" src="js/jquery-1.3.1.min.js" ></script>
+        <script type="text/javascript" src="js/jquery-1.3.min.js" ></script>
         <script type="text/javascript" src="js/appp_funcoes.js" ></script>
 
         <!-- Codigo dos scripts utilizados apenas nesta pagina  -->
@@ -67,15 +67,15 @@
 
     <!-- Inicio do corpo da pagina HTML, o que estiver dentro desta TAG body sera exibido no browser para o usuario visualizar -->
     <body>
-        <table width="90%" align="center" border="0" cellpadding="0" cellspacing="0">
+        <table width="750px" align="center" border="0" cellpadding="0" cellspacing="0">
             <tr>
                 <td>
-                    <table border="0" cellpadding="0" cellspacing="0" align="center" width="100%">
+                    <table border="0" cellpadding="0" cellspacing="0" align="center">
                         <tr>
-                            <td width="50%" class="top_td" align="left">
+                            <td width="562" class="top_td">
                                 <img title="SiGePAPP - Sistema de Gerenciamento de Patterns, Anti-Patterns e Personas" align="left" src="images/logo.png" style='display: block' />
                             </td>
-                            <td width="50%" class="top_td" align="right">
+                            <td width="188" class="top_td">
                                 <form name="login" type="get" method="post">
                                     <table>
                                         <tr>
@@ -90,7 +90,7 @@
                                         </tr>
                                         <tr>
                                             <td colspan="2">
-                                                <div id="syslogin" align="right">
+                                                <div id="syslogin">
                                                   <%@include file="frmLogin.jsp" %>
                                                 </div>
                                             </td>
@@ -109,7 +109,7 @@
                             <td width="20%" valign="top">
                                 <table width="100%" border="0" cellpadding="0" cellspacing="0">
                                 	<tr class="menubv"><td>
-                                    <a id="menubv" href="/sigepapp" title="P&aacute;gina principal" >Home</a></tr>
+                                    <a id="menubv" href="/sigepapp" title="Pagina principal" >Home</a></tr>
                                     <tr class="menubv"><td>
                                     <a id="menubv" href="/sigepapp/frmCadEstrutura.jsp" title="Cadastro das Estruturas disponiveis no sistema" >Cadastro de Estruturas</a></tr>
                                     <tr class="menubv"><td>
