@@ -1,3 +1,4 @@
+<%@page import="br.edu.fei.sigepapp.bancodedados.dao.*,br.edu.fei.sigepapp.bancodedados.model.*,java.util.*" %>
 <%        /**
          * @{#}cabecalho.jsp 0.01 09/01/18
          *
@@ -19,6 +20,9 @@
          * |  Tom Mix    |  09/02/27   |                                      |
          * |------------------------------------------------------------------|
          **/
+AtributoDAO atributoDAO=new AtributoDAO();
+Collection<Atributo> atributos;
+atributos=atributoDAO.seleciona("select * from APPP_TB_ATRIBUTO_OBJ");
 %>
 
 <%@include file="cabecalho.jsp"%>
@@ -228,10 +232,9 @@
                                         <tr>
                                             <td align="right">Atributo:</td><td>
                                                 <select class="select_varias_linhas" size="8" style="width: 150px" id="cmbSelecionaAtributo" ondblclick="func_incluiAtributo();">
-                                                    <option value="2">Consequencias</option>
-                                                    <option value="3">Aplicado em</option>
-                                                    <option value="4">Prazo para entrega</option>
-                                                    <option value="5">Esforço</option>
+                                                    <%for (Atributo t : atributos) {  %>
+                                    <option label="" value="<%=t.getCd_atributo_obj() %>" title="<%=t.getDs_atributo_obj() %>" ><%=t.getNm_atributo_obj() %></option>
+                                    <%}%>
                                                 </select>
                                         </td></tr>
                                         <tr><td colspan="2" align="center">
