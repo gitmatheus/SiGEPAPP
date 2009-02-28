@@ -21,7 +21,6 @@ package br.edu.fei.sigepapp.bancodedados.dao;
 //~-- JDK import --------------------------------------------------------------
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.Ref;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -63,11 +62,10 @@ public class UsuarioDAO implements DAO<Usuario>{
 	 */
 	@Override
 	public boolean adiciona(Usuario usuario){
+        int vResult = 0;
 		try{
 			//Instancia um objeto da classe PreparedStatement com o comando para inserção do registro no banco
-			PreparedStatement stmt = this.conn.prepareStatement("insert into appp_tb_user (cd_user, nm_prim_nome," +
-				"nm_ult_nome, dt_nasc, nr_nota, dt_cadastro, ds_area_interesse, nm_msn, nm_skype) " +
-				"values (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+			PreparedStatement stmt = this.conn.prepareStatement("APPP_INS_USER(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 
 			//Seta os valores para os pontos de interrogação indexados pela ordem deles na string
 			stmt.setLong(1, usuario.getCd_user());
@@ -79,14 +77,18 @@ public class UsuarioDAO implements DAO<Usuario>{
 			stmt.setString(7, usuario.getDs_area_interesse());
 			stmt.setString(8, usuario.getNm_msn());
 			stmt.setString(9, usuario.getNm_skype());
+            stmt.setInt(10, vResult);
 			
 			//executa o comando e fecha a instancia do objeto
 			stmt.execute();
 			stmt.close();
 			
 			//Grava log com a informação de sucesso
-			GravarLog.gravaInformacao(Usuario.class.getName() + ": inserção no banco de dados realizada com sucesso");
-			
+            if(vResult==1)
+			   GravarLog.gravaInformacao(Usuario.class.getName() + ": inserção no banco de dados realizada com sucesso");
+
+            if(vResult==-99)
+			  GravarLog.gravaInformacao(Usuario.class.getName() + ": erro ao cadastrar novo usuário.");
 			//Fecha conexao com o banco de dados
 			this.conn.close();
 			
