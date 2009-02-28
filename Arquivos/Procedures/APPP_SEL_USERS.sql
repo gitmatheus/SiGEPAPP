@@ -8,9 +8,12 @@
 create or replace procedure APPP_SEL_USERS(pCDUser        in number  ,
                                            pPrimNome      in varchar2,
                                            pUltNome       in varchar2,
-                                           pDtNascIni     in date    , pDtNascFim     in date  ,
-                                           pNrNotaIni     in number  , pNrNotaFim     in number,
-                                           pDtCadastroIni in date    , pDtCadastroFim in date  ,
+                                           pDtNascIni     in date    , 
+                                           pDtNascFim     in date    ,
+                                           pNrNotaIni     in number  , 
+                                           pNrNotaFim     in number  ,
+                                           pDtCadastroIni in date    , 
+                                           pDtCadastroFim in date    ,
                                            pDSInteresse   in varchar2  ,
                                            pMSN           in varchar2  ,
                                            pSkype         in varchar2  ,
@@ -27,8 +30,7 @@ begin
          U.DS_AREA_INTERESSE,
          U.NM_MSN,
          U.NM_SKYPE,
-         L.NM_LOGIN,
-         L.PW_SENHA       
+         L.NM_LOGIN      
   from   appp_tb_user  U,
          appp_tb_login L
   where (U.CD_USER = pCDUser or pCDUser is null)
