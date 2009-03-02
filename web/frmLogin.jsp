@@ -41,7 +41,7 @@
 <tr>
 	<td align="right">
 		<div style="margin-right: 5px;">
-			Caso não possua senha, <a href="/sigepapp/frmCadUsuario.jsp" style="color: #822007;"> clique aqui</a> para registrar-se.
+			Você não possui registro? <br /> <a href="/sigepapp/frmCadUsuario.jsp" style="color: #822007;"> Clique aqui</a> para registrar-se.
 		</div>
 	</td>
 </tr>

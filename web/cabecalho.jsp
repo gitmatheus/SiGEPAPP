@@ -72,15 +72,15 @@
                 <td>
                     <table border="0" cellpadding="0" cellspacing="0" align="center">
                         <tr>
-                            <td width="562" class="top_td">
+                            <td width="560px" class="top_td">
                                 <img title="SiGePAPP - Sistema de Gerenciamento de Patterns, Anti-Patterns e Personas" align="left" src="images/logo.png" style='display: block' />
                             </td>
-                            <td width="188" class="top_td">
+                            <td width="190px" class="top_td">
                                 <form name="login" type="get" method="post">
                                     <table>
                                         <tr>
                                             <td colspan="2" valign="top" align="right">
-                                                <div style="font-size: small; margin-right: 5px;">.: <script>Data();</script></div>
+                                                <div style="font-size: 11px; margin-right: 5px;">.: <script>Data();</script></div>
                                             </td>
                                         </tr>
                                         <tr>

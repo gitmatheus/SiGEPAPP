@@ -163,15 +163,15 @@ public final class index_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("                <td>\r\n");
       out.write("                    <table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" align=\"center\">\r\n");
       out.write("                        <tr>\r\n");
-      out.write("                            <td width=\"562\" class=\"top_td\">\r\n");
+      out.write("                            <td width=\"560px\" class=\"top_td\">\r\n");
       out.write("                                <img title=\"SiGePAPP - Sistema de Gerenciamento de Patterns, Anti-Patterns e Personas\" align=\"left\" src=\"images/logo.png\" style='display: block' />\r\n");
       out.write("                            </td>\r\n");
-      out.write("                            <td width=\"188\" class=\"top_td\">\r\n");
+      out.write("                            <td width=\"190px\" class=\"top_td\">\r\n");
       out.write("                                <form name=\"login\" type=\"get\" method=\"post\">\r\n");
       out.write("                                    <table>\r\n");
       out.write("                                        <tr>\r\n");
       out.write("                                            <td colspan=\"2\" valign=\"top\" align=\"right\">\r\n");
-      out.write("                                                <div style=\"font-size: small; margin-right: 5px;\">.: <script>Data();</script></div>\r\n");
+      out.write("                                                <div style=\"font-size: 11px; margin-right: 5px;\">.: <script>Data();</script></div>\r\n");
       out.write("                                            </td>\r\n");
       out.write("                                        </tr>\r\n");
       out.write("                                        <tr>\r\n");
@@ -227,7 +227,7 @@ public final class index_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("<tr>\r\n");
       out.write("\t<td align=\"right\">\r\n");
       out.write("\t\t<div style=\"margin-right: 5px;\">\r\n");
-      out.write("\t\t\tCaso não possua senha, <a href=\"/sigepapp/frmCadUsuario.jsp\" style=\"color: #822007;\"> clique aqui</a> para registrar-se.\r\n");
+      out.write("\t\t\tVocê não possui registro? <br /> <a href=\"/sigepapp/frmCadUsuario.jsp\" style=\"color: #822007;\"> Clique aqui</a> para registrar-se.\r\n");
       out.write("\t\t</div>\r\n");
       out.write("\t</td>\r\n");
       out.write("</tr>\r\n");
@@ -236,7 +236,6 @@ public final class index_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("\r\n");
       out.write("<h2>Seja bemvindo,<br /> ");
  out.print(request.getSession().getAttribute("usuario"));
-out.print(request.getSession().getAttribute("codigo_usuario"));
       out.write("</h2>\r\n");
       out.write("<div align='right' style='margin-right: 10px;'>|\r\n");
       out.write(" \t<a id='envia_logoff' href='#' class='painelcontrole' title='Sair do sistema' onclick='javascript:LogoffSigepapp();' >Sair</a> \r\n");

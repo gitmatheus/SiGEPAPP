@@ -107,7 +107,7 @@ public final class frmCadUsuario_jsp extends org.apache.jasper.runtime.HttpJspBa
       out.write("        <link rel=\"stylesheet\" type=\"text/css\" href=\"css/appp_css.css\" />\r\n");
       out.write("\r\n");
       out.write("        <!-- Link dos scripts necessarios para o sistema -->\r\n");
-      out.write("        <script type=\"text/javascript\" src=\"js/jquery-1.3.min.js\" ></script>\r\n");
+      out.write("        <script type=\"text/javascript\" src=\"js/jquery-1.3.1.min.js\" ></script>\r\n");
       out.write("        <script type=\"text/javascript\" src=\"js/appp_funcoes.js\" ></script>\r\n");
       out.write("\r\n");
       out.write("        <!-- Codigo dos scripts utilizados apenas nesta pagina  -->\r\n");
@@ -139,7 +139,7 @@ public final class frmCadUsuario_jsp extends org.apache.jasper.runtime.HttpJspBa
       out.write("                                    <table>\r\n");
       out.write("                                        <tr>\r\n");
       out.write("                                            <td colspan=\"2\" valign=\"top\" align=\"right\">\r\n");
-      out.write("                                                <div style=\"font-size: xx-small; margin-right: 5px;\">.: <script>Data();</script></div>\r\n");
+      out.write("                                                <div style=\"font-size: 11px; margin-right: 5px;\">.: <script>Data();</script></div>\r\n");
       out.write("                                            </td>\r\n");
       out.write("                                        </tr>\r\n");
       out.write("                                        <tr>\r\n");
@@ -151,7 +151,7 @@ public final class frmCadUsuario_jsp extends org.apache.jasper.runtime.HttpJspBa
       out.write("                                            <td colspan=\"2\">\r\n");
       out.write("                                                <div id=\"syslogin\">\r\n");
       out.write("                                                  ");
- if(request.getSession().getAttribute("usuario") == null || request.getSession().getAttribute("usuario") == "") { 
+ if(request.getSession().getAttribute("codigo_usuario") == null || request.getSession().getAttribute("codigo_usuario") == "0") { 
       out.write("\r\n");
       out.write("<fieldset style=\"background:#FFFFFF;\">\r\n");
       out.write("    <legend style=\"font-weight:bold\">\r\n");
@@ -195,7 +195,7 @@ public final class frmCadUsuario_jsp extends org.apache.jasper.runtime.HttpJspBa
       out.write("<tr>\r\n");
       out.write("\t<td align=\"right\">\r\n");
       out.write("\t\t<div style=\"margin-right: 5px;\">\r\n");
-      out.write("\t\t\tCaso não possua senha, <a href=\"/sigepapp/frmCadUsuario.jsp\" style=\"color: #822007;\"> clique aqui</a> para registrar-se.\r\n");
+      out.write("\t\t\tVocê não possui registro? <br /> <a href=\"/sigepapp/frmCadUsuario.jsp\" style=\"color: #822007;\"> Clique aqui</a> para registrar-se.\r\n");
       out.write("\t\t</div>\r\n");
       out.write("\t</td>\r\n");
       out.write("</tr>\r\n");
@@ -203,7 +203,7 @@ public final class frmCadUsuario_jsp extends org.apache.jasper.runtime.HttpJspBa
 } else { 
       out.write("\r\n");
       out.write("<h2>Seja bemvindo,<br /> ");
- out.print(request.getSession().getAttribute("usuario")); 
+ out.print(request.getSession().getAttribute("usuario"));
       out.write("</h2>\r\n");
       out.write("<div align='right' style='margin-right: 10px;'>|\r\n");
       out.write(" \t<a id='envia_logoff' href='#' class='painelcontrole' title='Sair do sistema' onclick='javascript:LogoffSigepapp();' >Sair</a> \r\n");
@@ -314,7 +314,7 @@ public final class frmCadUsuario_jsp extends org.apache.jasper.runtime.HttpJspBa
       out.write("            <tr>\r\n");
       out.write("                <td style=\"background: #3d414c; border: 1px dotted #000000;\">\r\n");
       out.write("                    <div style=\"margin-left: 10px; margin-bottom: 5px; margin-top: 5px; color: #FFFFFF;\">\r\n");
-      out.write("                        <font style=\"font-size:xx-small;\">\r\n");
+      out.write("                        <font style=\"font-size:small;\">\r\n");
       out.write("                            SiGePAPP - Copyright&copy; 2009 - Todos os direitos reservados <br />\r\n");
       out.write("                            Projeto de Formatura do Curso de Ci&ecirc;ncia da Computa&ccedil;&atilde;o, apresentado no Centro Universit&aacute;rio da FEI.\r\n");
       out.write("                        </font>\r\n");
