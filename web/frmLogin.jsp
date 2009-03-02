@@ -47,7 +47,7 @@
 </tr>
 </table>
 <%} else { %>
-<h2>Seja bemvindo,<br /> <% out.print(request.getSession().getAttribute("usuario")); %></h2>
+<h2>Seja bemvindo,<br /> <% out.print(request.getSession().getAttribute("usuario"));%></h2>
 <div align='right' style='margin-right: 10px;'>|
  	<a id='envia_logoff' href='#' class='painelcontrole' title='Sair do sistema' onclick='javascript:LogoffSigepapp();' >Sair</a> 
 </div> 

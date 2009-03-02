@@ -119,12 +119,12 @@ public class LoginServlet extends HttpServlet {
 				setUser("");
 			}
 		} catch (Exception e) {
-			GravarLog.gravaErro(LoginServlet.class.getName() + ": erro na validação do login: " + e.getMessage());
+			GravarLog.gravaErro(LoginServlet.class.getName() + ": erro na validação do login: " + e.getMessage() +" : "+ e.getCause() +" : "+ e.getStackTrace());
 		}
 		
 		System.out.println(getUser());
 		
-		if (request.getParameter("logoff").equals("")){
+		if (request.getParameter("logoff").equals("") && getCod_user() != 0 && getCod_user() != null){
 			HttpSession sessao = request.getSession(); // Nao cria a sessao
 			sessao.setAttribute("usuario", getUser()); // Seta o nome do usuario na sessao
 			sessao.setAttribute("codigo_usuario", getCod_user());

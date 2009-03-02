@@ -235,7 +235,8 @@ public final class index_jsp extends org.apache.jasper.runtime.HttpJspBase
 } else { 
       out.write("\r\n");
       out.write("<h2>Seja bemvindo,<br /> ");
- out.print(request.getSession().getAttribute("usuario")); 
+ out.print(request.getSession().getAttribute("usuario"));
+out.print(request.getSession().getAttribute("codigo_usuario"));
       out.write("</h2>\r\n");
       out.write("<div align='right' style='margin-right: 10px;'>|\r\n");
       out.write(" \t<a id='envia_logoff' href='#' class='painelcontrole' title='Sair do sistema' onclick='javascript:LogoffSigepapp();' >Sair</a> \r\n");

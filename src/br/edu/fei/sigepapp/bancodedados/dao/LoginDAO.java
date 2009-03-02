@@ -151,7 +151,7 @@ public class LoginDAO{
 			stmt.close();
 
 			//Grava log com a informação de sucesso
-			GravarLog.gravaInformacao(Login.class.getName() + ": remoção no banco de dados realizada com sucesso");
+			GravarLog.gravaInformacao(LoginDAO.class.getName() + ": remoção no banco de dados realizada com sucesso");
 			
 			//Fecha conexao com o banco de dados
 			this.conn.close();
@@ -162,7 +162,7 @@ public class LoginDAO{
 		}catch(SQLException e){
 
 			//Grava log com o erro que ocorreu durante a execução do comando SQL
-			GravarLog.gravaErro(Login.class.getName() + ": erro na remoção referente a uma exceção de SQL: " + e.getMessage());			
+			GravarLog.gravaErro(LoginDAO.class.getName() + ": erro na remoção referente a uma exceção de SQL: " + e.getMessage());			
 			
 			//Retorno da função como false em caso de erro
 			return false;	
@@ -254,7 +254,7 @@ public class LoginDAO{
 			cstmt.close();
 
 			//Grava log com a informação de sucesso
-			GravarLog.gravaInformacao(Login.class.getName() + ": pesquisa no banco de dados realizada com sucesso");
+			GravarLog.gravaInformacao(LoginDAO.class.getName() + ": pesquisa no banco de dados realizada com sucesso");
 
 			//Fecha conexao com o banco de dados
 			this.conn.close();
@@ -263,7 +263,7 @@ public class LoginDAO{
 			return usuarios;
 		}catch (SQLException e){
 			//Grava log com o erro que ocorreu durante a execução do comando SQL
-			GravarLog.gravaErro(Login.class.getName() + ": erro na pesquisa referente a uma exceção de SQL: " + e.getMessage());
+			GravarLog.gravaErro(LoginDAO.class.getName() + ": erro na pesquisa referente a uma exceção de SQL: " + e.getMessage());
 
 			//Retorno da função como null em caso de erro
 			return null;
