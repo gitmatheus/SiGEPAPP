@@ -183,7 +183,7 @@ public final class index_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("                                            <td colspan=\"2\">\r\n");
       out.write("                                                <div id=\"syslogin\">\r\n");
       out.write("                                                  ");
- if(request.getSession().getAttribute("usuario") == null || request.getSession().getAttribute("usuario") == "") { 
+ if(request.getSession().getAttribute("codigo_usuario") == null || request.getSession().getAttribute("codigo_usuario") == "0") { 
       out.write("\r\n");
       out.write("<fieldset style=\"background:#FFFFFF;\">\r\n");
       out.write("    <legend style=\"font-weight:bold\">\r\n");

@@ -19,6 +19,7 @@ package br.edu.fei.sigepapp.bancodedados.dao;
  */
 
 //~-- JDK import --------------------------------------------------------------
+import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -26,8 +27,10 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import oracle.jdbc.OracleTypes;
 import br.edu.fei.sigepapp.bancodedados.ConnectionFactory;
 import br.edu.fei.sigepapp.bancodedados.model.Login;
+import br.edu.fei.sigepapp.bancodedados.model.Usuario;
 import br.edu.fei.sigepapp.log.GravarLog;
 
 /**
@@ -218,6 +221,54 @@ public class LoginDAO{
 			//Retorno da função como null em caso de erro
 			return null;
 		}
+	}
+	
+	public List<Usuario> validaLogin(String login, String password){
+		try{
+			CallableStatement cstmt = this.conn.prepareCall("begin APPP_SEL_LOGIN(?, ?, ?); end;");
+			cstmt.setString(1, login);
+			cstmt.setString(2, password);
+			cstmt.registerOutParameter(3, OracleTypes.CURSOR);
+			cstmt.execute();
+			ResultSet rs = (ResultSet) cstmt.getObject(3);
+			
+			List<Usuario> usuarios = new ArrayList<Usuario>();
+			
+			while (rs.next()){
+				Usuario usuario = new Usuario();
+				
+				usuario.setCd_user(rs.getLong("cd_user"));
+				usuario.setNm_prim_nome(rs.getString("nm_prim_nome"));
+				usuario.setNm_ult_nome(rs.getString("nm_ult_nome"));
+				usuario.setDt_nasc(rs.getDate("dt_nasc"));
+				usuario.setNr_nota(rs.getDouble("nr_nota"));
+				usuario.setDt_cadastro(rs.getDate("dt_cadastro"));
+				usuario.setDs_area_interesse(rs.getString("ds_area_interesse"));
+				usuario.setNm_msn(rs.getString("nm_msn"));
+				usuario.setNm_skype(rs.getString("nm_skype"));
+				
+				usuarios.add(usuario);
+			}
+			//fecha a instancia dos objetos
+			rs.close();
+			cstmt.close();
+
+			//Grava log com a informação de sucesso
+			GravarLog.gravaInformacao(Login.class.getName() + ": pesquisa no banco de dados realizada com sucesso");
+
+			//Fecha conexao com o banco de dados
+			this.conn.close();
+
+			//retorna uma lista com os usuarios selecionados
+			return usuarios;
+		}catch (SQLException e){
+			//Grava log com o erro que ocorreu durante a execução do comando SQL
+			GravarLog.gravaErro(Login.class.getName() + ": erro na pesquisa referente a uma exceção de SQL: " + e.getMessage());
+
+			//Retorno da função como null em caso de erro
+			return null;
+		}
+		
 	}
 
 }

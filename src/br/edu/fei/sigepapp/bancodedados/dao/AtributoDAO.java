@@ -10,12 +10,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Vector;
 
 import br.edu.fei.sigepapp.bancodedados.ConnectionFactory;
 import br.edu.fei.sigepapp.bancodedados.model.Atributo;
 import br.edu.fei.sigepapp.log.GravarLog;
-import com.sun.net.ssl.internal.ssl.Debug;
-import java.util.Vector;
 
 /**
  *
@@ -33,8 +32,9 @@ public class AtributoDAO {
 
         for (int i = 0; i < CamposDaTabela.size(); i++) {
             if (CamposDaTabela.get(i).toUpperCase().equals(selecionado.toUpperCase())) {
+
                 return i;
-            }
+            } 
         }
         return -1;
     }

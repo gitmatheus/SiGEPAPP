@@ -63,9 +63,9 @@ function LogonSigepapp(){
 	$.post("LoginServlet",{usuario: usuario, senha: senha, logoff: ""}, function(xml){
 		
 		// converter o valor da tag xml confirma em inteiro
-		var confirma = parseInt($("confirma",xml).text());
+		var confirma = parseInt($("codigo",xml).text());
 		// verifica a valor do flag confirma
-		if(confirma == 1){// se 1, exibe codigo html na posicao do elemento identificado como syslogin
+		if(confirma != 0){// se 1, exibe codigo html na posicao do elemento identificado como syslogin
 			$("#syslogin").html(
 				"<h2>Seja bemvindo,<br /> " + $("usuario",xml).text() + "</h2>" +
 				"<div align='right' style='margin-right: 10px;'>| " +
@@ -98,7 +98,7 @@ function LogoffSigepapp(){
 	var logoff = $("#status").val(); // atribui o valor do identificador status para a variavel logoff
 	
 	$.post("LoginServlet", {usuario: "", senha: "", logoff: logoff}, function(xml){ // envia para a servlet os atributos de senha e usuario vazio e o atributo de logoff como ativo 
-		var confirma = parseInt($("confirma",xml).text()); // converter o valor da tag xml confirma em inteiro
+		var confirma = parseInt($("codigo",xml).text()); // converter o valor da tag xml confirma em inteiro
 			if(confirma == 0){ // se confirma igual a 0 entao ele aguarda 2 seg para liberar o formulario novamente
 			//load("index.jsp");
 				$("#syslogin").html("<script type='text/javascript'>window.setTimeout('window.location.replace(" +

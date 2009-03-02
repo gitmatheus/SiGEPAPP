@@ -34,7 +34,7 @@ package br.edu.fei.sigepapp.servlet;
 /** Import dos packages necessários para o funcionamento da classe */
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.SQLException;
+//import java.sql.SQLException;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -44,7 +44,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 //import javax.servlet.http.HttpSession;
 
-import br.edu.fei.sigepapp.bancodedados.dao.UsuarioDAO;
+import br.edu.fei.sigepapp.bancodedados.dao.LoginDAO;
+//import br.edu.fei.sigepapp.bancodedados.dao.UsuarioDAO;
 import br.edu.fei.sigepapp.bancodedados.model.Usuario;
 import br.edu.fei.sigepapp.log.GravarLog;
 
@@ -63,6 +64,7 @@ public class LoginServlet extends HttpServlet {
 	 *  Atributo que passa o nome do usuario para a pagina. 
 	 */
 	private String user;
+	private long cod_user;
 	
 	/** Metodos getters and setters */
 	public void setUser(String user) {
@@ -71,6 +73,14 @@ public class LoginServlet extends HttpServlet {
 
 	public String getUser() {
 		return user;
+	}
+
+	public Long getCod_user() {
+		return cod_user;
+	}
+
+	public void setCod_user(long cod_user) {
+		this.cod_user = cod_user;
 	}
 
 	/**
@@ -98,8 +108,40 @@ public class LoginServlet extends HttpServlet {
 	 * @see HttpServelt#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
+		try {
+			LoginDAO dao = new LoginDAO();
+			List<Usuario> user_list = dao.validaLogin(request.getParameter("usuario"), request.getParameter("senha"));
+			if (user_list.size() == 1){
+				setCod_user(user_list.get(0).getCd_user());
+				setUser(user_list.get(0).getNm_prim_nome() + " " + user_list.get(0).getNm_ult_nome());
+			}else{
+				setCod_user(0);
+				setUser("");
+			}
+		} catch (Exception e) {
+			GravarLog.gravaErro(LoginServlet.class.getName() + ": erro na validação do login: " + e.getMessage());
+		}
 		
-		/** Atributos auxiliares */
+		System.out.println(getUser());
+		
+		if (request.getParameter("logoff").equals("")){
+			HttpSession sessao = request.getSession(); // Nao cria a sessao
+			sessao.setAttribute("usuario", getUser()); // Seta o nome do usuario na sessao
+			sessao.setAttribute("codigo_usuario", getCod_user());
+		}else if (request.getParameter("logoff").equals("logoff") || getCod_user() == 0){ // Se houver solicitacao
+			HttpSession sessao = request.getSession(); // Pega a sessao
+			sessao.invalidate(); // Mata a sessao
+			setUser("");
+			setCod_user(0);
+		}
+		
+		response.setContentType("text/xml"); // informa o tipo de resposta que será gerada pela servlet, no caso arquivo xml
+		PrintWriter out = response.getWriter(); // Inicia a gravacao do arquivo xml
+		out.println("<login><codigo>" + getCod_user() + "</codigo><usuario>"+ getUser() +"</usuario></login>"); //conteudo do arquivo
+		out.flush(); // atualiza o conteudo do arquivo
+		out.close(); // fecha o arquivo
+		 
+		/** Atributos auxiliares 
 		String cfm = new String();
 		String strNome = new String();
 
@@ -131,6 +173,7 @@ public class LoginServlet extends HttpServlet {
 		out.println("<login><usuario>" + strNome + "</usuario><confirma>"+ cfm +"</confirma></login>"); //conteudo do arquivo
 		out.flush(); // atualiza o conteudo do arquivo
 		out.close(); // fecha o arquivo
+		*/
 	}
 	
 	/**
@@ -140,7 +183,7 @@ public class LoginServlet extends HttpServlet {
 	 * @param senha
 	 * @return O usuario encontrado do sistema ou nulo caso nao encontre o usuario
 	 * @throws SQLException
-	 */
+	 
 	private String retornaUsuario(String login, String senha) throws SQLException{
 		try{
 			//Cria um objeto dao da classe usuario
@@ -163,6 +206,6 @@ public class LoginServlet extends HttpServlet {
 			GravarLog.gravaErro(LoginServlet.class.getName() + ": erro de consulta no sql: " + e.getMessage());
 			return this.getUser();
 		}
-	}
+	}*/
 }
 	

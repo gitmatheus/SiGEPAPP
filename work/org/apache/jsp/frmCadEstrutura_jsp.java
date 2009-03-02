@@ -3,6 +3,9 @@ package org.apache.jsp;
 import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.jsp.*;
+import br.edu.fei.sigepapp.bancodedados.dao.*;
+import br.edu.fei.sigepapp.bancodedados.model.*;
+import java.util.*;
 
 public final class frmCadEstrutura_jsp extends org.apache.jasper.runtime.HttpJspBase
     implements org.apache.jasper.runtime.JspSourceDependent {
@@ -57,6 +60,8 @@ public final class frmCadEstrutura_jsp extends org.apache.jasper.runtime.HttpJsp
       out = pageContext.getOut();
       _jspx_out = out;
 
+      out.write('\r');
+      out.write('\n');
         /**
          * @{#}cabecalho.jsp 0.01 09/01/18
          *
@@ -78,6 +83,9 @@ public final class frmCadEstrutura_jsp extends org.apache.jasper.runtime.HttpJsp
          * |  Tom Mix    |  09/02/27   |                                      |
          * |------------------------------------------------------------------|
          **/
+AtributoDAO atributoDAO=new AtributoDAO();
+Collection<Atributo> atributos;
+atributos=atributoDAO.seleciona("select * from APPP_TB_ATRIBUTO_OBJ");
 
       out.write("\r\n");
       out.write("\r\n");
@@ -175,7 +183,7 @@ public final class frmCadEstrutura_jsp extends org.apache.jasper.runtime.HttpJsp
       out.write("                                            <td colspan=\"2\">\r\n");
       out.write("                                                <div id=\"syslogin\">\r\n");
       out.write("                                                  ");
- if(request.getSession().getAttribute("usuario") == null || request.getSession().getAttribute("usuario") == "") { 
+ if(request.getSession().getAttribute("codigo_usuario") == null || request.getSession().getAttribute("codigo_usuario") == "0") { 
       out.write("\r\n");
       out.write("<fieldset style=\"background:#FFFFFF;\">\r\n");
       out.write("    <legend style=\"font-weight:bold\">\r\n");
@@ -286,8 +294,11 @@ public final class frmCadEstrutura_jsp extends org.apache.jasper.runtime.HttpJsp
       out.write("    .atributoAdicional{\r\n");
       out.write("        height: 2em;\r\n");
       out.write("        font-weight:bold;\r\n");
-      out.write("        width: 100%;\r\n");
-      out.write("        vertical-align:bottom;\r\n");
+      out.write("        \r\n");
+      out.write("        vertical-align:middle;\r\n");
+      out.write("    }\r\n");
+      out.write("    .atributoAdicional img{\r\n");
+      out.write("        vertical-align:middle;\r\n");
       out.write("    }\r\n");
       out.write("    .atributoMinimo{\r\n");
       out.write("\r\n");
@@ -296,47 +307,48 @@ public final class frmCadEstrutura_jsp extends org.apache.jasper.runtime.HttpJsp
       out.write("\r\n");
       out.write("<script type=\"text/javascript\" language=\"javascript\">\r\n");
       out.write("    var nro_atributos;\r\n");
-      out.write("$(document).ready(function(){\r\n");
-      out.write("    $(\"#formEscolheAtributos\").hide();\r\n");
-      out.write("    nro_atributos=0;\r\n");
-      out.write("});\r\n");
+      out.write("    $(document).ready(function(){\r\n");
+      out.write("        $(\"#formEscolheAtributos\").hide();\r\n");
+      out.write("        nro_atributos=0;\r\n");
+      out.write("    });\r\n");
       out.write("\r\n");
-      out.write("function func_incluiAtributo(){\r\n");
-      out.write("    //Armazena na variavel selecao o objeto selecionado no combo box do formulario.\r\n");
-      out.write("    var selecao=$(\"#cmbSelecionaAtributo option:selected\");\r\n");
-      out.write("    //Adiciona na tabela de atributos o atributo selecionado no combo.O id da\r\n");
-      out.write("    $(\"#tabAtributos\").append(\"<tr id=\\\"atributo_\"+selecao.val()+\"\\\">\\n\\\r\n");
-      out.write("            <td colspam=\\\"2\\\" class=\\\"atributoAdicional\\\" align=\\\"center\\\">\\n\\\r\n");
+      out.write("    function func_incluiAtributo(){\r\n");
+      out.write("        //Armazena na variavel selecao o objeto selecionado no combo box do formulario.\r\n");
+      out.write("        var selecao=$(\"#cmbSelecionaAtributo option:selected\");\r\n");
+      out.write("        //Adiciona na tabela de atributos o atributo selecionado no combo.O id da\r\n");
+      out.write("        $(\"#tabAtributos\").append(\"<tr id=\\\"atributo_\"+selecao.val()+\"\\\">\\n\\\r\n");
+      out.write("            <td width=\\\"50%\\\" class=\\\"atributoAdicional\\\" align=\\\"right\\\">\\n\\\r\n");
       out.write("                <input type=\\\"hidden\\\" name=\\\"atributos_ids\\\" value=\\\"\"+\r\n");
-      out.write("        selecao.val()+\"\\\">\"+\r\n");
-      out.write("        \"<a href=\\\"javascript:func_removeAtributo(\\'\"+selecao.val()+\"\\')\\\">\"+\r\n");
-      out.write("        selecao.text()+\r\n");
-      out.write("        \"</a>\"+\r\n");
-      out.write("        \"</td>\\\r\n");
-      out.write("            </tr>\");\r\n");
-      out.write("    selecao.hide();\r\n");
-      out.write("    nro_atributos++;\r\n");
-      out.write("};\r\n");
+      out.write("            selecao.val()+\"\\\">\"+\r\n");
+      out.write("            selecao.text()+\r\n");
+      out.write("            \"</td><td width=\\\"50%\\\" align=\\\"left\\\"><a href=\\\"javascript:func_removeAtributo(\\'\"+selecao.val()+\"\\')\\\">\\\r\n");
+      out.write("            <img src=\\\"images/remover.gif\\\" border=\\\"none\\\" ></a></td></tr>\");\r\n");
+      out.write("        selecao.hide();\r\n");
+      out.write("        selecao.attr(\"disabled\",\"disabled\");\r\n");
+      out.write("        selecao.removeAttr(\"selected\");\r\n");
+      out.write("        nro_atributos++;\r\n");
+      out.write("    };\r\n");
       out.write("\r\n");
-      out.write("function func_removeAtributo(cod_atrib){\r\n");
+      out.write("    function func_removeAtributo(cod_atrib){\r\n");
       out.write("\r\n");
-      out.write("$(\"#atributo_\"+cod_atrib).hide(\"normal\",function(){\r\n");
-      out.write("    $(\"#atributo_\"+cod_atrib).remove();\r\n");
-      out.write("});\r\n");
-      out.write("$(\"#cmbSelecionaAtributo option[value='\"+cod_atrib+\"']\").show(\"normal\").removeAttr(\"selected\");\r\n");
-      out.write("nro_atributos--;\r\n");
-      out.write("}\r\n");
+      out.write("        //$(\"#atributo_\"+cod_atrib).hide()\r\n");
+      out.write("        $(\"#atributo_\"+cod_atrib).remove();\r\n");
       out.write("\r\n");
-      out.write("function filtraCombo(){\r\n");
-      out.write("var texto=$(\"#txtBusca\").val().toLowerCase();\r\n");
-      out.write("$(\"#cmbSelecionaAtributo option\").hide();\r\n");
-      out.write("$(\"#cmbSelecionaAtributo option\").each(function(index,elemento){\r\n");
-      out.write("    if($(elemento).text().toLowerCase().indexOf($(\"#txtBusca\").val().toLowerCase(), 0)>=0){\r\n");
-      out.write("        $(elemento).show();\r\n");
+      out.write("        $(\"#cmbSelecionaAtributo option[value='\"+cod_atrib+\"']\").show(\"normal\").removeAttr(\"selected\").removeAttr(\"disabled\");\r\n");
+      out.write("        nro_atributos--;\r\n");
       out.write("    }\r\n");
-      out.write("});\r\n");
-      out.write("//$(\"#cmbSelecionaAtributo option:contains('\"+$(\"#txtBusca\").val()+\"')\").show(\"normal\");\r\n");
-      out.write("}\r\n");
+      out.write("\r\n");
+      out.write("    function filtraCombo(){\r\n");
+      out.write("        \r\n");
+      out.write("        var texto=$(\"#txtBusca\").val().toLowerCase();\r\n");
+      out.write("        $(\"#cmbSelecionaAtributo option:enabled\").hide();\r\n");
+      out.write("        $(\"#cmbSelecionaAtributo option:enabled\").each(function(index,elemento){\r\n");
+      out.write("            if($(elemento).text().toLowerCase().indexOf($(\"#txtBusca\").val().toLowerCase(), 0)>=0){\r\n");
+      out.write("                $(elemento).show();\r\n");
+      out.write("            }\r\n");
+      out.write("        });\r\n");
+      out.write("        //$(\"#cmbSelecionaAtributo option:contains('\"+$(\"#txtBusca\").val()+\"')\").show(\"normal\");\r\n");
+      out.write("    }\r\n");
       out.write("</script>\r\n");
       out.write("\r\n");
       out.write("<table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" width=\"100%\" align=\"right\" class=\"formulario\">\r\n");
@@ -473,14 +485,25 @@ public final class frmCadEstrutura_jsp extends org.apache.jasper.runtime.HttpJsp
       out.write("                                        <tr>\r\n");
       out.write("                                            <td align=\"right\">Atributo:</td><td>\r\n");
       out.write("                                                <select class=\"select_varias_linhas\" size=\"8\" style=\"width: 150px\" id=\"cmbSelecionaAtributo\" ondblclick=\"func_incluiAtributo();\">\r\n");
-      out.write("                                                    <option value=\"2\">Consequencias</option>\r\n");
-      out.write("                                                    <option value=\"3\">Aplicado em</option>\r\n");
-      out.write("                                                    <option value=\"4\">Prazo para entrega</option>\r\n");
-      out.write("                                                    <option value=\"5\">Esforço</option>\r\n");
+      out.write("                                                    ");
+for (Atributo t : atributos) {  
+      out.write("\r\n");
+      out.write("                                    <option label=\"\" value=\"");
+      out.print(t.getCd_atributo_obj() );
+      out.write("\" title=\"");
+      out.print(t.getDs_atributo_obj() );
+      out.write('"');
+      out.write(' ');
+      out.write('>');
+      out.print(t.getNm_atributo_obj() );
+      out.write("</option>\r\n");
+      out.write("                                    ");
+}
+      out.write("\r\n");
       out.write("                                                </select>\r\n");
       out.write("                                        </td></tr>\r\n");
       out.write("                                        <tr><td colspan=\"2\" align=\"center\">\r\n");
-      out.write("                                                <a onclick=\"\" href=\"javascript:func_incluiAtributo();\"><img src=\"images/add.gif\" border=\"none\">Adicionar</a>\r\n");
+      out.write("                                                <a onclick=\"\" href=\"javascript:if($('#cmbSelecionaAtributo option:selected').length>0){func_incluiAtributo();}\"><img src=\"images/add.gif\" border=\"none\">Adicionar</a>\r\n");
       out.write("                                        </td></tr>\r\n");
       out.write("                                        <tr><td colspan=\"2\"></td>\r\n");
       out.write("                                        </tr>\r\n");

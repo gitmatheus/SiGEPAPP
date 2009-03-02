@@ -1,4 +1,4 @@
-<% if(request.getSession().getAttribute("usuario") == null || request.getSession().getAttribute("usuario") == "") { %>
+<% if(request.getSession().getAttribute("codigo_usuario") == null || request.getSession().getAttribute("codigo_usuario") == "0") { %>
 <fieldset style="background:#FFFFFF;">
     <legend style="font-weight:bold">
         Efetuar login:
