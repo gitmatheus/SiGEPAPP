@@ -34,7 +34,7 @@ public class AtributoDAO {
             if (CamposDaTabela.get(i).toUpperCase().equals(selecionado.toUpperCase())) {
 
                 return i;
-            } 
+            }
         }
         return -1;
     }
@@ -55,7 +55,7 @@ public class AtributoDAO {
             String nomeColuna;
             for (int i = 1; i <= rs.getMetaData().getColumnCount(); i++) {
                 nomeColuna = rs.getMetaData().getColumnName(i);
-                int selecao=returnIndex(nomeColuna, camposDaTabela);
+                int selecao = returnIndex(nomeColuna, camposDaTabela);
                 switch (selecao) {
                     case 0:
                         atributoNovo.setCd_atributo_obj(rs.getLong(i));
@@ -228,10 +228,14 @@ public class AtributoDAO {
             GravarLog.gravaErro(Atributo.class.getName() + ": erro na atualizacao referente a uma excecao de SQL: " + e.getMessage());
 
             // Retorno da funcao como false em caso de erro
-
-
-
             return false;
+        }
+    }
+
+    @Override
+    protected void finalize() throws Throwable {
+        if (!this.conn.isClosed()) {
+            this.conn.close();
         }
     }
 }

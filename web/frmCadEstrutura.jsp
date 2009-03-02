@@ -76,7 +76,20 @@ atributos=atributoDAO.seleciona("select * from APPP_TB_ATRIBUTO_OBJ");
         selecao.attr("disabled","disabled");
         selecao.removeAttr("selected");
         nro_atributos++;
+        guardaOption("teste");
+        guardaOption("tteste2");
+        
     };
+    var objetos=new Array;
+    var i=0;
+    function guardaOption(id){
+        objetos.push(id);
+        i++;
+    }
+    function retornaOption(id){
+        objetos.slice(id, 1);
+        return "paseei";
+    }
 
     function func_removeAtributo(cod_atrib){
 
