@@ -163,11 +163,11 @@ public final class index_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("                <td>\r\n");
       out.write("                    <table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" align=\"center\">\r\n");
       out.write("                        <tr>\r\n");
-      out.write("                            <td width=\"560px\" class=\"top_td\">\r\n");
+      out.write("                            <td width=\"530px\" class=\"top_td\">\r\n");
       out.write("                                <img title=\"SiGePAPP - Sistema de Gerenciamento de Patterns, Anti-Patterns e Personas\" align=\"left\" src=\"images/logo.png\" style='display: block' />\r\n");
       out.write("                            </td>\r\n");
-      out.write("                            <td width=\"190px\" class=\"top_td\">\r\n");
-      out.write("                                <form name=\"login\" type=\"get\" method=\"post\">\r\n");
+      out.write("                            <td width=\"220px\" class=\"top_td\" align=\"right\">\r\n");
+      out.write("                                <form name=\"login\" method=\"post\">\r\n");
       out.write("                                    <table>\r\n");
       out.write("                                        <tr>\r\n");
       out.write("                                            <td colspan=\"2\" valign=\"top\" align=\"right\">\r\n");

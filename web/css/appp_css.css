@@ -86,7 +86,7 @@ td.titulo {
 
 font.titulo {
     color: #000000;
-    font-size: 13px;
+    font-size: 14px;
     font-weight: bold;
 }
 
@@ -99,7 +99,7 @@ font.titulo {
 .texto {
     background: #FFFFFF;
     color: #3d414c;
-    font-size:11px;
+    font-size:12px;
     text-align: justify;
     vertical-align: text-top;
     margin-left: inherit;
@@ -161,5 +161,5 @@ a {
 }
 
 #fundo {
-    background-color: #999;
+    background-color: #999999;
 }
