@@ -73,6 +73,7 @@ atributos=atributoDAO.seleciona("select * from APPP_TB_ATRIBUTO_OBJ");
             "</td><td width=\"50%\" align=\"left\"><a href=\"javascript:func_removeAtributo(\'"+selecao.val()+"\')\">\
             <img src=\"images/remover.gif\" border=\"none\" ></a></td></tr>");
         selecao.hide();
+        selecao.attr("disabled","disabled");
         selecao.removeAttr("selected");
         nro_atributos++;
     };
@@ -82,14 +83,15 @@ atributos=atributoDAO.seleciona("select * from APPP_TB_ATRIBUTO_OBJ");
         //$("#atributo_"+cod_atrib).hide()
         $("#atributo_"+cod_atrib).remove();
 
-        $("#cmbSelecionaAtributo option[value='"+cod_atrib+"']").show("normal").removeAttr("selected");
+        $("#cmbSelecionaAtributo option[value='"+cod_atrib+"']").show("normal").removeAttr("selected").removeAttr("disabled");
         nro_atributos--;
     }
 
     function filtraCombo(){
+        
         var texto=$("#txtBusca").val().toLowerCase();
-        $("#cmbSelecionaAtributo option").hide();
-        $("#cmbSelecionaAtributo option").each(function(index,elemento){
+        $("#cmbSelecionaAtributo option:enabled").hide();
+        $("#cmbSelecionaAtributo option:enabled").each(function(index,elemento){
             if($(elemento).text().toLowerCase().indexOf($("#txtBusca").val().toLowerCase(), 0)>=0){
                 $(elemento).show();
             }
