@@ -20,9 +20,9 @@
          * |  Tom Mix    |  09/02/27   |                                      |
          * |------------------------------------------------------------------|
          **/
-AtributoDAO atributoDAO=new AtributoDAO();
-Collection<Atributo> atributos;
-atributos=atributoDAO.seleciona("select * from APPP_TB_ATRIBUTO_OBJ");
+        AtributoDAO atributoDAO = new AtributoDAO();
+        Collection<Atributo> atributos;
+        atributos = atributoDAO.seleciona("select * from APPP_TB_ATRIBUTO_OBJ");
 %>
 
 <%@include file="cabecalho.jsp"%>
@@ -43,7 +43,7 @@ atributos=atributoDAO.seleciona("select * from APPP_TB_ATRIBUTO_OBJ");
     .atributoAdicional{
         height: 2em;
         font-weight:bold;
-        
+
         vertical-align:middle;
     }
     .atributoAdicional img{
@@ -78,7 +78,6 @@ atributos=atributoDAO.seleciona("select * from APPP_TB_ATRIBUTO_OBJ");
         nro_atributos++;
         guardaOption("teste");
         guardaOption("tteste2");
-        
     };
     var objetos=new Array;
     var i=0;
@@ -101,15 +100,14 @@ atributos=atributoDAO.seleciona("select * from APPP_TB_ATRIBUTO_OBJ");
     }
 
     function filtraCombo(){
-        
+
         var texto=$("#txtBusca").val().toLowerCase();
         $("#cmbSelecionaAtributo option:enabled").hide();
         $("#cmbSelecionaAtributo option:enabled").each(function(index,elemento){
-            if($(elemento).text().toLowerCase().indexOf($("#txtBusca").val().toLowerCase(), 0)>=0){
+            if($(elemento).text().toUpperCase().indexOf($("#txtBusca").val().toUpperCase(), 0)>=0){
                 $(elemento).show();
             }
         });
-        //$("#cmbSelecionaAtributo option:contains('"+$("#txtBusca").val()+"')").show("normal");
     }
 </script>
 
@@ -247,9 +245,9 @@ atributos=atributoDAO.seleciona("select * from APPP_TB_ATRIBUTO_OBJ");
                                         <tr>
                                             <td align="right">Atributo:</td><td>
                                                 <select class="select_varias_linhas" size="8" style="width: 150px" id="cmbSelecionaAtributo" ondblclick="func_incluiAtributo();">
-                                                    <%for (Atributo t : atributos) {  %>
-                                    <option label="" value="<%=t.getCd_atributo_obj() %>" title="<%=t.getDs_atributo_obj() %>" ><%=t.getNm_atributo_obj() %></option>
-                                    <%}%>
+                                                    <%for (Atributo t : atributos) {%>
+                                                    <option label="" value="<%=t.getCd_atributo_obj()%>" title="<%=t.getDs_atributo_obj()%>" ><%=t.getNm_atributo_obj()%></option>
+                                                    <%}%>
                                                 </select>
                                         </td></tr>
                                         <tr><td colspan="2" align="center">
