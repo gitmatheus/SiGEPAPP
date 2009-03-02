@@ -4,10 +4,6 @@
  */
 package br.edu.fei.sigepapp.bancodedados.dao;
 
-import br.edu.fei.sigepapp.bancodedados.ConnectionFactory;
-import br.edu.fei.sigepapp.bancodedados.model.Atributo;
-import br.edu.fei.sigepapp.interfaces.DAO;
-import br.edu.fei.sigepapp.log.GravarLog;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -15,11 +11,15 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import br.edu.fei.sigepapp.bancodedados.ConnectionFactory;
+import br.edu.fei.sigepapp.bancodedados.model.Atributo;
+import br.edu.fei.sigepapp.log.GravarLog;
+
 /**
  *
  * @author lopespt
  */
-public class AtributoDAO implements DAO<Atributo> {
+public class AtributoDAO {
 
     private Connection conn;
 

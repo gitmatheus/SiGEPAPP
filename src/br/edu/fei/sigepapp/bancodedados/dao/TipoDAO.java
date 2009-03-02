@@ -6,7 +6,6 @@ package br.edu.fei.sigepapp.bancodedados.dao;
 
 import br.edu.fei.sigepapp.bancodedados.ConnectionFactory;
 import br.edu.fei.sigepapp.bancodedados.model.Tipo;
-import br.edu.fei.sigepapp.interfaces.DAO;
 import br.edu.fei.sigepapp.log.GravarLog;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -19,7 +18,7 @@ import java.util.List;
  *
  * @author lopespt
  */
-public class TipoDAO implements DAO<Tipo> {
+public class TipoDAO {
 
     private Connection conn;
 

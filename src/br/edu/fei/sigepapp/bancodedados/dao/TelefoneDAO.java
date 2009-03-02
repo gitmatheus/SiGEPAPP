@@ -26,11 +26,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-//~-- SIGEPAPP import ---------------------------------------------------------
 import br.edu.fei.sigepapp.bancodedados.ConnectionFactory;
 import br.edu.fei.sigepapp.bancodedados.model.Telefone;
-import br.edu.fei.sigepapp.interfaces.DAO;
-import br.edu.fei.sigepapp.log.*;
+import br.edu.fei.sigepapp.log.GravarLog;
 
 /**
  * 
@@ -38,7 +36,7 @@ import br.edu.fei.sigepapp.log.*;
  * @version 0.01 21 Fev 2009
  *
  */
-public class TelefoneDAO implements DAO<Telefone>{
+public class TelefoneDAO{
 	
 	private Connection conn;
 	
@@ -55,7 +53,6 @@ public class TelefoneDAO implements DAO<Telefone>{
 	 * 
 	 * @see DAO#adiciona(Object) adiciona	
 	 */
-	@Override
 	public boolean adiciona(Telefone telefone) {
 		try{
 			//Instancia um objeto da classe PreparedStatement com o comando para inserção do registro no banco
@@ -97,7 +94,6 @@ public class TelefoneDAO implements DAO<Telefone>{
 	 * 
 	 * @see DAO#atualiza(Object) atualiza
 	 */
-	@Override
 	public boolean atualiza(Telefone telefone) {
 		try{
 			//Instancia um objeto da classe PreparedStatement com o comando para atualização do registro no banco
@@ -139,7 +135,6 @@ public class TelefoneDAO implements DAO<Telefone>{
 	 * 
 	 * @see DAO#deleta(Object) deleta
 	 */
-	@Override
 	public boolean deleta(Telefone telefone) {
 		try{
 			//Instancia um objeto da classe PreparedStatement com o comando para remoção do registro no banco
@@ -176,7 +171,6 @@ public class TelefoneDAO implements DAO<Telefone>{
 	 * 
 	 * @see DAO#seleciona(String) seleciona
 	 */
-	@Override
 	public List<Telefone> seleciona(String query) {
 		try{
 			//Instancia um objeto da classe PreparedStatement com o comando para pesquisar registros no banco

@@ -19,6 +19,7 @@ package br.edu.fei.sigepapp.bancodedados.dao;
  */
 
 //~-- JDK import --------------------------------------------------------------
+import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -26,14 +27,10 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-//~-- SIGEPAPP import ---------------------------------------------------------
+import oracle.jdbc.OracleTypes;
 import br.edu.fei.sigepapp.bancodedados.ConnectionFactory;
 import br.edu.fei.sigepapp.bancodedados.model.Usuario;
-import br.edu.fei.sigepapp.interfaces.DAO;
-import br.edu.fei.sigepapp.log.*;
-import java.sql.CallableStatement;
-import java.util.Date;
-import oracle.jdbc.OracleTypes;
+import br.edu.fei.sigepapp.log.GravarLog;
 
 
 /**
@@ -43,7 +40,7 @@ import oracle.jdbc.OracleTypes;
  * @author Andrey Masiero
  * @version 0.01 20 Fev 2009
  */
-public class UsuarioDAO implements DAO<Usuario>{
+public class UsuarioDAO{
 	
 	private Connection conn;
 	
@@ -61,7 +58,7 @@ public class UsuarioDAO implements DAO<Usuario>{
 	 * 
 	 * @see DAO#adiciona(Object) adiciona
 	 */
-	@Override
+	
 	public boolean adiciona(Usuario usuario){
         int vResult = 0;
 		try{
@@ -111,7 +108,7 @@ public class UsuarioDAO implements DAO<Usuario>{
 	 * 
 	 * @see DAO#atualiza(Object) atualiza
 	 */
-	@Override
+	
 	public boolean atualiza(Usuario usuario){
 		try{
 			//Instancia um objeto da classe PreparedStatement com o comando para atualização do registro no banco
@@ -159,7 +156,7 @@ public class UsuarioDAO implements DAO<Usuario>{
 	 * 
 	 * @see DAO#deleta(Object) deleta
 	 */
-	@Override
+	
 	public boolean deleta(Usuario usuario) {
 		try{
 			//Instancia um objeto da classe PreparedStatement com o comando para remoção do registro no banco
@@ -218,7 +215,6 @@ public class UsuarioDAO implements DAO<Usuario>{
 				
 				//Cria um objeto do tipo Usuario
 				Usuario usuario = new Usuario();
-				
 
 				//armazena os valores do ResultSet no Usuario
 				usuario.setCd_user(rs.getLong("cd_user"));
@@ -257,17 +253,17 @@ public class UsuarioDAO implements DAO<Usuario>{
 			return null;
 		}
 	}
-   public List<Usuario> selecionaUsers(long pCDUser, String pPrimNome, String pUltNome, Date pDtNascIni, Date pDtNascFim, long pNrNotaIni, long pNrNotaFim, Date pDtCadastroIni, Date pDtCadastroFim, String pDSInteresse, String pMSN, String pSkype) {
-		CallableStatement cstmt = null;
-        ResultSet rs = null;
+   public List<Usuario> selecionaUsers(Usuario usuario) {
+		//CallableStatement cstmt = null;
+        //ResultSet rs = null;
         try{
 			//Instancia um objeto da classe PreparedStatement com o comando para pesquisar registros no banco
 			//PreparedStatement stmt = this.conn.prepareStatement(query);
-            cstmt = conn.prepareCall("begin  APPP_SEL_USERS(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?); end;");
-			cstmt.setLong(1, pCDUser);
-            cstmt.setString(2, pPrimNome);
-            cstmt.setString(3, pUltNome);
-            cstmt.setDate(4,(java.sql.Date) pDtNascIni);
+            CallableStatement cstmt = conn.prepareCall("begin  APPP_SEL_USERS(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?); end;");
+			cstmt.setLong(1, usuario.getCd_user());
+            cstmt.setString(2, usuario.getNm_prim_nome());
+            cstmt.setString(3, usuario.getNm_ult_nome());
+            /*cstmt.setDate(4,(java.sql.Date) pDtNascIni);
             cstmt.setDate(5,(java.sql.Date) pDtNascFim);
             cstmt.setLong(6, pNrNotaIni);
             cstmt.setLong(7, pNrNotaFim);
@@ -276,9 +272,10 @@ public class UsuarioDAO implements DAO<Usuario>{
             cstmt.setString(10, pDSInteresse);
             cstmt.setString(11, pMSN);
             cstmt.setString(12, pSkype);
+            */
             cstmt.registerOutParameter(13, OracleTypes.CURSOR);
             cstmt.execute();
-            rs = (ResultSet) cstmt.getObject(13);
+            ResultSet rs = (ResultSet) cstmt.getObject(13);
 
 			//Cria um array do tipo Usuarios
 			List<Usuario> usuarios = new ArrayList<Usuario>();
@@ -288,7 +285,7 @@ public class UsuarioDAO implements DAO<Usuario>{
 			while(rs.next()){
 
 				//Cria um objeto do tipo Usuario
-				Usuario usuario = new Usuario();
+				//Usuario us = new Usuario();
 
 
 				//armazena os valores do ResultSet no Usuario
@@ -328,8 +325,4 @@ public class UsuarioDAO implements DAO<Usuario>{
 			return null;
 		}
 	}
-    public List<Usuario> seleciona(String query) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
 }

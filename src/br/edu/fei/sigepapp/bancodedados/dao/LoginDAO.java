@@ -26,18 +26,16 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-//~-- SIGEPAPP import ---------------------------------------------------------
 import br.edu.fei.sigepapp.bancodedados.ConnectionFactory;
 import br.edu.fei.sigepapp.bancodedados.model.Login;
-import br.edu.fei.sigepapp.interfaces.DAO;
-import br.edu.fei.sigepapp.log.*;
+import br.edu.fei.sigepapp.log.GravarLog;
 
 /**
  * 
  * @author Andrey Masiero
  * @version 0.01 21 Fev 2009
  */
-public class LoginDAO implements DAO<Login>{
+public class LoginDAO{
 	
 	private Connection conn;
 	
@@ -54,7 +52,6 @@ public class LoginDAO implements DAO<Login>{
 	 * 
 	 * @see DAO#adiciona(Object) adiciona	
 	 */
-	@Override
 	public boolean adiciona(Login login) {
 	      int result = 0;
               try{
@@ -99,7 +96,6 @@ public class LoginDAO implements DAO<Login>{
 	 * 
 	 * @see DAO#atualiza(Object) atualiza
 	 */
-	@Override
 	public boolean atualiza(Login login) {
 		try{
 			//Instancia um objeto da classe PreparedStatement com o comando para atualização do registro no banco
@@ -139,7 +135,6 @@ public class LoginDAO implements DAO<Login>{
 	 * 
 	 * @see DAO#deleta(Object) deleta
 	 */
-	@Override
 	public boolean deleta(Login login) {
 		try{
 			//Instancia um objeto da classe PreparedStatement com o comando para remoção do registro no banco
@@ -177,7 +172,6 @@ public class LoginDAO implements DAO<Login>{
 	 * 
 	 * @see DAO#seleciona(String) seleciona
 	 */
-	@Override
 	public List<Login> seleciona(String query) {
 		try{
 			//Instancia um objeto da classe PreparedStatement com o comando para pesquisar registros no banco

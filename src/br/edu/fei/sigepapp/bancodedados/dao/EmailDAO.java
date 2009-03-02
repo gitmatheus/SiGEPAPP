@@ -26,10 +26,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-//~-- SIGEPAPP import ---------------------------------------------------------
 import br.edu.fei.sigepapp.bancodedados.ConnectionFactory;
 import br.edu.fei.sigepapp.bancodedados.model.Email;
-import br.edu.fei.sigepapp.interfaces.DAO;
 import br.edu.fei.sigepapp.log.GravarLog;
 
 /**
@@ -37,7 +35,7 @@ import br.edu.fei.sigepapp.log.GravarLog;
  * @author Andrey Masiero
  * @version 0.01 21 Fev 2009
  */
-public class EmailDAO implements DAO<Email> {
+public class EmailDAO {
 	
 private Connection conn;
 	
@@ -54,7 +52,6 @@ private Connection conn;
 	 * 
 	 * @see DAO#adiciona(Object) adiciona	
 	 */
-	@Override
 	public boolean adiciona(Email email) {
 		try{
 			//Instancia um objeto da classe PreparedStatement com o comando para inserção do registro no banco
@@ -93,7 +90,6 @@ private Connection conn;
 	 * 
 	 * @see DAO#atualiza(Object) atualiza
 	 */
-	@Override
 	public boolean atualiza(Email email) {
 		try{
 			//Instancia um objeto da classe PreparedStatement com o comando para atualização do registro no banco
@@ -133,7 +129,6 @@ private Connection conn;
 	 * 
 	 * @see DAO#deleta(Object) deleta
 	 */
-	@Override
 	public boolean deleta(Email email) {
 		try{
 			//Instancia um objeto da classe PreparedStatement com o comando para remoção do registro no banco
@@ -170,7 +165,6 @@ private Connection conn;
 	 * 
 	 * @see DAO#seleciona(String) seleciona
 	 */
-	@Override
 	public List<Email> seleciona(String query) {
 		try{
 			//Instancia um objeto da classe PreparedStatement com o comando para pesquisar registros no banco
