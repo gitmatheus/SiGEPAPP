@@ -30,15 +30,13 @@ public class AtributoDAO {
     }
 
     public int returnIndex(String selecionado, List<String> CamposDaTabela) {
-        int posEncontrado = -1;
+
         for (int i = 0; i < CamposDaTabela.size(); i++) {
             if (CamposDaTabela.get(i).toUpperCase().equals(selecionado.toUpperCase())) {
-                posEncontrado = i;
-            } else {
-                posEncontrado = -1;
+                return i;
             }
         }
-        return posEncontrado;
+        return -1;
     }
 
     public List<Atributo> PreencheList(ResultSet rs) throws SQLException {
@@ -52,25 +50,31 @@ public class AtributoDAO {
         camposDaTabela.add("CD_TIPO");
         camposDaTabela.add("FL_ATRIB_RELAC");
         while (rs.next()) {
-            Debug.println("Passei!", "ok");
             // Cria um objeto do tipo Atributo
             Atributo atributoNovo = new Atributo();
-
+            String nomeColuna;
             for (int i = 1; i <= rs.getMetaData().getColumnCount(); i++) {
-                String nomeColuna = rs.getMetaData().getColumnName(i);
-                switch (returnIndex(nomeColuna, camposDaTabela)) {
+                nomeColuna = rs.getMetaData().getColumnName(i);
+                int selecao=returnIndex(nomeColuna, camposDaTabela);
+                switch (selecao) {
                     case 0:
                         atributoNovo.setCd_atributo_obj(rs.getLong(i));
+                        break;
                     case 1:
                         atributoNovo.setNm_atributo_obj(rs.getString(i));
+                        break;
                     case 2:
                         atributoNovo.setDs_atributo_obj(rs.getString(i));
+                        break;
                     case 3:
                         atributoNovo.setDs_tam_atrib(rs.getString(i));
+                        break;
                     case 4:
                         atributoNovo.setCd_tipo(rs.getLong(i));
+                        break;
                     case 5:
                         atributoNovo.setFl_atrib_relac(rs.getString(i));
+                        break;
                 }
 
             }
@@ -89,7 +93,7 @@ public class AtributoDAO {
             ResultSet rs = stmt.executeQuery();
             // Enquando a pesquisa nao chegar ao fim ele armazena no array os resultados e permanece no loop
             // Cria um array do tipo atributo e referencia com o a lista do metodo preenchelist
-            List<Atributo> atributos = atributos = PreencheList(rs);
+            List<Atributo> atributos = PreencheList(rs);
 
             // fecha a instancia dos objetos
             rs.close();
