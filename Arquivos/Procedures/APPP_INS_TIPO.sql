@@ -5,7 +5,7 @@
 * Author        : WeeDo 
 * History       : 02/03/2009 - Matheus Gonçalves
 ***********************************************************************************************************************/
-create or replace procedure APPP_INS_TIPO(pCD_TIPO    IN NUMBER  ,
+create or replace procedure APPP_INS_TIPO(pCD_TIPO    IN OUT NUMBER  ,
                                           pNM_TIPO    IN VARCHAR2,
                                           pDS_TIPO    IN VARCHAR2,
                                           pFL_EXP_REG IN VARCHAR2,
@@ -22,6 +22,10 @@ begin
                              pDS_TIPO    ,
                              pFL_EXP_REG
                            );
+   SELECT APPP_SEQ_TIPO.CURRVAL
+   INTO pCD_TIPO
+   FROM DUAL;
+   
    vResult := 1; -- OK
    commit;
    

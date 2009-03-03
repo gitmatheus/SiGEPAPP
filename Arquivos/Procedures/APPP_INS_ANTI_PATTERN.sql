@@ -5,11 +5,11 @@
 * Author                : WeeDo 
 * History               : 02/03/2009 - Matheus Gonçalves
 ***********************************************************************************************************************/
-create or replace procedure APPP_INS_ANTI_PATTERN(vCD_ANTI_PATTERN  in NUMBER  , 
-                                                  vDS_SINTOMAS      in VARCHAR2, 
-                                                  vDS_RECOMENDACOES in VARCHAR2,
-                                                  vDS_CONSEQUENCIAS in VARCHAR2,
-                                                  vDS_BARREIRAS     in VARCHAR2,
+create or replace procedure APPP_INS_ANTI_PATTERN(pCD_ANTI_PATTERN  in NUMBER  , 
+                                                  pDS_SINTOMAS      in VARCHAR2, 
+                                                  pDS_RECOMENDACOES in VARCHAR2,
+                                                  pDS_CONSEQUENCIAS in VARCHAR2,
+                                                  pDS_BARREIRAS     in VARCHAR2,
                                                   vResult           out number) is
 begin
     
@@ -19,12 +19,13 @@ begin
                                     DS_CONSEQUENCIAS ,
                                     DS_BARREIRAS
                                     )
-                              values(vCD_ANTI_PATTERN  ,
-                                     vDS_SINTOMAS      , 
-                                     vDS_RECOMENDACOES ,
-                                     vDS_CONSEQUENCIAS ,
-                                     vDS_BARREIRAS
+                              values(pCD_ANTI_PATTERN  ,
+                                     pDS_SINTOMAS      , 
+                                     pDS_RECOMENDACOES ,
+                                     pDS_CONSEQUENCIAS ,
+                                     pDS_BARREIRAS
                                     );
+  
    vResult := 1; -- OK
    commit;
    

@@ -5,7 +5,7 @@
 * Author                : WeeDo 
 * History               : 02/03/2009 - Matheus Gonçalves
 ***********************************************************************************************************************/
-create or replace procedure APPP_INS_ATRIBUTO_OBJ(pCD_ATRIBUTO_OBJ IN NUMBER   ,
+create or replace procedure APPP_INS_ATRIBUTO_OBJ(pCD_ATRIBUTO_OBJ IN OUT NUMBER   ,
                                                   pNM_ATRIBUTO_OBJ IN VARCHAR2 , 
                                                   pDS_ATRIBUTO_OBJ IN VARCHAR2 ,
                                                   pCD_TIPO         IN NUMBER   ,
@@ -25,7 +25,11 @@ begin
                                      pCD_TIPO        ,
                                      pFL_ATRIB_RELAC 
                                     );
-   vResult := 1; -- OK
+   select APPP_SEQ_ATRIBUTO_OBJ.CURRVAL
+   into pCD_ATRIBUTO_OBJ
+   from dual;  
+   
+   vResult := 1;
    commit;
    
    EXCEPTION

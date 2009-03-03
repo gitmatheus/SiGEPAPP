@@ -2,6 +2,7 @@
 * Project Name  : SiGEPAPP
 * APPP_INS_USER : Procedure para criação de dados de usuário
 *                 vResult( 1=OK; -99=ErroGeral)
+*                 pCDUser deve ser sempre o CPF do usuário
 * Author        : WeeDo 
 * History       : 28/02/2009 - Matheus Gonçalves
 ***********************************************************************************************************************/
