@@ -22,34 +22,17 @@ create or replace procedure APPP_DEL_CIDADE(pCD_CIDADE IN NUMBER,
        AND   (C.NM_ABREV  like ('%'|| pNM_ABREV || '%')  OR pNM_ABREV   IS NULL)
        AND   (C.CD_ESTADO = pCD_ESTADO OR pCD_ESTADO IS NULL); 
        
-  vEXISTE  NUMBER(5); 
-  i        number(10); 
-  
-  --Declaração de vetor
-  TYPE NUMS IS TABLE OF NUMBER INDEX BY BINARY_INTEGER;
-  VETOR NUMS;
+  vTemp  NUMBER(5); 
   
 begin
     
    if pCD_CIDADE is not null then
-      /**********************************************************
-      *  EXECUTA ESSA PARTE SE FOI INFORMADO O CÓDIGO DA CIDADE.
-      *  VERIFICA SE A CIDADE PODE SER EXCLUÍDA.
-      ***********************************************************/
 
       SELECT COUNT(*) INTO vResult
       FROM APPP_TB_CIDADE T
       WHERE T.CD_CIDADE  = pCD_CIDADE;
-      
-      SELECT COUNT(*) INTO vEXISTE
-      FROM APPP_TB_CODIGO_POSTAL CP
-      WHERE CP.CD_CIDADE = pCD_CIDADE;
 
-      IF vEXISTE > 0 THEN 
-          --Não é possível excluir o registro, existem códigos postais com essa cidade.
-          vResult := -90 ;       
-     
-      elsif vResult > 0 then
+      if vResult > 0 then
 
          DELETE FROM APPP_TB_CIDADE C
          WHERE C.CD_CIDADE  = pCD_CIDADE;
@@ -59,50 +42,22 @@ begin
       end if;   
       
    else 
-       
-     /**************************************************************
-      *  EXECUTA ESSA PARTE SE NÃO FOI INFORMADO O CÓDIGO DA CIDADE.
-      *  ABRE UM CURSOR USANDO OS PARÂMETROS.
-      *  JOGA TODOS OS CÓDIGOS DE CIDADE RETORNADOS PELO CURSOR EM 
-         UM VETOR DE CÓDIGOS, QUE SERÁ USADO PARA VERIFICAR SE A(S) 
-         CIDADE(s) PODE(m) SER EXCLUÍDA(S).
-      **************************************************************/
-       vResult := 1;
-       i       := 1;
-       vEXISTE := 0;
-       
+      
        OPEN C;
        LOOP 
           
-          FETCH C INTO VETOR(i);
-          EXIT WHEN C%NOTFOUND OR vEXISTE > 0;
+          FETCH C INTO vTemp;
+          EXIT WHEN C%NOTFOUND;
           
-          -- VERIFICA SE EXISTE ALGUM CÓDIGO POSTAL
-          -- FOI CADASTRADO COM ESSA CIDADE.
-          SELECT COUNT(*) INTO vEXISTE
-          FROM APPP_TB_CODIGO_POSTAL CP
-          WHERE CP.CD_CIDADE = VETOR(i);
+          DELETE FROM APPP_TB_CIDADE C
+          WHERE C.CD_CIDADE  = vTemp; 
           
-          IF vEXISTE > 0 then
-             --Não é possível excluir os registro, existem códigos postais com essa cidade.
-             vResult := -90 ; 
-          END IF;
-          
-          i := i + 1;
+          vResult := vResult + 1;
+
        END LOOP; 
        CLOSE C;  
-        i := i - 1;
+
        if vResult > 0 then
-             
-          -- Ok. Então todas as cidades retornadas pelo cursor podem ser excluídas.
-          -- Varre agora o vetor e vai executando os deletes.
-          FOR j IN 1 .. i LOOP
-              
-             DELETE FROM APPP_TB_CIDADE C
-             WHERE C.CD_CIDADE  = VETOR(j); 
-            
-          END LOOP;
-          vResult := i;
           commit;
        end if;   
        
@@ -114,7 +69,16 @@ begin
         vResult := 0; -- Não existe dado a ser deletado. 
         
      WHEN OTHERS THEN
-        rollback;
-        vResult := -99; -- Erro genérico.
+         DECLARE
+             error_code NUMBER := SQLCODE;
+         BEGIN
+             IF error_code = -2292 THEN
+                ROLLBACK;
+                vResult := -90; -- Registros Filhos encontrados.
+             ELSE
+                rollback;
+                vResult := -99; -- Erro genérico.             
+             END IF;
+         END;      
                
 end APPP_DEL_CIDADE;
