@@ -31,6 +31,12 @@ alter table APPP_TB_ESTADO
 grant select, insert, UPDATE, delete, references, alter, index on APPP_TB_ESTADO to admin;
 grant select, insert, update, delete, references on APPP_TB_ESTADO to usuario;
 
+   create sequence APPP_SEQ_ESTADO
+  minvalue 1
+  maxvalue 9999999999
+  start with 1
+  increment by 1;
+
 SELECT '(re)Criando trigger APPP_TG_BEFINS_TB_ESTADO...' from dual;  
   -- Triggers
  create or replace trigger APPP_TG_BEFINS_TB_ESTADO
