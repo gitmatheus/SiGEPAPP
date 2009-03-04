@@ -5,7 +5,7 @@
 * Author          : WeeDo 
 * History         : 03/03/2009 - Matheus Gonçalves
 ***********************************************************************************************************************/
-create or replace procedure APPP_INS_CIDADE(pCD_CIDADE IN OUT NUMBER,
+create or replace procedure APPP_INS_CIDADE(pCD_CIDADE OUT NUMBER,
                                             pNM_CIDADE IN VARCHAR2,
                                             pNM_ABREV  IN VARCHAR2,
                                             pCD_ESTADO IN NUMBER , 
