@@ -1,12 +1,25 @@
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+ * @(#)TipoDAO.java 0.01 21/02/09
+ *
+ * Este código é parte integrante do projeto de formatura,
+ * do curso de ciências da computação, do Centro Universitário da FEI
+ * Orientado pelo Prof Plinio T. Aquino Jr.
+ *
+ * Copyright (c) 2009 Equipe SiGePAPP
+ * |------------------------------------------------------------------|
+ * |                   Modificações no Código                         |
+ * |------------------------------------------------------------------|
+ * |   Autor     |   Data      |   Descrição                          |
+ * |------------------------------------------------------------------|
+ * | Guillherme  | 21/02/09    | Criação e elaboração inicial         |
+ * |------------------------------------------------------------------|
+ *
  */
-package br.edu.fei.sigepapp.bancodedados.dao;
 
-import br.edu.fei.sigepapp.bancodedados.ConnectionFactory;
-import br.edu.fei.sigepapp.bancodedados.model.Tipo;
-import br.edu.fei.sigepapp.log.GravarLog;
+
+
+package br.edu.fei.sigepapp.bancodedados.dao;
+//~-- JDK import --------------------------------------------------------------
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -14,6 +27,10 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+//~-- Sigepapp import ---------------------------------------------------------
+import br.edu.fei.sigepapp.bancodedados.ConnectionFactory;
+import br.edu.fei.sigepapp.bancodedados.model.Tipo;
+import br.edu.fei.sigepapp.log.GravarLog;
 /**
  *
  * @author lopespt
@@ -176,6 +193,19 @@ public class TipoDAO {
 
             // Retorno da funcao como false em caso de erro
             return false;
+        }
+    }
+
+    /**
+     * Metodo para fechar o banco de dados da classe
+     */
+    public void fechaConexao() {
+        try {
+            if (!this.conn.isClosed()) {
+                this.conn.close();
+            }
+        } catch (SQLException e) {
+            GravarLog.gravaErro(TipoDAO.class.getName() + ": erro ao finalizar connexao com o banco: " + e.getMessage());
         }
     }
 }

@@ -13,16 +13,20 @@
          * |------------------------------------------------------------------|
          * |   Autor     |   Data      |   Descricao                          |
          * |------------------------------------------------------------------|
-         * |  Tom e Gui  |  09/02/25   | Definicao do Cadastro                |
+         * |  Tom e Gui  |  25/02/09   | Definicao do Cadastro                |
          * |------------------------------------------------------------------|
-         * |  Guilherme  |  09/02/26   | Criacao do Arquivo                   |
+         * |  Guilherme  |  26/02/09   | Criacao do Arquivo                   |
          * |------------------------------------------------------------------|
-         * |  Tom Mix    |  09/02/27   |                                      |
+         * |  Tom Mix    |  27/02/09   |                                      |
+         * |------------------------------------------------------------------|
+         * |  Guilherme  |  27/02/09   | Bug entre FIREFOX E IE:              |
+         * |             |             | IE nao aceita hidden em option field |
          * |------------------------------------------------------------------|
          **/
         AtributoDAO atributoDAO = new AtributoDAO();
         Collection<Atributo> atributos;
         atributos = atributoDAO.seleciona("select * from APPP_TB_ATRIBUTO_OBJ");
+        atributoDAO.fechaConexao();
 %>
 
 <%@include file="cabecalho.jsp"%>
@@ -56,10 +60,24 @@
 
 <script type="text/javascript" language="javascript">
     var nro_atributos;
+    var arrayObjetos = new Array();
     $(document).ready(function(){
         $("#formEscolheAtributos").hide();
-        nro_atributos=0;
     });
+
+    function esconde(obj){
+        arrayObjetos.push(obj);
+        $(obj).remove();
+    }
+
+    function mostra(id){        
+        $(arrayObjetos).each(function(index,obj){
+        if($(obj).attr("value") == id){
+                $("#cmbSelecionaAtributo option:last").after($(obj));
+                arrayObjetos.splice(index, 1);
+            }
+        });
+    }
 
     function func_incluiAtributo(){
         //Armazena na variavel selecao o objeto selecionado no combo box do formulario.
@@ -72,36 +90,18 @@
             selecao.text()+
             "</td><td width=\"50%\" align=\"left\"><a href=\"javascript:func_removeAtributo(\'"+selecao.val()+"\')\">\
             <img src=\"images/remover.gif\" border=\"none\" ></a></td></tr>");
-        selecao.hide();
-        selecao.attr("disabled","disabled");
-        selecao.removeAttr("selected");
-        nro_atributos++;
-        guardaOption("teste");
-        guardaOption("tteste2");
+        esconde(selecao);
+
     };
-    var objetos=new Array;
-    var i=0;
-    function guardaOption(id){
-        objetos.push(id);
-        i++;
-    }
-    function retornaOption(id){
-        objetos.slice(id, 1);
-        return "paseei";
-    }
 
-    function func_removeAtributo(cod_atrib){
 
-        //$("#atributo_"+cod_atrib).hide()
+
+    function func_removeAtributo(cod_atrib){        
+        mostra(cod_atrib);
         $("#atributo_"+cod_atrib).remove();
-
-        $("#cmbSelecionaAtributo option[value='"+cod_atrib+"']").show("normal").removeAttr("selected").removeAttr("disabled");
-        nro_atributos--;
     }
 
     function filtraCombo(){
-
-        var texto=$("#txtBusca").val().toLowerCase();
         $("#cmbSelecionaAtributo option:enabled").hide();
         $("#cmbSelecionaAtributo option:enabled").each(function(index,elemento){
             if($(elemento).text().toUpperCase().indexOf($("#txtBusca").val().toUpperCase(), 0)>=0){
@@ -246,8 +246,10 @@
                                             <td align="right">Atributo:</td><td>
                                                 <select class="select_varias_linhas" size="8" style="width: 150px" id="cmbSelecionaAtributo" ondblclick="func_incluiAtributo();">
                                                     <%for (Atributo t : atributos) {%>
-                                                    <option label="" value="<%=t.getCd_atributo_obj()%>" title="<%=t.getDs_atributo_obj()%>" ><%=t.getNm_atributo_obj()%></option>
-                                                    <%}%>
+                                                    <option value="<%=t.getCd_atributo_obj()%>" title="<%=t.getDs_atributo_obj()%>" ><%=t.getNm_atributo_obj()%></option>
+                                                    <%}
+
+                                                    %>
                                                 </select>
                                         </td></tr>
                                         <tr><td colspan="2" align="center">

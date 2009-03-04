@@ -1,7 +1,22 @@
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+ * @(#)Estrutura_ObjDAO.java 0.01 21/02/09
+ *
+ * Este código é parte integrante do projeto de formatura,
+ * do curso de ciências da computação, do Centro Universitário da FEI
+ * Orientado pelo Prof Plinio T. Aquino Jr.
+ *
+ * Copyright (c) 2009 Equipe SiGePAPP
+ * |------------------------------------------------------------------|
+ * |                   Modificações no Código                         |
+ * |------------------------------------------------------------------|
+ * |   Autor     |   Data      |   Descrição                          |
+ * |------------------------------------------------------------------|
+ * | Guilherme   | 21/02/09    | Criação e elaboração inicial         |
+ * |------------------------------------------------------------------|
+ *
  */
+
+//~-- JDK import --------------------------------------------------------------
 package br.edu.fei.sigepapp.bancodedados.dao;
 
 import java.sql.Connection;
@@ -11,6 +26,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+//~-- Sigepapp import ---------------------------------------------------------
 import br.edu.fei.sigepapp.bancodedados.ConnectionFactory;
 import br.edu.fei.sigepapp.bancodedados.model.Estrutura_Obj;
 import br.edu.fei.sigepapp.log.GravarLog;
@@ -33,7 +49,7 @@ public class Estrutura_ObjDAO {
 
     public List<Estrutura_Obj> seleciona(String query) {
         try {
-            
+
             PreparedStatement stmt = this.conn.prepareStatement(query);
             ResultSet rs = stmt.executeQuery();
 
@@ -46,8 +62,9 @@ public class Estrutura_ObjDAO {
 
             stmt.close();
             rs.close();
-            
-            this.conn.close();this.conn.commit();
+
+            this.conn.close();
+            this.conn.commit();
 
             return estruturas;
 
@@ -60,7 +77,7 @@ public class Estrutura_ObjDAO {
 
     public boolean adiciona(Estrutura_Obj estruturaAdicionar) {
         try {
-            
+
             // Instancia um objeto da classe PreparedStatement com o comando para insercao do registro no banco
             PreparedStatement stmt =
                     this.conn.prepareStatement(
@@ -82,7 +99,8 @@ public class Estrutura_ObjDAO {
             GravarLog.gravaInformacao(Estrutura_Obj.class.getName() + ": insercao no banco de dados realizada com sucesso");
 
             // Fecha conexao com o banco de dados
-            this.conn.close();this.conn.commit();
+            this.conn.close();
+            this.conn.commit();
 
             // Retorno da funcao como true
             return true;
@@ -99,13 +117,14 @@ public class Estrutura_ObjDAO {
 
     public boolean deleta(Estrutura_Obj objDeletar) {
         try {
-            
+
             PreparedStatement stmt = conn.prepareStatement("delete from APPP_TB_ESTRUT_OBJ where CD_ESTRUTURA=?");
             stmt.setLong(1, objDeletar.getCd_estrutura());
             stmt.execute();
             stmt.close();
 
-            this.conn.close();this.conn.commit();
+            this.conn.close();
+            this.conn.commit();
 
             return true;
         } catch (SQLException e) {
@@ -120,7 +139,7 @@ public class Estrutura_ObjDAO {
 
     public boolean atualiza(Estrutura_Obj estruturaAtualizar) {
         try {
-            
+
             // Instancia um objeto da classe PreparedStatement com o comando para atualizacao do registro no banco
             PreparedStatement stmt =
                     this.conn.prepareStatement(
@@ -143,7 +162,8 @@ public class Estrutura_ObjDAO {
             GravarLog.gravaInformacao(Estrutura_Obj.class.getName() + ": atualizacao no banco de dados realizada com sucesso");
 
             // Fecha conexao com o banco de dados
-            this.conn.close();this.conn.commit();
+            this.conn.close();
+            this.conn.commit();
 
             // retorno da funcao como true
             return true;
@@ -154,6 +174,19 @@ public class Estrutura_ObjDAO {
 
             // Retorno da funcao como false em caso de erro
             return false;
+        }
+    }
+
+    /**
+     * Metodo para fechar o banco de dados da classe
+     */
+    public void fechaConexao() {
+        try {
+            if (!this.conn.isClosed()) {
+                this.conn.close();
+            }
+        } catch (SQLException e) {
+            GravarLog.gravaErro(Estrutura_ObjDAO.class.getName() + ": erro ao finalizar connexao com o banco: " + e.getMessage());
         }
     }
 }
