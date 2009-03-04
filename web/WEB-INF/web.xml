@@ -10,6 +10,15 @@
         <servlet-name>LoginServlet</servlet-name>
         <url-pattern>/LoginServlet</url-pattern>
     </servlet-mapping>
+    <servlet>
+    	<description>Servlet responsavel por verificar se existe o login desejado pelo usuario</description>
+    	<servlet-name>ExisteLoginServlet</servlet-name>
+    	<servlet-class>br.edu.fei.sigepapp.servlet.ExisteLoginServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+    	<servlet-name>ExisteLoginServlet</servlet-name>
+    	<url-pattern>/ExisteLoginServlet</url-pattern>
+    </servlet-mapping>
     <session-config>
         <session-timeout>
             30

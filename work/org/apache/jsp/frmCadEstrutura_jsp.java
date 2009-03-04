@@ -83,9 +83,9 @@ public final class frmCadEstrutura_jsp extends org.apache.jasper.runtime.HttpJsp
          * |  Tom Mix    |  09/02/27   |                                      |
          * |------------------------------------------------------------------|
          **/
-AtributoDAO atributoDAO=new AtributoDAO();
-Collection<Atributo> atributos;
-atributos=atributoDAO.seleciona("select * from APPP_TB_ATRIBUTO_OBJ");
+        AtributoDAO atributoDAO = new AtributoDAO();
+        Collection<Atributo> atributos;
+        atributos = atributoDAO.seleciona("select * from APPP_TB_ATRIBUTO_OBJ");
 
       out.write("\r\n");
       out.write("\r\n");
@@ -294,7 +294,7 @@ atributos=atributoDAO.seleciona("select * from APPP_TB_ATRIBUTO_OBJ");
       out.write("    .atributoAdicional{\r\n");
       out.write("        height: 2em;\r\n");
       out.write("        font-weight:bold;\r\n");
-      out.write("        \r\n");
+      out.write("\r\n");
       out.write("        vertical-align:middle;\r\n");
       out.write("    }\r\n");
       out.write("    .atributoAdicional img{\r\n");
@@ -327,7 +327,19 @@ atributos=atributoDAO.seleciona("select * from APPP_TB_ATRIBUTO_OBJ");
       out.write("        selecao.attr(\"disabled\",\"disabled\");\r\n");
       out.write("        selecao.removeAttr(\"selected\");\r\n");
       out.write("        nro_atributos++;\r\n");
+      out.write("        guardaOption(\"teste\");\r\n");
+      out.write("        guardaOption(\"tteste2\");\r\n");
       out.write("    };\r\n");
+      out.write("    var objetos=new Array;\r\n");
+      out.write("    var i=0;\r\n");
+      out.write("    function guardaOption(id){\r\n");
+      out.write("        objetos.push(id);\r\n");
+      out.write("        i++;\r\n");
+      out.write("    }\r\n");
+      out.write("    function retornaOption(id){\r\n");
+      out.write("        objetos.slice(id, 1);\r\n");
+      out.write("        return \"paseei\";\r\n");
+      out.write("    }\r\n");
       out.write("\r\n");
       out.write("    function func_removeAtributo(cod_atrib){\r\n");
       out.write("\r\n");
@@ -339,15 +351,14 @@ atributos=atributoDAO.seleciona("select * from APPP_TB_ATRIBUTO_OBJ");
       out.write("    }\r\n");
       out.write("\r\n");
       out.write("    function filtraCombo(){\r\n");
-      out.write("        \r\n");
+      out.write("\r\n");
       out.write("        var texto=$(\"#txtBusca\").val().toLowerCase();\r\n");
       out.write("        $(\"#cmbSelecionaAtributo option:enabled\").hide();\r\n");
       out.write("        $(\"#cmbSelecionaAtributo option:enabled\").each(function(index,elemento){\r\n");
-      out.write("            if($(elemento).text().toLowerCase().indexOf($(\"#txtBusca\").val().toLowerCase(), 0)>=0){\r\n");
+      out.write("            if($(elemento).text().toUpperCase().indexOf($(\"#txtBusca\").val().toUpperCase(), 0)>=0){\r\n");
       out.write("                $(elemento).show();\r\n");
       out.write("            }\r\n");
       out.write("        });\r\n");
-      out.write("        //$(\"#cmbSelecionaAtributo option:contains('\"+$(\"#txtBusca\").val()+\"')\").show(\"normal\");\r\n");
       out.write("    }\r\n");
       out.write("</script>\r\n");
       out.write("\r\n");
@@ -486,18 +497,18 @@ atributos=atributoDAO.seleciona("select * from APPP_TB_ATRIBUTO_OBJ");
       out.write("                                            <td align=\"right\">Atributo:</td><td>\r\n");
       out.write("                                                <select class=\"select_varias_linhas\" size=\"8\" style=\"width: 150px\" id=\"cmbSelecionaAtributo\" ondblclick=\"func_incluiAtributo();\">\r\n");
       out.write("                                                    ");
-for (Atributo t : atributos) {  
+for (Atributo t : atributos) {
       out.write("\r\n");
-      out.write("                                    <option label=\"\" value=\"");
-      out.print(t.getCd_atributo_obj() );
+      out.write("                                                    <option label=\"\" value=\"");
+      out.print(t.getCd_atributo_obj());
       out.write("\" title=\"");
-      out.print(t.getDs_atributo_obj() );
+      out.print(t.getDs_atributo_obj());
       out.write('"');
       out.write(' ');
       out.write('>');
-      out.print(t.getNm_atributo_obj() );
+      out.print(t.getNm_atributo_obj());
       out.write("</option>\r\n");
-      out.write("                                    ");
+      out.write("                                                    ");
 }
       out.write("\r\n");
       out.write("                                                </select>\r\n");

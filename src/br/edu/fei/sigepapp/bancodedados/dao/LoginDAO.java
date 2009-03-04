@@ -9,11 +9,15 @@ package br.edu.fei.sigepapp.bancodedados.dao;
  *
  * Copyright (c) 2009 Equipe SiGePAPP
  * |------------------------------------------------------------------|
- * |                   Modificações no Código                         |
+ * |                   Modificacoes no Codigo                         |
  * |------------------------------------------------------------------|
- * |   Autor     |   Data      |   Descrição                          |
+ * |   Autor     |   Data      |   Descricao                          |
  * |------------------------------------------------------------------|
- * |   Andrey    | 21/02/09    | Criação e elaboração inicial         |
+ * |   Andrey    | 21/02/09    | Criacao e elaboracao inicial         |
+ * |------------------------------------------------------------------|
+ * |   Andrey    | 01/03/09    | Criacao do metodo validaLogin        |
+ * |------------------------------------------------------------------|
+ * |   Andrey    | 03/03/09    | Criacao do metodo finalize da classe |
  * |------------------------------------------------------------------|
  * 
  */
@@ -50,10 +54,12 @@ public class LoginDAO{
 		this.conn = ConnectionFactory.getConnection();
 	}
 	
+
 	/**
 	 * Metodo que adiciona um registro do Objeto Login no banco de dados
 	 * 
-	 * @see DAO#adiciona(Object) adiciona	
+	 * @param login
+	 * @return true para registro inserido com suscesso e false para erro na inserção do registro no banco de dados
 	 */
 	public boolean adiciona(Login login) {
 	      int result = 0;
@@ -72,13 +78,10 @@ public class LoginDAO{
 			stmt.close();
 			
 			//Grava log com a informação de sucesso
-                        if(result==1)
+            if(result==1)
 			   GravarLog.gravaInformacao(Login.class.getName() + ": inserção no banco de dados realizada com sucesso");
-                        if(result==-99)
+            if(result==-99)
 			   GravarLog.gravaInformacao(Login.class.getName() + ": Erro ao inserir o login.");
-			
-			//Fecha conexao com o banco de dados
-			this.conn.close();
 			
 			//Retorno da função como true
 			return true;
@@ -97,7 +100,8 @@ public class LoginDAO{
 	/**
 	 * Metodo responsavel pela atualizacao no banco de dados de um registro do Objeto Login
 	 * 
-	 * @see DAO#atualiza(Object) atualiza
+	 * @param login
+	 * @return true para atualizado com sucesso e false erro na atualização
 	 */
 	public boolean atualiza(Login login) {
 		try{
@@ -116,9 +120,6 @@ public class LoginDAO{
 			//Grava log com a informação de sucesso
 			GravarLog.gravaInformacao(Login.class.getName() + ": atualização no banco de dados realizada com sucesso");
 			
-			//Fecha conexao com o banco de dados
-			this.conn.close();
-			
 			//retorno da função como true
 			return true;
 			
@@ -136,7 +137,8 @@ public class LoginDAO{
 	/**
 	 * Metodo responsavel por remover do banco de dados um registro do Objeto Login
 	 * 
-	 * @see DAO#deleta(Object) deleta
+	 * @param login
+	 * @return true para remocao realizada com sucesso e false para erro de remocao do registro
 	 */
 	public boolean deleta(Login login) {
 		try{
@@ -153,9 +155,6 @@ public class LoginDAO{
 			//Grava log com a informação de sucesso
 			GravarLog.gravaInformacao(LoginDAO.class.getName() + ": remoção no banco de dados realizada com sucesso");
 			
-			//Fecha conexao com o banco de dados
-			this.conn.close();
-			
 			//retorno da função como true
 			return true;
 			
@@ -171,72 +170,37 @@ public class LoginDAO{
 
 
 	/**
-	 * Metodo responsavel pelas pesquisas realizadas no banco de dados com o objeto Login
-	 * 
-	 * @see DAO#seleciona(String) seleciona
+	 * Metodo de validacao de login no sistema
+	 * 	
+	 * @param login
+	 * @param password
+	 * @return Lista de usuario encontrados na consulta ao banco de dados. Neste caso deve retornar sem um elemento na lista.
 	 */
-	public List<Login> seleciona(String query) {
-		try{
-			//Instancia um objeto da classe PreparedStatement com o comando para pesquisar registros no banco
-			PreparedStatement stmt = this.conn.prepareStatement(query);
-			
-			//Executa a query e armazenando em um Objeto ResultSet
-			ResultSet rs = stmt.executeQuery();
-			
-			//Cria um array do tipo Usuarios
-			List<Login> logins = new ArrayList<Login>();
-			
-			//Enquando a pesquisa não chegar ao fim ele armazena no array os resultados e permanece no loop
-			while(rs.next()){
-				//Cria um objeto do tipo Login
-				Login login = new Login();
-
-				//armazena os valores do ResultSet no Usuario
-				login.setCd_user(rs.getLong("cd_user"));
-				login.setNm_login(rs.getString("nm_login"));
-				login.setPw_senha(rs.getString("pw_senha"));
-				
-				//adiciona a lista de Logins os encontrados
-				logins.add(login);
-			}
-			
-			//fecha a instancia dos objetos
-			rs.close();
-			stmt.close();
-
-			//Grava log com a informação de sucesso
-			GravarLog.gravaInformacao(Login.class.getName() + ": pesquisa no banco de dados realizada com sucesso");
-			
-			//Fecha conexao com o banco de dados
-			this.conn.close();
-			
-			//retorna uma lista com os usuarios selecionados
-			return logins;
-			
-		}catch(SQLException e){
-
-			//Grava log com o erro que ocorreu durante a execução do comando SQL
-			GravarLog.gravaErro(Login.class.getName() + ": erro na pesquisa referente a uma exceção de SQL: " + e.getMessage());			
-			
-			//Retorno da função como null em caso de erro
-			return null;
-		}
-	}
-	
 	public List<Usuario> validaLogin(String login, String password){
 		try{
+			//Cria objeto CallableStatement para receber a procedure que sera executada no BD
 			CallableStatement cstmt = this.conn.prepareCall("begin APPP_SEL_LOGIN(?, ?, ?); end;");
+			
+			//Associa os valores dos index nos parametros set com os ? da string da procedure
 			cstmt.setString(1, login);
 			cstmt.setString(2, password);
 			cstmt.registerOutParameter(3, OracleTypes.CURSOR);
+			
+			//Executa a procedure
 			cstmt.execute();
+			
+			//Atribui os resultado da procedure a um objeto ResultSet
 			ResultSet rs = (ResultSet) cstmt.getObject(3);
 			
+			//Cria um array do objeto Usuario
 			List<Usuario> usuarios = new ArrayList<Usuario>();
 			
+			//Percorre todos os valores retornados da consulta
 			while (rs.next()){
+				//Instancia do objeto Usuario
 				Usuario usuario = new Usuario();
 				
+				//Atribui os valores do ResultSet aos repectivos campos do objeto Usuario 
 				usuario.setCd_user(rs.getLong("cd_user"));
 				usuario.setNm_prim_nome(rs.getString("nm_prim_nome"));
 				usuario.setNm_ult_nome(rs.getString("nm_ult_nome"));
@@ -247,6 +211,7 @@ public class LoginDAO{
 				usuario.setNm_msn(rs.getString("nm_msn"));
 				usuario.setNm_skype(rs.getString("nm_skype"));
 				
+				//Adiciona o objeto usuario a lista de usuarios
 				usuarios.add(usuario);
 			}
 			//fecha a instancia dos objetos
@@ -255,9 +220,6 @@ public class LoginDAO{
 
 			//Grava log com a informação de sucesso
 			GravarLog.gravaInformacao(LoginDAO.class.getName() + ": pesquisa no banco de dados realizada com sucesso");
-
-			//Fecha conexao com o banco de dados
-			this.conn.close();
 
 			//retorna uma lista com os usuarios selecionados
 			return usuarios;
@@ -269,6 +231,42 @@ public class LoginDAO{
 			return null;
 		}
 		
+	}
+	
+	public boolean existeLogin(String login){
+		Integer vResult = new Integer(0);
+		try{
+			CallableStatement cstmt = this.conn.prepareCall("begin APPP_SEL_EXISTE_LOGIN(?,?); end;");
+			
+			cstmt.setString(1, login);
+			cstmt.registerOutParameter(2, OracleTypes.INTEGER);
+			
+			cstmt.execute();
+			
+			vResult = (Integer)cstmt.getObject(2);
+			
+			if (vResult == 1){
+				return true;
+			}else{
+				return false;
+			}
+		}catch(SQLException e){
+			GravarLog.gravaErro(e.getMessage());
+			return false;
+		}
+	}
+	
+	/**
+	 * Metodo destruidor da classe
+	 */
+	public void fechaConexao(){
+		try {
+			if (!this.conn.isClosed()){
+				this.conn.close();
+			}
+		} catch (SQLException e) {
+			GravarLog.gravaErro(LoginDAO.class.getName() + ": erro ao finalizar connexao com o banco: " + e.getMessage());
+		}
 	}
 
 }
