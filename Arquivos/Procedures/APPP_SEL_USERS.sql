@@ -1,6 +1,6 @@
 /**********************************************************************************************************************
 * Project Name   : SiGEPAPP
-* APPP_SEL_USERS : Functiom para criação de dados de usuários
+* APPP_SEL_USERS : Procedure para criação de dados de usuários
 *                  p_cursor retorna o cursor com o select.
 * Author         : WeeDo 
 * History        : 28/02/2009 - Matheus Gonçalves
