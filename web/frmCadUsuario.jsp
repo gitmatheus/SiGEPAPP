@@ -2,18 +2,10 @@
 <script type="text/javascript" language="javascript">
 $(document).ready(function(){
 	$("#frmCadUserLogin").blur(function(){
-		//function verificaExisteLogin(){
-			var login = $("#frmCadUserLogin").val();
-			$.post("ExisteLoginServlet",{login:login},function(xml){
-				if($("liberado",xml).text() == "sim"){
-					alert("Login disponivel!");
-				}else{
-					alert("Login existente");
-				}
-			});
-//		}
-		});
-		
+			if($("#frmCadUserLogin").val() != ""){
+				verificaExisteLogin();
+			}
+	});
 });
 </script>
 <form name="frmCadUser" method="post">
@@ -31,7 +23,7 @@ $(document).ready(function(){
 					<font class="texto"> Login: </font>
 				</div>
 			</td>
-			<td width="70%" align="left">
+			<td width="70%" align="left" valign="middle">
 				<div id="existelogin" style="margin-left: 5px;">
 					<input id="frmCadUserLogin" type="text" name="frmCadUserLogin" class="edit" style="width: 100px;" maxlength="30" title="Digite o login desejado" />
 				</div>

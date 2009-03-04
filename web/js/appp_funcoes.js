@@ -24,7 +24,11 @@
  * |             |             | LogoffSigepapp                       |
  * |------------------------------------------------------------------|
  * |  Guilherme  |  09/02/26   | Ao teclar "Enter" no campo senha     |
- * |             |             | o formulari e submetido              |
+ * |             |             | o formulario e submetido             |
+ * |------------------------------------------------------------------|
+ * |  Andrey     | 09/03/04    | 	Inclusao da funcao para verifica  |
+ * |             |             | login existente no sistema, utilizado|
+ * |             |             | no cadastro de novos usuarios.       |
  * |------------------------------------------------------------------|
  */
 
@@ -106,6 +110,39 @@ function LogoffSigepapp(){
 		    						"',2000);</script>" +
 		    						"<center><img src='images/aguarde.gif'/><h2>Por favor, aguarde...</h2></center>");
 			}
+	});
+}
+
+/** Funcao para verificar se existe um login igual ao escolhido pelo usuario no sistema */
+function verificaExisteLogin(){
+	var login = $("#frmCadUserLogin").val();
+	$("#existelogin").html(
+			"<input id='frmCadUserLogin' type='text' name='frmCadUserLogin' class='edit' " + 
+			"style='width: 100px; border-color: #19472a; background-color: #88cfa2; color: #19472a;' " +
+			"maxlength='30' title='Digite o login desejado' value='" + login + "' />" +
+			"&nbsp;&nbsp;<img src='images/aguardep.gif'/>&nbsp;<font size='x-small'>verificando...</font>"
+			);
+	$.post("ExisteLoginServlet",{login:login},function(xml){
+		if($("liberado",xml).text() == "sim"){
+			//alert("Login disponivel!");
+			$("#existelogin").html(
+					"<input id='frmCadUserLogin' type='text' name='frmCadUserLogin' class='edit' " + 
+					"style='width: 100px; border-color: #19472a; background-color: #88cfa2; color: #19472a;' " +
+					"maxlength='30' title='Digite o login desejado' value='" + login + "' />" +
+					"&nbsp;&nbsp;<img src='images/check.png'/>"
+					);
+			//$("#frmCadUserLogin").css({border-color: "#19472a", background-color: "#88cfa2"});
+		}else{
+			//alert("Login existente");
+			$("#existelogin").html(
+					"<input id='frmCadUserLogin' type='text' name='frmCadUserLogin' class='edit' " + 
+					"style='width: 100px; border-color: #822007; background-color: #ee957f; color: #822007;' " +
+					"maxlength='30' title='Digite o login desejado' value='" + login + "' />" + 
+					"&nbsp;&nbsp;<img src='images/uncheck.png'/>"
+					);
+			//$("#frmCadUserLogin").css({border-color: "#822007", background-color: "#ee957f"});
+		}
+		$("#frmCadUserLogin").blur(function(){if($("#frmCadUserLogin").val() != ""){verificaExisteLogin();}});
 	});
 }
 

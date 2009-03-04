@@ -40,6 +40,7 @@ public class ExisteLoginServlet extends HttpServlet{
 			out.println("<liberado>" + getLiberado() + "</liberado>");
 			out.flush();
 			out.close();
+			dao.fechaConexao();
 		}catch(Exception e){
 			GravarLog.gravaErro(ExisteLoginServlet.class.getName() + ": erro na verificacao de existencia de um login igual: " + e.getMessage());
 		}

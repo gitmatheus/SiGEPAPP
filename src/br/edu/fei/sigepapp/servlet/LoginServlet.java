@@ -118,6 +118,7 @@ public class LoginServlet extends HttpServlet {
 				setCod_user(0);
 				setUser("");
 			}
+			dao.fechaConexao();
 		} catch (Exception e) {
 			GravarLog.gravaErro(LoginServlet.class.getName() + ": erro na validação do login: " + e.getMessage() +" : "+ e.getCause() +" : "+ e.getStackTrace());
 		}
