@@ -1,4 +1,3 @@
-REM INSERTING into APPP_TB_TIPO
-Insert into APPP_TB_TIPO (CD_TIPO,DS_EXP_REGULAR,NM_TIPO) values (501.'*'.'Texto');
-Insert into APPP_TB_TIPO (CD_TIPO,DS_EXP_REGULAR,NM_TIPO) values (523.'*'.'Numero');
-Insert into APPP_TB_TIPO (CD_TIPO,DS_EXP_REGULAR,NM_TIPO) values (524.'*'.'Data');
+Insert into APPP_TB_TIPO (CD_TIPO,DS_TIPO,NM_TIPO,FL_EXP_REG) values (501,'*','Texto','N');
+Insert into APPP_TB_TIPO (CD_TIPO,DS_TIPO,NM_TIPO,FL_EXP_REG) values (523,'*','Numero','N');
+Insert into APPP_TB_TIPO (CD_TIPO,DS_TIPO,NM_TIPO,FL_EXP_REG) values (524,'*','Data','S');
