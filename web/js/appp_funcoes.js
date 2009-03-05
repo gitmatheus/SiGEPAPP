@@ -33,6 +33,9 @@
  * |  Andrey     |  09/03/05   |     Inclusao da funcao comparaSenha()|
  * |             |             | para a utilizacao no cadastro de user|
  * |------------------------------------------------------------------|
+ * |  Andrey     |  09/03/05   |    Retirada as funcoes utilizadas no |
+ * |             |             | apenas no cadastro de usuarios       |
+ * |------------------------------------------------------------------|
  */
 
 /** As funcoes contidas dentro do metodo ready, sao poderam ser executadas apos o carregamento da pagina */
@@ -115,75 +118,6 @@ function LogoffSigepapp(){
 			}
 	});
 }
-//----------- Inicio das funcoes do cadastro de usuario no sistema ------------------------------------------------------------------
-/** Funcao para verificar se existe um login igual ao escolhido pelo usuario no sistema */
-function verificaExisteLogin(){
-	var login = $("#frmCadUserLogin").val();
-	$("#existelogin").html(
-			"<input id='frmCadUserLogin' type='text' name='frmCadUserLogin' class='edit' " + 
-			"style='width: 100px; border-color: #19472a; background-color: #88cfa2; color: #19472a;' " +
-			"maxlength='30' title='Digite o login desejado' value='" + login + "' />" +
-			"&nbsp;&nbsp;<img src='images/aguardep.gif'/>&nbsp;<font size='x-small'>verificando...</font>"
-			);
-	$.post("ExisteLoginServlet",{login:login},function(xml){
-		if($("liberado",xml).text() == "sim"){
-			//alert("Login disponivel!");
-			$("#existelogin").html(
-					"<input id='frmCadUserLogin' type='text' name='frmCadUserLogin' class='edit' " + 
-					"style='width: 100px; border-color: #19472a; background-color: #88cfa2; color: #19472a;' " +
-					"maxlength='30' title='Digite o login desejado' value='" + login + "' />" +
-					"&nbsp;&nbsp;<img src='images/check.png'/>"
-					);
-            $("#frmCadUserSenha").focus();
-			//$("#frmCadUserLogin").css({border-color: "#19472a", background-color: "#88cfa2"});
-		}else{
-			//alert("Login existente");
-			$("#existelogin").html(
-					"<input id='frmCadUserLogin' type='text' name='frmCadUserLogin' class='edit' " + 
-					"style='width: 100px; border-color: #822007; background-color: #ee957f; color: #822007;' " +
-					"maxlength='30' title='Digite o login desejado' value='" + login + "' />" + 
-					"&nbsp;&nbsp;<img src='images/uncheck.png'/>&nbsp;&nbsp;<font size='small' color='#822007'>Este login j&aacute; est&aacute; cadastrado!</font>"
-			);
-            $("#frmCadUserLogin").select();
-			//$("#frmCadUserLogin").css({border-color: "#822007", background-color: "#ee957f"});
-		}
-		$("#frmCadUserLogin").blur(function(){if($("#frmCadUserLogin").val() != ""){verificaExisteLogin();}});
-	});
-}
-
-function comparaSenha(){
-    var senha1 = $("#frmCadUserSenha").val();
-    var senha2 = $("#frmCadUserCSenha").val();
-    if(senha1 == senha2){
-        $("#cadsenha").html(
-            "<input id='frmCadUserSenha' type='password' name='frmCadUserSenha' class='edit'" +
-            "style='width: 100px; border-color: #19472a; background-color: #88cfa2; color: #19472a;'" +
-            "maxlength='30' title='Digite uma senha de acesso' value='" + senha1 + "'/>"
-        );
-        $("#cadconfsenha").html(
-            "<input id='frmCadUserCSenha' type='password' name='frmCadUserCSenha' class='edit'" +
-            "style='width: 100px; border-color: #19472a; background-color: #88cfa2; color: #19472a;'" +
-            "maxlength='30' title='Digite uma senha de acesso' value='" + senha2 + "'/>" +
-            "&nbsp;&nbsp;<img src='images/check.png'/>"
-        );
-        $("#frmCadUserEmail").focus();
-    }else{
-        $("#cadsenha").html(
-            "<input id='frmCadUserSenha' type='password' name='frmCadUserSenha' class='edit'" +
-            "style='width: 100px; border-color: #822007; background-color: #ee957f; color: #822007;' " +
-            "maxlength='30' title='Digite uma senha de acesso' value='" + senha1 + "'/>"
-        );
-        $("#cadconfsenha").html(
-            "<input id='frmCadUserCSenha' type='password' name='frmCadUserCSenha' class='edit'" +
-            "style='width: 100px; border-color: #822007; background-color: #ee957f; color: #822007;' " +
-            "maxlength='30' title='Digite uma senha de acesso' value='" + senha2 + "'/>" +
-            "&nbsp;&nbsp;<img src='images/uncheck.png'/>&nbsp;&nbsp;<font size='small' color='#822007'>Senhas n&atilde;o conferem!</font>"
-        );
-        $("#frmCadUserSenha").select();
-    }
-    $("#frmCadUserCSenha").blur(function(){if($("#frmCadUserSenha").val() != "" && $("#frmCadUserCSenha").val() != ""){comparaSenha();}});
-}
-//----------- Fim das funcoes do cadastro de usuario no sistema ------------------------------------------------------------------
 
 /** A funcao Data retorna por extenso a data, e.g.: Segunda-Feira, 19 de janeiro de 2009 */
 function Data(){
