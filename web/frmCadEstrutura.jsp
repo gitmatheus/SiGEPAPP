@@ -25,7 +25,7 @@
          **/
         AtributoDAO atributoDAO = new AtributoDAO();
         Collection<Atributo> atributos;
-        atributos = atributoDAO.seleciona("select * from APPP_TB_ATRIBUTO_OBJ");
+        atributos = atributoDAO.APPP_SEL_ATRIBUTO_OBJ(new Atributo());
         atributoDAO.fechaConexao();
 %>
 
@@ -246,7 +246,7 @@
                                             <td align="right">Atributo:</td><td>
                                                 <select class="select_varias_linhas" size="8" style="width: 150px" id="cmbSelecionaAtributo" ondblclick="func_incluiAtributo();">
                                                     <%for (Atributo t : atributos) {%>
-                                                    <option value="<%=t.getCd_atributo_obj()%>" title="<%=t.getDs_atributo_obj()%>" ><%=t.getNm_atributo_obj()%></option>
+                                                    <option value="<%= t.getCd_atributo_obj() %>" title="<%= t.getDs_atributo_obj() %>" ><%= t.getNm_atributo_obj() %></option>
                                                     <%}
 
                                                     %>
