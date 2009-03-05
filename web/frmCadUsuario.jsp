@@ -2,10 +2,15 @@
 <script type="text/javascript" language="javascript">
 $(document).ready(function(){
 	$("#frmCadUserLogin").blur(function(){
-			if($("#frmCadUserLogin").val() != ""){
-				verificaExisteLogin();
-			}
+		if($("#frmCadUserLogin").val() != ""){
+			verificaExisteLogin();
+		}
 	});
+    $("#frmCadUserCSenha").blur(function(){
+        if($("#frmCadUserSenha").val() != "" && $("#frmCadUserCSenha").val() != ""){
+            comparaSenha();
+        }
+    });
 });
 </script>
 <form name="frmCadUser" method="post">
@@ -37,8 +42,8 @@ $(document).ready(function(){
 				</div>
 			</td>
 			<td width="70%" align="left">
-				<div  style="margin-left: 5px;">
-					<input id="frmCadUserSenha" type="text" name="frmCadUserSenha" class="edit" style="width: 100px;" maxlength="30" title="Digite uma senha de acesso" />
+				<div id="cadsenha" style="margin-left: 5px;">
+					<input id="frmCadUserSenha" type="password" name="frmCadUserSenha" class="edit" style="width: 100px;" maxlength="30" title="Digite uma senha de acesso" />
 				</div>
 			</td>
 		</tr>
@@ -50,8 +55,21 @@ $(document).ready(function(){
 				</div>
 			</td>
 			<td width="70%" align="left">
-				<div  style="margin-left: 5px;">
-					<input id="frmCadUserCSenha" type="text" name="frmCadUserCSenha" class="edit" style="width: 100px;" maxlength="30" title="Digite novamente a senha de acesso" />
+				<div id="cadconfsenha" style="margin-left: 5px;">
+					<input id="frmCadUserCSenha" type="password" name="frmCadUserCSenha" class="edit" style="width: 100px;" maxlength="30" title="Digite novamente a senha de acesso" />
+				</div>
+			</td>
+		</tr>
+        <tr><td>&nbsp;</td><td>&nbsp;</td></tr>
+		<tr>
+			<td width="30%" align="right">
+				<div style="margin-right: 10px;">
+					<font class="texto"> E-mail: </font>
+				</div>
+			</td>
+			<td width="70%" align="left">
+				<div id="cademail" style="margin-left: 5px;">
+					<input id="frmCadUserEmail" type="text" name="frmCadUserEmail" class="edit" style="width: 380px;" maxlength="100" title="Digite seu email" />
 				</div>
 			</td>
 		</tr>
