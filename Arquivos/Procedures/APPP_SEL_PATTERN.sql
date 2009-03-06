@@ -13,9 +13,9 @@ begin
     IF pCD_PATTERN IS NOT NULL THEN
        
        open p_cursor FOR
-       SELECT pCD_PATTERN      , 
-              pDS_PAT_PROBLEMA ,
-              pDS_PAT_SOLUCAO  
+       SELECT CD_PATTERN      , 
+              DS_PAT_PROBLEMA ,
+              DS_PAT_SOLUCAO  
                 
        FROM APPP_TB_PATTERN
        WHERE CD_PATTERN = pCD_PATTERN;    
@@ -23,9 +23,9 @@ begin
     ELSE      
     
        open p_cursor FOR
-       SELECT pCD_PATTERN      , 
-              pDS_PAT_PROBLEMA ,
-              pDS_PAT_SOLUCAO     
+       SELECT CD_PATTERN      , 
+              DS_PAT_PROBLEMA ,
+              DS_PAT_SOLUCAO     
        FROM APPP_TB_PATTERN AP
        WHERE (DS_PAT_PROBLEMA  like ('%'|| pDS_PAT_PROBLEMA || '%') OR pDS_PAT_PROBLEMA IS NULL)
        AND   (DS_PAT_SOLUCAO   like ('%'|| pDS_PAT_SOLUCAO || '%')  OR pDS_PAT_SOLUCAO  IS NULL);     
