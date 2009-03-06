@@ -22,6 +22,9 @@
          * |  Guilherme  |  27/02/09   | Bug entre FIREFOX E IE:              |
          * |             |             | IE nao aceita hidden em option field |
          * |------------------------------------------------------------------|
+         * |  Guilherme  |  05/03/09   | FIXED: BUG IE X FIREFOX acima.       |
+         * |             |             | Inicio de funcoes AJAX               |
+         * |------------------------------------------------------------------|
          **/
         AtributoDAO atributoDAO = new AtributoDAO();
         Collection<Atributo> atributos;
@@ -36,6 +39,9 @@
         font-size:small;
         background-color: #CCCCCC;
 
+    }
+    .select_uma_linha option{
+        font-size: small;
     }
 
     .select_varias_linhas, .select_varias_linhas option{
@@ -58,33 +64,73 @@
     }
 </style>
 
-<script type="text/javascript" language="javascript" src="js/jquery.selso-1.0.1.js"></script>
+<script type="text/javascript" language="javascript" src="js/jquery.tinysort.js"></script>
 <script type="text/javascript" language="javascript">
-    var nro_atributos;
-    var arrayObjetos = new Array();
+    //Declara um array de objetos.Ela sera usada para marcos os <option>s que serao escondidos do combo box.
+    var arrayEscondidos = new Array();
+    var arrayVisiveis = new Array();
+    //Na inicializacao da pagina...
     $(document).ready(function(){
+        //Esconde o formulario para cadastro de tipos
         $("#formEscolheAtributos").hide();
+        //Ordena o combo box cmbSelecionaAtributo.
         ordenarCombo();
+        //Preenche o array com os options visiceis
+        arrayVisiveis=$.makeArray($("#cmbSelecionaAtributo option"));
+        //Esconde mensagem de Loading ajax
+        $("#frmCadEstrDivLoadingEst").hide();
+        $(document).ajaxError(function(){
+            alert("erro");
+        });
+        //Atribui funcao ajax ao objeto frmCadEstrTipo
+        $("#frmCadEstrTipo").change(function(){
+
+            $.post("PesqAtribDeEstrut", {}, function(dados,status){
+                $("#frmCadEstrDivLoadingEst").show("normal");
+                if(status=="success"){
+                    alert(dados);
+                    $("#frmCadEstrDivLoadingEst").hide("normal");
+                }else{
+                    alert('Falhei!');
+                }
+            });
+
+            //fim de frmCadEstrTipo.change
+        });
+        //Fim de document.ready
     });
 
+
+    //Esconde um objeto. O parametro obj sera usado para passagem de um <option> do cmbSelecionaAtributo
     function esconde(obj){
-        arrayObjetos.push(obj);
+        //Adiciona no array o objeto.
+        arrayEscondidos.push(obj);
+        //remove do codigo HTML o objeto. (Esconde)
         $(obj).remove();
+        //Atualiza os options visiveis
+        arrayVisiveis=$.makeArray($("#cmbSelecionaAtributo option"));
     }
 
     function mostra(id){
-        $(arrayObjetos).each(function(index,obj){
+        //Pesquisa no array de objetos onde esta o id para incluir no combo box cmbSelecionaAtributo
+        $(arrayEscondidos).each(function(index,obj){
+            //Se o atributo tiver o id procurado...
             if($(obj).attr("value") == id){
-                $("#cmbSelecionaAtributo option:last").after($(obj));
-                arrayObjetos.splice(index, 1);
+                //...Adiciona ele como option no combo box.
+                $("#cmbSelecionaAtributo").append(obj);
+                //Elimina o objeto da arrayDeObjetos escondidos
+                arrayEscondidos.splice(index, 1);
             }
         });
+        //Atualiza os options visiveis
+        arrayVisiveis=$.makeArray($("#cmbSelecionaAtributo option"));
     }
 
     function func_incluiAtributo(){
         //Armazena na variavel selecao o objeto selecionado no combo box do formulario.
         var selecao=$("#cmbSelecionaAtributo option:selected");
-        //Adiciona na tabela de atributos o atributo selecionado no combo.O id da
+        //Adiciona uma linha na tabela da estrutura do atributo com um campo hidden de input para passagem
+        //de header da página
         $("#tabAtributos").append("<tr id=\"atributo_"+selecao.val()+"\">\n\
             <td width=\"50%\" class=\"atributoAdicional\" align=\"right\">\n\
                 <input type=\"hidden\" name=\"atributos_ids\" value=\""+
@@ -92,13 +138,13 @@
             selecao.text()+
             "</td><td width=\"50%\" align=\"left\"><a href=\"javascript:func_removeAtributo(\'"+selecao.val()+"\')\">\
             <img src=\"images/remover.gif\" border=\"none\" ></a></td></tr>");
+        //esconde o objeto <option> selecionado acima do combo box cmbSelecionaAtributo.
         esconde(selecao);
-
     };
 
     function ordenarCombo(){
-
-        $("select").find('option').selso({type: 'alpha'});
+        //Ordena as tags "option" dentro do combo seleciona atributo.
+        $("#cmbSelecionaAtributo>option").tsort();
     }
 
     function func_removeAtributo(cod_atrib){
@@ -108,12 +154,13 @@
     }
 
     function filtraCombo(){
-        $("#cmbSelecionaAtributo option:enabled").hide();
-        $("#cmbSelecionaAtributo option:enabled").each(function(index,elemento){
+        $("#cmbSelecionaAtributo option").remove();
+        $(arrayVisiveis).each(function(indice, elemento){
             if($(elemento).text().toUpperCase().indexOf($("#txtBusca").val().toUpperCase(), 0)>=0){
-                $(elemento).show();
+                $("#cmbSelecionaAtributo").append(elemento);
             }
         });
+        ordenarCombo();
     }
 </script>
 
@@ -168,12 +215,16 @@
                         </td>
                         <td width="70%" align="left">
                             <div  style="margin-left: 5px;">
-                                <select class="select_uma_linha" id="frmCadEstrTipo" name="frmCadEstrTipo" style="height: 1.5em;" width="150px" maxlength="30" title="Escolha o tipo de Estrutura">
-                                    <option label="" >Pattern</option>
-                                    <option label="" >Anti-Pattern</option>
-                                    <option label="" >Persona</option>
-                                    <option label="" style="background: #EEEEEE" onclick="alert('Aqui abre janela para procurar por estruturas existentes')" >Importar de Estrutura Existente...</option>
+                                <select class="select_uma_linha" id="frmCadEstrTipo" name="frmCadEstrTipo" style="height: 2em;" width="150px" maxlength="30" title="Escolha o tipo de Estrutura">
+                                    <option selected>Escolha um tipo de estrutura</option>
+                                    <option value="Pattern">Pattern</option>
+                                    <option value="Anti-Pattern">Anti-Pattern</option>
+                                    <option value="Persona">Persona</option>
+                                    <option style="background: #EEEEEE" onclick="alert('Aqui abre janela para procurar por estruturas existentes')" >Importar de Estrutura Existente...</option>
                                 </select>
+                            </div>
+                            <div id="frmCadEstrDivLoadingEst">
+                                <img src="/sigepapp/images/aguardep.gif" style="vertical-align:bottom;">Carregando estrutura...
                             </div>
                         </td>
 
@@ -252,10 +303,8 @@
                                             <td align="right">Atributo:</td><td>
                                                 <select class="select_varias_linhas" size="8" style="width: 150px" id="cmbSelecionaAtributo" ondblclick="func_incluiAtributo();">
                                                     <%for (Atributo t : atributos) {%>
-                                                    <option value="<%= t.getCd_atributo_obj()%>" title="<%= t.getDs_atributo_obj()%>" ><%= t.getNm_atributo_obj()%></option>
-                                                    <%}
-
-                                                    %>
+                                                    <option  value ="<%= t.getCd_atributo_obj()%>" title="<%= t.getDs_atributo_obj()%>" ><%= t.getNm_atributo_obj()%></option>
+                                                    <% }%>
                                                 </select>
                                         </td></tr>
                                         <tr><td colspan="2" align="center">
