@@ -1,33 +1,37 @@
 /**********************************************************************************************************************
 * Project Name      : SiGEPAPP
-* APPP_DEL_PERGUNTA : Procedure para DELETAR dados de PERGUNTAS
+* APPP_DEL_RESPOSTA : Procedure para DELETAR dados de RESPOSTAS
 *                     vResult(0=NadaDeletado; 1=OK; -99=ErroGeral)
 * Author            : WeeDo 
 * History           : 06/03/2009 - Matheus Gonçalves
 ***********************************************************************************************************************/
-create or replace procedure APPP_DEL_PERGUNTA(pCD_PERGUNTA IN NUMBER,
-                                              pDS_PERGUNTA IN VARCHAR2,
+create or replace procedure APPP_DEL_RESPOSTA(pCD_RESPOSTA IN NUMBER  ,
+                                              pDS_RESPOSTA IN VARCHAR2 ,
+                                              pNR_PESO_RESPOSTAINI NUMBER ,
+                                              pNR_PESO_RESPOSTAFIM NUMBER ,
                                               vResult     out number) is
                                                   
   CURSOR C IS 
-       SELECT CD_PERGUNTA
-       FROM APPP_TB_PERGUNTA
-       WHERE (DS_PERGUNTA  like ('%'|| pDS_PERGUNTA || '%') OR pDS_PERGUNTA IS NULL);
+       SELECT CD_RESPOSTA
+       FROM APPP_TB_RESPOSTA
+       WHERE (NR_PESO_RESPOSTA >= pNR_PESO_RESPOSTAINI AND pNR_PESO_RESPOSTAINI IS NOT NULL)
+       AND   (NR_PESO_RESPOSTA <= pNR_PESO_RESPOSTAFIM AND pNR_PESO_RESPOSTAFIM IS NOT NULL)
+       AND   (DS_RESPOSTA  like ('%'|| pDS_RESPOSTA || '%') OR pDS_RESPOSTA IS NULL);
  
  vCD_TEMP NUMBER(20);     
 begin
     
-   if pCD_PERGUNTA is not null then
+   if pCD_RESPOSTA is not null then
       --Se foi informado o código, é só fazer a exclusão dos dados se existirem.
 
       SELECT COUNT(*) INTO vResult
-      FROM APPP_TB_PERGUNTA
-      WHERE CD_PERGUNTA  = pCD_PERGUNTA;
+      FROM APPP_TB_RESPOSTA
+      WHERE CD_RESPOSTA  = pCD_RESPOSTA;
       
       if vResult > 0 then
 
-         DELETE FROM APPP_TB_PERGUNTA
-         WHERE CD_PERGUNTA  = pCD_PERGUNTA;
+         DELETE FROM APPP_TB_RESPOSTA
+         WHERE CD_RESPOSTA  = pCD_RESPOSTA;
          
          commit;
          
@@ -45,8 +49,8 @@ begin
           EXIT WHEN C%NOTFOUND;
           vResult := vResult + 1;
 
-          DELETE FROM APPP_TB_PERGUNTA
-          WHERE CD_PERGUNTA  = vCD_TEMP;
+          DELETE FROM APPP_TB_RESPOSTA
+          WHERE CD_RESPOSTA  = vCD_TEMP;
          
          
        END LOOP; 
@@ -76,4 +80,4 @@ begin
              END IF;
          END;    
                
-end APPP_DEL_PERGUNTA;
+end APPP_DEL_RESPOSTA;

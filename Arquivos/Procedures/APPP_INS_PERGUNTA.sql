@@ -5,7 +5,7 @@
 * Author           : WeeDo 
 * History          : 04/03/2009 - Matheus Gonçalves
 *******************************************************************************/
-create or replace procedure APPP_INS_PERGUNTA(pCD_PERGUNTA IN NUMBER,
+create or replace procedure APPP_INS_PERGUNTA(pCD_PERGUNTA OUT NUMBER,
                                               pDS_PERGUNTA IN VARCHAR2,
                                               vResult     out number) is
 begin
@@ -17,6 +17,10 @@ begin
                                 pDS_PERGUNTA
                               );
   
+   select APPP_SEQ_PERGUNTA.CURRVAL
+   into pCD_PERGUNTA
+   from dual;
+   
    vResult := 1; -- OK
    commit;
    

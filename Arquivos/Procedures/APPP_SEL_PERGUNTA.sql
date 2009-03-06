@@ -4,8 +4,8 @@
 * Author            : WeeDo 
 * History           : 06/03/2009 - Matheus Gonçalves
 ***********************************************************************************************************************/
-create or replace procedure APPP_SEL_PERGUNTA(pCD_PERGUNTA NUMBER,
-                                              pDS_PERGUNTA VARCHAR2,
+create or replace procedure APPP_SEL_PERGUNTA(pCD_PERGUNTA IN NUMBER,
+                                              pDS_PERGUNTA IN VARCHAR2,
                                               p_cursor OUT SYS_REFCURSOR) is
 begin
     

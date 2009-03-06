@@ -6,8 +6,8 @@
 * Author           : WeeDo 
 * History          : 04/03/2009 - Matheus Gonçalves
 *******************************************************************************/
-create or replace procedure APPP_INS_PERSONA(pCD_PERSONA NUMBER,
-                                             pNM_PERSONA VARCHAR2,
+create or replace procedure APPP_INS_PERSONA(pCD_PERSONA IN NUMBER,
+                                             pNM_PERSONA IN VARCHAR2,
                                              vResult     out number) is
  vImgPath varchar2(6) := '/img/';                                           
                                               
