@@ -1,9 +1,9 @@
 /**********************************************************************************************************************
-* Project Name             : SiGEPAPP
-* APPP_TB_ATRIBUTO_OBJ.SQL : Script para criação da tabela APPP_TB_ATRIB_ESTRUTURA
-* Author                   : WeeDo
-* History                  : 16/02/2009 - Guilherme Wachs   - Versão Inicial
-*                          : 06/03/2009 - Matheus Gonçalves - Adição de Table Space
+* Project Name                : SiGEPAPP
+* APPP_TB_ATRIB_ESTRUTURA.SQL : Script para criação da tabela APPP_TB_ATRIB_ESTRUTURA
+* Author                      : WeeDo
+* History                     : 16/02/2009 - Guilherme Wachs   - Versão Inicial
+*                             : 06/03/2009 - Matheus Gonçalves - Adição de Table Space
 *                                                           - Adição de Primary Key            
 ***********************************************************************************************************************/
 -- Create table 
