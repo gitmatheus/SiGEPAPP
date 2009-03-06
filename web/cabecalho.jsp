@@ -49,7 +49,6 @@
 
         <!-- Link dos scripts necessarios para o sistema -->
         <script type="text/javascript" src="js/jquery-1.3.2.js" ></script>
-        <script type="text/javascript" src="js/jquery-ui-1.5.3.js" ></script>
         <script type="text/javascript" src="js/appp_funcoes.js" ></script>
 
         <!-- Codigo dos scripts utilizados apenas nesta pagina  -->

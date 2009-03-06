@@ -91,7 +91,7 @@ public class CidadeDAO {
 
         }catch(SQLException e){
             //Grava log com o erro que ocorreu durante a execução do comando SQL
-            GravarLog.gravaErro(EstadoDAO.class.getName() + ": erro na pesquisa referente a uma exceção de SQL: " + e.getMessage());
+            GravarLog.gravaErro(CidadeDAO.class.getName() + ": erro na pesquisa referente a uma exceção de SQL: " + e.getMessage());
 
             //Retorno da função como null em caso de erro
             return null;
