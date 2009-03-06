@@ -14,7 +14,7 @@ create table APPP_TB_OBJETO
   CD_ESTRUTURA      number(10)    NOT NULL,
   DS_OBJETO         VARCHAR2(300) NOT NULL, 
   DT_CRIACAO        DATE DEFAULT  SYSDATE NOT NULL,
-  CD_USER_CRIADOR   NUMBER(10)    not null
+  CD_USER_CRIADOR   NUMBER(15)    not null
 )
 tablespace SYSTEM
   storage
