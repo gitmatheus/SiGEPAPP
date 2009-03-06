@@ -5,8 +5,8 @@
 * Author           : WeeDo 
 * History          : 04/03/2009 - Matheus Gonçalves
 *******************************************************************************/
-create or replace procedure APPP_INS_PERGUNTA(pCD_PERGUNTA NUMBER,
-                                              pDS_PERGUNTA VARCHAR2,
+create or replace procedure APPP_INS_PERGUNTA(pCD_PERGUNTA IN NUMBER,
+                                              pDS_PERGUNTA IN VARCHAR2,
                                               vResult     out number) is
 begin
     

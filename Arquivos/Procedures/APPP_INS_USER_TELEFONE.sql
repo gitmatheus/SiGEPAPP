@@ -5,7 +5,7 @@
 * Author                 : WeeDo 
 * History                : 04/03/2009 - Matheus Gonçalves
 ***************************************************************************************/
-create or replace procedure APPP_INS_USER_TELEFONE(pCD_USER    IN NUMBER  ,
+create or replace procedure APPP_INS_USER_TELEFONE(pCD_USER     IN NUMBER  ,
                                                    pNR_DDI      IN NUMBER  ,
                                                    pNR_DDD      IN NUMBER  ,
                                                    pNR_TELEFONE IN NUMBER  ,
