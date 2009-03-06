@@ -58,11 +58,13 @@
     }
 </style>
 
+<script type="text/javascript" language="javascript" src="js/jquery.selso-1.0.1.js"></script>
 <script type="text/javascript" language="javascript">
     var nro_atributos;
     var arrayObjetos = new Array();
     $(document).ready(function(){
         $("#formEscolheAtributos").hide();
+        ordenarCombo();
     });
 
     function esconde(obj){
@@ -70,9 +72,9 @@
         $(obj).remove();
     }
 
-    function mostra(id){        
+    function mostra(id){
         $(arrayObjetos).each(function(index,obj){
-        if($(obj).attr("value") == id){
+            if($(obj).attr("value") == id){
                 $("#cmbSelecionaAtributo option:last").after($(obj));
                 arrayObjetos.splice(index, 1);
             }
@@ -94,10 +96,14 @@
 
     };
 
+    function ordenarCombo(){
 
+        $("select").find('option').selso({type: 'alpha'});
+    }
 
-    function func_removeAtributo(cod_atrib){        
+    function func_removeAtributo(cod_atrib){
         mostra(cod_atrib);
+        ordenarCombo();
         $("#atributo_"+cod_atrib).remove();
     }
 
@@ -246,7 +252,7 @@
                                             <td align="right">Atributo:</td><td>
                                                 <select class="select_varias_linhas" size="8" style="width: 150px" id="cmbSelecionaAtributo" ondblclick="func_incluiAtributo();">
                                                     <%for (Atributo t : atributos) {%>
-                                                    <option value="<%= t.getCd_atributo_obj() %>" title="<%= t.getDs_atributo_obj() %>" ><%= t.getNm_atributo_obj() %></option>
+                                                    <option value="<%= t.getCd_atributo_obj()%>" title="<%= t.getDs_atributo_obj()%>" ><%= t.getNm_atributo_obj()%></option>
                                                     <%}
 
                                                     %>
