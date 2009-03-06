@@ -4,6 +4,7 @@
 * Author                   : WeeDo 
 * History                  : 16/02/2009 - Matheus Gonçalves - Versão Inicial
 *                          : 26/02/2009 - Matheus Gonçalves - Drop column DS_TAM_ATRIB 
+*                          : 06/03/2009 - Matheus Gonçalves - Drop column DS_TAM_ATRIB NOVAMENTE 
 ***********************************************************************************************************************/
 
 -- Create table
@@ -12,8 +13,7 @@ create table APPP_TB_ATRIBUTO_OBJ
 (
   CD_ATRIBUTO_OBJ number(10)    NOT NULL,
   NM_ATRIBUTO_OBJ VARCHAR2(40)  NOT NULL ,
-  DS_ATRIBUTO_OBJ VARCHAR2(100)          , 
-  DS_TAM_ATRIB    VARCHAR2(10)  NOT NULL ,
+  DS_ATRIBUTO_OBJ VARCHAR2(400)          , 
   CD_TIPO         NUMBER(10)    NOT NULL ,
   FL_ATRIB_RELAC  VARCHAR2(1)   DEFAULT 'S' NOT NULL 
 )

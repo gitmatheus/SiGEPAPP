@@ -10,11 +10,11 @@
 SELECT 'Criando a tabela APPP_TB_ESTRUT_OBJ' FROM DUAL;
 create table APPP_TB_ESTRUT_OBJ
 (
-  CD_ESTRUTURA      number(10) NOT NULL,
+  CD_ESTRUTURA      number(10)    NOT NULL,
   NM_ESTRUTURA      VARCHAR2(40)  NOT NULL ,
-  DS_ESTRUTURA      VARCHAR2(300)  NOT NULL, 
+  DS_ESTRUTURA      VARCHAR2(400) NOT NULL, 
   DT_CRIACAO        DATE DEFAULT SYSDATE NOT NULL,
-  CD_USER           NUMBER(10) not null,
+  CD_USER           NUMBER(15) not null,
   TP_ESTRUTURA      varchar2(3) NOT NULL
 )
 tablespace SYSTEM
