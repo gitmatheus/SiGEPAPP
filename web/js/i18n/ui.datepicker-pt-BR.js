@@ -15,7 +15,7 @@ jQuery(function($){
 		dayNames: ['Domingo','Segunda-feira','Ter&ccedil;a-feira','Quarta-feira','Quinta-feira','Sexta-feira','Sabado'],
 		dayNamesShort: ['Dom','Seg','Ter','Qua','Qui','Sex','Sab'],
 		dayNamesMin: ['Dom','Seg','Ter','Qua','Qui','Sex','Sab'],
-		dayStatus: 'DD', dateStatus: 'D, M d',
+		dayStatus: 'DD', dateStatus: 'DD, d MM',
 		dateFormat: 'dd/mm/yy', firstDay: 0, 
 		initStatus: '', isRTL: false};
 	$.datepicker.setDefaults($.datepicker.regional['pt-BR']);

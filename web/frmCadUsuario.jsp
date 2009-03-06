@@ -1,5 +1,13 @@
+<%@page import="br.edu.fei.sigepapp.bancodedados.dao.*,br.edu.fei.sigepapp.bancodedados.model.*,java.util.*" %>
+<%
+        EstadoDAO dao = new EstadoDAO();
+        Collection<Estado> estados;
+        estados = dao.APPP_SEL_ESTADO(new Estado());
+        dao.fechaConexao();
+%>
 <%@include file="cabecalho.jsp"%>
 <link rel="stylesheet" type="text/css" href="css/ui.all.css"/>
+<script type="text/javascript" language="javascript" src="js/i18n/ui.datepicker-pt-BR.js"></script>
 <script type="text/javascript" language="javascript">
     $(document).ready(function(){
         $("#frmCadUserLogin").blur(function(){
@@ -12,10 +20,14 @@
                 comparaSenha();
             }
         });
+
         $("#frmCadUserDataNasc").datepicker({
-            regional: ['pt-BR'],
+            language: 'pt-BR',
+            showStatus: true,
+            dateFormat: 'dd/mm/yy',
             inline: true
         });
+
     });
     function verificaExisteLogin(){
         var login = $("#frmCadUserLogin").val();
@@ -82,6 +94,44 @@
             $("#frmCadUserSenha").select();
         }
         $("#frmCadUserCSenha").blur(function(){if($("#frmCadUserSenha").val() != "" && $("#frmCadUserCSenha").val() != ""){comparaSenha();}});
+    }
+
+    var httpRequest;
+
+    function getCidade(estado){
+        var url ="/sigepapp/GetCidadeServlet?cd_estado=" + estado;
+
+        if(window.ActiveXObject){
+            httpRequest = new ActiveXObject("Microsoft.XMLHTTP");
+        }else if(window.XMLHttpRequest){
+            httpRequest = new XMLHttpRequest();
+        }
+
+        httpRequest.open("GET", url, true);
+        httpRequest.onreadystatechange = function() {processRequest();};
+        httpRequest.send(null);
+    }
+
+    function processRequest(){
+        if(httpRequest.readyState == 4){
+            if(httpRequest.status == 200){
+                var cidadeXML = httpRequest.responseXML.getElementsByTagName("cidade")[0];
+                updateHTML(cidadeXML);
+            }else{
+                alert("Erro ao carregar a pagina\n" + httpRequest.status +":"+httpRequest.statusText);
+            }
+        }
+    }
+
+    function updateHTML(cidadeXML){
+        var cidadeText = cidadeXML.childNodes[0].nodeValue;
+        var cidadeBody = document.createTextNode(cidadeText);
+        var cidadeSelection = document.getElementById("cadcidade");
+        if(cadcidade.childNodes[0]){
+            cadcidade.replaceChild(cidadeBody, cidadeSelection.childNodes[0]);
+        }else{
+            cadcidade.appendChild(cidadeBody);
+        }
     }
 </script>
 <form name="frmCadUser" method="post">
@@ -196,6 +246,40 @@
                                 <font class="texto"> n.º: </font>
                                 <input id="frmCadUserNumEnd" type="text" name="frmCadUserNumEnd" class="edit" style="width: 40px;" maxlength="6" title="Digite o n&uacute;mero de sua resid&ecirc;ncia" />
                             </div>
+                        </td>
+                    </tr>
+                    <tr><td>&nbsp;</td><td>&nbsp;</td></tr>
+                    <tr>
+                        <td width="30%" align="right">
+                            <div style="margin-right: 10px;">
+                                <font class="texto"> Estado: </font>
+                            </div>
+                        </td>
+                        <td width="70%" align="left">
+                            <div  style="margin-left: 5px;">
+                                <select id="frmCadUserEstado" name="frmCadUserEstado" class="edit" style="width: auto;" onchange="getCidade(this.options[this.selectedIndex].value)()">
+                                    <option value="">Selecione aqui o seu estado</option>
+                                    <% for (Estado e : estados) {%>
+                                    <option value="<%= e.getCd_estado()%>"><%= e.getSg_sigla()%>&nbsp;-&nbsp;<%= e.getNm_estado()%></option>
+                                    <%}%>
+                                </select>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr><td>&nbsp;</td><td>&nbsp;</td></tr>
+                    <tr>
+                        <td width="30%" align="right">
+                            <div style="margin-right: 10px;">
+                                <font class="texto"> Cidade: </font>
+                            </div>
+                        </td>
+                        <td width="70%" align="left">
+                            <div id="cadcidade"  style="margin-left: 5px;">
+                                <select id="frmCadUserCidade" name="frmCadUserCidade" class="edit" style="width: auto;"></select>
+                            </div>
+                            <script type="text/javascript">
+                                getCidade(frmCadUserEstado.options[frmCadUserEstado.selectedIndex].value);
+                            </script>
                         </td>
                     </tr>
                 </table>
