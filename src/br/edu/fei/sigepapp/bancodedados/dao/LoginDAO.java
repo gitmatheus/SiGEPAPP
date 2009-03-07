@@ -111,6 +111,7 @@ public class LoginDAO {
      * @return true para atualizado com sucesso e false erro na atualização
      */
     public boolean atualiza(Login login) {
+
         String EncryptPassword;
         try {
             //Instancia um objeto da classe PreparedStatement com o comando para atualização do registro no banco
