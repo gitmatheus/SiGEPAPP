@@ -35,6 +35,8 @@ import oracle.jdbc.OracleTypes;
 import br.edu.fei.sigepapp.bancodedados.ConnectionFactory;
 import br.edu.fei.sigepapp.bancodedados.model.Login;
 import br.edu.fei.sigepapp.bancodedados.model.Usuario;
+import br.edu.fei.sigepapp.cryptography.Criptografia;
+import br.edu.fei.sigepapp.cryptography.VigenereCipherBean;
 import br.edu.fei.sigepapp.log.GravarLog;
 
 /**
@@ -62,6 +64,8 @@ public class LoginDAO {
      */
     public boolean adiciona(Login login) {
         int result = 0;
+        String EncryptPassword;
+
         try {
             //Instancia um objeto da classe PreparedStatement com o comando para inserção do registro no banco
             PreparedStatement stmt = this.conn.prepareStatement("APPP_INS_TB_LOGIN( ?, ?, ?, ?)");
@@ -69,7 +73,9 @@ public class LoginDAO {
             //Seta os valores para os pontos de interrogação indexados pela ordem deles na string
             stmt.setLong(1, login.getCd_user());
             stmt.setString(2, login.getNm_login());
-            stmt.setString(3, login.getPw_senha());
+
+            EncryptPassword = Criptografia.escondeSenha(login.getPw_senha());
+            stmt.setString(3, EncryptPassword);
             stmt.setInt(4, result);
 
             //executa o comando e fecha a instancia do objeto
@@ -105,13 +111,17 @@ public class LoginDAO {
      * @return true para atualizado com sucesso e false erro na atualização
      */
     public boolean atualiza(Login login) {
+        String EncryptPassword;
         try {
             //Instancia um objeto da classe PreparedStatement com o comando para atualização do registro no banco
             PreparedStatement stmt = this.conn.prepareStatement("update appp_tb_login set nm_login=?, pw_senha=? where cd_user=?)");
 
             //Seta os valores para os pontos de interrogação indexados pela ordem deles na string
             stmt.setString(1, login.getNm_login());
-            stmt.setString(2, login.getPw_senha());
+
+            EncryptPassword = Criptografia.escondeSenha(login.getPw_senha());
+            stmt.setString(3, EncryptPassword);
+
             stmt.setLong(3, login.getCd_user());
 
             //executa o comando e fecha a instancia do objeto
@@ -177,13 +187,17 @@ public class LoginDAO {
      * @return Lista de usuario encontrados na consulta ao banco de dados. Neste caso deve retornar sem um elemento na lista.
      */
     public List<Usuario> validaLogin(String login, String password) {
+        String EncryptPassword;
         try {
             //Cria objeto CallableStatement para receber a procedure que sera executada no BD
             CallableStatement cstmt = this.conn.prepareCall("begin APPP_SEL_LOGIN(?, ?, ?); end;");
 
             //Associa os valores dos index nos parametros set com os ? da string da procedure
             cstmt.setString(1, login);
-            cstmt.setString(2, password);
+
+            EncryptPassword = Criptografia.escondeSenha(password);
+            cstmt.setString(2, EncryptPassword);
+            
             cstmt.registerOutParameter(3, OracleTypes.CURSOR);
 
             //Executa a procedure
