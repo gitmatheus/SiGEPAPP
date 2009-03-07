@@ -17,8 +17,9 @@ public class Criptografia {
     public static final String escondeSenha(String pw)
     {
         String x = null;
-        //x = VigenereCipherBean.Cipher(pw,"walle");
-        x = Base64Coder.encodeString(pw);
+        x = RemoverAcentos.remover(pw);
+        x = VigenereCipherBean.Cipher(x,"walle");
+        x = Base64Coder.encodeString(x);
 
         return x;
     }
@@ -27,7 +28,7 @@ public class Criptografia {
         String x = null;
 
         x = Base64Coder.decodeString(pw);
-        //x = VigenereCipherBean.DeCipher(x,"walle");
+        x = VigenereCipherBean.DeCipher(x,"walle");
         return x;
     }
 
