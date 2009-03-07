@@ -19,9 +19,9 @@ begin
    SET   CD_QUEST    = pCD_QUEST_NEW   ,
          CD_PERGUNTA = pCD_PERGUNTA_NEW,
          CD_RESPOSTA = pCD_RESPOSTA_NEW
-   WHERE CD_QUEST    = pCD_QUEST_OLD   ,
-         CD_PERGUNTA = pCD_PERGUNTA_OLD,
-         CD_RESPOSTA = pCD_RESPOSTA_OLD;
+   WHERE CD_QUEST    = pCD_QUEST_OLD   
+   AND   CD_PERGUNTA = pCD_PERGUNTA_OLD
+   AND   CD_RESPOSTA = pCD_RESPOSTA_OLD;
    
    vResult := 1; -- OK
    commit;

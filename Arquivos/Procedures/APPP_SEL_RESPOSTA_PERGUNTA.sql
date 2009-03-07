@@ -16,5 +16,5 @@ begin
        WHERE (CD_PERGUNTA = pCD_PERGUNTA OR pCD_PERGUNTA IS NULL)
        AND   (CD_RESPOSTA = pCD_RESPOSTA OR pCD_RESPOSTA IS NULL);
         
-   END IF;                
+                
 end APPP_SEL_RESPOSTA_PERGUNTA;

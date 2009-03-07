@@ -19,7 +19,6 @@ begin
       if vResult > 0 then
 
          DELETE FROM APPP_TB_RESPOSTA_PERGUNTA
-         FROM APPP_TB_RESPOSTA_PERGUNTA
          WHERE CD_PERGUNTA = pCD_PERGUNTA;
          
          commit;
