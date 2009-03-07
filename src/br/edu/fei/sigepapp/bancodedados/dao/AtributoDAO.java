@@ -12,6 +12,12 @@
  * |   Autor     |   Data      |   Descrição                          |
  * |------------------------------------------------------------------|
  * | Guilherme   | 21/02/09    | Criação e elaboração inicial         |
+ * | Guilherme   | 01/03/09    | Mudanca de metodos para utilizacao   |
+ * |             |             | das procedures do banco              |
+ * |------------------------------------------------------------------|
+ * | Guilherme   | 07/03/09    | Insercao dos metodos de ADD,DEL e UPD|
+ * |             |             | de acordo com as procedures.         |
+ * |             |             | Eliminado atributo DS_TAM_ATRIB.     |
  * |------------------------------------------------------------------|
  *
  */
@@ -30,7 +36,6 @@ import java.util.Vector;
 import br.edu.fei.sigepapp.bancodedados.ConnectionFactory;
 import br.edu.fei.sigepapp.bancodedados.model.Atributo;
 import br.edu.fei.sigepapp.log.GravarLog;
-import com.sun.net.ssl.internal.ssl.Debug;
 import java.sql.CallableStatement;
 import oracle.jdbc.OracleTypes;
 
@@ -63,11 +68,9 @@ public class AtributoDAO {
         camposDaTabela.add("CD_ATRIBUTO_OBJ");
         camposDaTabela.add("NM_ATRIBUTO_OBJ");
         camposDaTabela.add("DS_ATRIBUTO_OBJ");
-        camposDaTabela.add("DS_TAM_ATRIB");
         camposDaTabela.add("CD_TIPO");
         camposDaTabela.add("FL_ATRIB_RELAC");
         while (rs.next()) {
-            Debug.println("Passei!", "ok");
             // Cria um objeto do tipo Atributo
             Atributo atributoNovo = new Atributo();
 
@@ -85,12 +88,9 @@ public class AtributoDAO {
                         atributoNovo.setDs_atributo_obj(rs.getString(i));
                         break;
                     case 3:
-                        atributoNovo.setDs_tam_atrib(rs.getString(i));
-                        break;
-                    case 4:
                         atributoNovo.setCd_tipo(rs.getLong(i));
                         break;
-                    case 5:
+                    case 4:
                         atributoNovo.setFl_atrib_relac(rs.getString(i));
                         break;
                 }
@@ -106,7 +106,7 @@ public class AtributoDAO {
         ResultSet rs = null;
 
         long pCD_ATRIBUTO_OBJ = 0;
-        long pCD_TIPO_OBJ=0;
+        long pCD_TIPO_OBJ = 0;
         try {
             //Instancia um objeto da classe PreparedStatement com o comando para pesquisar registros no banco
             //PreparedStatement stmt = this.conn.prepareStatement(query);
@@ -114,19 +114,21 @@ public class AtributoDAO {
             cstmt = conn.prepareCall("begin  APPP_SEL_ATRIBUTO_OBJ(?, ?, ?, ?, ?, ?); end;");
 
             pCD_ATRIBUTO_OBJ = atribPesquisa.getCd_atributo_obj();
-            pCD_TIPO_OBJ=atribPesquisa.getCd_tipo();
-            
-            if(pCD_ATRIBUTO_OBJ > 0)
+            pCD_TIPO_OBJ = atribPesquisa.getCd_tipo();
+
+            if (pCD_ATRIBUTO_OBJ > 0) {
                 cstmt.setLong(1, pCD_ATRIBUTO_OBJ);
-            else
-                cstmt.setNull(1,OracleTypes.NUMBER);
+            } else {
+                cstmt.setNull(1, OracleTypes.NUMBER);
+            }
 
             cstmt.setString(2, atribPesquisa.getNm_atributo_obj());
             cstmt.setString(3, atribPesquisa.getDs_atributo_obj());
-            if(pCD_TIPO_OBJ>0)
-            cstmt.setLong(4, atribPesquisa.getCd_tipo());
-            else
-            cstmt.setNull(4, OracleTypes.NUMBER );
+            if (pCD_TIPO_OBJ > 0) {
+                cstmt.setLong(4, atribPesquisa.getCd_tipo());
+            } else {
+                cstmt.setNull(4, OracleTypes.NUMBER);
+            }
 
             cstmt.setString(5, atribPesquisa.getFl_atrib_relac());
             cstmt.registerOutParameter(6, OracleTypes.CURSOR);
@@ -152,164 +154,134 @@ public class AtributoDAO {
         } catch (SQLException e) {
 
             //Grava log com o erro que ocorreu durante a execução do comando SQL
-            GravarLog.gravaErro(Atributo.class.getName() + ": erro na pesquisa referente a uma exceção de SQL: " + e.getMessage());
+            GravarLog.gravaErro(Atributo.class.getName() + ": erro na pesquisa referente a uma exceção de SQL: " + e.getSQLState());
 
             //Retorno da função como null em caso de erro
             return null;
         }
     }
-    /*
-    public List<Atributo> seleciona(String query) {
-    try {
-    this.conn = ConnectionFactory.getConnection();
-    // Instancia um objeto da classe PreparedStatement com o comando para pesquisar registros no banco
-    PreparedStatement stmt = this.conn.prepareStatement(query);
 
-    // Executa a query e armazenando em um Objeto ResultSet
-    ResultSet rs = stmt.executeQuery();
-    // Enquando a pesquisa nao chegar ao fim ele armazena no array os resultados e permanece no loop
-    // Cria um array do tipo atributo e referencia com o a lista do metodo preenchelist
-    List<Atributo> atributos = atributos = PreencheList(rs);
+    public boolean APPP_INS_ATRIBUTO_OBJ(Atributo atributoInserir) {
+        CallableStatement cstmt = null;
+        long resultado = 0;
 
-    // fecha a instancia dos objetos
-    rs.close();
-    stmt.close();
+        try {
+            cstmt = conn.prepareCall("begin  APPP_INS_ATRIBUTO_OBJ(?, ?, ?, ?, ?, ?); end;");
+            cstmt.setString(2, atributoInserir.getNm_atributo_obj());
+            cstmt.setString(3, atributoInserir.getDs_atributo_obj());
+            cstmt.setLong(4, atributoInserir.getCd_tipo());
 
-    // Grava log com a informacao de sucesso
-    GravarLog.gravaInformacao(Atributo.class.getName() + ": pesquisa no banco de dados realizada com sucesso");
+            cstmt.setString(5, atributoInserir.getFl_atrib_relac());
 
-    // Fecha conexao com o banco de dados
-    this.conn.close();
+            cstmt.registerOutParameter(6, OracleTypes.NUMBER);
+            cstmt.execute();
 
-    // retorna uma lista com os atributo selecionados
-    return atributos;
-    } catch (SQLException e) {
+            resultado = cstmt.getLong(6);
 
-    // Grava log com o erro que ocorreu durante a execucao do comando SQL
-    GravarLog.gravaErro(AtributoDAO.class.getName() + ": erro na pesquisa referente a uma excecao de SQL: " + e.getMessage());
-
-    // Retorno da funcao como null em caso de erro
-    return null;
-    }
-    }
-
-    public boolean adiciona(Atributo atributoAdicionar) {
-    try {
-    this.conn = ConnectionFactory.getConnection();
-    // Instancia um objeto da classe PreparedStatement com o comando para insercao do registro no banco
-    PreparedStatement stmt =
-    this.conn.prepareStatement(
-    "insert into APPP_TB_ATRIBUTO_OBJ (CD_ATRIBUTO_OBJ, NM_ATRIBUTO_OBJ, DS_ATRIBUTO_OBJ, DS_TAM_ATRIB," + "CD_TIPO, FL_ATRIB_RELAC)" + "values (?, ?, ?, ?, ?, ?)");
-
-    // Seta os valores para os pontos de interrogacao indexados pela ordem deles na string
-    stmt.setLong(1, atributoAdicionar.getCd_atributo_obj());
-    stmt.setString(2, atributoAdicionar.getNm_atributo_obj());
-    stmt.setString(3, atributoAdicionar.getDs_atributo_obj());
-    stmt.setString(4, atributoAdicionar.getDs_tam_atrib());
-    stmt.setLong(5, atributoAdicionar.getCd_tipo());
-    stmt.setString(6, atributoAdicionar.getFl_atrib_relac());
-
-    // executa o comando e fecha a instancia do objeto
-    stmt.execute();
-    stmt.close();
-
-    // Grava log com a informacao de sucesso
-    GravarLog.gravaInformacao(Atributo.class.getName() + ": insercao no banco de dados realizada com sucesso");
-
-    // Fecha conexao com o banco de dados
-
-
-    this.conn.close();
-
-    // Retorno da funcao como true
+            cstmt.close();
 
 
 
-    return true;
-    } catch (SQLException e) {
 
-    // Grava log com o erro que ocorreu durante a execucao do comando SQL
-    GravarLog.gravaErro(AtributoDAO.class.getName() + ": erro na insercao referente a uma excecao de SQL: " + e.getMessage());
-
-    // Retorno da funcao como false em caso de erro
-
-
-
-    return false;
-    }
+            if (resultado == 1) {
+                GravarLog.gravaInformacao(Atributo.class.getName() + ": adicao no banco de dados realizada com sucesso");
+                return true;
+            } else {
+                GravarLog.gravaErro(Atributo.class.getName() + ": erro na adicao no banco de dados: Erro generico.");
+                return false;
+            }
+        } catch (SQLException ex) {
+            GravarLog.gravaErro(Atributo.class.getName() + ": erro na adicao no banco de dados: " + ex.getSQLState());
+            return false;
+        }
 
     }
 
-    public boolean deleta(Atributo atributoDeletar) {
-    try {
-    this.conn = ConnectionFactory.getConnection();
-    PreparedStatement stmt = conn.prepareStatement("delete from APPP_TB_ATRIBUTO_OBJ where CD_ATRIBUTO_OBJ=?");
-    stmt.setLong(1, atributoDeletar.getCd_atributo_obj());
-    stmt.execute();
-    stmt.close();
+    public boolean APPP_UPD_ATRIBUTO_OBJ(Atributo atributoAtualizar) {
+        CallableStatement cstmt = null;
+        long resultado = 0;
 
-    this.conn.close();
+        try {
+            cstmt = conn.prepareCall("begin  APPP_UPD_ATRIBUTO_OBJ(?, ?, ?, ?, ?, ?); end;");
 
-    return true;
-    } catch (SQLException e) {
+            //Seta o codigo do atributo NULL (A chave sera gerada automaticamente pela procedure do banco)
+            cstmt.setNull(1, OracleTypes.NUMBER);
+            cstmt.setString(2, atributoAtualizar.getNm_atributo_obj());
+            cstmt.setString(3, atributoAtualizar.getDs_atributo_obj());
+            cstmt.setLong(4, atributoAtualizar.getCd_tipo());
 
-    // Grava log com o erro que ocorreu durante a execucao do comando SQL
-    GravarLog.gravaErro(AtributoDAO.class.getName() + ": erro na insercao referente a uma excecao de SQL: " + e.getMessage());
+            cstmt.setString(5, atributoAtualizar.getFl_atrib_relac());
 
-    // Retorno da funcao como false em caso de erro
+            cstmt.registerOutParameter(6, OracleTypes.NUMBER);
+            cstmt.execute();
+
+            resultado = cstmt.getLong(6);
+
+            cstmt.close();
 
 
+            if (resultado == 1) {
+                GravarLog.gravaInformacao(Atributo.class.getName() + ": adicao no banco de dados realizada com sucesso");
+                return true;
+            } else {
+                GravarLog.gravaErro(Atributo.class.getName() + ": erro na adicao no banco de dados: Erro generico.");
+                return false;
+            }
+        } catch (SQLException ex) {
+            GravarLog.gravaErro(Atributo.class.getName() + ": erro na adicao no banco de dados: " + ex.getSQLState());
+            return false;
+        }
 
-    return false;
     }
+
+    public boolean APPP_DEL_ATRIBUTO_OBJ(Atributo atributoDeletar) {
+
+        CallableStatement cstmt = null;
+        long resultado = 0;
+
+        //Seta as variaveis longs
+        long pCD_ATRIBUTO_OBJ = atributoDeletar.getCd_atributo_obj();
+        long pCD_TIPO_OBJ = atributoDeletar.getCd_tipo();
+
+        try {
+            cstmt = conn.prepareCall("begin  APPP_DEL_ATRIBUTO_OBJ(?, ?, ?, ?, ?, ?); end;");
+            if (pCD_ATRIBUTO_OBJ > 0) {
+                cstmt.setLong(1, pCD_ATRIBUTO_OBJ);
+            } else {
+                cstmt.setNull(1, OracleTypes.NUMBER);
+            }
+            if (pCD_TIPO_OBJ > 0) {
+                cstmt.setLong(4, pCD_TIPO_OBJ);
+            } else {
+                cstmt.setNull(4, OracleTypes.NUMBER);
+            }
+
+            cstmt.setString(2, atributoDeletar.getNm_atributo_obj());
+            cstmt.setString(3, atributoDeletar.getDs_atributo_obj());
+            cstmt.setString(5, atributoDeletar.getFl_atrib_relac());
+            cstmt.registerOutParameter(6, OracleTypes.NUMBER);
+            cstmt.execute();
+
+            resultado = cstmt.getLong(6);
+            cstmt.close();
+
+            if (resultado > 0) {
+                GravarLog.gravaInformacao(Atributo.class.getName() + ": remocao no banco de dados realizada com sucesso");
+                return true;
+            } else if (resultado == 0) {
+                GravarLog.gravaErro(Atributo.class.getName() + ": erro na remocao no banco de dados: Registro nao encontrado.");
+                return false;
+            } else {
+                GravarLog.gravaErro(Atributo.class.getName() + ": erro na remocao no banco de dados: Erro generico.");
+                return false;
+            }
+
+        } catch (SQLException ex) {
+            GravarLog.gravaErro(Atributo.class.getName() + ": erro na remocao no banco de dados:" + ex.getSQLState());
+            return false;
+        }
     }
 
-    public boolean atualiza(Atributo atributoAtualizar) {
-    try {
-    this.conn = ConnectionFactory.getConnection();
-    // Instancia um objeto da classe PreparedStatement com o comando para atualizacao do registro no banco
-    PreparedStatement stmt =
-    this.conn.prepareStatement(
-    "update APPP_TB_ATRIBUTO_OBJ set NM_ATRIBUTO_OBJ=?, DS_ATRIBUTO_OBJ=?, DS_TAM_ATRIB=?," + "CD_TIPO=?, FL_ATRIB_RELAC=? where CD_ATRIBUTO_OBJ=?");
-
-    // Seta os valores para os pontos de interrogacao indexados pela ordem deles na string
-
-    stmt.setString(1, atributoAtualizar.getNm_atributo_obj());
-    stmt.setString(2, atributoAtualizar.getDs_atributo_obj());
-    stmt.setString(3, atributoAtualizar.getDs_tam_atrib());
-    stmt.setLong(4, atributoAtualizar.getCd_tipo());
-    stmt.setString(5, atributoAtualizar.getFl_atrib_relac());
-
-    stmt.setLong(6, atributoAtualizar.getCd_atributo_obj());
-    // executa o comando e fecha a instancia do objeto
-    stmt.execute();
-    stmt.close();
-
-    // Grava log com a informacao de sucesso
-    GravarLog.gravaInformacao(Atributo.class.getName() + ": atualizacao no banco de dados realizada com sucesso");
-
-    // Fecha conexao com o banco de dados
-
-
-    this.conn.close();
-
-    // retorno da funcao como true
-
-    return true;
-    } catch (SQLException e) {
-
-    // Grava log com o erro que ocorreu durante a execucao do comando SQL
-    GravarLog.gravaErro(AtributoDAO.class.getName() + ": erro na atualizacao referente a uma excecao de SQL: " + e.getMessage());
-
-    // Retorno da funcao como false em caso de erro
-    return false;
-    }
-    }
-     */
-
-    /**
-     * Metodo para fechar o banco de dados da classe
-     */
     public void fechaConexao() {
         try {
             if (!this.conn.isClosed()) {
