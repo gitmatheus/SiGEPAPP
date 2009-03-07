@@ -36,6 +36,7 @@ import br.edu.fei.sigepapp.bancodedados.ConnectionFactory;
 import br.edu.fei.sigepapp.bancodedados.model.Login;
 import br.edu.fei.sigepapp.bancodedados.model.Usuario;
 import br.edu.fei.sigepapp.cryptography.Criptografia;
+import br.edu.fei.sigepapp.cryptography.RemoverAcentos;
 import br.edu.fei.sigepapp.cryptography.VigenereCipherBean;
 import br.edu.fei.sigepapp.log.GravarLog;
 
