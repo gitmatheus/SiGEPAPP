@@ -81,7 +81,7 @@ table {
 
 /* Formatação da classe titulo, para aplicar aos titulos do sistema */
 td.titulo {
-    background: url(../images/navBG.png);
+    background: #dadada url(../images/navBG.png) 0 50% repeat-x;
 }
 
 font.titulo {

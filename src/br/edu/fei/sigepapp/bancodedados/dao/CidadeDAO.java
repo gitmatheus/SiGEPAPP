@@ -66,6 +66,8 @@ public class CidadeDAO {
             cstmt.setString(3, cidade.getNm_abrev());
             cstmt.registerOutParameter(5, OracleTypes.CURSOR);
 
+            cstmt.execute();
+
             ResultSet rs = (ResultSet) cstmt.getObject(5);
 
             List<Cidade> cidades = new ArrayList<Cidade>();
