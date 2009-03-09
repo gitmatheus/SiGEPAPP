@@ -11,8 +11,7 @@ create table APPP_TB_CODIGO_POSTAL
 (
   CD_CEP            number(6)    NOT NULL,
   NM_RUA            VARCHAR2(30) NOT NULL, 
-  CD_CIDADE         NUMBER(5)    NOT NULL,
-  CD_ESTADO         NUMBER(5)    NOT NULL
+  CD_CIDADE         NUMBER(5)    NOT NULL
 )
 tablespace SYSTEM
   storage
@@ -29,11 +28,6 @@ alter table APPP_TB_CODIGO_POSTAL
 alter table APPP_TB_CODIGO_POSTAL
  add constraint FK_APPP_TB_CODIGO_POSTAL01 foreign key (CD_CIDADE)
   references APPP_TB_CIDADE(CD_CIDADE);
-  
-alter table APPP_TB_CODIGO_POSTAL
- add constraint FK_APPP_TB_CODIGO_POSTAL02 foreign key (CD_ESTADO)
-  references APPP_TB_ESTADO(CD_ESTADO);  
-
   
   -- Grant/Revoke object privileges 
 grant select, insert, UPDATE, delete, references, alter, index on APPP_TB_CODIGO_POSTAL to admin;
