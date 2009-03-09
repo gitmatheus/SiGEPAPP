@@ -4,14 +4,14 @@
 *                 vResult( 1=OK; -99=ErroGeral)
 *                 pCDUser deve ser sempre o CPF do usuário
 * Author        : WeeDo 
-* History       : 28/02/2009 - Matheus Gonçalves
+* History       : 28/02/2009 - Matheus Gonçalves - Versão Inicial
+*               : 09/03/2009 - Matheus Gonçalves - Remoção do Parâmetro pDtCadastro
 ***********************************************************************************************************************/
 create or replace procedure APPP_INS_USER(pCDUser        in number  ,
                                           pPrimNome      in varchar2,
                                           pUltNome       in varchar2,
                                           pDtNasc        in date  ,
                                           pNrNota        in number,
-                                          pDtCadastro    in date  ,
                                           pDSInteresse   in varchar2  ,
                                           pMSN           in varchar2  ,
                                           pSkype         in varchar2  ,
@@ -33,7 +33,7 @@ begin
                              pUltNome          ,
                              pDtNasc           ,
                              pNrNota           ,
-                             pDtCadastro       ,
+                             sysdate           ,
                              pDSInteresse      ,
                              pMSN              ,
                              pSkype
