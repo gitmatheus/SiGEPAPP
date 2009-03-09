@@ -4,6 +4,7 @@
 *                      vResult( 1=OK; -99=ErroGeral)
 * Author              : WeeDo 
 * History             : 04/03/2009 - Matheus Gonçalves
+*                     : 09/03/2009 - Matheus Gonçalves - Criação do atributo NM_TB_ESTRUT
 ******************************************************************************************/
 create or replace procedure APPP_UPD_ESTRUT_OBJ(pCD_ESTRUTURA IN NUMBER,
                                                 pNM_ESTRUTURA IN VARCHAR2,
@@ -11,6 +12,7 @@ create or replace procedure APPP_UPD_ESTRUT_OBJ(pCD_ESTRUTURA IN NUMBER,
                                                 pDT_CRIACAO   IN DATE    ,
                                                 pCD_USER      IN NUMBER  ,
                                                 pTP_ESTRUTURA IN VARCHAR2,
+                                                pNM_TB_ESTRUT IN VARCHAR2,
                                                 vResult     out number) is
 begin
     
@@ -42,7 +44,15 @@ begin
       UPDATE APPP_TB_ESTRUT_OBJ 
       SET TP_ESTRUTURA = pTP_ESTRUTURA
       WHERE CD_ESTRUTURA = pCD_ESTRUTURA;
-   END IF;  
+   END IF;
+ 
+   IF pNM_TB_ESTRUT IS NOT NULL THEN
+      UPDATE APPP_TB_ESTRUT_OBJ 
+      SET NM_TB_ESTRUT = pNM_TB_ESTRUT
+      WHERE CD_ESTRUTURA = pCD_ESTRUTURA;
+   END IF;
+ 
+   
    
    vResult := 1; -- OK
    commit;
