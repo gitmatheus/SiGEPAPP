@@ -3,7 +3,8 @@
 * Project Name           : SiGEPAPP
 * APPP_TB_ESTRUT_OBJ.SQL : Script para criação da tabela APPP_TB_ESTRUT_OBJ
 * Author                 : WeeDo 
-* History                : 16/02/2009 - Matheus Gonçalves
+* History                : 16/02/2009 - Matheus Gonçalves - Versão inicial
+*                        : 09/03/2009 - Matheus Gonçalves - Criação do atributo NM_TB_ESTRUT
 ***********************************************************************************************************************/
 
 -- Create table
@@ -15,7 +16,8 @@ create table APPP_TB_ESTRUT_OBJ
   DS_ESTRUTURA      VARCHAR2(400) NOT NULL, 
   DT_CRIACAO        DATE DEFAULT SYSDATE NOT NULL,
   CD_USER           NUMBER(15) not null,
-  TP_ESTRUTURA      varchar2(3) NOT NULL
+  TP_ESTRUTURA      varchar2(3) NOT NULL,
+  NM_TB_ESTRUT      varchar2(30) not null
 )
 tablespace SYSTEM
   storage
