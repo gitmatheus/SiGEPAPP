@@ -10,7 +10,7 @@ public class CodigoPostal {
     private long cd_cep;
     private String nm_rua;
     private long cd_cidade;
-    private long cd_estado;
+
 
     public long getCd_cep() {
         return cd_cep;
@@ -26,14 +26,6 @@ public class CodigoPostal {
 
     public void setCd_cidade(long cd_cidade) {
         this.cd_cidade = cd_cidade;
-    }
-
-    public long getCd_estado() {
-        return cd_estado;
-    }
-
-    public void setCd_estado(long cd_estado) {
-        this.cd_estado = cd_estado;
     }
 
     public String getNm_rua() {

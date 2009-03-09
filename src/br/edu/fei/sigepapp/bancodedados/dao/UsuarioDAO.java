@@ -72,11 +72,11 @@ public class UsuarioDAO {
 
             //Grava log com a informação de sucesso
             if (cResult == 1) {
-                GravarLog.gravaInformacao(Usuario.class.getName() + ": inserção no banco de dados realizada com sucesso");
+                GravarLog.gravaInformacao(UsuarioDAO.class.getName() + ": inserção no banco de dados realizada com sucesso");
                 cstmt.close();
                 return true;
             }else{
-                GravarLog.gravaInformacao(Usuario.class.getName() + ": " + cResult + ": erro ao cadastrar novo usuário.");
+                GravarLog.gravaInformacao(UsuarioDAO.class.getName() + ": " + cResult + ": erro ao cadastrar novo usuário.");
                 cstmt.close();
                 return false;
             }
@@ -84,7 +84,7 @@ public class UsuarioDAO {
         } catch (SQLException e) {
 
             //Grava log com o erro que ocorreu durante a execução do comando SQL
-            GravarLog.gravaErro(Usuario.class.getName() + ": erro na inserção referente a uma exceção de SQL: " + e.getMessage());
+            GravarLog.gravaErro(UsuarioDAO.class.getName() + ": erro na inserção referente a uma exceção de SQL: " + e.getMessage());
 
             //Retorno da função como false em caso de erro
             return false;

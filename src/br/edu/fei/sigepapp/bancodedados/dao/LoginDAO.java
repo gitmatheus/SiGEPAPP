@@ -36,8 +36,6 @@ import br.edu.fei.sigepapp.bancodedados.ConnectionFactory;
 import br.edu.fei.sigepapp.bancodedados.model.Login;
 import br.edu.fei.sigepapp.bancodedados.model.Usuario;
 import br.edu.fei.sigepapp.cryptography.Criptografia;
-import br.edu.fei.sigepapp.cryptography.RemoverAcentos;
-import br.edu.fei.sigepapp.cryptography.VigenereCipherBean;
 import br.edu.fei.sigepapp.log.GravarLog;
 
 /**
@@ -63,122 +61,42 @@ public class LoginDAO {
      * @param login
      * @return true para registro inserido com suscesso e false para erro na inserção do registro no banco de dados
      */
-    public boolean adiciona(Login login) {
-        int result = 0;
-        String EncryptPassword;
-
+    public boolean insere(Login login) {
         try {
             //Instancia um objeto da classe PreparedStatement com o comando para inserção do registro no banco
-            PreparedStatement stmt = this.conn.prepareStatement("APPP_INS_TB_LOGIN( ?, ?, ?, ?)");
+            CallableStatement cstmt = this.conn.prepareCall("begin APPP_INS_TB_LOGIN( ?, ?, ?, ?); end;");
 
             //Seta os valores para os pontos de interrogação indexados pela ordem deles na string
-            stmt.setLong(1, login.getCd_user());
-            stmt.setString(2, login.getNm_login());
+            cstmt.setLong(1, login.getCd_user());
+            cstmt.setString(2, login.getNm_login());
 
-            EncryptPassword = Criptografia.escondeSenha(login.getPw_senha());
-            stmt.setString(3, EncryptPassword);
-            stmt.setInt(4, result);
+            String EncryptPassword = Criptografia.escondeSenha(login.getPw_senha());
+            cstmt.setString(3, EncryptPassword);
+            cstmt.registerOutParameter(4, OracleTypes.NUMBER);
 
             //executa o comando e fecha a instancia do objeto
-            stmt.execute();
-            stmt.close();
+            cstmt.execute();
+            
+            int cResult = (int) cstmt.getInt(6);
 
-            //Grava log com a informação de sucesso
-            if (result == 1) {
-                GravarLog.gravaInformacao(Login.class.getName() + ": inserção no banco de dados realizada com sucesso");
+            if (cResult == 1) {
+                GravarLog.gravaInformacao(LoginDAO.class.getName() + ": inserção no banco de dados realizada com sucesso");
+                cstmt.close();
+                return true;
+            } else {
+                GravarLog.gravaAlerta(LoginDAO.class.getName() + ": " + cResult + ": erro ao cadastrar novo usuário.");
+                cstmt.close();
+                return false;
             }
-            if (result == -99) {
-                GravarLog.gravaInformacao(Login.class.getName() + ": Erro ao inserir o login.");
-            }
-
-            //Retorno da função como true
-            return true;
-
         } catch (SQLException e) {
 
             //Grava log com o erro que ocorreu durante a execução do comando SQL
-            GravarLog.gravaErro(Login.class.getName() + ": erro na inserção referente a uma exceção de SQL: " + e.getMessage());
+            GravarLog.gravaErro(LoginDAO.class.getName() + ": erro na inserção referente a uma exceção de SQL: " + e.getMessage());
 
             //Retorno da função como false em caso de erro
             return false;
         }
 
-    }
-
-    /**
-     * Metodo responsavel pela atualizacao no banco de dados de um registro do Objeto Login
-     *
-     * @param login
-     * @return true para atualizado com sucesso e false erro na atualização
-     */
-    public boolean atualiza(Login login) {
-
-        String EncryptPassword;
-        try {
-            //Instancia um objeto da classe PreparedStatement com o comando para atualização do registro no banco
-            PreparedStatement stmt = this.conn.prepareStatement("update appp_tb_login set nm_login=?, pw_senha=? where cd_user=?)");
-
-            //Seta os valores para os pontos de interrogação indexados pela ordem deles na string
-            stmt.setString(1, login.getNm_login());
-
-            EncryptPassword = Criptografia.escondeSenha(login.getPw_senha());
-            stmt.setString(3, EncryptPassword);
-
-            stmt.setLong(3, login.getCd_user());
-
-            //executa o comando e fecha a instancia do objeto
-            stmt.execute();
-            stmt.close();
-
-            //Grava log com a informação de sucesso
-            GravarLog.gravaInformacao(Login.class.getName() + ": atualização no banco de dados realizada com sucesso");
-
-            //retorno da função como true
-            return true;
-
-        } catch (SQLException e) {
-
-            //Grava log com o erro que ocorreu durante a execução do comando SQL
-            GravarLog.gravaErro(Login.class.getName() + ": erro na atualização referente a uma exceção de SQL: " + e.getMessage());
-
-            //Retorno da função como false em caso de erro
-            return false;
-
-        }
-    }
-
-    /**
-     * Metodo responsavel por remover do banco de dados um registro do Objeto Login
-     *
-     * @param login
-     * @return true para remocao realizada com sucesso e false para erro de remocao do registro
-     */
-    public boolean deleta(Login login) {
-        try {
-            //Instancia um objeto da classe PreparedStatement com o comando para remoção do registro no banco
-            PreparedStatement stmt = this.conn.prepareStatement("delete from appp_tb_login where cod_user=?");
-
-            //Seta os valores para os pontos de interrogação indexados pela ordem deles na string
-            stmt.setLong(1, login.getCd_user());
-
-            //executa o comando e fecha a instancia do objeto
-            stmt.execute();
-            stmt.close();
-
-            //Grava log com a informação de sucesso
-            GravarLog.gravaInformacao(LoginDAO.class.getName() + ": remoção no banco de dados realizada com sucesso");
-
-            //retorno da função como true
-            return true;
-
-        } catch (SQLException e) {
-
-            //Grava log com o erro que ocorreu durante a execução do comando SQL
-            GravarLog.gravaErro(LoginDAO.class.getName() + ": erro na remoção referente a uma exceção de SQL: " + e.getMessage());
-
-            //Retorno da função como false em caso de erro
-            return false;
-        }
     }
 
     /**
@@ -189,7 +107,6 @@ public class LoginDAO {
      * @return Lista de usuario encontrados na consulta ao banco de dados. Neste caso deve retornar sem um elemento na lista.
      */
     public List<Usuario> validaLogin(String login, String password) {
-        String EncryptPassword;
         try {
             //Cria objeto CallableStatement para receber a procedure que sera executada no BD
             CallableStatement cstmt = this.conn.prepareCall("begin APPP_SEL_LOGIN(?, ?, ?); end;");
@@ -197,7 +114,7 @@ public class LoginDAO {
             //Associa os valores dos index nos parametros set com os ? da string da procedure
             cstmt.setString(1, login);
 
-            EncryptPassword = Criptografia.escondeSenha(password);
+            String EncryptPassword = Criptografia.escondeSenha(password);
             cstmt.setString(2, EncryptPassword);
             
             cstmt.registerOutParameter(3, OracleTypes.CURSOR);
