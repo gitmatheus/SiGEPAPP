@@ -39,7 +39,6 @@
         $("#frmCadUserCEP").mask("99999-999");
         $("#frmCadUserDataNasc").mask("99/99/9999");
         $("#frmCadUserCPF").mask("999.999.999-99");
-
     });
     function verificaExisteLogin(){
         var login = $("#frmCadUserLogin").val();
@@ -111,9 +110,9 @@
     function getCidade(){
         var cdestado = $("#frmCadUserEstado").val();
         $("#cadcidade").html(
-                "<select id='frmCadUserCidade' name='frmCadUserCidade' class='edit' style='width: auto;'></select>" +
-                "&nbsp;&nbsp;<img src='images/aguardep.gif'/>&nbsp;<font size='x-small'>por favor, aguarde...</font>"
-        );
+        "<select id='frmCadUserCidade' name='frmCadUserCidade' class='edit' style='width: auto;'></select>" +
+            "&nbsp;&nbsp;<img src='images/aguardep.gif'/>&nbsp;<font size='x-small'>por favor, aguarde...</font>"
+    );
         $.get("GetCidadeServlet", {cdestado: cdestado}, function(xml){
             var qtdecidades = parseInt($("nro_cidades",xml).text());
             var strComboCidade = "";
@@ -126,12 +125,25 @@
                 }
                 strComboCidade +="</select>";
             }else{
-                alert("Desculpe, não foi encontrada as cidades deste estado!");
+                $("#alertaCadCidade").dialog('open');
                 strComboCidade = "<select id='frmCadUserCidade' name='frmCadUserCidade' class='edit' style='width: auto;'></select>";
             }
             $("#cadcidade").html(strComboCidade);
         });
     }
+    $(function(){
+        $("#alertaCadCidade").dialog({
+            autoOpen: false,
+            width: 'auto',
+            height: 100,
+            buttons: {
+                "Ok": function(){
+                    $(this).dialog("close");
+                }
+            }
+        });
+    });
+
 </script>
 <form name="frmCadUser" method="post">
     <table border="0" cellpadding="0" cellspacing="0" width="100%" align="right">
@@ -314,6 +326,9 @@
                         <td width="70%" align="left">
                             <div id="cadcidade"  style="margin-left: 5px;">
                                 <select id="frmCadUserCidade" name="frmCadUserCidade" class="edit" style="width: auto;"></select>
+                            </div>
+                            <div id="alertaCadCidade" title="Cidades não cadastradas">
+                                Desculpe, mas não foram encontradas cidades cadastradas para este estado!
                             </div>
                         </td>
                     </tr>

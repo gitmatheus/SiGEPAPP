@@ -29,6 +29,8 @@ import java.util.List;
 import br.edu.fei.sigepapp.bancodedados.ConnectionFactory;
 import br.edu.fei.sigepapp.bancodedados.model.Telefone;
 import br.edu.fei.sigepapp.log.GravarLog;
+import java.sql.CallableStatement;
+import oracle.jdbc.OracleTypes;
 
 /**
  * 
@@ -53,32 +55,34 @@ public class TelefoneDAO {
      *
      * @see DAO#adiciona(Object) adiciona
      */
-    public boolean adiciona(Telefone telefone) {
+    public boolean insere(Telefone telefone) {
         try {
             //Instancia um objeto da classe PreparedStatement com o comando para inserção do registro no banco
-            PreparedStatement stmt = this.conn.prepareStatement("insert into appp_tb_user_telefone (cd_user, nr_ddi, nr_ddd," +
-                    " nr_telefone, tp_telefone) values( ?, ?, ?, ?, ?)");
+            CallableStatement cstmt = this.conn.prepareCall("begin APPP_INS_USER_TELEFONE(?,?,?,?,?,?)");
 
             //Seta os valores para os pontos de interrogação indexados pela ordem deles na string
-            stmt.setLong(1, telefone.getCd_user());
-            stmt.setLong(2, telefone.getNr_ddi());
-            stmt.setLong(3, telefone.getNr_ddd());
-            stmt.setLong(4, telefone.getNr_telefone());
-            stmt.setString(5, telefone.getTp_telefone());
+            cstmt.setLong(1, telefone.getCd_user());
+            cstmt.setLong(2, telefone.getNr_ddi());
+            cstmt.setLong(3, telefone.getNr_ddd());
+            cstmt.setLong(4, telefone.getNr_telefone());
+            cstmt.setString(5, telefone.getTp_telefone());
+            cstmt.registerOutParameter(6, OracleTypes.NUMBER);
 
             //executa o comando e fecha a instancia do objeto
-            stmt.execute();
-            stmt.close();
+            cstmt.execute();
+           
+            int cResult = (int) cstmt.getInt(6);
 
             //Grava log com a informação de sucesso
-            GravarLog.gravaInformacao(Telefone.class.getName() + ": inserção no banco de dados realizada com sucesso");
-
-            //Fecha conexao com o banco de dados
-            this.conn.close();
-
-            //Retorno da função como true
-            return true;
-
+            if (cResult == 1) {
+                GravarLog.gravaInformacao(TelefoneDAO.class.getName() + ": inserção no banco de dados realizada com sucesso");
+                cstmt.close();
+                return true;
+            }else{
+                GravarLog.gravaInformacao(TelefoneDAO.class.getName() + ": " + cResult + ": erro ao cadastrar novo usuário.");
+                cstmt.close();
+                return false;
+            }
         } catch (SQLException e) {
 
             //Grava log com o erro que ocorreu durante a execução do comando SQL
