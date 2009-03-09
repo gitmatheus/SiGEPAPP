@@ -10,6 +10,7 @@ create or replace procedure APPP_DEL_ATRIBUTO_OBJ(pCD_ATRIBUTO_OBJ IN NUMBER   ,
                                                   pDS_ATRIBUTO_OBJ IN VARCHAR2 ,
                                                   pCD_TIPO         IN NUMBER   ,
                                                   pFL_ATRIB_RELAC  IN VARCHAR2,
+                                                  pNM_COLUNA       IN VARCHAR2,
                                                   vResult           out number) is
                                                   
   CURSOR C IS 
@@ -18,7 +19,8 @@ create or replace procedure APPP_DEL_ATRIBUTO_OBJ(pCD_ATRIBUTO_OBJ IN NUMBER   ,
        WHERE (AO.NM_ATRIBUTO_OBJ like ('%'|| pNM_ATRIBUTO_OBJ || '%') OR pNM_ATRIBUTO_OBJ  IS NULL)
        AND   (AO.DS_ATRIBUTO_OBJ like ('%'|| pDS_ATRIBUTO_OBJ || '%') OR pDS_ATRIBUTO_OBJ  IS NULL)
        AND   (AO.CD_TIPO         like ('%'|| pCD_TIPO || '%')         OR pCD_TIPO          IS NULL)                                                   
-       AND   (AO.FL_ATRIB_RELAC  like ('%'|| pFL_ATRIB_RELAC || '%')  OR pFL_ATRIB_RELAC   IS NULL);
+       AND   (AO.FL_ATRIB_RELAC  like ('%'|| pFL_ATRIB_RELAC || '%')  OR pFL_ATRIB_RELAC   IS NULL)
+       AND   (AO.NM_COLUNA       LIKE ('%'|| pNM_COLUNA || '%')       OR pNM_COLUNA        IS NULL);
        
   vCD_TEMP NUMBER(20);     
 begin

@@ -10,6 +10,7 @@ create or replace procedure APPP_UPD_ATRIBUTO_OBJ(pCD_ATRIBUTO_OBJ IN NUMBER   ,
                                                   pDS_ATRIBUTO_OBJ IN VARCHAR2 ,
                                                   pCD_TIPO         IN NUMBER   ,
                                                   pFL_ATRIB_RELAC  IN VARCHAR2 ,
+                                                  pNM_COLUNA       IN VARCHAR2 ,
                                                   vResult           out number) is
 begin
     
@@ -36,6 +37,13 @@ begin
       SET FL_ATRIB_RELAC = pFL_ATRIB_RELAC
       WHERE CD_ATRIBUTO_OBJ = pCD_ATRIBUTO_OBJ;
    END IF;   
+   
+   IF pNM_COLUNA IS NOT NULL THEN
+      UPDATE APPP_TB_ATRIBUTO_OBJ 
+      SET NM_COLUNA = pNM_COLUNA
+      WHERE CD_ATRIBUTO_OBJ = pCD_ATRIBUTO_OBJ;
+   END IF;   
+   
    
    vResult := 1; -- OK
    commit;

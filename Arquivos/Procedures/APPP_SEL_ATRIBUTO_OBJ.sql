@@ -9,6 +9,7 @@ create or replace procedure APPP_SEL_ATRIBUTO_OBJ(pCD_ATRIBUTO_OBJ IN NUMBER   ,
                                                   pDS_ATRIBUTO_OBJ IN VARCHAR2 ,
                                                   pCD_TIPO         IN NUMBER   ,
                                                   pFL_ATRIB_RELAC  IN VARCHAR2 ,
+                                                  pNM_COLUNA       IN VARCHAR2 ,
                                                   p_cursor    OUT SYS_REFCURSOR   ) is
 begin
     
@@ -19,7 +20,8 @@ begin
               NM_ATRIBUTO_OBJ    , 
               DS_ATRIBUTO_OBJ    , 
               CD_TIPO            ,
-              FL_ATRIB_RELAC
+              FL_ATRIB_RELAC     ,
+              NM_COLUNA
        FROM APPP_TB_ATRIBUTO_OBJ
        WHERE CD_ATRIBUTO_OBJ = pCD_ATRIBUTO_OBJ;    
     
@@ -30,12 +32,15 @@ begin
               NM_ATRIBUTO_OBJ    , 
               DS_ATRIBUTO_OBJ    , 
               CD_TIPO            ,
-              FL_ATRIB_RELAC     
+              FL_ATRIB_RELAC     ,
+              NM_COLUNA
        FROM APPP_TB_ATRIBUTO_OBJ AO
-       WHERE (AO.NM_ATRIBUTO_OBJ LIKE ('%'|| pNM_ATRIBUTO_OBJ || '%') OR pNM_ATRIBUTO_OBJ    IS NULL)
-       AND   (AO.DS_ATRIBUTO_OBJ LIKE ('%'|| pDS_ATRIBUTO_OBJ || '%') OR pDS_ATRIBUTO_OBJ    IS NULL)
+       WHERE (AO.NM_ATRIBUTO_OBJ LIKE ('%'|| pNM_ATRIBUTO_OBJ || '%') OR pNM_ATRIBUTO_OBJ IS NULL)
+       AND   (AO.DS_ATRIBUTO_OBJ LIKE ('%'|| pDS_ATRIBUTO_OBJ || '%') OR pDS_ATRIBUTO_OBJ IS NULL)
        AND   (AO.CD_TIPO        = pCD_TIPO        OR pCD_TIPO        IS NULL)
-       AND   (AO.FL_ATRIB_RELAC = pFL_ATRIB_RELAC OR pFL_ATRIB_RELAC IS NULL);
+       AND   (AO.FL_ATRIB_RELAC = pFL_ATRIB_RELAC OR pFL_ATRIB_RELAC IS NULL)
+       AND   (AO.NM_COLUNA       LIKE ('%'|| pNM_COLUNA || '%')       OR pNM_COLUNA       IS NULL);
+
        
    END IF;                
 end APPP_SEL_ATRIBUTO_OBJ;

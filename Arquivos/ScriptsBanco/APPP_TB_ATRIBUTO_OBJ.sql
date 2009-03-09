@@ -5,6 +5,7 @@
 * History                  : 16/02/2009 - Matheus Gonçalves - Versão Inicial
 *                          : 26/02/2009 - Matheus Gonçalves - Drop column DS_TAM_ATRIB 
 *                          : 06/03/2009 - Matheus Gonçalves - Drop column DS_TAM_ATRIB NOVAMENTE 
+*                          : 09/03/2008 - Matheus Gonçalves - Create Column NM_COLUNA
 ***********************************************************************************************************************/
 
 -- Create table
@@ -15,7 +16,8 @@ create table APPP_TB_ATRIBUTO_OBJ
   NM_ATRIBUTO_OBJ VARCHAR2(40)  NOT NULL ,
   DS_ATRIBUTO_OBJ VARCHAR2(400)          , 
   CD_TIPO         NUMBER(10)    NOT NULL ,
-  FL_ATRIB_RELAC  VARCHAR2(1)   DEFAULT 'S' NOT NULL 
+  FL_ATRIB_RELAC  VARCHAR2(1)   DEFAULT 'S' NOT NULL,
+  NM_COLUNA       VARCHAR2(10)
 )
 tablespace SYSTEM
   storage
@@ -41,6 +43,9 @@ alter table APPP_TB_ATRIBUTO_OBJ
 -- Create/Recreate check constraints
 alter table APPP_TB_ATRIBUTO_OBJ
  add constraint CK_APPP_TB_ATRIBUTO_OBJ check (FL_ATRIB_RELAC in ('S','N'));
+
+alter table APPP_TB_ATRIBUTO_OBJ
+  add constraint UK_APPP_TB_ATRIBUTO_OBJ01 unique (NM_COLUNA);
 
 -- Drop columns 
 alter table APPP_TB_ATRIBUTO_OBJ drop column DS_TAM_ATRIB;
