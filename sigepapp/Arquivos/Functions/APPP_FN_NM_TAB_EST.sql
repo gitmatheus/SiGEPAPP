@@ -4,8 +4,7 @@
 * Author             : WeeDo 
 * History            : 09/03/2009 - Matheus Gonçalves
 ***************************************************************************************************/
-create or replace function APPP_FN_NM_TAB_EST(NM_ESTRUTURA IN VARCHAR2)
-   return varchar2 is
+create or replace function APPP_FN_NM_TAB_EST(NM_ESTRUTURA IN VARCHAR2) return varchar2 is
 
    Result VARCHAR2(30);
 
