@@ -53,7 +53,6 @@ spool /SiGEPAPP/LogCriacaoBanco.log
 
 @ /SiGEPAPP/APPP_TB_ATRIB_ESTRUTURA.SQL
 
-
 SPOOL OFF
 
 /
