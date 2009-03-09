@@ -12,9 +12,11 @@ create or replace procedure APPP_INS_ESTRUT_OBJ(pCD_ESTRUTURA OUT NUMBER,
                                                 pDS_ESTRUTURA IN VARCHAR2,
                                                 pCD_USER      IN NUMBER  ,
                                                 pTP_ESTRUTURA IN VARCHAR2,
-                                                pNM_TB_ESTRUT IN VARCHAR2,
                                                 vResult    out number) is
+       vNM_TB_ESTRUT VARCHAR2(2000);
 begin
+   
+   vNM_TB_ESTRUT := APPP_FN_NM_TAB_EST(pNM_ESTRUTURA);
    
    insert into APPP_TB_ESTRUT_OBJ( CD_ESTRUTURA ,
                                    NM_ESTRUTURA , 
@@ -30,7 +32,7 @@ begin
                                    sysdate       ,
                                    pCD_USER      ,
                                    pTP_ESTRUTURA ,
-                                   pNM_TB_ESTRUT
+                                   vNM_TB_ESTRUT
                                   );
                              
    select APPP_SEQ_ESTRUT_OBJ.CURRVAL
