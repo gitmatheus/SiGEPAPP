@@ -36,26 +36,26 @@ create or replace procedure APPP_CRIA_TABELA_ESTRUT(pCD_ESTRUTURA IN NUMBER,
   vSQL         VARCHAR2(10000);
   
   --VARIÁVEIS DE INSERÇÃO
-  vSQL_INS     VARCHAR2(2000); -- TODO O SQL
+  vSQL_INS     VARCHAR2(8000); -- TODO O SQL
   vSQL_INS_CAB VARCHAR2(2000); -- SQL DO CABEÇALHO
   vSQL_INS_ATR VARCHAR2(2000); -- SQL DOS ATRIBUTOS
   vSQL_INS_VAL VARCHAR2(2000); -- SQL DOS VALORES
   
   
   --VARIÁVEIS DE SELEÇÃO
-  vSQL_SEL     VARCHAR2(2000);
+  vSQL_SEL     VARCHAR2(8000);
   vSQL_SEL_CAB VARCHAR2(2000);
   vSQL_SEL_ATR VARCHAR2(2000);
   vSQL_SEL_WHE VARCHAR2(2000);  
   
   --VARIÁVEIS DE DELETE
-  vSQL_DEL     VARCHAR2(2000);
+  vSQL_DEL     VARCHAR2(8000);
   vSQL_DEL_CAB VARCHAR2(2000);
   vSQL_DEL_ATR VARCHAR2(2000);
   vSQL_DEL_WHE VARCHAR2(2000); 
   
   --VARIÁVEIS DE UPDATE
-  vSQL_UPD     VARCHAR2(2000);
+  vSQL_UPD     VARCHAR2(8000);
   vSQL_UPD_CAB VARCHAR2(2000);
   vSQL_UPD_ATR VARCHAR2(2000);
   vSQL_UPD_WHE VARCHAR2(2000); 
@@ -127,7 +127,7 @@ begin
       vSQL_INS_VAL := vSQL_INS_VAL || RPAD(' ',40,' ') ||', p' || vCURSOR.NM_COLUNA  || chr(10); 
       
       -- CRIA LINHAS DA PROCEDURE DE SELEÇÃO
-      vSQL_SEL_CAB := vSQL_SEL_CAB || RPAD(' ',50,' ') || ',p' || vCURSOR.NM_COLUNA || ' IN '|| vCURSOR.T_TYPE || chr(10);
+      vSQL_SEL_CAB := vSQL_SEL_CAB || RPAD(' ',53,' ') || ',p' || vCURSOR.NM_COLUNA || ' IN '|| vCURSOR.T_TYPE || chr(10);
       vSQL_SEL_ATR := vSQL_SEL_ATR || RPAD(' ',11,' ') ||', '  || vCURSOR.NM_COLUNA  || chr(10);
       vSQL_SEL_WHE := vSQL_SEL_WHE || chr(10) || '      AND (' || vCURSOR.NM_COLUNA || ' = ' || 'p' || vCURSOR.NM_COLUNA ||' OR '|| 'p' || vCURSOR.NM_COLUNA ||' IS NULL )';
                                      
@@ -161,8 +161,8 @@ begin
                         C O N C L U I   P R O C E D U R E    D E   S E L E Ç Ã O
    ********************************************************************************************************************************/   
  
-     vSQL_SEL_CAB := vSQL_SEL_CAB || RPAD(' ',50,' ') || 'p_cursor    OUT SYS_REFCURSOR   ) is' || chr(10) || ' BEGIN '|| chr(10) || chr(10);
-     vSQL_SEL_ATR := vSQL_SEL_ATR || RPAD(' ',11,' ') || ')'  || chr(10) ;
+     vSQL_SEL_CAB := vSQL_SEL_CAB || RPAD(' ',53,' ') || ',p_cursor    OUT SYS_REFCURSOR   ) is' || chr(10) || ' BEGIN '|| chr(10) || chr(10);
+     vSQL_SEL_ATR := vSQL_SEL_ATR || '    FROM ' || vNOME_TABELA  || chr(10) ;
      vSQL_SEL_WHE := vSQL_SEL_WHE || ';'  || chr(10) ; 
      
       --JUNTA CABEÇALHO, ATRIBUTOS E CONDIÇÕES DA PROCEDURE DE SELEÇÃO
@@ -195,10 +195,10 @@ begin
      
   END IF; 
 
-  EXCEPTION
+  /*EXCEPTION
      WHEN OTHERS THEN
         rollback;
-        vResult := -99; -- Erro genérico.
+        vResult := -99; -- Erro genérico.*/
        
   
 end APPP_CRIA_TABELA_ESTRUT;
