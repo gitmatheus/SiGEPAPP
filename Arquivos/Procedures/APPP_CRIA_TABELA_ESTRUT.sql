@@ -32,6 +32,32 @@ create or replace procedure APPP_CRIA_TABELA_ESTRUT(pCD_ESTRUTURA IN NUMBER,
   and   EO.cd_estrutura    = pCD_ESTRUTURA;
   
   vSQL         VARCHAR2(10000);
+  
+  --VARIÁVEIS DE INSERÇÃO
+  vSQL_INS     VARCHAR2(2000);
+  vSQL_INS_CAB VARCHAR2(2000);
+  vSQL_INS_ATR VARCHAR2(2000);
+  vSQL_INS_VAL VARCHAR2(2000);
+  
+  
+  --VARIÁVEIS DE SELEÇÃO
+  vSQL_SEL     VARCHAR2(2000);
+  vSQL_SEL_CAB VARCHAR2(2000);
+  vSQL_SEL_ATR VARCHAR2(2000);
+  vSQL_SEL_WHE VARCHAR2(2000);  
+  
+  --VARIÁVEIS DE DELETE
+  vSQL_DEL     VARCHAR2(2000);
+  vSQL_DEL_CAB VARCHAR2(2000);
+  vSQL_DEL_ATR VARCHAR2(2000);
+  vSQL_DEL_WHE VARCHAR2(2000); 
+  
+  --VARIÁVEIS DE UPDATE
+  vSQL_UPD     VARCHAR2(2000);
+  vSQL_UPD_CAB VARCHAR2(2000);
+  vSQL_UPD_ATR VARCHAR2(2000);
+  vSQL_SEL_WHE VARCHAR2(2000); 
+  
   vNOME_TABELA VARCHAR2(60);
   vMAXTAM      VARCHAR2(15);
   vTEMP        VARCHAR2(2);
@@ -56,14 +82,28 @@ begin
          WHERE ATB.TABLE_NAME = vNOME_TABELA;
          
          IF vTEMP > 0 THEN
-            vResult := -50;
+            vResult := -50; -- Tabela já existe
             EXIT;
          END IF;
          
-         
+         -- CREATE TABLE - INÍCIO
          vSQL := vSQL || 'CREATE TABLE '|| vNOME_TABELA || '(';
-         vSQL := vSQL || 'CD_ESTRUTURA NUMBER(10) NOT NULL';  
+         vSQL := vSQL || 'CD_OBJETO NUMBER(10) NOT NULL';  
+         
+         -- CREATE PROCEDURE INS -- INÍCIO
+         vSQL_INS_CAB := 'create or replace procedure ' || 'APPP_INS' || SUBSTR(vNOME_TABELA,8,18) || '( pCD_OBJETO IN NUMBER ' || chr(10);
+         vSQL_INS_ATR := '   INSERT INTO '|| vNOME_TABELA || '(CD_OBJETO ' || chr(10);
+         vSQL_INS_VAL := RPAD(' ',33,' ') || 'VALUES (pCD_OBJETO '  || chr(10); 
+         
+         
+         -- CREATE PROCEDURE SEL -- INÍCIO
+         vSQL_SEL_CAB := 'create or replace procedure ' || 'APPP_SEL' || SUBSTR(vNOME_TABELA,8,18) || '( pCD_OBJETO IN NUMBER ' || chr(10);
+         
+         -- CREATE PROCEDURE DEL -- INÍCIO
+         vSQL_DEL_CAB := 'create or replace procedure ' || 'APPP_DEL' || SUBSTR(vNOME_TABELA,8,18) || '( pCD_OBJETO IN NUMBER ' || chr(10);
+         
        end if;
+       
       -- DEFINE O TAMANHO MÁXIMO DO CAMPO DE ACORDO COM SEU TIPO
       if    vCURSOR.T_TYPE = 'NUMBER' THEN 
             vMAXTAM := '(15)';
@@ -72,26 +112,56 @@ begin
       ELSE       
             vMAXTAM := '';
       END IF;
+      
      -- INSERE O ATRIBUTO NO COMANDO DINÂMICO.
       vSQL := vSQL || ', ' ||vCURSOR.NM_COLUNA|| ' '||vCURSOR.T_TYPE||vMAXTAM || ' NOT NULL ';   
+
+      -- CRIA LINHAS DA PROCEDURE DE INSERÇÃO
+      vSQL_INS_CAB := vSQL_INS_CAB || RPAD(' ',53,' ') || ',p' || vCURSOR.NM_COLUNA || ' IN '|| vCURSOR.T_TYPE || chr(10);
+      vSQL_INS_ATR := vSQL_INS_ATR || RPAD(' ',40,' ') ||', '  || vCURSOR.NM_COLUNA  || chr(10);    
+      vSQL_INS_VAL := vSQL_INS_VAL || RPAD(' ',40,' ') ||', p' || vCURSOR.NM_COLUNA  || chr(10); 
+      
+      
   END LOOP;
   
   -- CONTINUA, COM A CRIAÇÃO DAS CONSTRAINTS
   IF (vSQL is not null) THEN
      vSQL := vSQL || ')' ;
+     
+     --CONCLUI PROCEDURE DE INSERÇÃO
+     vSQL_INS_CAB := vSQL_INS_CAB || RPAD(' ',53,' ') || ', vResult OUT NUMBER ) is' || chr(10) || ' BEGIN '|| chr(10) || chr(10);
+     vSQL_INS_ATR := vSQL_INS_ATR || RPAD(' ',40,' ') || ')'  || chr(10) ;
+     vSQL_INS_VAL := vSQL_INS_VAL || RPAD(' ',40,' ') || ');' || chr(10) ; 
+     
+     --JUNTA CABEÇALHO, ATRIBUTOS E VALORES DA PROCEDURE DE INSERÇÃO
+     vSQL_INS := vSQL_INS_CAB || vSQL_INS_ATR || vSQL_INS_VAL || chr(10) ;
+     
+     -- FECHA A PROCEDURE DE INSERÇÃO COM EXCEPTION
+     vSQL_INS := vSQL_INS || 'vResult := 1; COMMIT;'                          || chr(10) ;
+     vSQL_INS := vSQL_INS || '  EXCEPTION '                                   || chr(10) ;
+     vSQL_INS := vSQL_INS || '  WHEN OTHERS THEN '                            || chr(10) ;
+     vSQL_INS := vSQL_INS || '     rollback;     '                            || chr(10) ;  
+     vSQL_INS := vSQL_INS || '     vResult := -99; -- Erro genérico.'         || chr(10) ;  
+     vSQL_INS := vSQL_INS || 'END '|| 'APPP_INS' || SUBSTR(vNOME_TABELA,8,18) ||';'      ;  
+     
      EXECUTE IMMEDIATE vSQL;
      
      vResult := 1; -- Tabela Criada
-
-     vSQL := 'ALTER TABLE ' || vNOME_TABELA || ' ADD CONSTRAINT PK_'|| vNOME_TABELA || ' primary key (CD_ESTRUTURA)';
+     
+     vSQL := 'ALTER TABLE ' || vNOME_TABELA || ' ADD CONSTRAINT PK_'|| vNOME_TABELA || ' primary key (CD_OBJETO)';
      EXECUTE IMMEDIATE vSQL;
      
      vResult := 2; -- PK Criada
      
-     vSQL := 'ALTER TABLE ' || vNOME_TABELA || ' ADD CONSTRAINT FK_'|| vNOME_TABELA || ' foreign key (CD_ESTRUTURA) references APPP_TB_ESTRUT_OBJ (CD_ESTRUTURA)';
+     vSQL := 'ALTER TABLE ' || vNOME_TABELA || ' ADD CONSTRAINT FK_'|| vNOME_TABELA || ' foreign key (CD_OBJETO) references APPP_TB_OBJETO (CD_OBJETO)';
      EXECUTE IMMEDIATE vSQL;
+  
+     vResult := 3; -- FK Criada
      
-     vResult := 3; -- PK Criada
+     EXECUTE IMMEDIATE vSQL_INS; 
+     vResult := 4; -- PROCEDURE INS Criada
+     
+     
   END IF; 
 
   EXCEPTION
