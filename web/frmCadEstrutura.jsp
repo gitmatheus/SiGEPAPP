@@ -26,6 +26,7 @@
          * |             |             | Inicio de funcoes AJAX               |
          * |------------------------------------------------------------------|
          **/
+
         AtributoDAO atributoDAO = new AtributoDAO();
         Collection<Atributo> atributos;
         atributos = atributoDAO.APPP_SEL_ATRIBUTO_OBJ(new Atributo());
@@ -79,20 +80,30 @@
         arrayVisiveis=$.makeArray($("#cmbSelecionaAtributo option"));
         //Esconde mensagem de Loading ajax
         $("#frmCadEstrDivLoadingEst").hide();
-        $(document).ajaxError(function(){
+        $(document).ajaxError(function(msg,msg1,msg2,msg3){
             alert("erro");
         });
         //Atribui funcao ajax ao objeto frmCadEstrTipo
         $("#frmCadEstrTipo").change(function(){
-
-            $.post("PesqAtribDeEstrut", {}, function(dados,status){
+            $.post("GetAtribDeEstrut", {codatrib: $("#frmCadEstrTipo").val()}, function(xml){
                 $("#frmCadEstrDivLoadingEst").show("normal");
-                if(status=="success"){
-                    alert(dados);
-                    $("#frmCadEstrDivLoadingEst").hide("normal");
-                }else{
+
+                //if(status=="success"){
+
+                //Tratamento dos dados recebidos
+/*
+                $("#tabAtributos").html("");
+                $("atributo",xml).each(function(index, item){
+                    $("#tabAtributos").append("<tr>\
+                                                    <td colspan='2' width='30%' align='center'>\
+                                                     <div style='margin-right: 10px;'>\
+                                                       "+$(item).text()+"</div></td></tr><tr><td colspan='2'>&nbsp;</td></tr>");
+
+                });
+                $("#frmCadEstrDivLoadingEst").hide("normal");
+                /*}else{
                     alert('Falhei!');
-                }
+                }*/
             });
 
             //fim de frmCadEstrTipo.change
@@ -217,9 +228,9 @@
                             <div  style="margin-left: 5px;">
                                 <select class="select_uma_linha" id="frmCadEstrTipo" name="frmCadEstrTipo" style="height: 2em;" width="150px" maxlength="30" title="Escolha o tipo de Estrutura">
                                     <option selected>Escolha um tipo de estrutura</option>
-                                    <option value="Pattern">Pattern</option>
-                                    <option value="Anti-Pattern">Anti-Pattern</option>
-                                    <option value="Persona">Persona</option>
+                                    <option value="20">Pattern</option>
+                                    <option value="21">Anti-Pattern</option>
+                                    <option value="22">Persona</option>
                                     <option style="background: #EEEEEE" onclick="alert('Aqui abre janela para procurar por estruturas existentes')" >Importar de Estrutura Existente...</option>
                                 </select>
                             </div>
@@ -238,49 +249,7 @@
                 <legend><b>Escolha dos atributos:</b></legend>
                 <form action="frmCadEstrutura.jsp" method="get">
                     <table  id="tabAtributos" border="0" cellpadding="0" cellspacing="0" width="500">
-                        <tr>
-                            <td colspan="2" width="30%" align="center">
-                                <div style="margin-right: 10px;">
-                                    Nome
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>&nbsp;</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td colspan="2" width="30%" align="center">
-                                <div style="margin-right: 10px;">
-                                    Contexto
-                                </div>
-                            </td>
 
-                        </tr>
-                        <tr>
-                            <td>&nbsp;</td>
-                            <td></td>
-                        </tr>
-
-                        <tr>
-                            <td colspan="2" width="30%" align="center">
-                            <div style="margin-right: 10px;">
-                                Problema
-                            </div>
-
-
-                        </tr>
-                        <tr>
-                            <td>&nbsp;</td>
-                            <td></td>
-                        </tr>
-
-                        <tr>
-                            <td colspan="2" width="30%" align="center">
-                            <div style="margin-right: 10px;">
-                                Solu&ccedil;&atilde;o
-                            </div>
-                        </tr>
                     </table>
                     <table border="0" cellpadding="0" cellspacing="0" width="500">
                         <tr id="linhaDoSeletor">
@@ -322,7 +291,7 @@
                             <td colspan="2"><a href="#" onclick="javascript: $('#formEscolheAtributos').show('normal');"><img src="images/add.gif" border="none">Adicionar novo atributo</a></td>
                         </tr>
                     </table>
-                    <input type="submit" value="enviar">Enviar
+                    <input type="submit" value="enviar">
                 </form>
             </fieldset>
 

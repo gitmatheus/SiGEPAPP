@@ -28,7 +28,7 @@ import java.util.List;
 
 //~-- Sigepapp import ---------------------------------------------------------
 import br.edu.fei.sigepapp.bancodedados.ConnectionFactory;
-import br.edu.fei.sigepapp.bancodedados.model.Estrutura_Obj;
+import br.edu.fei.sigepapp.bancodedados.model.Estrutura;
 import br.edu.fei.sigepapp.log.GravarLog;
 
 /**
@@ -47,16 +47,16 @@ public class Estrutura_ObjDAO {
         this.conn = ConnectionFactory.getConnection();
     }
 
-    public List<Estrutura_Obj> seleciona(String query) {
+    public List<Estrutura> seleciona(String query) {
         try {
 
             PreparedStatement stmt = this.conn.prepareStatement(query);
             ResultSet rs = stmt.executeQuery();
 
-            List<Estrutura_Obj> estruturas = new ArrayList<Estrutura_Obj>();
+            List<Estrutura> estruturas = new ArrayList<Estrutura>();
 
             while (rs.next()) {
-                Estrutura_Obj novaEstrutura = new Estrutura_Obj(rs.getLong("CD_ESTRUTURA"), rs.getString("NM_ESTRUTURA"), rs.getString("DS_ESTRUTURA"), rs.getDate("DT_CRIACAO"), rs.getLong("CD_USER"), rs.getString("TP_ESTRUTURA"));
+                Estrutura novaEstrutura = new Estrutura(rs.getLong("CD_ESTRUTURA"), rs.getString("NM_ESTRUTURA"), rs.getString("DS_ESTRUTURA"), rs.getDate("DT_CRIACAO"), rs.getLong("CD_USER"), rs.getString("TP_ESTRUTURA"));
                 estruturas.add(novaEstrutura);
             }
 
@@ -69,13 +69,13 @@ public class Estrutura_ObjDAO {
             return estruturas;
 
         } catch (SQLException ex) {
-            GravarLog.gravaErro(Estrutura_Obj.class.getName() + ": erro na pesquisa referente a uma excecao de SQL: " + ex.getMessage());
+            GravarLog.gravaErro(Estrutura.class.getName() + ": erro na pesquisa referente a uma excecao de SQL: " + ex.getMessage());
 
             return null;
         }
     }
 
-    public boolean adiciona(Estrutura_Obj estruturaAdicionar) {
+    public boolean adiciona(Estrutura estruturaAdicionar) {
         try {
 
             // Instancia um objeto da classe PreparedStatement com o comando para insercao do registro no banco
@@ -96,7 +96,7 @@ public class Estrutura_ObjDAO {
             stmt.close();
 
             // Grava log com a informacao de sucesso
-            GravarLog.gravaInformacao(Estrutura_Obj.class.getName() + ": insercao no banco de dados realizada com sucesso");
+            GravarLog.gravaInformacao(Estrutura.class.getName() + ": insercao no banco de dados realizada com sucesso");
 
             // Fecha conexao com o banco de dados
             this.conn.close();
@@ -107,7 +107,7 @@ public class Estrutura_ObjDAO {
         } catch (SQLException e) {
 
             // Grava log com o erro que ocorreu durante a execucao do comando SQL
-            GravarLog.gravaErro(Estrutura_Obj.class.getName() + ": erro na insercao referente a uma excecao de SQL: " + e.getMessage());
+            GravarLog.gravaErro(Estrutura.class.getName() + ": erro na insercao referente a uma excecao de SQL: " + e.getMessage());
 
             // Retorno da funcao como false em caso de erro
             return false;
@@ -115,7 +115,7 @@ public class Estrutura_ObjDAO {
 
     }
 
-    public boolean deleta(Estrutura_Obj objDeletar) {
+    public boolean deleta(Estrutura objDeletar) {
         try {
 
             PreparedStatement stmt = conn.prepareStatement("delete from APPP_TB_ESTRUT_OBJ where CD_ESTRUTURA=?");
@@ -130,14 +130,14 @@ public class Estrutura_ObjDAO {
         } catch (SQLException e) {
 
             // Grava log com o erro que ocorreu durante a execucao do comando SQL
-            GravarLog.gravaErro(Estrutura_Obj.class.getName() + ": erro na insercao referente a uma excecao de SQL: " + e.getMessage());
+            GravarLog.gravaErro(Estrutura.class.getName() + ": erro na insercao referente a uma excecao de SQL: " + e.getMessage());
 
             // Retorno da funcao como false em caso de erro
             return false;
         }
     }
 
-    public boolean atualiza(Estrutura_Obj estruturaAtualizar) {
+    public boolean atualiza(Estrutura estruturaAtualizar) {
         try {
 
             // Instancia um objeto da classe PreparedStatement com o comando para atualizacao do registro no banco
@@ -159,7 +159,7 @@ public class Estrutura_ObjDAO {
             stmt.close();
 
             // Grava log com a informacao de sucesso
-            GravarLog.gravaInformacao(Estrutura_Obj.class.getName() + ": atualizacao no banco de dados realizada com sucesso");
+            GravarLog.gravaInformacao(Estrutura.class.getName() + ": atualizacao no banco de dados realizada com sucesso");
 
             // Fecha conexao com o banco de dados
             this.conn.close();
@@ -170,7 +170,7 @@ public class Estrutura_ObjDAO {
         } catch (SQLException e) {
 
             // Grava log com o erro que ocorreu durante a execucao do comando SQL
-            GravarLog.gravaErro(Estrutura_Obj.class.getName() + ": erro na atualizacao referente a uma excecao de SQL: " + e.getMessage());
+            GravarLog.gravaErro(Estrutura.class.getName() + ": erro na atualizacao referente a uma excecao de SQL: " + e.getMessage());
 
             // Retorno da funcao como false em caso de erro
             return false;

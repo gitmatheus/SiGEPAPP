@@ -2,11 +2,18 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package br.edu.fei.sigepapp.servlet;
 
+import br.edu.fei.sigepapp.bancodedados.dao.Atrib_EstruturaDAO;
+import br.edu.fei.sigepapp.bancodedados.dao.AtributoDAO;
+import br.edu.fei.sigepapp.bancodedados.model.Atrib_Estrutura;
+import br.edu.fei.sigepapp.bancodedados.model.Atributo;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -16,8 +23,8 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author lopespt
  */
-public class PesqAtribDeEstrut extends HttpServlet {
-   
+public class GetAtribDeEstrut extends HttpServlet {
+
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
      * @param request servlet request
@@ -26,17 +33,35 @@ public class PesqAtribDeEstrut extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
+            throws ServletException, IOException {
+        response.setContentType("text/xml;charset=ISO-8859-1");
         PrintWriter out = response.getWriter();
         try {
+            Atrib_EstruturaDAO atrib_EstruturaDAO = new Atrib_EstruturaDAO();
 
-            out.print("retorno");
+            List<Atrib_Estrutura> codAtributos = atrib_EstruturaDAO.APPP_SEL_ATRIB_ESTRUTURA(new Atrib_Estrutura(Long.parseLong(request.getParameter("codatrib")) , 0));
+            atrib_EstruturaDAO.fechaConexao();
+            List<Atributo> nomes;
 
-        } finally { 
+            AtributoDAO atributoDAO = new AtributoDAO();
+            out.print("<xml>");
+            for (Atrib_Estrutura atrib_Estrutura : codAtributos) {
+                Atributo atributo = new Atributo(atrib_Estrutura.getCd_atributo_obj(), null, null, 0, null);
+                nomes = atributoDAO.APPP_SEL_ATRIBUTO_OBJ(atributo);
+
+                out.print("<atributo>" + nomes.get(0).getNm_atributo_obj().trim() + "</atributo>");
+
+            //out.println(nomes.get(0).getNm_atributo_obj());
+            }
+            out.println("</xml>");
+            atributoDAO.fechaConexao();
+            out.flush();
             out.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(GetAtribDeEstrut.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
         }
-    } 
+    }
 
     // <editor-fold defaultstate="collapsed" desc="Métodos HttpServlet. Clique no sinal de + à esquerda para editar o código.">
     /** 
@@ -48,9 +73,9 @@ public class PesqAtribDeEstrut extends HttpServlet {
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
+            throws ServletException, IOException {
         processRequest(request, response);
-    } 
+    }
 
     /** 
      * Handles the HTTP <code>POST</code> method.
@@ -61,7 +86,7 @@ public class PesqAtribDeEstrut extends HttpServlet {
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
+            throws ServletException, IOException {
         processRequest(request, response);
     }
 
@@ -73,5 +98,4 @@ public class PesqAtribDeEstrut extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
-
 }

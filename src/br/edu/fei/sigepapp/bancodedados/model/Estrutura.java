@@ -6,15 +6,15 @@ import java.sql.Date;
  *
  * @author lopespt
  */
-public class Estrutura_Obj {
+public class Estrutura {
 
-    public Estrutura_Obj(long cd_estrutura, String nm_estrutura, String ds_estrutura, Date dt_criacao, long cod_user, String tp_estrutura) {
-        this.cd_estrutura = cd_estrutura;
-        this.nm_estrutura = nm_estrutura;
-        this.ds_estrutura = ds_estrutura;
-        this.dt_criacao = dt_criacao;
-        this.cod_user = cod_user;
-        this.tp_estrutura = tp_estrutura;
+    public Estrutura(long cd_estrutura, String nm_estrutura, String ds_estrutura, Date dt_criacao, long cod_user, String tp_estrutura) {
+        setCd_estrutura(cd_estrutura);
+        setNm_estrutura(nm_estrutura);
+        setDs_estrutura(ds_estrutura);
+        setDt_criacao(dt_criacao);
+        setCod_user(cod_user);
+        setTp_estrutura(tp_estrutura);
     }
 
     private long cd_estrutura;

@@ -167,6 +167,7 @@ public class AtributoDAO {
 
         try {
             cstmt = conn.prepareCall("begin  APPP_INS_ATRIBUTO_OBJ(?, ?, ?, ?, ?, ?); end;");
+            cstmt.setNull(1, OracleTypes.NUMBER);
             cstmt.setString(2, atributoInserir.getNm_atributo_obj());
             cstmt.setString(3, atributoInserir.getDs_atributo_obj());
             cstmt.setLong(4, atributoInserir.getCd_tipo());
@@ -205,11 +206,10 @@ public class AtributoDAO {
             cstmt = conn.prepareCall("begin  APPP_UPD_ATRIBUTO_OBJ(?, ?, ?, ?, ?, ?); end;");
 
             //Seta o codigo do atributo NULL (A chave sera gerada automaticamente pela procedure do banco)
-            cstmt.setNull(1, OracleTypes.NUMBER);
+            cstmt.setLong(1, atributoAtualizar.getCd_atributo_obj());
             cstmt.setString(2, atributoAtualizar.getNm_atributo_obj());
             cstmt.setString(3, atributoAtualizar.getDs_atributo_obj());
             cstmt.setLong(4, atributoAtualizar.getCd_tipo());
-
             cstmt.setString(5, atributoAtualizar.getFl_atrib_relac());
 
             cstmt.registerOutParameter(6, OracleTypes.NUMBER);
@@ -221,7 +221,7 @@ public class AtributoDAO {
 
 
             if (resultado == 1) {
-                GravarLog.gravaInformacao(Atributo.class.getName() + ": adicao no banco de dados realizada com sucesso");
+                GravarLog.gravaInformacao(Atributo.class.getName() + ": atualizacao no banco de dados realizada com sucesso");
                 return true;
             } else {
                 GravarLog.gravaErro(Atributo.class.getName() + ": erro na adicao no banco de dados: Erro generico.");

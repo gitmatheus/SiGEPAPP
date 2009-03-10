@@ -32,15 +32,22 @@ public class Atributo {
     private String fl_atrib_relac;
 
     public Atributo() {
+    setCd_atributo_obj(0);
+        setNm_atributo_obj(null);
+        setDs_atributo_obj(null);
+        setCd_tipo(0);
+        setFl_atrib_relac(null);
     }
     ;
 
     public Atributo(long cd_atributo_obj, String nm_atributo_obj, String ds_atributo_obj, long cd_tipo, String fl_atrib_relac) {
-        this.cd_atributo_obj = cd_atributo_obj;
-        this.nm_atributo_obj = nm_atributo_obj;
-        this.ds_atributo_obj = ds_atributo_obj;
-        this.cd_tipo = cd_tipo;
-        this.fl_atrib_relac = fl_atrib_relac;
+
+        setCd_atributo_obj(cd_atributo_obj);
+        setNm_atributo_obj(nm_atributo_obj);
+        setDs_atributo_obj(ds_atributo_obj);
+        setCd_tipo(cd_tipo);
+        setFl_atrib_relac(fl_atrib_relac);
+        
     }
 
     public long getCd_atributo_obj() {
@@ -72,8 +79,8 @@ public class Atributo {
     }
 
     public void setFl_atrib_relac(String fl_atrib_relac) {
-        fl_atrib_relac = toString().toUpperCase();
-        if (fl_atrib_relac.equals("S") || fl_atrib_relac.equals("N")) {
+        
+        if (fl_atrib_relac==null || fl_atrib_relac.equalsIgnoreCase("S") || fl_atrib_relac.equalsIgnoreCase("N")) {
             this.fl_atrib_relac = fl_atrib_relac;
         }else{
             throw new IllegalArgumentException("Flag de tipo do atributo inválido: Esperado 'S' ou 'N'");
