@@ -26,7 +26,6 @@
          * |             |             | Inicio de funcoes AJAX               |
          * |------------------------------------------------------------------|
          **/
-
         AtributoDAO atributoDAO = new AtributoDAO();
         Collection<Atributo> atributos;
         atributos = atributoDAO.APPP_SEL_ATRIBUTO_OBJ(new Atributo());
@@ -54,6 +53,7 @@
     .atributoAdicional{
         height: 2em;
         font-weight:bold;
+        font-size:small;
 
         vertical-align:middle;
     }
@@ -61,7 +61,7 @@
         vertical-align:middle;
     }
     .atributoMinimo{
-
+        font-size:small;
     }
 </style>
 
@@ -81,36 +81,47 @@
         //Esconde mensagem de Loading ajax
         $("#frmCadEstrDivLoadingEst").hide();
         $(document).ajaxError(function(msg,msg1,msg2,msg3){
-            alert("erro");
+            alert("erro"+msg1);
         });
         //Atribui funcao ajax ao objeto frmCadEstrTipo
         $("#frmCadEstrTipo").change(function(){
-            $.post("GetAtribDeEstrut", {codatrib: $("#frmCadEstrTipo").val()}, function(xml){
-                $("#frmCadEstrDivLoadingEst").show("normal");
+            if( $("#frmCadEstrTipo").val() > -1){
+                getAtributos()
+            }else{
+                $("#tabAtributos").html("");
+            }
+        });
 
-                //if(status=="success"){
+
+        //Fim de document.ready
+    });
+
+    function getAtributos(){
+        var cod_Atributo=$("#frmCadEstrTipo").val();
+
+        $.post("GetAtribDeEstrut", {codatrib: cod_Atributo}, function(xml,status){
+
+            $("#frmCadEstrDivLoadingEst").show("normal");
+
+            if(status=="success"){
 
                 //Tratamento dos dados recebidos
-/*
                 $("#tabAtributos").html("");
                 $("atributo",xml).each(function(index, item){
                     $("#tabAtributos").append("<tr>\
                                                     <td colspan='2' width='30%' align='center'>\
-                                                     <div style='margin-right: 10px;'>\
+                                                     <div class='atributoMinimo' style='margin-right: 10px;'>\
                                                        "+$(item).text()+"</div></td></tr><tr><td colspan='2'>&nbsp;</td></tr>");
 
                 });
                 $("#frmCadEstrDivLoadingEst").hide("normal");
-                /*}else{
-                    alert('Falhei!');
-                }*/
-            });
-
-            //fim de frmCadEstrTipo.change
+            }else{
+                alert('Falhei!');
+            }
         });
-        //Fim de document.ready
-    });
 
+        //fim de frmCadEstrTipo.change
+    }
 
     //Esconde um objeto. O parametro obj sera usado para passagem de um <option> do cmbSelecionaAtributo
     function esconde(obj){
@@ -227,11 +238,11 @@
                         <td width="70%" align="left">
                             <div  style="margin-left: 5px;">
                                 <select class="select_uma_linha" id="frmCadEstrTipo" name="frmCadEstrTipo" style="height: 2em;" width="150px" maxlength="30" title="Escolha o tipo de Estrutura">
-                                    <option selected>Escolha um tipo de estrutura</option>
+                                    <option value="-1" selected>Escolha um tipo de estrutura</option>
                                     <option value="20">Pattern</option>
                                     <option value="21">Anti-Pattern</option>
                                     <option value="22">Persona</option>
-                                    <option style="background: #EEEEEE" onclick="alert('Aqui abre janela para procurar por estruturas existentes')" >Importar de Estrutura Existente...</option>
+                                    <option value="-2" style="background: #EEEEEE" onclick="alert('Aqui abre janela para procurar por estruturas existentes')" >Importar de Estrutura Existente...</option>
                                 </select>
                             </div>
                             <div id="frmCadEstrDivLoadingEst">

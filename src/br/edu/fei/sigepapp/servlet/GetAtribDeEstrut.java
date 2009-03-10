@@ -10,6 +10,7 @@ import br.edu.fei.sigepapp.bancodedados.model.Atrib_Estrutura;
 import br.edu.fei.sigepapp.bancodedados.model.Atributo;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.net.URLEncoder;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.logging.Level;
@@ -34,7 +35,7 @@ public class GetAtribDeEstrut extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/xml;charset=ISO-8859-1");
+            response.setContentType("text/xml;charset=UTF-8");
         PrintWriter out = response.getWriter();
         try {
             Atrib_EstruturaDAO atrib_EstruturaDAO = new Atrib_EstruturaDAO();
@@ -44,14 +45,14 @@ public class GetAtribDeEstrut extends HttpServlet {
             List<Atributo> nomes;
 
             AtributoDAO atributoDAO = new AtributoDAO();
-            out.print("<xml>");
+            out.println("<xml>");
             for (Atrib_Estrutura atrib_Estrutura : codAtributos) {
                 Atributo atributo = new Atributo(atrib_Estrutura.getCd_atributo_obj(), null, null, 0, null);
                 nomes = atributoDAO.APPP_SEL_ATRIBUTO_OBJ(atributo);
 
-                out.print("<atributo>" + nomes.get(0).getNm_atributo_obj().trim() + "</atributo>");
+                out.println("<atributo>" + nomes.get(0).getNm_atributo_obj().trim()  + "</atributo>");
 
-            //out.println(nomes.get(0).getNm_atributo_obj());
+            
             }
             out.println("</xml>");
             atributoDAO.fechaConexao();
