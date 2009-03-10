@@ -7,6 +7,7 @@
 *                                    3=FK CRIADA;
 *                                    4=PROCEDURE DE INS CRIADA;
 *                                    5=PROCEDURE DE SEL CRIADA;  
+*                                    6=PROCEDURE DE DEL CRIADA;
 *                                    -50= TABELA JÁ EXISTE;
 *                                    -99=ErroGeral)
 * Author                  : WeeDo 
@@ -43,10 +44,10 @@ create or replace procedure APPP_CRIA_TABELA_ESTRUT(pCD_ESTRUTURA IN NUMBER,
   
   
   --VARIÁVEIS DE SELEÇÃO
-  vSQL_SEL     VARCHAR2(8000);
-  vSQL_SEL_CAB VARCHAR2(2000);
-  vSQL_SEL_ATR VARCHAR2(2000);
-  vSQL_SEL_WHE VARCHAR2(2000);  
+  vSQL_SEL     VARCHAR2(8000); -- TODO O SQL
+  vSQL_SEL_CAB VARCHAR2(2000); -- SQL DO CABEÇALHO
+  vSQL_SEL_ATR VARCHAR2(2000); -- SQL DOS ATRIBUTOS
+  vSQL_SEL_WHE VARCHAR2(2000); -- SQL DA CONDIÇÃO WHERE 
   
   --VARIÁVEIS DE DELETE
   vSQL_DEL     VARCHAR2(8000);
@@ -106,7 +107,9 @@ begin
          
          -- CREATE PROCEDURE DEL -- INÍCIO
          vSQL_DEL_CAB := 'create or replace procedure ' || 'APPP_DEL' || SUBSTR(vNOME_TABELA,8,18) || '( pCD_OBJETO IN NUMBER ' || chr(10);
-         
+         vSQL_DEL_ATR := '        DELETE FROM ' || vNOME_TABELA || chr(10);
+         vSQL_DEL_WHE := '        WHERE CD_OBJETO = pCD_OBJETO ;'|| chr(10);
+
        end if;
        
       -- DEFINE O TAMANHO MÁXIMO DO CAMPO DE ACORDO COM SEU TIPO
@@ -122,7 +125,7 @@ begin
       vSQL := vSQL || ', ' ||vCURSOR.NM_COLUNA|| ' '||vCURSOR.T_TYPE||vMAXTAM || ' NOT NULL ';   
 
       -- CRIA LINHAS DA PROCEDURE DE INSERÇÃO
-      vSQL_INS_CAB := vSQL_INS_CAB || RPAD(' ',50,' ') || ',p' || vCURSOR.NM_COLUNA || ' IN '|| vCURSOR.T_TYPE || chr(10);
+      vSQL_INS_CAB := vSQL_INS_CAB || RPAD(' ',53,' ') || ',p' || vCURSOR.NM_COLUNA || ' IN '|| vCURSOR.T_TYPE || chr(10);
       vSQL_INS_ATR := vSQL_INS_ATR || RPAD(' ',40,' ') ||', '  || vCURSOR.NM_COLUNA  || chr(10);    
       vSQL_INS_VAL := vSQL_INS_VAL || RPAD(' ',40,' ') ||', p' || vCURSOR.NM_COLUNA  || chr(10); 
       
@@ -171,6 +174,32 @@ begin
      -- FECHA A PROCEDURE DE SELEÇÃO
      vSQL_SEL := vSQL_SEL || 'END '|| 'APPP_SEL' || SUBSTR(vNOME_TABELA,8,18) ||';'; 
      
+  /********************************************************************************************************************************
+                        C O N C L U I   P R O C E D U R E    D E   D E L E T E
+   ********************************************************************************************************************************/   
+ 
+     vSQL_DEL_CAB := vSQL_DEL_CAB || RPAD(' ',53,' ') || ', vResult OUT NUMBER ) is' || chr(10) || ' BEGIN '|| chr(10) || chr(10);
+     vSQL_DEL_CAB := vSQL_DEL_CAB || '  vResult := 0;                    '  || chr(10);
+     vSQL_DEL_CAB := vSQL_DEL_CAB || '  if pCD_OBJETO is not null then   '  || chr(10)|| chr(10);
+     
+     vSQL_DEL_CAB := vSQL_DEL_CAB || '     SELECT COUNT(*) INTO vResult  '  || chr(10);
+     vSQL_DEL_CAB := vSQL_DEL_CAB || '     FROM ' || vNOME_TABELA           || chr(10); 
+     vSQL_DEL_CAB := vSQL_DEL_CAB || '     WHERE CD_OBJETO  = pCD_OBJETO;'  || chr(10)|| chr(10);
+     
+     vSQL_DEL_CAB := vSQL_DEL_CAB || '     if vResult > 0 then           '  || chr(10);
+
+     --JUNTA CABEÇALHO, ATRIBUTOS E CONDIÇÕES DA PROCEDURE DE DELETE
+     vSQL_DEL := vSQL_DEL_CAB     || vSQL_DEL_ATR || vSQL_DEL_WHE           || chr(10) ;
+     
+     vSQL_DEL := vSQL_DEL         || '        commit;'                      || chr(10);
+         
+     vSQL_DEL := vSQL_DEL         || '     end if; '                        || chr(10);  
+      
+     vSQL_DEL := vSQL_DEL         || '  END IF;'                            || chr(10);
+    
+    -- FECHA A PROCEDURE DE DELETE
+     vSQL_DEL := vSQL_DEL || 'END '|| 'APPP_DEL' || SUBSTR(vNOME_TABELA,8,18) ||';';    
+     
  /********************************************************************************************************************************
         C O M E Ç A   A   E X E C U T A R   O S  C O M A N D O S   D I N Â M I C O S
    ********************************************************************************************************************************/   
@@ -193,12 +222,15 @@ begin
      EXECUTE IMMEDIATE vSQL_SEL; 
      vResult := 5; -- PROCEDURE SEL Criada
      
+     EXECUTE IMMEDIATE vSQL_DEL; 
+     vResult := 6; -- PROCEDURE DEL Criada
+     
   END IF; 
 
-  /*EXCEPTION
+  EXCEPTION
      WHEN OTHERS THEN
         rollback;
-        vResult := -99; -- Erro genérico.*/
+        vResult := -99; -- Erro genérico.
        
   
 end APPP_CRIA_TABELA_ESTRUT;
