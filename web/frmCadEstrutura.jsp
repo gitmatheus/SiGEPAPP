@@ -66,6 +66,7 @@
 </style>
 
 <script type="text/javascript" language="javascript" src="js/jquery.tinysort.js"></script>
+<script type="text/javascript" language="javascript" src="js/jquery.wysiwyg.js"></script>
 <script type="text/javascript" language="javascript">
     //Declara um array de objetos.Ela sera usada para marcos os <option>s que serao escondidos do combo box.
     var arrayEscondidos = new Array();
@@ -73,6 +74,7 @@
     //Na inicializacao da pagina...
     $(document).ready(function(){
         //Esconde o formulario para cadastro de tipos
+        //$("#frmCadEstruturaDescricao").wysiwyg();
         $("#formEscolheAtributos").hide();
         //Ordena o combo box cmbSelecionaAtributo.
         ordenarCombo();
@@ -140,7 +142,9 @@
             //Se o atributo tiver o id procurado...
             if($(obj).attr("value") == id){
                 //...Adiciona ele como option no combo box.
+                $(obj).removeAttr("selected");
                 $("#cmbSelecionaAtributo").append(obj);
+
                 //Elimina o objeto da arrayDeObjetos escondidos
                 arrayEscondidos.splice(index, 1);
             }
@@ -151,19 +155,21 @@
 
 
     function func_incluiAtributo(){
-        //Armazena na variavel selecao o objeto selecionado no combo box do formulario.
-        var selecao=$("#cmbSelecionaAtributo option:selected");
-        //Adiciona uma linha na tabela da estrutura do atributo com um campo hidden de input para passagem
-        //de header da página
-        $("#tabAtributos").append("<tr width=\"20%\" id=\"atributo_"+selecao.val()+"\">\n\
-            <td width=\"50%\" class=\"atributoAdicional\" align=\"center\">\n\
+        if($('#cmbSelecionaAtributo option:selected').length>0){
+            //Armazena na variavel selecao o objeto selecionado no combo box do formulario.
+            var selecao=$("#cmbSelecionaAtributo option:selected");
+            //Adiciona uma linha na tabela da estrutura do atributo com um campo hidden de input para passagem
+            //de header da página
+            $("#tabAtributos").append("<tr id=\"atributo_"+selecao.val()+"\">\n\
+            <td width=\"80%\" class=\"atributoAdicional\" align=\"center\">\n\
                 <input type=\"hidden\" name=\"atributos_ids\" value=\""+
-            selecao.val()+"\">"+
-            selecao.text()+
-            "</td><td width=\"50%\" align=\"center\"><a href=\"javascript:func_removeAtributo(\'"+selecao.val()+"\')\">\
+                selecao.val()+"\">"+
+                selecao.text()+
+                "</td><td width=\"20%\" align=\"center\"><a href=\"javascript:func_removeAtributo(\'"+selecao.val()+"\')\">\
             <img src=\"images/222222_11x11_icon_minus.gif\" border=\"none\" ></a></td></tr>");
-        //esconde o objeto <option> selecionado acima do combo box cmbSelecionaAtributo.
-        esconde(selecao);
+            //esconde o objeto <option> selecionado acima do combo box cmbSelecionaAtributo.
+            esconde(selecao);
+        }
     };
 
     function ordenarCombo(){
@@ -223,7 +229,7 @@
                         </td>
                         <td width="70%" align="left">
                             <div  style="margin-left: 5px;">
-                                <input class="edit" type="text" size="20"/>
+                                <input id="frmCadEstruturaDescricao" class="edit" type="text" size="20"/>
                             </div>
                         </td>
                     </tr>
@@ -262,8 +268,14 @@
             <fieldset style="width: 500px;">
                 <legend><b>Escolha dos atributos:</b></legend>
                 <form action="frmCadEstrutura.jsp" method="get">
-                    <table  id="tabAtributos" border="0" cellpadding="0" cellspacing="0" width="500">
-
+                    <table  id="tabAtributos" border="1" cellpadding="0" cellspacing="0" width="300">
+                        <tr bgcolor="#3d414c">
+                            <td colspan="2" align="center" style="color:#ffffff; font-size:medium">Estrutura</td>
+                        </tr>
+                        <tr bgcolor="#3d414c">
+                            <td style="color:#ffffff; font-size:small">Nome do atributo</td>
+                            <td style="color:#ffffff; font-size:small" width="20%"></td>
+                        </tr>
                     </table>
                     <table border="0" cellpadding="0" cellspacing="0" width="500">
                         <tr id="linhaDoSeletor">
@@ -291,7 +303,7 @@
                                                 </select>
                                         </td></tr>
                                         <tr><td colspan="2" align="center">
-                                                <a onclick="" href="javascript:if($('#cmbSelecionaAtributo option:selected').length>0){func_incluiAtributo();}"><img src="images/add.gif" border="none">Adicionar</a>
+                                                <a onclick="" href="javascript:func_incluiAtributo();"><img src="images/add.gif" border="none">Adicionar</a>
                                         </td></tr>
                                         <tr><td colspan="2"></td>
                                         </tr>
@@ -305,7 +317,7 @@
                             <td colspan="2"><a href="#" onclick="javascript: $('#formEscolheAtributos').show('normal');"><img src="images/add.gif" border="none">Adicionar novo atributo</a></td>
                         </tr>
                     </table>
-                    <input type="submit" value="enviar">
+                    <input class="botao" style="background-color:#3d414c;" type="submit" value="enviar">
                 </form>
             </fieldset>
 
