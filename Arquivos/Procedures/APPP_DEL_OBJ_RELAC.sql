@@ -50,3 +50,4 @@ begin
          END;      
                
 end APPP_DEL_OBJ_RELAC;
+/

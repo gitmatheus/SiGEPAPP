@@ -32,3 +32,4 @@ begin
         
    END IF;                
 end APPP_SEL_PATTERN;
+/

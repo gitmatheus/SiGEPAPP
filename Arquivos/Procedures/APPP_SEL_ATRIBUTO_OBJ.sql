@@ -44,3 +44,4 @@ begin
        
    END IF;                
 end APPP_SEL_ATRIBUTO_OBJ;
+/

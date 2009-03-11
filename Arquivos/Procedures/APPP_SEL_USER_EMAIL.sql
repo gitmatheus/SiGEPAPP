@@ -20,3 +20,4 @@ begin
        AND   (TP_EMAIL like ('%'|| pTP_EMAIL || '%') OR pTP_EMAIL IS NULL);     
             
 end APPP_SEL_USER_EMAIL;
+/

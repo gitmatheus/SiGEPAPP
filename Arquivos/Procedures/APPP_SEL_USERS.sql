@@ -45,3 +45,4 @@ begin
   ORDER BY U.NM_PRIM_NOME;
                
 end APPP_SEL_USERS;
+/

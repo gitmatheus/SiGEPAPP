@@ -46,3 +46,4 @@ create or replace procedure APPP_DEL_LOGIN(pCD_USER  IN NUMBER,
          END;      
                
 end APPP_DEL_LOGIN;
+/

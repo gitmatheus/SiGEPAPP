@@ -27,3 +27,4 @@ begin
         vResult := -99; -- Erro genérico.
                
 end APPP_UPD_ATRIB_ESTRUTURA;
+/

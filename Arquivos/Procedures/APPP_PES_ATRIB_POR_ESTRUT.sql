@@ -30,3 +30,4 @@ begin
        AND   T.CD_TIPO          = AO.CD_TIPO;
        
 end APPP_PES_ATRIB_POR_ESTRUT;
+/

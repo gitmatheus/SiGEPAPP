@@ -45,3 +45,4 @@ begin
          END;    
                
 end APPP_DEL_PERGUNTA_QUEST;
+/

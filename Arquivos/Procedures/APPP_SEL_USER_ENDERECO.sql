@@ -26,3 +26,4 @@ begin
        AND   (TP_ENDERECO = pTP_ENDERECO OR pTP_ENDERECO IS NULL);     
             
 end APPP_SEL_USER_ENDERECO;
+/

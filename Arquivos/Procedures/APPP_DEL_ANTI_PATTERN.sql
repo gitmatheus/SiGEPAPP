@@ -86,3 +86,5 @@ begin
         vResult := -99; -- Erro genérico.
                
 end APPP_DEL_ANTI_PATTERN;
+
+/

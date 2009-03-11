@@ -27,3 +27,4 @@ begin
      null;
                
 end APPP_UPD_OBJ_RELAC;
+/

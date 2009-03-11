@@ -89,3 +89,4 @@ begin
    return(vRESULT);
 
 end APPP_FN_NM_COL_ATRIB;
+/

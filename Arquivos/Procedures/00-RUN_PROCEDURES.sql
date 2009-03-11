@@ -1,6 +1,5 @@
 set termout on
 set head off
-set pause off
 set linesize 132  
 
 spool /SiGEPAPP/Arquivos/Procedures/LogProcedures.log

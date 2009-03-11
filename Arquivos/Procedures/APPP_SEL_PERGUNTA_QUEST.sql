@@ -21,3 +21,4 @@ begin
        AND   (CD_RESPOSTA = pCD_RESPOSTA OR pCD_RESPOSTA IS NULL);     
    
 end APPP_SEL_PERGUNTA_QUEST;
+/

@@ -34,3 +34,4 @@ begin
         vResult := -99; -- Erro genérico.
                
 end APPP_INS_USER_TELEFONE;
+/

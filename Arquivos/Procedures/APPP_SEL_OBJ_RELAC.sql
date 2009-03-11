@@ -16,3 +16,4 @@ begin
        AND   (CD_OBJETO_RELAC = pCD_OBJETO_RELAC OR pCD_OBJETO_RELAC IS NULL);    
                     
 end APPP_SEL_OBJ_RELAC;
+/

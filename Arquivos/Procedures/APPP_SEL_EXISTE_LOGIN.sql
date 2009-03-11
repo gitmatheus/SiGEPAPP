@@ -16,3 +16,5 @@ begin
 	where L.NM_LOGIN = pNmLogin;
 
 end APPP_SEL_EXISTE_LOGIN;
+
+/

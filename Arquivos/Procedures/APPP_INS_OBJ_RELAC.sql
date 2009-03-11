@@ -25,3 +25,4 @@ begin
         vResult := -99; -- Erro genérico.
                
 end APPP_INS_OBJ_RELAC;
+/

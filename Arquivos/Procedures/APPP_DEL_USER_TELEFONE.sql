@@ -37,3 +37,4 @@ begin
         vResult := -99; -- Erro genérico.
                
 end APPP_DEL_USER_TELEFONE;
+/

@@ -11,7 +11,7 @@ create or replace procedure APPP_INS_TB_LOGIN(vCD_USER  in NUMBER,
                                               vResult   out number) is
 begin
     
-   insert into SYSTEM.APPP_TB_LOGIN(cd_user,NM_LOGIN,PW_SENHA)
+   insert into APPP_TB_LOGIN(cd_user,NM_LOGIN,PW_SENHA)
                values(vcd_user,vNM_LOGIN,vPW_SENHA);
    
    
@@ -24,3 +24,4 @@ begin
         vResult := -99; -- Erro genérico.
                
 end APPP_INS_TB_LOGIN;
+/

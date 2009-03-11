@@ -26,3 +26,4 @@ begin
        AND   (TP_TELEFONE = pTP_TELEFONE OR pTP_TELEFONE IS NULL);     
             
 end APPP_SEL_USER_TELEFONE;
+/
