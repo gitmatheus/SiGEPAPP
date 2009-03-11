@@ -30,6 +30,15 @@ public class Atributo {
     private String ds_atributo_obj;
     private long cd_tipo;
     private String fl_atrib_relac;
+    private String nm_coluna;
+
+    public String getNm_coluna() {
+        return nm_coluna;
+    }
+
+    public void setNm_coluna(String nm_coluna) {
+        this.nm_coluna = nm_coluna;
+    }
 
     public Atributo() {
     setCd_atributo_obj(0);

@@ -97,6 +97,7 @@
     });
 
     function getAtributos(){
+
         var cod_Atributo=$("#frmCadEstrTipo").val();
 
         $.post("GetAtribDeEstrut", {codatrib: cod_Atributo}, function(xml,status){
@@ -148,18 +149,19 @@
         arrayVisiveis=$.makeArray($("#cmbSelecionaAtributo option"));
     }
 
+
     function func_incluiAtributo(){
         //Armazena na variavel selecao o objeto selecionado no combo box do formulario.
         var selecao=$("#cmbSelecionaAtributo option:selected");
         //Adiciona uma linha na tabela da estrutura do atributo com um campo hidden de input para passagem
         //de header da página
-        $("#tabAtributos").append("<tr id=\"atributo_"+selecao.val()+"\">\n\
-            <td width=\"50%\" class=\"atributoAdicional\" align=\"right\">\n\
+        $("#tabAtributos").append("<tr width=\"20%\" id=\"atributo_"+selecao.val()+"\">\n\
+            <td width=\"50%\" class=\"atributoAdicional\" align=\"center\">\n\
                 <input type=\"hidden\" name=\"atributos_ids\" value=\""+
             selecao.val()+"\">"+
             selecao.text()+
-            "</td><td width=\"50%\" align=\"left\"><a href=\"javascript:func_removeAtributo(\'"+selecao.val()+"\')\">\
-            <img src=\"images/remover.gif\" border=\"none\" ></a></td></tr>");
+            "</td><td width=\"50%\" align=\"center\"><a href=\"javascript:func_removeAtributo(\'"+selecao.val()+"\')\">\
+            <img src=\"images/222222_11x11_icon_minus.gif\" border=\"none\" ></a></td></tr>");
         //esconde o objeto <option> selecionado acima do combo box cmbSelecionaAtributo.
         esconde(selecao);
     };
@@ -167,13 +169,14 @@
     function ordenarCombo(){
         //Ordena as tags "option" dentro do combo seleciona atributo.
         $("#cmbSelecionaAtributo>option").tsort();
+
     }
 
     function func_removeAtributo(cod_atrib){
+        $("#atributo_"+cod_atrib).remove();
         mostra(cod_atrib);
         ordenarCombo();
-        $("#atributo_"+cod_atrib).remove();
-    }
+    };
 
     function filtraCombo(){
         $("#cmbSelecionaAtributo option").remove();

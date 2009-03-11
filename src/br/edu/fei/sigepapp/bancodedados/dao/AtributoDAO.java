@@ -39,44 +39,56 @@ import br.edu.fei.sigepapp.log.GravarLog;
 import java.sql.CallableStatement;
 import oracle.jdbc.OracleTypes;
 
-/**
- *
- * @author lopespt
+/** Classe responsavel pelo acesso as procedures do banco: <ul>
+ * <li> APPP_SEL_ATRIBUTO_OBJ - Seleciona atributos </li>
+ * <li> APPP_INS_ATRIBUTO_OBJ - Insere atributos    </li>
+ * <li> APPP_UPD_ATRIBUTO_OBJ - Atualiza atributos  </li>
+ * <li> APPP_DEL_ATRIBUTO_OBJ - Deleta atributos    </li>
+ * </ul>
  */
 public class AtributoDAO {
 
     private Connection conn;
 
+    /** Construtor da classe DAO:
+     * Todos os atributos da classe terao como valores NULL
+     *  
+     * @throws java.sql.SQLException caso
+     */
     public AtributoDAO() throws SQLException {
         this.conn = ConnectionFactory.getConnection();
+
     }
 
-    public int returnIndex(String selecionado, List<String> CamposDaTabela) {
-        int posEncontrado = -1;
-        for (int i = 0; i < CamposDaTabela.size(); i++) {
-            if (CamposDaTabela.get(i).toUpperCase().equals(selecionado.toUpperCase())) {
-                return i;
-            }
-        }
-        return posEncontrado;
-    }
-
+    /** Funcao reponsavel para preencher a lista de atributos dado um result set
+     * @param rs ResultSet contendo os dados pesquisados.
+     * @return Uma lista de atributos contendo os dados do ResultSet
+     */
     public List<Atributo> PreencheList(ResultSet rs) throws SQLException {
         // Cria um array do tipo atributo
         List<Atributo> atributos = new ArrayList<Atributo>();
+
+        //Cria e preenche uma lista contendo os nomes das colunas da tabela
         Vector<String> camposDaTabela = new Vector<String>();
         camposDaTabela.add("CD_ATRIBUTO_OBJ");
         camposDaTabela.add("NM_ATRIBUTO_OBJ");
         camposDaTabela.add("DS_ATRIBUTO_OBJ");
         camposDaTabela.add("CD_TIPO");
         camposDaTabela.add("FL_ATRIB_RELAC");
+        camposDaTabela.add("NM_COLUNA");
+
+
         while (rs.next()) {
             // Cria um objeto do tipo Atributo
             Atributo atributoNovo = new Atributo();
 
+            //Para cada coluna
             for (int i = 1; i <= rs.getMetaData().getColumnCount(); i++) {
+                //Atribui o nome da coluna atual a variavel nomeColuna
                 String nomeColuna = rs.getMetaData().getColumnName(i);
-                int selecao = returnIndex(nomeColuna, camposDaTabela);
+                //retorna o indice que esta coluna se encontra na lista
+                int selecao = camposDaTabela.indexOf(nomeColuna);
+                //seleciona cada caso de acordo com o indice e atribui ao objeto
                 switch (selecao) {
                     case 0:
                         atributoNovo.setCd_atributo_obj(rs.getLong(i));
@@ -93,11 +105,16 @@ public class AtributoDAO {
                     case 4:
                         atributoNovo.setFl_atrib_relac(rs.getString(i));
                         break;
-                }
 
+                    case 5:
+                        atributoNovo.setNm_coluna(rs.getString(i));
+                        break;
+                }
             }
+            //Adiciona o objeto a lista.
             atributos.add(atributoNovo);
         }
+        //retorna a lista de atributos.
         return atributos;
     }
 
@@ -111,7 +128,7 @@ public class AtributoDAO {
             //Instancia um objeto da classe PreparedStatement com o comando para pesquisar registros no banco
             //PreparedStatement stmt = this.conn.prepareStatement(query);
 
-            cstmt = conn.prepareCall("begin  APPP_SEL_ATRIBUTO_OBJ(?, ?, ?, ?, ?, ?); end;");
+            cstmt = conn.prepareCall("begin  APPP_SEL_ATRIBUTO_OBJ(?, ?, ?, ?, ?, ?, ?); end;");
 
             pCD_ATRIBUTO_OBJ = atribPesquisa.getCd_atributo_obj();
             pCD_TIPO_OBJ = atribPesquisa.getCd_tipo();
@@ -131,9 +148,10 @@ public class AtributoDAO {
             }
 
             cstmt.setString(5, atribPesquisa.getFl_atrib_relac());
-            cstmt.registerOutParameter(6, OracleTypes.CURSOR);
+            cstmt.setString(6, atribPesquisa.getNm_coluna());
+            cstmt.registerOutParameter(7, OracleTypes.CURSOR);
             cstmt.execute();
-            rs = (ResultSet) cstmt.getObject(6);
+            rs = (ResultSet) cstmt.getObject(7);
 
             //Cria um array do tipo Atributo
             List<Atributo> atributos = PreencheList(rs);
@@ -146,15 +164,13 @@ public class AtributoDAO {
             //Grava log com a informação de sucesso
             GravarLog.gravaInformacao(Atributo.class.getName() + ": pesquisa no banco de dados realizada com sucesso");
 
-
-
             //retorna uma lista com os usuarios selecionados
             return atributos;
 
         } catch (SQLException e) {
 
             //Grava log com o erro que ocorreu durante a execução do comando SQL
-            GravarLog.gravaErro(Atributo.class.getName() + ": erro na pesquisa referente a uma exceção de SQL: " + e.getSQLState());
+            GravarLog.gravaErro(Atributo.class.getName() + ": erro na pesquisa referente a uma exceção de SQL: " + e.getMessage());
 
             //Retorno da função como null em caso de erro
             return null;
@@ -166,18 +182,18 @@ public class AtributoDAO {
         long resultado = 0;
 
         try {
-            cstmt = conn.prepareCall("begin  APPP_INS_ATRIBUTO_OBJ(?, ?, ?, ?, ?, ?); end;");
+            cstmt = conn.prepareCall("begin  APPP_INS_ATRIBUTO_OBJ(?, ?, ?, ?, ?, ?,?); end;");
             cstmt.setNull(1, OracleTypes.NUMBER);
             cstmt.setString(2, atributoInserir.getNm_atributo_obj());
             cstmt.setString(3, atributoInserir.getDs_atributo_obj());
             cstmt.setLong(4, atributoInserir.getCd_tipo());
-
             cstmt.setString(5, atributoInserir.getFl_atrib_relac());
+            cstmt.setString(6, atributoInserir.getNm_coluna());
 
-            cstmt.registerOutParameter(6, OracleTypes.NUMBER);
+            cstmt.registerOutParameter(7, OracleTypes.NUMBER);
             cstmt.execute();
 
-            resultado = cstmt.getLong(6);
+            resultado = cstmt.getLong(7);
 
             cstmt.close();
 
@@ -203,7 +219,7 @@ public class AtributoDAO {
         long resultado = 0;
 
         try {
-            cstmt = conn.prepareCall("begin  APPP_UPD_ATRIBUTO_OBJ(?, ?, ?, ?, ?, ?); end;");
+            cstmt = conn.prepareCall("begin  APPP_UPD_ATRIBUTO_OBJ(?, ?, ?, ?, ?, ?, ?); end;");
 
             //Seta o codigo do atributo NULL (A chave sera gerada automaticamente pela procedure do banco)
             cstmt.setLong(1, atributoAtualizar.getCd_atributo_obj());
@@ -211,11 +227,12 @@ public class AtributoDAO {
             cstmt.setString(3, atributoAtualizar.getDs_atributo_obj());
             cstmt.setLong(4, atributoAtualizar.getCd_tipo());
             cstmt.setString(5, atributoAtualizar.getFl_atrib_relac());
+            cstmt.setString(6, atributoAtualizar.getNm_coluna());
 
-            cstmt.registerOutParameter(6, OracleTypes.NUMBER);
+            cstmt.registerOutParameter(7, OracleTypes.NUMBER);
             cstmt.execute();
 
-            resultado = cstmt.getLong(6);
+            resultado = cstmt.getLong(7);
 
             cstmt.close();
 
@@ -244,7 +261,7 @@ public class AtributoDAO {
         long pCD_TIPO_OBJ = atributoDeletar.getCd_tipo();
 
         try {
-            cstmt = conn.prepareCall("begin  APPP_DEL_ATRIBUTO_OBJ(?, ?, ?, ?, ?, ?); end;");
+            cstmt = conn.prepareCall("begin  APPP_DEL_ATRIBUTO_OBJ(?, ?, ?, ?, ?, ?, ?); end;");
             if (pCD_ATRIBUTO_OBJ > 0) {
                 cstmt.setLong(1, pCD_ATRIBUTO_OBJ);
             } else {
@@ -259,10 +276,12 @@ public class AtributoDAO {
             cstmt.setString(2, atributoDeletar.getNm_atributo_obj());
             cstmt.setString(3, atributoDeletar.getDs_atributo_obj());
             cstmt.setString(5, atributoDeletar.getFl_atrib_relac());
-            cstmt.registerOutParameter(6, OracleTypes.NUMBER);
+            cstmt.setString(6, atributoDeletar.getNm_coluna());
+
+            cstmt.registerOutParameter(7, OracleTypes.NUMBER);
             cstmt.execute();
 
-            resultado = cstmt.getLong(6);
+            resultado = cstmt.getLong(7);
             cstmt.close();
 
             if (resultado > 0) {
