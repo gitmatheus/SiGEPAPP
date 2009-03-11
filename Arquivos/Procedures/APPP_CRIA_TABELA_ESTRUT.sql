@@ -8,8 +8,9 @@
 *                                    4=PROCEDURE DE INS CRIADA;
 *                                    5=PROCEDURE DE SEL CRIADA;  
 *                                    6=PROCEDURE DE DEL CRIADA;
+*                                    7=PROCEDURE DE UPD CRIADA;   
 *                                    -50= TABELA JÁ EXISTE;
-*                                    -99=ErroGeral)
+*                                    -xx=ErroGeral)
 * Author                  : WeeDo 
 * History                 : 09/03/2009 - Matheus Gonçalves
 ******************************************************************************************/
@@ -35,6 +36,7 @@ create or replace procedure APPP_CRIA_TABELA_ESTRUT(pCD_ESTRUTURA IN NUMBER,
   and   EO.cd_estrutura    = pCD_ESTRUTURA;
   
   vSQL         VARCHAR2(10000);
+  vERRO        VARCHAR2(600);
   
   --VARIÁVEIS DE INSERÇÃO
   vSQL_INS     VARCHAR2(8000); -- TODO O SQL
@@ -50,16 +52,16 @@ create or replace procedure APPP_CRIA_TABELA_ESTRUT(pCD_ESTRUTURA IN NUMBER,
   vSQL_SEL_WHE VARCHAR2(2000); -- SQL DA CONDIÇÃO WHERE 
   
   --VARIÁVEIS DE DELETE
-  vSQL_DEL     VARCHAR2(8000);
-  vSQL_DEL_CAB VARCHAR2(2000);
-  vSQL_DEL_ATR VARCHAR2(2000);
-  vSQL_DEL_WHE VARCHAR2(2000); 
+  vSQL_DEL     VARCHAR2(8000); -- TODO O SQL
+  vSQL_DEL_CAB VARCHAR2(2000); -- SQL DO CABEÇALHO
+  vSQL_DEL_ATR VARCHAR2(2000); -- SQL DOS ATRIBUTOS
+  vSQL_DEL_WHE VARCHAR2(2000); -- SQL DA CONDIÇÃO WHERE 
   
   --VARIÁVEIS DE UPDATE
-  vSQL_UPD     VARCHAR2(8000);
-  vSQL_UPD_CAB VARCHAR2(2000);
-  vSQL_UPD_ATR VARCHAR2(2000);
-  vSQL_UPD_WHE VARCHAR2(2000); 
+  vSQL_UPD     VARCHAR2(8000); -- TODO O SQL
+  vSQL_UPD_CAB VARCHAR2(2000); -- SQL DO CABEÇALHO
+  vSQL_UPD_ATR VARCHAR2(2000); -- SQL DOS ATRIBUTOS
+  vSQL_UPD_WHE VARCHAR2(2000); -- SQL DA CONDIÇÃO WHERE 
   
   vNOME_TABELA VARCHAR2(60);
   vMAXTAM      VARCHAR2(15);
@@ -100,15 +102,19 @@ begin
          
          
          -- CREATE PROCEDURE SEL -- INÍCIO
-         vSQL_SEL_CAB := 'create or replace procedure ' || 'APPP_SEL' || SUBSTR(vNOME_TABELA,8,18) || '( pCD_OBJETO IN NUMBER ' || chr(10);
+         vSQL_SEL_CAB := 'create or replace procedure ' || 'APPP_SEL' || SUBSTR(vNOME_TABELA,8,18) || '(  pCD_OBJETO IN NUMBER ' || chr(10);
          vSQL_SEL_ATR :=                  '    open p_cursor FOR' || chr(10);
          vSQL_SEL_ATR :=  vSQL_SEL_ATR || '    SELECT CD_OBJETO ' || chr(10);
          vSQL_SEL_WHE :=                  '    WHERE (CD_OBJETO = pCD_OBJETO OR pCD_OBJETO IS NULL)';
          
          -- CREATE PROCEDURE DEL -- INÍCIO
-         vSQL_DEL_CAB := 'create or replace procedure ' || 'APPP_DEL' || SUBSTR(vNOME_TABELA,8,18) || '( pCD_OBJETO IN NUMBER ' || chr(10);
+         vSQL_DEL_CAB := 'create or replace procedure ' || 'APPP_DEL' || SUBSTR(vNOME_TABELA,8,18) || '(  pCD_OBJETO IN NUMBER ' || chr(10);
          vSQL_DEL_ATR := '        DELETE FROM ' || vNOME_TABELA || chr(10);
          vSQL_DEL_WHE := '        WHERE CD_OBJETO = pCD_OBJETO ;'|| chr(10);
+         
+         -- CREATE PROCEDURE UPD -- INÍCIO
+         vSQL_UPD_CAB := 'create or replace procedure ' || 'APPP_UPD' || SUBSTR(vNOME_TABELA,8,18) || '(  pCD_OBJETO IN NUMBER ' || chr(10);
+         vSQL_UPD_WHE := '    WHERE CD_OBJETO = pCD_OBJETO ';
 
        end if;
        
@@ -125,15 +131,22 @@ begin
       vSQL := vSQL || ', ' ||vCURSOR.NM_COLUNA|| ' '||vCURSOR.T_TYPE||vMAXTAM || ' NOT NULL ';   
 
       -- CRIA LINHAS DA PROCEDURE DE INSERÇÃO
-      vSQL_INS_CAB := vSQL_INS_CAB || RPAD(' ',53,' ') || ',p' || vCURSOR.NM_COLUNA || ' IN '|| vCURSOR.T_TYPE || chr(10);
+      vSQL_INS_CAB := vSQL_INS_CAB || RPAD(' ',56,' ') || ',p' || vCURSOR.NM_COLUNA || ' IN '|| vCURSOR.T_TYPE || chr(10);
       vSQL_INS_ATR := vSQL_INS_ATR || RPAD(' ',40,' ') ||', '  || vCURSOR.NM_COLUNA  || chr(10);    
       vSQL_INS_VAL := vSQL_INS_VAL || RPAD(' ',40,' ') ||', p' || vCURSOR.NM_COLUNA  || chr(10); 
       
       -- CRIA LINHAS DA PROCEDURE DE SELEÇÃO
-      vSQL_SEL_CAB := vSQL_SEL_CAB || RPAD(' ',53,' ') || ',p' || vCURSOR.NM_COLUNA || ' IN '|| vCURSOR.T_TYPE || chr(10);
+      vSQL_SEL_CAB := vSQL_SEL_CAB || RPAD(' ',56,' ') || ',p' || vCURSOR.NM_COLUNA || ' IN '|| vCURSOR.T_TYPE || chr(10);
       vSQL_SEL_ATR := vSQL_SEL_ATR || RPAD(' ',11,' ') ||', '  || vCURSOR.NM_COLUNA  || chr(10);
       vSQL_SEL_WHE := vSQL_SEL_WHE || chr(10) || '      AND (' || vCURSOR.NM_COLUNA || ' = ' || 'p' || vCURSOR.NM_COLUNA ||' OR '|| 'p' || vCURSOR.NM_COLUNA ||' IS NULL )';
                                      
+      -- CRIA LINHAS DA PROCEDURE DE UPDATE
+      vSQL_UPD_CAB := vSQL_UPD_CAB || RPAD(' ',56,' ') || ',p' || vCURSOR.NM_COLUNA || ' IN '|| vCURSOR.T_TYPE || chr(10);
+      vSQL_UPD_ATR := vSQL_UPD_ATR || ' IF p' || vCURSOR.NM_COLUNA ||' IS NOT NULL THEN '           || chr(10);
+      vSQL_UPD_ATR := vSQL_UPD_ATR || '    UPDATE ' || vNOME_TABELA                                 || chr(10);    
+      vSQL_UPD_ATR := vSQL_UPD_ATR || '    SET ' || vCURSOR.NM_COLUNA || ' = p' ||vCURSOR.NM_COLUNA || chr(10);
+      vSQL_UPD_ATR := vSQL_UPD_ATR || '' ||  vSQL_UPD_WHE      || ';'                        || chr(10);
+      vSQL_UPD_ATR := vSQL_UPD_ATR || ' END IF; '|| chr(10)|| chr(10);
       
   END LOOP;
   
@@ -144,7 +157,7 @@ begin
    /********************************************************************************************************************************
                        C O N C L U I   P R O C E D U R E   D E   I N S E R Ç Ã O
    ********************************************************************************************************************************/   
-     vSQL_INS_CAB := vSQL_INS_CAB || RPAD(' ',53,' ') || ', vResult OUT NUMBER ) is' || chr(10) || ' BEGIN '|| chr(10) || chr(10);
+     vSQL_INS_CAB := vSQL_INS_CAB || RPAD(' ',56,' ') || ', vResult OUT NUMBER ) is' || chr(10) || ' BEGIN '|| chr(10) || chr(10);
      vSQL_INS_ATR := vSQL_INS_ATR || RPAD(' ',40,' ') || ')'  || chr(10) ;
      vSQL_INS_VAL := vSQL_INS_VAL || RPAD(' ',40,' ') || ');' || chr(10) ; 
      
@@ -164,7 +177,7 @@ begin
                         C O N C L U I   P R O C E D U R E    D E   S E L E Ç Ã O
    ********************************************************************************************************************************/   
  
-     vSQL_SEL_CAB := vSQL_SEL_CAB || RPAD(' ',53,' ') || ',p_cursor    OUT SYS_REFCURSOR   ) is' || chr(10) || ' BEGIN '|| chr(10) || chr(10);
+     vSQL_SEL_CAB := vSQL_SEL_CAB || RPAD(' ',56,' ') || ',p_cursor    OUT SYS_REFCURSOR   ) is' || chr(10) || ' BEGIN '|| chr(10) || chr(10);
      vSQL_SEL_ATR := vSQL_SEL_ATR || '    FROM ' || vNOME_TABELA  || chr(10) ;
      vSQL_SEL_WHE := vSQL_SEL_WHE || ';'  || chr(10) ; 
      
@@ -178,7 +191,7 @@ begin
                         C O N C L U I   P R O C E D U R E    D E   D E L E T E
    ********************************************************************************************************************************/   
  
-     vSQL_DEL_CAB := vSQL_DEL_CAB || RPAD(' ',53,' ') || ', vResult OUT NUMBER ) is' || chr(10) || ' BEGIN '|| chr(10) || chr(10);
+     vSQL_DEL_CAB := vSQL_DEL_CAB || RPAD(' ',56,' ') || ', vResult OUT NUMBER ) is' || chr(10) || ' BEGIN '|| chr(10) || chr(10);
      vSQL_DEL_CAB := vSQL_DEL_CAB || '  vResult := 0;                    '  || chr(10);
      vSQL_DEL_CAB := vSQL_DEL_CAB || '  if pCD_OBJETO is not null then   '  || chr(10)|| chr(10);
      
@@ -200,7 +213,25 @@ begin
     -- FECHA A PROCEDURE DE DELETE
      vSQL_DEL := vSQL_DEL || 'END '|| 'APPP_DEL' || SUBSTR(vNOME_TABELA,8,18) ||';';    
      
- /********************************************************************************************************************************
+  /********************************************************************************************************************************
+                       C O N C L U I   P R O C E D U R E   D E   U P D A T E
+   ********************************************************************************************************************************/   
+     vSQL_UPD_CAB := vSQL_UPD_CAB || RPAD(' ',56,' ') || ', vResult OUT NUMBER ) is' || chr(10) || ' BEGIN '|| chr(10) || chr(10);
+          
+     --JUNTA CABEÇALHO, ATRIBUTOS E VALORES DA PROCEDURE DE UPDATE
+     vSQL_UPD := vSQL_UPD_CAB || vSQL_UPD_ATR || chr(10) ;
+     
+     -- FECHA A PROCEDURE DE UPDATE COM EXCEPTION
+     vSQL_UPD := vSQL_UPD || '  vResult := 1;'                                || chr(10) ;
+     vSQL_UPD := vSQL_UPD || '  COMMIT;  '                                    || chr(10) ;  
+     vSQL_UPD := vSQL_UPD || '  EXCEPTION '                                   || chr(10) ;
+     vSQL_UPD := vSQL_UPD || '  WHEN OTHERS THEN '                            || chr(10) ;
+     vSQL_UPD := vSQL_UPD || '     rollback;     '                            || chr(10) ;  
+     vSQL_UPD := vSQL_UPD || '     vResult := -99; -- Erro genérico.'         || chr(10) ;  
+     vSQL_UPD := vSQL_UPD || 'END '|| 'APPP_UPD' || SUBSTR(vNOME_TABELA,8,18) ||';'      ; 
+  
+  
+  /********************************************************************************************************************************
         C O M E Ç A   A   E X E C U T A R   O S  C O M A N D O S   D I N Â M I C O S
    ********************************************************************************************************************************/   
   
@@ -225,12 +256,14 @@ begin
      EXECUTE IMMEDIATE vSQL_DEL; 
      vResult := 6; -- PROCEDURE DEL Criada
      
+     EXECUTE IMMEDIATE vSQL_UPD;
+     vResult := 7; -- PROCEDURE UPD Criada
   END IF; 
 
-  EXCEPTION
+EXCEPTION
      WHEN OTHERS THEN
         rollback;
-        vResult := -99; -- Erro genérico.
-       
+        vResult := SQLCODE; -- Erro genérico.
+        vERRO   := SUBSTR(SQLERRM,600);
   
 end APPP_CRIA_TABELA_ESTRUT;
