@@ -25,6 +25,28 @@ create user ADMIN
   profile DEFAULT;
 
 -- Grant/Revoke role privileges 
+grant xdbadmin to ADMIN with admin option;
+
+grant administer any sql tuning set to ADMIN;
+grant alter any procedure to ADMIN;
+grant alter any sql profile to ADMIN;
+grant alter any table to ADMIN;
+grant alter database to ADMIN;
+grant create any procedure to ADMIN;
+grant create any sequence to ADMIN;
+grant create any view to ADMIN;
+grant create materialized view to ADMIN;
+grant create table to ADMIN;
+grant execute any class to ADMIN;
+grant execute any procedure to ADMIN;
+grant execute any program to ADMIN;
+grant execute any type to ADMIN;
+grant global query rewrite to ADMIN;
+grant grant any privilege to ADMIN;
+grant select any table to ADMIN;
+grant unlimited tablespace to ADMIN with admin option;
+
+
 grant administer any sql tuning set to SYSTEM;
 grant alter any procedure to SYSTEM;
 grant alter any sql profile to SYSTEM;
