@@ -19,20 +19,35 @@ begin
     
    vRESULT := upper(pNM_ATRIBUTO);
    
-   IF INSTR(vTP_TEMP,'DATA ') > 0 THEN
+   IF INSTR(vTP_TEMP,'DATA') > 0 THEN
       vRESULT := SUBSTR( vRESULT,0,INSTR(vRESULT,'DATA') -1 ) || SUBSTR( vRESULT,INSTR(vRESULT,'DATA') + 5,LENGTH( vRESULT)) ;
+      if vRESULT = '' or vRESULT is null then
+         vRESULT := 'DATA';
+      end if;
       vTP_TEMP := 'DT_';
    ELSIF INSTR(vTP_TEMP,'NÚMERO') > 0 THEN
       vRESULT := SUBSTR( vRESULT,0,INSTR(vRESULT,'NÚMERO') -1 ) || SUBSTR( vRESULT,INSTR(vRESULT,'NÚMERO') + 7,LENGTH( vRESULT)) ;
+      if vRESULT = '' or vRESULT is null then
+         vRESULT := 'NUMERO';
+      end if;
       vTP_TEMP := 'NR_';   
    ELSIF INSTR(vTP_TEMP,'NOME') > 0 THEN
       vRESULT := SUBSTR( vRESULT,0,INSTR(vRESULT,'NOME') -1 ) || SUBSTR( vRESULT,INSTR(vRESULT,'NOME') + 5,LENGTH( vRESULT)) ;
+      if vRESULT = '' or vRESULT is null then
+         vRESULT := 'NOME';
+      end if;
       vTP_TEMP := 'NM_'; 
    ELSIF INSTR(vTP_TEMP,'TIPO') > 0 THEN
       vRESULT := SUBSTR( vRESULT,0,INSTR(vRESULT,'TIPO') -1 ) || SUBSTR( vRESULT,INSTR(vRESULT,'TIPO') + 5,LENGTH( vRESULT)) ;
+      if vRESULT = '' or vRESULT is null then
+         vRESULT := 'TIPO';
+      end if;
       vTP_TEMP := 'TP_';  
    ELSIF INSTR(vTP_TEMP,'SIGLA') > 0 THEN
       vRESULT := SUBSTR( vRESULT,0,INSTR(vRESULT,'SIGLA') -1 ) || SUBSTR( vRESULT,INSTR(vRESULT,'SIGLA') + 6,LENGTH( vRESULT)) ;
+      if vRESULT = '' or vRESULT is null then
+         vRESULT := 'SIGLA';
+      end if;
       vTP_TEMP := 'SG_';   
    ELSE
        vTP_TEMP := 'DS_';   
@@ -42,7 +57,7 @@ begin
    vRESULT    := REPLACE(vRESULT,'_','');
    vRESULT    := APPP_FN_REMOVE_ACENTO(vRESULT); 
    vRESULT    := UPPER(vRESULT);
-   vRESULT    := TRIM(vRESULT);
+   vRESULT    := trim(nvl(vRESULT,''));
    vRESULT    := SUBSTR(vRESULT, 0, 10);
    vRESULT    := REPLACE(vRESULT,' ','');
    
