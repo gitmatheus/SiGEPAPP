@@ -1,8 +1,9 @@
 /**********************************************************************************************************************
 * Project Name       : SiGEPAPP
-* APPP_TB_OBJETO.SQL : Script para criação da tabela APPP_TB_OBJETO
+* APPP_TB_OBJETO.SQL : Script para criacao da tabela APPP_TB_OBJETO
 * Author             : WeeDo 
-* History            : 16/02/2009 - Matheus Gonçalves
+* History            : 16/02/2009 - Matheus Goncalves
+*                    : 12/03/2009 - Matheus Goncalves - Mudanca de DS_OBJETO VARCHAR2(1000)
 ***********************************************************************************************************************/
 
 -- Create table
@@ -12,7 +13,7 @@ create table APPP_TB_OBJETO
   CD_OBJETO         number(10)    NOT NULL,
   NM_OBJETO         VARCHAR2(40)  NOT NULL ,
   CD_ESTRUTURA      number(10)    NOT NULL,
-  DS_OBJETO         VARCHAR2(300) NOT NULL, 
+  DS_OBJETO         VARCHAR2(1000) NOT NULL, 
   DT_CRIACAO        DATE DEFAULT  SYSDATE NOT NULL,
   CD_USER_CRIADOR   NUMBER(15)    not null
 )

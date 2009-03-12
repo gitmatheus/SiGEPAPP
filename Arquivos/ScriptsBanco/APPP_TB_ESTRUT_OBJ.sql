@@ -5,6 +5,7 @@
 * Author                 : WeeDo 
 * History                : 16/02/2009 - Matheus Gonçalves - Versão inicial
 *                        : 09/03/2009 - Matheus Gonçalves - Criação do atributo NM_TB_ESTRUT
+*                        : 12/03/2009 - Matheus Gonçalves - Alteração de tamanho de campo de DS_ESTRUTURA VARCHAR2(1000)
 ***********************************************************************************************************************/
 
 -- Create table
@@ -13,7 +14,7 @@ create table APPP_TB_ESTRUT_OBJ
 (
   CD_ESTRUTURA      number(10)    NOT NULL,
   NM_ESTRUTURA      VARCHAR2(40)  NOT NULL ,
-  DS_ESTRUTURA      VARCHAR2(400) NOT NULL, 
+  DS_ESTRUTURA      VARCHAR2(1000) NOT NULL, 
   DT_CRIACAO        DATE DEFAULT SYSDATE NOT NULL,
   CD_USER           NUMBER(15) not null,
   TP_ESTRUTURA      varchar2(3) NOT NULL,
