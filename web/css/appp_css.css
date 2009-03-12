@@ -63,6 +63,8 @@ table {
 .edit {
     background-color:#CCCCCC;
     border: 2px solid #3d414c;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
     color:#000000;
 }
 
@@ -70,6 +72,8 @@ table {
 .botao {
     background-color: #3d414c;
     border: 1px outset;
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
     color:#FFFFFF;
 }
 

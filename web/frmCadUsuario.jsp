@@ -10,141 +10,7 @@
 <script type="text/javascript" src="js/jquery-ui-1.5.3.js" ></script>
 <script type="text/javascript" src="js/jquery.maskedinput-1.2.1.js"></script>
 <script type="text/javascript" language="javascript" src="js/i18n/ui.datepicker-pt-BR.js"></script>
-<script type="text/javascript" language="javascript">
-    $(document).ready(function(){
-        $("#frmCadUserLogin").blur(function(){
-            if($("#frmCadUserLogin").val() != ""){
-                verificaExisteLogin();
-            }
-        });
-        $("#frmCadUserCSenha").blur(function(){
-            if($("#frmCadUserSenha").val() != "" && $("#frmCadUserCSenha").val() != ""){
-                comparaSenha();
-            }
-        });
-
-        $("#frmCadUserDataNasc").datepicker({
-            language: 'pt-BR',
-            yearRange: '1950:2050',
-            dateFormat: 'dd/mm/yy',
-            inline: true
-        });
-
-        $("#frmCadUserEstado").change(function(){
-            if($("#frmCadUserEstado").val() != ""){
-                getCidade();
-            }
-        });
-
-        $("#frmCadUserCEP").mask("99999-999");
-        $("#frmCadUserDataNasc").mask("99/99/9999");
-        $("#frmCadUserCPF").mask("999.999.999-99");
-    });
-    function verificaExisteLogin(){
-        var login = $("#frmCadUserLogin").val();
-        $("#existelogin").html(
-        "<input id='frmCadUserLogin' type='text' name='frmCadUserLogin' class='edit' " +
-            "style='width: 100px; border-color: #19472a; background-color: #88cfa2; color: #19472a;' " +
-            "maxlength='30' title='Digite o login desejado' value='" + login + "' />" +
-            "&nbsp;&nbsp;<img src='images/aguardep.gif'/>&nbsp;<font size='x-small'>verificando...</font>"
-    );
-        $.post("ExisteLoginServlet",{login:login},function(xml){
-            if($("liberado",xml).text() == "sim"){
-                //alert("Login disponivel!");
-                $("#existelogin").html(
-                "<input id='frmCadUserLogin' type='text' name='frmCadUserLogin' class='edit' " +
-                    "style='width: 100px; border-color: #19472a; background-color: #88cfa2; color: #19472a;' " +
-                    "maxlength='30' title='Digite o login desejado' value='" + login + "' />" +
-                    "&nbsp;&nbsp;<img src='images/check.png'/>"
-            );
-                $("#frmCadUserSenha").focus();
-                //$("#frmCadUserLogin").css({border-color: "#19472a", background-color: "#88cfa2"});
-            }else{
-                //alert("Login existente");
-                $("#existelogin").html(
-                "<input id='frmCadUserLogin' type='text' name='frmCadUserLogin' class='edit' " +
-                    "style='width: 100px; border-color: #822007; background-color: #ee957f; color: #822007;' " +
-                    "maxlength='30' title='Digite o login desejado' value='" + login + "' />" +
-                    "&nbsp;&nbsp;<img src='images/uncheck.png'/>&nbsp;&nbsp;<font size='small' color='#822007'>Este login j&aacute; est&aacute; cadastrado!</font>"
-            );
-                $("#frmCadUserLogin").select();
-                //$("#frmCadUserLogin").css({border-color: "#822007", background-color: "#ee957f"});
-            }
-            $("#frmCadUserLogin").blur(function(){if($("#frmCadUserLogin").val() != ""){verificaExisteLogin();}});
-        });
-    }
-
-    function comparaSenha(){
-        var senha1 = $("#frmCadUserSenha").val();
-        var senha2 = $("#frmCadUserCSenha").val();
-        if(senha1 == senha2){
-            $("#cadsenha").html(
-            "<input id='frmCadUserSenha' type='password' name='frmCadUserSenha' class='edit'" +
-                "style='width: 100px; border-color: #19472a; background-color: #88cfa2; color: #19472a;'" +
-                "maxlength='30' title='Digite uma senha de acesso' value='" + senha1 + "'/>"
-        );
-            $("#cadconfsenha").html(
-            "<input id='frmCadUserCSenha' type='password' name='frmCadUserCSenha' class='edit'" +
-                "style='width: 100px; border-color: #19472a; background-color: #88cfa2; color: #19472a;'" +
-                "maxlength='30' title='Digite uma senha de acesso' value='" + senha2 + "'/>" +
-                "&nbsp;&nbsp;<img src='images/check.png'/>"
-        );
-            $("#frmCadUserEmail").focus();
-        }else{
-            $("#cadsenha").html(
-            "<input id='frmCadUserSenha' type='password' name='frmCadUserSenha' class='edit'" +
-                "style='width: 100px; border-color: #822007; background-color: #ee957f; color: #822007;' " +
-                "maxlength='30' title='Digite uma senha de acesso' value='" + senha1 + "'/>"
-        );
-            $("#cadconfsenha").html(
-            "<input id='frmCadUserCSenha' type='password' name='frmCadUserCSenha' class='edit'" +
-                "style='width: 100px; border-color: #822007; background-color: #ee957f; color: #822007;' " +
-                "maxlength='30' title='Digite uma senha de acesso' value='" + senha2 + "'/>" +
-                "&nbsp;&nbsp;<img src='images/uncheck.png'/>&nbsp;&nbsp;<font size='small' color='#822007'>Senhas n&atilde;o conferem!</font>"
-        );
-            $("#frmCadUserSenha").select();
-        }
-        $("#frmCadUserCSenha").blur(function(){if($("#frmCadUserSenha").val() != "" && $("#frmCadUserCSenha").val() != ""){comparaSenha();}});
-    }
-
-    function getCidade(){
-        var cdestado = $("#frmCadUserEstado").val();
-        $("#cadcidade").html(
-        "<select id='frmCadUserCidade' name='frmCadUserCidade' class='edit' style='width: auto;'></select>" +
-            "&nbsp;&nbsp;<img src='images/aguardep.gif'/>&nbsp;<font size='x-small'>por favor, aguarde...</font>"
-    );
-        $.get("GetCidadeServlet", {cdestado: cdestado}, function(xml){
-            var qtdecidades = parseInt($("nro_cidades",xml).text());
-            var strComboCidade = "";
-            if(qtdecidades > 0){
-                strComboCidade += "<select id='frmCadUserCidade' name='frmCadUserCidade' class='edit' style='width: auto;'>";
-                for(i = 0; i < qtdecidades;i++){
-                    cdcid = "cd_cidade" + i;
-                    nmcid = "nm_cidade" + i;
-                    strComboCidade += "<option value='" + $(cdcid,xml).text() + "'>" + $(nmcid,xml).text() +"</option>";
-                }
-                strComboCidade +="</select>";
-            }else{
-                $("#alertaCadCidade").dialog('open');
-                strComboCidade = "<select id='frmCadUserCidade' name='frmCadUserCidade' class='edit' style='width: auto;'></select>";
-            }
-            $("#cadcidade").html(strComboCidade);
-        });
-    }
-    $(function(){
-        $("#alertaCadCidade").dialog({
-            autoOpen: false,
-            width: 'auto',
-            height: 100,
-            buttons: {
-                "Ok": function(){
-                    $(this).dialog("close");
-                }
-            }
-        });
-    });
-
-</script>
+<script type="text/javascript" language="javascript" src="js/appp_frmCadUsuario.js"></script>
 <form name="frmCadUser" method="post">
     <table border="0" cellpadding="0" cellspacing="0" width="100%" align="right">
         <tr>
@@ -193,27 +59,30 @@
                         </td>
                     </tr>
                     <tr><td>&nbsp;</td><td>&nbsp;</td></tr>
-                    <div id="cademail1">
-                    <tr>
-                        <td width="30%" align="right">
-                            <div style="margin-right: 10px;">
-                                <font class="texto"> E-mail: </font>
+                    <tr><td colspan="2">
+                            <div id="cademail">
+                                <table border="0" cellpadding="0" cellspacing="0" width="100%" >
+                                    <tr>
+                                        <td width="30%" align="right">
+                                            <div style="margin-right: 10px;">
+                                                <font class="texto"> E-mail: </font>
+                                            </div>
+                                        </td>
+                                        <td width="70%" align="left">
+                                            <div style="margin-left: 5px;">
+                                                <input id="frmCadUserEmail" type="text" name="frmCadUserEmail" class="edit" style="width: 260px;" maxlength="100" title="Digite seu email" />
+                                                <font class="texto"> Tipo: </font>
+                                                <select id="frmCadUserTipoEmail" name="frmCadUserTipoEmail" class="edit" style="width: auto;">
+                                                    <option value="Pessoal">Pessoal</option>
+                                                    <option value="Comercial">Comercial</option>
+                                                </select>
+                                                <!-- &nbsp;&nbsp;<a href="#"><img id="adicionaemail" src="images/222222_11x11_icon_plus.gif" title="Adicionar outro email" border="0"></a> -->
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </table>
                             </div>
-                        </td>
-                        <td width="70%" align="left">
-                            <div id="cademail" style="margin-left: 5px;">
-                                <input id="frmCadUserEmail" type="text" name="frmCadUserEmail" class="edit" style="width: 260px;" maxlength="100" title="Digite seu email" />
-                                <font class="texto"> Tipo: </font>
-                                <select id="frmCadUserTipoEmail" name="frmCadUserTipoEmail" class="edit" style="width: auto;">
-                                        <option value="Pessoal">Pessoal</option>
-                                        <option value="Comercial">Comercial</option>
-                                </select>
-                                &nbsp;&nbsp;<a href="#"><img id="adicionaimagem" src="images/222222_11x11_icon_plus.gif" title="Adicionar outro email" border="0"></a>
-                            </div>
-                        </td>
-                    </tr>
-                    </div>
-                    <div id="cademail2"></div>
+                    </td></tr>
                     <tr><td>&nbsp;</td><td>&nbsp;</td></tr>
                     <tr>
                         <td width="30%" align="right">
@@ -267,103 +136,106 @@
                         </td>
                     </tr>
                     <tr><td>&nbsp;</td><td>&nbsp;</td></tr>
-                    <div id="cadendereco1">
-                        <tr>
-                            <td width="30%" align="right">
-                                <div style="margin-right: 10px;">
-                                    <font class="texto"> Endere&ccedil;o: </font>
-                                </div>
-                            </td>
-                            <td width="70%" align="left">
-                                <div  style="margin-left: 5px;">
-                                    <input id="frmCadUserEndereco" type="text" name="frmCadUserEndereco" class="edit" style="width: 300px;" maxlength="80" title="Digite seu endere&ccedil;o" />
-                                    <font class="texto"> n.º: </font>
-                                    <input id="frmCadUserNumEnd" type="text" name="frmCadUserNumEnd" class="edit" style="width: 40px;" maxlength="6" title="Digite o n&uacute;mero de sua resid&ecirc;ncia" />
-                                </div>
-                            </td>
-                        </tr>
-                        <tr><td>&nbsp;</td><td>&nbsp;</td></tr>
-                        <tr>
-                            <td width="30%" align="right">
-                                <div style="margin-right: 10px;">
-                                    <font class="texto"> Complemento: </font>
-                                </div>
-                            </td>
-                            <td width="70%" align="left">
-                                <div  style="margin-left: 5px;">
-                                    <input id="frmCadUserEndComplemento" type="text" name="frmCadUserEndComplemento" class="edit" style="width: 150px;" maxlength="80" title="Digite o complemento de seu endere&ccedil;o" />
-                                    <font class="texto"> Tipo: </font>
-                                    <select id="frmCadUserTipoEnd" name="frmCadUserTipoEnd" class="edit" style="width: auto;">
-                                        <option value="Residencial">Residencial</option>
-                                        <option value="Comercial">Comercial</option>
-                                    </select>
-                                    &nbsp;&nbsp;<a href="#"><img id="adicionaendereco" src="images/222222_11x11_icon_plus.gif" title="Adicionar outro endere&ccedil;o" border="0"></a>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr><td>&nbsp;</td><td>&nbsp;</td></tr>
-                        <tr>
-                            <td width="30%" align="right">
-                                <div style="margin-right: 10px;">
-                                    <font class="texto"> CEP: </font>
-                                </div>
-                            </td>
-                            <td width="70%" align="left">
-                                <div  style="margin-left: 5px;">
-                                    <input id="frmCadUserCEP" name="frmCadUserCEP" class="edit" style="width: 60px;" title="Digite aqui o cep do endere&ccedil;o acima"/>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr><td>&nbsp;</td><td>&nbsp;</td></tr>
-                        <tr>
-                            <td width="30%" align="right">
-                                <div style="margin-right: 10px;">
-                                    <font class="texto"> Bairro: </font>
-                                </div>
-                            </td>
-                            <td width="70%" align="left">
-                                <div  style="margin-left: 5px;">
-                                    <input id="frmCadUserBairro" name="frmCadUserBairro" class="edit" style="width: 150px;" maxlength="50" title="Digite o nome de seu bairro"/>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr><td>&nbsp;</td><td>&nbsp;</td></tr>
-                        <tr>
-                            <td width="30%" align="right">
-                                <div style="margin-right: 10px;">
-                                    <font class="texto"> Estado: </font>
-                                </div>
-                            </td>
-                            <td width="70%" align="left">
-                                <div  style="margin-left: 5px;">
-                                    <select id="frmCadUserEstado" name="frmCadUserEstado" class="edit" style="width: auto;">
-                                        <option value="">Selecione aqui o seu estado</option>
-                                        <% for (Estado e : estados) {%>
-                                        <option value="<%= e.getCd_estado()%>"><%= e.getSg_sigla()%>&nbsp;-&nbsp;<%= e.getNm_estado()%></option>
-                                        <%}%>
-                                    </select>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr><td>&nbsp;</td><td>&nbsp;</td></tr>
-                        <tr>
-                            <td width="30%" align="right">
-                                <div style="margin-right: 10px;">
-                                    <font class="texto"> Cidade: </font>
-                                </div>
-                            </td>
-                            <td width="70%" align="left">
-                                <div id="cadcidade"  style="margin-left: 5px;">
-                                    <select id="frmCadUserCidade" name="frmCadUserCidade" class="edit" style="width: auto;"></select>
-                                </div>
-                                <div id="alertaCadCidade" title="Cidades não cadastradas">
-                                    Desculpe, mas não foram encontradas cidades cadastradas para este estado!
-                                </div>
-                            </td>
-                        </tr>
-                    </div>
-                    <div id="cadendereco2"></div>
-                    <tr><td>&nbsp;</td><td>&nbsp;</td></tr>
+                    <tr><td colspan="2">
+                        <div id="cadendereco">
+                            <table border="0" cellpadding="0" cellspacing="0" width="100%" >
+                                <tr>
+                                    <td width="30%" align="right">
+                                        <div style="margin-right: 10px;">
+                                            <font class="texto"> Endere&ccedil;o: </font>
+                                        </div>
+                                    </td>
+                                    <td width="70%" align="left">
+                                        <div  style="margin-left: 5px;">
+                                            <input id="frmCadUserEndereco" type="text" name="frmCadUserEndereco" class="edit" style="width: 300px;" maxlength="80" title="Digite seu endere&ccedil;o" />
+                                            <font class="texto"> n.º: </font>
+                                            <input id="frmCadUserNumEnd" type="text" name="frmCadUserNumEnd" class="edit" style="width: 40px;" maxlength="6" title="Digite o n&uacute;mero de sua resid&ecirc;ncia" />
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr><td>&nbsp;</td><td>&nbsp;</td></tr>
+                                <tr>
+                                    <td width="30%" align="right">
+                                        <div style="margin-right: 10px;">
+                                            <font class="texto"> Complemento: </font>
+                                        </div>
+                                    </td>
+                                    <td width="70%" align="left">
+                                        <div  style="margin-left: 5px;">
+                                            <input id="frmCadUserEndComplemento" type="text" name="frmCadUserEndComplemento" class="edit" style="width: 150px;" maxlength="80" title="Digite o complemento de seu endere&ccedil;o" />
+                                            <font class="texto"> Tipo: </font>
+                                            <select id="frmCadUserTipoEnd" name="frmCadUserTipoEnd" class="edit" style="width: auto;">
+                                                <option value="Residencial">Residencial</option>
+                                                <option value="Comercial">Comercial</option>
+                                            </select>
+                                            <!-- &nbsp;&nbsp;<a id="lnkaddendereco" href="#"><img id="adicionaendereco" src="images/222222_11x11_icon_plus.gif" title="Adicionar outro endere&ccedil;o" border="0"></a> -->
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr><td>&nbsp;</td><td>&nbsp;</td></tr>
+                                <tr>
+                                    <td width="30%" align="right">
+                                        <div style="margin-right: 10px;">
+                                            <font class="texto"> CEP: </font>
+                                        </div>
+                                    </td>
+                                    <td width="70%" align="left">
+                                        <div  style="margin-left: 5px;">
+                                            <input id="frmCadUserCEP" name="frmCadUserCEP" class="edit" style="width: 60px;" title="Digite aqui o cep do endere&ccedil;o acima"/>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr><td>&nbsp;</td><td>&nbsp;</td></tr>
+                                <tr>
+                                    <td width="30%" align="right">
+                                        <div style="margin-right: 10px;">
+                                            <font class="texto"> Bairro: </font>
+                                        </div>
+                                    </td>
+                                    <td width="70%" align="left">
+                                        <div  style="margin-left: 5px;">
+                                            <input id="frmCadUserBairro" name="frmCadUserBairro" class="edit" style="width: 150px;" maxlength="50" title="Digite o nome de seu bairro"/>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr><td>&nbsp;</td><td>&nbsp;</td></tr>
+                                <tr>
+                                    <td width="30%" align="right">
+                                        <div style="margin-right: 10px;">
+                                            <font class="texto"> Estado: </font>
+                                        </div>
+                                    </td>
+                                    <td width="70%" align="left">
+                                        <div  style="margin-left: 5px;">
+                                            <select id="frmCadUserEstado" name="frmCadUserEstado" class="edit" style="width: auto;">
+                                                <option value="">Selecione aqui o seu estado</option>
+                                                <% for (Estado e : estados) {%>
+                                                <option value="<%= e.getCd_estado()%>"><%= e.getSg_sigla()%>&nbsp;-&nbsp;<%= e.getNm_estado()%></option>
+                                                <%}%>
+                                            </select>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr><td>&nbsp;</td><td>&nbsp;</td></tr>
+                                <tr>
+                                    <td width="30%" align="right">
+                                        <div style="margin-right: 10px;">
+                                            <font class="texto"> Cidade: </font>
+                                        </div>
+                                    </td>
+                                    <td width="70%" align="left">
+                                        <div id="cadcidade"  style="margin-left: 5px;">
+                                            <select id="frmCadUserCidade" name="frmCadUserCidade" class="edit" style="width: auto;"></select>
+                                        </div>
+                                        <div id="alertaCadCidade" title="Cidades não cadastradas">
+                                            Desculpe, mas não foram encontradas cidades cadastradas para este estado!
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </tr>
+                    <!-- <tr><td>&nbsp;</td><td>&nbsp;</td></tr>
                     <tr>
                         <td width="30%" align="right">
                             <div style="margin-right: 10px;">
@@ -375,30 +247,29 @@
                                 <input id="frmCadUserPais" name="frmCadUserPais" class="edit" style="width: 150px;" maxlength="50" title="Digite seu pais de origem"/>
                             </div>
                         </td>
-                    </tr>
+                    </tr> -->
                     <tr><td>&nbsp;</td><td>&nbsp;</td></tr>
-                    <div id="cadtelefone1">
-                    <tr>
-                        <td width="30%" align="right">
-                            <div style="margin-right: 10px;">
-                                <font class="texto"> Telefone: </font>
-                            </div>
-                        </td>
-                        <td width="70%" align="left">
-                            <div  style="margin-left: 5px;">
-                                <input id="frmCadUserTelefone" name="frmCadUserTelefone" class="edit" style="width: 70px;" maxlength="15" title="Digite o número de telefone de seu interesse"/>
-                                <font class="texto"> Tipo: </font>
+                    <div id="cadtelefone">
+                        <tr>
+                            <td width="30%" align="right">
+                                <div style="margin-right: 10px;">
+                                    <font class="texto"> Telefone: </font>
+                                </div>
+                            </td>
+                            <td width="70%" align="left">
+                                <div  style="margin-left: 5px;">
+                                    <input id="frmCadUserTelefone" name="frmCadUserTelefone" class="edit" style="width: 70px;" maxlength="15" title="Digite o número de telefone de seu interesse"/>
+                                    <font class="texto"> Tipo: </font>
                                     <select id="frmCadUserTipoTel" name="frmCadUserTipoTel" class="edit" style="width: auto;">
                                         <option value="Residencial">Residencial</option>
                                         <option value="Comercial">Comercial</option>
                                         <option value="Celular">Celular</option>
                                     </select>
-                                    &nbsp;&nbsp;<a href="#"><img id="adicionatelefone" src="images/222222_11x11_icon_plus.gif" title="Adicionar outro telefone" border="0"></a>
-                            </div>
-                        </td>
-                    </tr>
+                                    <!--&nbsp;&nbsp;<a href="#"><img id="adicionatelefone" src="images/222222_11x11_icon_plus.gif" title="Adicionar outro telefone" border="0"></a>-->
+                                </div>
+                            </td>
+                        </tr>
                     </div>
-                    <div id="cadtelefone2"></div>
                     <tr><td>&nbsp;</td><td>&nbsp;</td></tr>
                     <tr>
                         <td width="30%" align="right">

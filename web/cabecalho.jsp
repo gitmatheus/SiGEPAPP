@@ -73,7 +73,7 @@
                     <table border="0" cellpadding="0" cellspacing="0" align="center">
                         <tr>
                             <td width="530px" class="top_td">
-                                <img title="SiGePAPP - Sistema de Gerenciamento de Patterns, Anti-Patterns e Personas" align="left" src="images/logo.png" style='display: block' />
+                                <a href="/sigepapp/" <img border="0" title="SiGePAPP - Sistema de Gerenciamento de Patterns, Anti-Patterns e Personas" align="left" src="images/logo.png" style='display: block' />
                             </td>
                             <td width="220px" class="top_td" align="right">
                                 <form name="login" method="post">
