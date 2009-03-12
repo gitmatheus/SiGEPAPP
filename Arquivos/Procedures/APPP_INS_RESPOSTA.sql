@@ -9,6 +9,7 @@ create or replace procedure APPP_INS_RESPOSTA(pCD_RESPOSTA OUT NUMBER  ,
                                               pDS_RESPOSTA IN VARCHAR2,
                                               pNR_PESO_RESPOSTA NUMBER ,
                                               vResult     out number) is
+vERRO        VARCHAR2(600);
 begin
     
    insert into APPP_TB_RESPOSTA(CD_RESPOSTA     ,
@@ -31,7 +32,8 @@ begin
    EXCEPTION
      WHEN OTHERS THEN
         rollback;
-        vResult := -99; -- Erro genérico.
+        vResult := SQLCODE; -- Erro generico.
+        vERRO   := SUBSTR(SQLERRM,600);
                
 end APPP_INS_RESPOSTA;
 /

@@ -9,6 +9,7 @@ create or replace procedure APPP_INS_RELAC_ATRIB(pCD_RELAC    in out NUMBER,
                                                  pCD_ATRIBUTO in NUMBER,
                                                  pVL_RELAC    in VARCHAR2,
                                                  vResult     out number) is
+vERRO        VARCHAR2(600);
 begin
    
    insert into APPP_TB_RELAC_ATRIB( CD_RELAC    ,
@@ -29,7 +30,8 @@ begin
    EXCEPTION
      WHEN OTHERS THEN
         rollback;
-        vResult := -99; -- Erro genérico.
+        vResult := SQLCODE; -- Erro generico.
+        vERRO   := SUBSTR(SQLERRM,600);
                
 end APPP_INS_RELAC_ATRIB;
 /

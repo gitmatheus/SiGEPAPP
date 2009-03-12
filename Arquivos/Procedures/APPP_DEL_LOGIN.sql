@@ -12,7 +12,8 @@
 create or replace procedure APPP_DEL_LOGIN(pCD_USER  IN NUMBER,
                                            vResult   out number) is
                                                   
- begin
+vERRO        VARCHAR2(600); 
+begin
     
       SELECT COUNT(*) INTO vResult
       FROM APPP_TB_LOGIN
@@ -41,7 +42,8 @@ create or replace procedure APPP_DEL_LOGIN(pCD_USER  IN NUMBER,
                 vResult := -90; -- Registros Filhos encontrados.
              ELSE
                 rollback;
-                vResult := -99; -- Erro genérico.             
+                 vResult := SQLCODE; -- Erro generico.
+                 vERRO   := SUBSTR(SQLERRM,600);             
              END IF;
          END;      
                

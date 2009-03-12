@@ -9,6 +9,7 @@ create or replace procedure APPP_INS_USER_EMAIL(pCD_USER  IN NUMBER,
                                                 pNM_EMAIL IN VARCHAR2,
                                                 pTP_EMAIL IN VARCHAR2,
                                                 vResult out number) is
+vERRO        VARCHAR2(600);
 begin
     
    insert into APPP_TB_USER_EMAIL(CD_USER  ,
@@ -25,7 +26,8 @@ begin
    EXCEPTION
      WHEN OTHERS THEN
         rollback;
-        vResult := -99; -- Erro genérico.
+        vResult := SQLCODE; -- Erro generico.
+        vERRO   := SUBSTR(SQLERRM,600);
                
 end APPP_INS_USER_EMAIL;
 /

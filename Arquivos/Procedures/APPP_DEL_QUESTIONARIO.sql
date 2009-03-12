@@ -25,7 +25,8 @@ create or replace procedure APPP_DEL_QUESTIONARIO(pCD_QUEST         IN NUMBER   
        AND   (DS_PROJ_APLIC like ('%'|| pDS_PROJ_APLIC || '%') OR pDS_PROJ_APLIC  IS NULL);
        
        
-  vCD_TEMP NUMBER(20);     
+  vCD_TEMP NUMBER(20);
+  vERRO        VARCHAR2(600);   
 begin
     
    if pCD_QUEST is not null then
@@ -75,7 +76,8 @@ begin
         
      WHEN OTHERS THEN
         rollback;
-        vResult := -99; -- Erro genérico.
+        vResult := SQLCODE; -- Erro generico.
+        vERRO   := SUBSTR(SQLERRM,600);
                
 end APPP_DEL_QUESTIONARIO;
 /

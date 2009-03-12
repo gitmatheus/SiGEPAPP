@@ -11,6 +11,7 @@ create or replace procedure APPP_INS_ANTI_PATTERN(pCD_ANTI_PATTERN  in NUMBER  ,
                                                   pDS_CONSEQUENCIAS in VARCHAR2,
                                                   pDS_BARREIRAS     in VARCHAR2,
                                                   vResult           out number) is
+vERRO        VARCHAR2(600);
 begin
     
    insert into APPP_TB_ANTI_PATTERN(CD_ANTI_PATTERN  ,
@@ -32,7 +33,8 @@ begin
    EXCEPTION
      WHEN OTHERS THEN
         rollback;
-        vResult := -99; -- Erro genérico.
+        vResult := SQLCODE; -- Erro generico.
+        vERRO   := SUBSTR(SQLERRM,600);
                
 end APPP_INS_ANTI_PATTERN;
 /

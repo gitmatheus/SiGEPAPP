@@ -9,6 +9,7 @@ create or replace procedure APPP_INS_ESTADO(pCD_ESTADO OUT NUMBER,
                                             pNM_ESTADO IN VARCHAR2  ,
                                             pSG_SIGLA  VARCHAR2     ,
                                             vResult    out number) is
+vERRO        VARCHAR2(600);
 begin
    
    insert into APPP_TB_ESTADO( CD_ESTADO,
@@ -30,7 +31,8 @@ begin
    EXCEPTION
      WHEN OTHERS THEN
         rollback;
-        vResult := -99; -- Erro genérico.
+        vResult := SQLCODE; -- Erro generico.
+        vERRO   := SUBSTR(SQLERRM,600);
                
 end APPP_INS_ESTADO;
 /

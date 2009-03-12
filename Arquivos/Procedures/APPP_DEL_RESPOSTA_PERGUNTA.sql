@@ -9,6 +9,7 @@ create or replace procedure APPP_DEL_RESPOSTA_PERGUNTA(pCD_PERGUNTA IN NUMBER,
                                                         vResult     out number) is
                                                   
       
+vERRO        VARCHAR2(600);
 begin
     
       SELECT COUNT(*) INTO vResult
@@ -39,7 +40,8 @@ begin
                 vResult := -2292; -- Registros Filhos encontrados.
              ELSE
                 rollback;
-                vResult := -99; -- Erro genérico.             
+                vResult := SQLCODE; -- Erro generico.
+                vERRO   := SUBSTR(SQLERRM,600);
              END IF;
          END;    
                

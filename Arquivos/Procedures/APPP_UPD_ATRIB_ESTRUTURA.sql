@@ -9,6 +9,7 @@ create or replace procedure APPP_UPD_ATRIB_ESTRUTURA(pCD_ESTRUTURA       IN NUMB
                                                      pCD_ATRIBUTO_OBJOLD IN NUMBER,
                                                      pCD_ATRIBUTO_OBJNEW IN NUMBER,
                                                      vResult           out number) is
+vERRO        VARCHAR2(600);
 begin
     
    IF pCD_ATRIBUTO_OBJOLD IS NOT NULL AND pCD_ATRIBUTO_OBJNEW IS NOT NULL THEN
@@ -24,7 +25,8 @@ begin
    EXCEPTION
      WHEN OTHERS THEN
         rollback;
-        vResult := -99; -- Erro genérico.
+        vResult := SQLCODE; -- Erro generico.
+        vERRO   := SUBSTR(SQLERRM,600);
                
 end APPP_UPD_ATRIB_ESTRUTURA;
 /

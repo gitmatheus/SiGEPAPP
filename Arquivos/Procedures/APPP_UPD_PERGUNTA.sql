@@ -8,6 +8,8 @@
 create or replace procedure APPP_UPD_PERGUNTA(pCD_PERGUNTA IN NUMBER,
                                               pDS_PERGUNTA IN VARCHAR2,
                                               vResult     out number) is
+
+vERRO        VARCHAR2(600);
 begin
     
    IF pDS_PERGUNTA IS NOT NULL THEN
@@ -22,7 +24,8 @@ begin
    EXCEPTION
      WHEN OTHERS THEN
         rollback;
-        vResult := -99; -- Erro genérico.
+        vResult := SQLCODE; -- Erro generico.
+        vERRO   := SUBSTR(SQLERRM,600);
                
 end APPP_UPD_PERGUNTA;
 /

@@ -21,6 +21,7 @@ create or replace procedure APPP_DEL_ANTI_PATTERN(vCD_ANTI_PATTERN  in NUMBER  ,
        AND   (AP.DS_BARREIRAS     like ('%'|| vDS_BARREIRAS || '%')     OR vDS_BARREIRAS     IS NULL);                                                   
 
   vCD_TEMP NUMBER(20);     
+  vERRO        VARCHAR2(600);
 begin
     
    if vCD_ANTI_PATTERN is not null then
@@ -83,7 +84,8 @@ begin
         
      WHEN OTHERS THEN
         rollback;
-        vResult := -99; -- Erro genérico.
+         vResult := SQLCODE; -- Erro generico.
+         vERRO   := SUBSTR(SQLERRM,600);
                
 end APPP_DEL_ANTI_PATTERN;
 

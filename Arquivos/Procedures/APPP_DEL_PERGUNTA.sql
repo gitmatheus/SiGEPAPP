@@ -14,7 +14,8 @@ create or replace procedure APPP_DEL_PERGUNTA(pCD_PERGUNTA IN NUMBER,
        FROM APPP_TB_PERGUNTA
        WHERE (DS_PERGUNTA  like ('%'|| pDS_PERGUNTA || '%') OR pDS_PERGUNTA IS NULL);
  
- vCD_TEMP NUMBER(20);     
+ vCD_TEMP NUMBER(20); 
+ vERRO        VARCHAR2(600);   
 begin
     
    if pCD_PERGUNTA is not null then
@@ -72,7 +73,8 @@ begin
                 vResult := -2292; -- Registros Filhos encontrados.
              ELSE
                 rollback;
-                vResult := -99; -- Erro genérico.             
+                vResult := SQLCODE; -- Erro generico.
+                 vERRO   := SUBSTR(SQLERRM,600);
              END IF;
          END;    
                

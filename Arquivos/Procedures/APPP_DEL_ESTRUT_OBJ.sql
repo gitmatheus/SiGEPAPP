@@ -28,7 +28,8 @@ create or replace procedure APPP_DEL_ESTRUT_OBJ(pCD_ESTRUTURA  IN NUMBER,
        AND   (CD_USER      = pCD_USER                        OR pCD_USER       IS NULL)
        AND   (TP_ESTRUTURA = pTP_ESTRUTURA                   OR pTP_ESTRUTURA  IS NULL);
        
-  vTemp  NUMBER(5); 
+  vTemp  NUMBER(5);
+  vERRO        VARCHAR2(600);
   
 begin
     
@@ -83,7 +84,8 @@ begin
                 vResult := -90; -- Registros Filhos encontrados.
              ELSE
                 rollback;
-                vResult := -99; -- Erro genérico.             
+                 vResult := SQLCODE; -- Erro generico.
+                 vERRO   := SUBSTR(SQLERRM,600);             
              END IF;
          END;      
                

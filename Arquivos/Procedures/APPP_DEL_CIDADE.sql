@@ -23,6 +23,7 @@ create or replace procedure APPP_DEL_CIDADE(pCD_CIDADE IN NUMBER,
        AND   (C.CD_ESTADO = pCD_ESTADO OR pCD_ESTADO IS NULL); 
        
   vTemp  NUMBER(5); 
+  vERRO        VARCHAR2(600);
   
 begin
     
@@ -77,7 +78,8 @@ begin
                 vResult := -90; -- Registros Filhos encontrados.
              ELSE
                 rollback;
-                vResult := -99; -- Erro genérico.             
+                 vResult := SQLCODE; -- Erro generico.
+                 vERRO   := SUBSTR(SQLERRM,600);             
              END IF;
          END;      
                

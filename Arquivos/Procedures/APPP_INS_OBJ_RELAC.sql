@@ -8,6 +8,7 @@
 create or replace procedure APPP_INS_OBJ_RELAC(pCD_OBJETO       IN NUMBER,
                                                pCD_OBJETO_RELAC IN NUMBER, 
                                                vResult          out number) is
+vERRO        VARCHAR2(600);
 begin
    
    insert into APPP_TB_OBJ_RELAC(CD_OBJETO        ,
@@ -22,7 +23,8 @@ begin
    EXCEPTION
      WHEN OTHERS THEN
         rollback;
-        vResult := -99; -- Erro genérico.
+        vResult := SQLCODE; -- Erro generico.
+        vERRO   := SUBSTR(SQLERRM,600);
                
 end APPP_INS_OBJ_RELAC;
 /

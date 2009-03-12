@@ -11,6 +11,7 @@ create or replace procedure APPP_INS_QUESTIONARIO(pCD_QUEST      OUT NUMBER  ,
                                                   pDS_PROJ_APLIC IN VARCHAR2 ,
                                                   pCD_USER       IN NUMBER   ,
                                                   vResult        out number) is
+vERRO        VARCHAR2(600);
 begin
    
    insert into APPP_TB_QUESTIONARIO( CD_QUEST      ,
@@ -36,7 +37,8 @@ begin
    EXCEPTION
      WHEN OTHERS THEN
         rollback;
-        vResult := -99; -- Erro genérico.
+        vResult := SQLCODE; -- Erro generico.
+        vERRO   := SUBSTR(SQLERRM,600);
                
 end APPP_INS_QUESTIONARIO;
 /

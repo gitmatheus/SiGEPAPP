@@ -8,6 +8,7 @@
 create or replace procedure APPP_INS_ATRIB_ESTRUTURA(pCD_ESTRUTURA    IN NUMBER, 
                                                      pCD_ATRIBUTO_OBJ IN NUMBER ,
                                                      vResult           out number) is
+vERRO        VARCHAR2(600);
 begin
    
    insert into APPP_TB_ATRIB_ESTRUTURA( CD_ESTRUTURA    , 
@@ -23,7 +24,8 @@ begin
    EXCEPTION
      WHEN OTHERS THEN
         rollback;
-        vResult := -99; -- Erro genérico.
+        vResult := SQLCODE; -- Erro generico.
+        vERRO   := SUBSTR(SQLERRM,600);
                
 end APPP_INS_ATRIB_ESTRUTURA;
 /

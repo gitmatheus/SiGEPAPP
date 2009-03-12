@@ -13,6 +13,7 @@ create or replace procedure APPP_UPD_PERGUNTA_QUEST(pCD_QUEST_OLD    NUMBER,
                                                     pCD_PERGUNTA_NEW NUMBER,
                                                     pCD_RESPOSTA_NEW NUMBER,                                                    
                                                     vResult     out number) is
+vERRO        VARCHAR2(600);
 begin
     
    UPDATE APPP_TB_PERGUNTA_QUEST 
@@ -29,7 +30,8 @@ begin
    EXCEPTION
      WHEN OTHERS THEN
         rollback;
-        vResult := -99; -- Erro genérico.
+        vResult := SQLCODE; -- Erro generico.
+        vERRO   := SUBSTR(SQLERRM,600);
                
 end APPP_UPD_PERGUNTA_QUEST;
 /

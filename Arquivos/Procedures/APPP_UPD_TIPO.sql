@@ -10,6 +10,7 @@ create or replace procedure APPP_UPD_TIPO(pCD_TIPO    IN NUMBER  ,
                                           pDS_TIPO    IN VARCHAR2,
                                           pFL_EXP_REG IN VARCHAR2,
                                           vResult     out number) is
+vERRO        VARCHAR2(600);
 begin
     
    IF pNM_TIPO IS NOT NULL THEN
@@ -36,7 +37,8 @@ begin
    EXCEPTION
      WHEN OTHERS THEN
         rollback;
-        vResult := -99; -- Erro genérico.
+        vResult := SQLCODE; -- Erro generico.
+        vERRO   := SUBSTR(SQLERRM,600);
                
 end APPP_UPD_TIPO;
 /

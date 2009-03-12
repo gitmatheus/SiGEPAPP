@@ -29,6 +29,7 @@ create or replace procedure APPP_DEL_OBJETO(pCD_OBJETO       IN NUMBER ,
        AND   (CD_USER_CRIADOR = pCD_USER_CRIADOR      OR pCD_USER_CRIADOR IS NULL);
              
   vTemp  NUMBER(5); 
+  vERRO        VARCHAR2(600);
   
 begin
     
@@ -83,7 +84,8 @@ begin
                 vResult := -2292; -- Registros Filhos encontrados.
              ELSE
                 rollback;
-                vResult := -99; -- Erro genérico.             
+                 vResult := SQLCODE; -- Erro generico.
+                 vERRO   := SUBSTR(SQLERRM,600);            
              END IF;
          END;      
                

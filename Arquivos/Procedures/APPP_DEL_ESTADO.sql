@@ -20,7 +20,8 @@ create or replace procedure APPP_DEL_ESTADO(pCD_ESTADO IN NUMBER,
        WHERE (NM_ESTADO like ('%'|| pNM_ESTADO || '%') OR pNM_ESTADO  IS NULL)
        AND   (SG_SIGLA  = pSG_SIGLA OR pSG_SIGLA IS NULL);
              
-  vTemp  NUMBER(5); 
+  vTemp  NUMBER(5);
+  vERRO        VARCHAR2(600);
   
 begin
     
@@ -75,7 +76,8 @@ begin
                 vResult := -90; -- Registros Filhos encontrados.
              ELSE
                 rollback;
-                vResult := -99; -- Erro genérico.             
+                 vResult := SQLCODE; -- Erro generico.
+                 vERRO   := SUBSTR(SQLERRM,600);            
              END IF;
          END;      
                

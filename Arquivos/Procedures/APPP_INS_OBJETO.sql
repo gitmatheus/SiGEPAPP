@@ -12,6 +12,7 @@ create or replace procedure APPP_INS_OBJETO(pCD_OBJETO       OUT NUMBER ,
                                             --pDT_CRIACAO      IN DATE    ,
                                             pCD_USER_CRIADOR IN NUMBER,
                                             vResult         out number) is
+vERRO        VARCHAR2(600);
 begin
    
    insert into APPP_TB_OBJETO(CD_OBJETO      ,
@@ -39,7 +40,8 @@ begin
    EXCEPTION
      WHEN OTHERS THEN
         rollback;
-        vResult := -99; -- Erro genérico.
+        vResult := SQLCODE; -- Erro generico.
+        vERRO   := SUBSTR(SQLERRM,600);
                
 end APPP_INS_OBJETO;
 /

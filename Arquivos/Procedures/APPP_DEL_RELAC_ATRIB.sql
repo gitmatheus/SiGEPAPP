@@ -17,7 +17,8 @@ create or replace procedure APPP_DEL_RELAC_ATRIB(pCD_RELAC    in NUMBER,
        AND   (RA.VL_RELAC    = pVL_RELAC    OR pVL_RELAC    IS NULL);
        
        
-  vCD_TEMP NUMBER(20);     
+  vCD_TEMP NUMBER(20);  
+  vERRO        VARCHAR2(600); 
 begin
     
    if pCD_RELAC is not null then
@@ -67,7 +68,8 @@ begin
         
      WHEN OTHERS THEN
         rollback;
-        vResult := -99; -- Erro genérico.
+        vResult := SQLCODE; -- Erro generico.
+        vERRO   := SUBSTR(SQLERRM,600);
                
 end APPP_DEL_RELAC_ATRIB;
 /

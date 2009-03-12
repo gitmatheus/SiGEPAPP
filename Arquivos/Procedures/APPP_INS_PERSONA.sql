@@ -11,6 +11,7 @@ create or replace procedure APPP_INS_PERSONA(pCD_PERSONA IN NUMBER,
                                              vResult     out number) is
  vImgPath varchar2(6) := '/img/';                                           
                                               
+vERRO        VARCHAR2(600);
 begin
     
       
@@ -30,7 +31,8 @@ begin
    EXCEPTION
      WHEN OTHERS THEN
         rollback;
-        vResult := -99; -- Erro genérico.
+        vResult := SQLCODE; -- Erro generico.
+        vERRO   := SUBSTR(SQLERRM,600);
                
 end APPP_INS_PERSONA;
 /

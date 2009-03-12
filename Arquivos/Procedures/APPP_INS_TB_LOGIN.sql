@@ -9,6 +9,7 @@ create or replace procedure APPP_INS_TB_LOGIN(vCD_USER  in NUMBER,
                                               vNM_LOGIN in VARCHAR2, 
                                               vPW_SENHA in VARCHAR2, 
                                               vResult   out number) is
+vERRO        VARCHAR2(600);
 begin
     
    insert into APPP_TB_LOGIN(cd_user,NM_LOGIN,PW_SENHA)
@@ -21,7 +22,8 @@ begin
    EXCEPTION
      WHEN OTHERS THEN
         rollback;
-        vResult := -99; -- Erro genérico.
+        vResult := SQLCODE; -- Erro generico.
+        vERRO   := SUBSTR(SQLERRM,600);
                
 end APPP_INS_TB_LOGIN;
 /

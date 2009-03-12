@@ -13,7 +13,7 @@ create or replace procedure APPP_INS_ATRIBUTO_OBJ(pCD_ATRIBUTO_OBJ IN OUT NUMBER
                                                   pFL_ATRIB_RELAC  IN VARCHAR2 ,
                                                   vResult           out number) is
    vNM_COLUNA VARCHAR2(100);
-                                                  
+   vERRO        VARCHAR2(600);                                               
 begin
    
    vNM_COLUNA := APPP_FN_NM_COL_ATRIB(pNM_ATRIBUTO_OBJ);
@@ -42,7 +42,8 @@ begin
    EXCEPTION
      WHEN OTHERS THEN
         rollback;
-        vResult := -99; -- Erro genérico.
+        vResult := SQLCODE; -- Erro generico.
+        vERRO   := SUBSTR(SQLERRM,600);
                
 end APPP_INS_ATRIBUTO_OBJ;
 /

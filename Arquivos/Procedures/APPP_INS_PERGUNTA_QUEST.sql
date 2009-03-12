@@ -9,6 +9,7 @@ create or replace procedure APPP_INS_PERGUNTA_QUEST(pCD_QUEST    IN NUMBER,
                                                     pCD_PERGUNTA IN NUMBER,
                                                     pCD_RESPOSTA IN NUMBER,
                                                     vResult     out number) is
+vERRO        VARCHAR2(600);
 begin
     
    insert into APPP_TB_PERGUNTA_QUEST(CD_QUEST    ,
@@ -25,7 +26,8 @@ begin
    EXCEPTION
      WHEN OTHERS THEN
         rollback;
-        vResult := -99; -- Erro genérico.
+        vResult := SQLCODE; -- Erro generico.
+        vERRO   := SUBSTR(SQLERRM,600);
                
 end APPP_INS_PERGUNTA_QUEST;
 /

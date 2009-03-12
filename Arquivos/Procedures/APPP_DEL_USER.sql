@@ -43,7 +43,7 @@ create or replace procedure APPP_DEL_USER(pCD_USER           IN NUMBER       ,
     AND   (U.NM_SKYPE     = pNM_SKYPE                  OR pNM_SKYPE       IS NULL);
 
   vCD_TEMP appp_tb_user.cd_user%TYPE;                                                  
-  
+  vERRO        VARCHAR2(600);
 begin
     
    vResult := 0;
@@ -99,7 +99,8 @@ begin
                 vResult := -2292; -- Registros Filhos encontrados.
              ELSE
                 rollback;
-                vResult := -99; -- Erro genérico.             
+                vResult := SQLCODE; -- Erro generico.
+                vERRO   := SUBSTR(SQLERRM,600);
              END IF;
          END;      
                

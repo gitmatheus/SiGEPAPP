@@ -19,7 +19,8 @@ create or replace procedure APPP_DEL_CODIGO_POSTAL(pCD_CEP    IN NUMBER   ,
        WHERE (NM_RUA LIKE ('%'|| pNM_RUA || '%') OR pNM_RUA IS NULL)
        AND   (CD_CIDADE = pCD_CIDADE or pCD_CIDADE IS NULL);
        
-  vCD_TEMP NUMBER(20);     
+  vCD_TEMP NUMBER(20); 
+  vERRO        VARCHAR2(600);
 begin
     
    if pCD_CEP is not null then
@@ -77,7 +78,8 @@ begin
                 vResult := -90; -- Registros Filhos encontrados.
              ELSE
                 rollback;
-                vResult := -99; -- Erro genérico.             
+                 vResult := SQLCODE; -- Erro generico.
+                 vERRO   := SUBSTR(SQLERRM,600);           
              END IF;
          END;      
                

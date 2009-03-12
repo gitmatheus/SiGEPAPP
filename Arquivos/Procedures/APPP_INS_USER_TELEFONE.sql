@@ -11,6 +11,7 @@ create or replace procedure APPP_INS_USER_TELEFONE(pCD_USER     IN NUMBER  ,
                                                    pNR_TELEFONE IN NUMBER  ,
                                                    pTP_TELEFONE IN VARCHAR2,
                                                    vResult out number) is
+vERRO        VARCHAR2(600);
 begin
     
    insert into APPP_TB_USER_TELEFONE(CD_USER    ,
@@ -31,7 +32,8 @@ begin
    EXCEPTION
      WHEN OTHERS THEN
         rollback;
-        vResult := -99; -- Erro genérico.
+        vResult := SQLCODE; -- Erro generico.
+        vERRO   := SUBSTR(SQLERRM,600);
                
 end APPP_INS_USER_TELEFONE;
 /

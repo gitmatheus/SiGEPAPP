@@ -16,7 +16,8 @@ create or replace procedure APPP_DEL_PATTERN(pCD_PATTERN      in NUMBER  ,
        WHERE (DS_PAT_PROBLEMA  like ('%'|| pDS_PAT_PROBLEMA || '%') OR pDS_PAT_PROBLEMA IS NULL)
        AND   (DS_PAT_SOLUCAO   like ('%'|| pDS_PAT_SOLUCAO || '%')  OR pDS_PAT_SOLUCAO  IS NULL);     
  
- vCD_TEMP NUMBER(20);     
+ vCD_TEMP NUMBER(20);
+ vERRO        VARCHAR2(600);
 begin
     
    if pCD_PATTERN is not null then
@@ -87,7 +88,8 @@ begin
                 vResult := -2292; -- Registros Filhos encontrados.
              ELSE
                 rollback;
-                vResult := -99; -- Erro genérico.             
+                vResult := SQLCODE; -- Erro generico.
+                vERRO   := SUBSTR(SQLERRM,600);
              END IF;
          END;    
                

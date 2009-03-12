@@ -9,6 +9,7 @@ create or replace procedure APPP_UPD_PATTERN(pCD_PATTERN      in NUMBER  ,
                                              pDS_PAT_PROBLEMA IN VARCHAR2,
                                              pDS_PAT_SOLUCAO  in VARCHAR2,
                                              vResult          out number) is
+vERRO        VARCHAR2(600);
 begin
     
    IF pDS_PAT_PROBLEMA IS NOT NULL THEN
@@ -29,7 +30,8 @@ begin
    EXCEPTION
      WHEN OTHERS THEN
         rollback;
-        vResult := -99; -- Erro genérico.
+        vResult := SQLCODE; -- Erro generico.
+        vERRO   := SUBSTR(SQLERRM,600);
                
 end APPP_UPD_PATTERN;
 /

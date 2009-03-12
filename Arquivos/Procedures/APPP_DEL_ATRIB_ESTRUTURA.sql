@@ -9,6 +9,7 @@ create or replace procedure APPP_DEL_ATRIB_ESTRUTURA(pCD_ESTRUTURA    IN NUMBER,
                                                      pCD_ATRIBUTO_OBJ IN NUMBER,
                                                      vResult           out number) is
                                                   
+vERRO        VARCHAR2(600);
 begin
     
       SELECT COUNT(*) INTO vResult
@@ -35,7 +36,8 @@ begin
         
      WHEN OTHERS THEN
         rollback;
-        vResult := -99; -- Erro genérico.
+         vResult := SQLCODE; -- Erro generico.
+         vERRO   := SUBSTR(SQLERRM,600);
                
 end APPP_DEL_ATRIB_ESTRUTURA;
 

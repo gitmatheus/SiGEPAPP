@@ -14,6 +14,7 @@ create or replace procedure APPP_INS_ESTRUT_OBJ(pCD_ESTRUTURA OUT NUMBER,
                                                 pTP_ESTRUTURA IN VARCHAR2,
                                                 vResult    out number) is
        vNM_TB_ESTRUT VARCHAR2(2000);
+vERRO        VARCHAR2(600);
 begin
    
    vNM_TB_ESTRUT := APPP_FN_NM_TAB_EST(pNM_ESTRUTURA);
@@ -45,7 +46,8 @@ begin
    EXCEPTION
      WHEN OTHERS THEN
         rollback;
-        vResult := -99; -- Erro genérico.
+        vResult := SQLCODE; -- Erro generico.
+        vERRO   := SUBSTR(SQLERRM,600);
                
 end APPP_INS_ESTRUT_OBJ;
 /

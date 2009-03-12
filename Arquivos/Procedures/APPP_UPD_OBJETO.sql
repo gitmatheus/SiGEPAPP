@@ -13,6 +13,7 @@ create or replace procedure APPP_UPD_OBJETO(pCD_OBJETO       IN NUMBER ,
                                             --pDT_CRIACAO      IN DATE  , 
                                             --pCD_USER_CRIADOR IN NUMBER,
                                             vResult     out number) is
+vERRO        VARCHAR2(600);
 begin
     
    IF pNM_OBJETO IS NOT NULL THEN
@@ -39,7 +40,8 @@ begin
    EXCEPTION
      WHEN OTHERS THEN
         rollback;
-        vResult := -99; -- Erro genérico.
+        vResult := SQLCODE; -- Erro generico.
+        vERRO   := SUBSTR(SQLERRM,600);
                
 end APPP_UPD_OBJETO;
 /

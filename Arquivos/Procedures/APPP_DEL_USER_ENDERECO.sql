@@ -9,7 +9,7 @@
 create or replace procedure APPP_DEL_USER_ENDERECO(pCD_USER     IN NUMBER  ,
                                                    pTP_ENDERECO IN VARCHAR2,
                                                    vResult   out number) is
-     
+vERRO        VARCHAR2(600);     
 begin
   
       SELECT COUNT(*) INTO vResult
@@ -34,7 +34,8 @@ begin
         
      WHEN OTHERS THEN
         rollback;
-        vResult := -99; -- Erro genérico.
+        vResult := SQLCODE; -- Erro generico.
+        vERRO   := SUBSTR(SQLERRM,600);
                
 end APPP_DEL_USER_ENDERECO;
 /

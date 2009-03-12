@@ -9,6 +9,7 @@
 create or replace procedure APPP_UPD_OBJ_RELAC(pCD_OBJETO       IN NUMBER,
                                                pCD_OBJETO_RELAC IN NUMBER,
                                                vResult     out number) is
+vERRO        VARCHAR2(600);
 begin
 /*    
    UPDATE APPP_TB_OBJ_RELAC 
@@ -21,7 +22,8 @@ begin
    EXCEPTION
      WHEN OTHERS THEN
         rollback;
-        vResult := -99; -- Erro genérico.*/
+        vResult := SQLCODE; -- Erro generico.
+        vERRO   := SUBSTR(SQLERRM,600);*/
         
   -- NÃO SE APLICA ATUALIZAÇÃO EM RELAÇÃO DE OBJETOS
      null;

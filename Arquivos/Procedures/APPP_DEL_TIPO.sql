@@ -19,7 +19,8 @@ create or replace procedure APPP_DEL_TIPO(pCD_TIPO    IN NUMBER  ,
        AND   (T.FL_EXP_REG = pFL_EXP_REG OR pFL_EXP_REG  IS NULL);
        
        
-  vCD_TEMP NUMBER(20);     
+  vCD_TEMP NUMBER(20);
+  vERRO        VARCHAR2(600);   
 begin
     
    if pCD_TIPO is not null then
@@ -87,7 +88,8 @@ begin
         
      WHEN OTHERS THEN
         rollback;
-        vResult := -99; -- Erro genérico.
+        vResult := SQLCODE; -- Erro generico.
+        vERRO   := SUBSTR(SQLERRM,600);
                
 end APPP_DEL_TIPO;
 /
