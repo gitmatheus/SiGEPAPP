@@ -66,7 +66,7 @@
 </style>
 
 <script type="text/javascript" language="javascript" src="js/jquery.tinysort.js"></script>
-<script type="text/javascript" language="javascript" src="js/jquery.wysiwyg.js"></script>
+<script type="text/javascript" language="javascript" src="js/fckeditor/fckeditor.js"></script>
 <script type="text/javascript" language="javascript">
     //Declara um array de objetos.Ela sera usada para marcos os <option>s que serao escondidos do combo box.
     var arrayEscondidos = new Array();
@@ -74,7 +74,11 @@
     //Na inicializacao da pagina...
     $(document).ready(function(){
         //Esconde o formulario para cadastro de tipos
-        //$("#frmCadEstruturaDescricao").wysiwyg();
+        var oFCKeditor = new FCKeditor('frmCadEstruturaDescricao') ;
+        oFCKeditor.BasePath = "./js/fckeditor/" ;
+        oFCKeditor.Height=300;
+        oFCKeditor.ReplaceTextarea() ;
+
         $("#formEscolheAtributos").hide();
         //Ordena o combo box cmbSelecionaAtributo.
         ordenarCombo();
@@ -222,14 +226,16 @@
                         <td></td>
                     </tr>
                     <tr>
-                        <td width="30%" align="right">
+                        <td width="30%" align="right" colspan="2">
                             <div style="margin-right: 10px;">
                                 Descri&ccedil;&atilde;o:
                             </div>
                         </td>
-                        <td width="70%" align="left">
+                    </tr>
+                    <tr>
+                        <td width="70%" align="center" colspan="2">
                             <div  style="margin-left: 5px;">
-                                <input id="frmCadEstruturaDescricao" class="edit" type="text" size="20"/>
+                                <textarea id="frmCadEstruturaDescricao"></textarea>
                             </div>
                         </td>
                     </tr>
