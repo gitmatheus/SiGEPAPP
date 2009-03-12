@@ -119,25 +119,6 @@ FCKConfig.ToolbarSets["Basic"] = [
 	['Bold','Italic','-','OrderedList','UnorderedList','-','Link','Unlink','-','About']
 ] ;
 
-FCKConfig.ToolbarSets["Sigepapp"] = [
-    ['DocProps','-','Preview','-'],
-	['Cut','Copy','Paste','PasteText','PasteWord','-','Print','SpellCheck'],
-    '/',
-	['Undo','Redo','-','Find','Replace','-','SelectAll','RemoveFormat'],
-	['Bold','Italic','Underline','StrikeThrough','-','Subscript','Superscript'],
-    '/',
-	['OrderedList','UnorderedList','-','Outdent','Indent','Blockquote','CreateDiv'],
-	['JustifyLeft','JustifyCenter','JustifyRight','JustifyFull'],
-	['Link','Unlink'],
-	['Image','Flash','Table','Rule','SpecialChar','PageBreak'],
-	'/',
-	['Style','FontFormat'],
-    '/',
-    ['FontName','FontSize'],
-	['TextColor','BGColor'],
-	['FitWindow','ShowBlocks','-','About']		// No comma for the last row.
-]
-
 FCKConfig.EnterMode = 'p' ;			// p | div | br
 FCKConfig.ShiftEnterMode = 'br' ;	// p | div | br
 

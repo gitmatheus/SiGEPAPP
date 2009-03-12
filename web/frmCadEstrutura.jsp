@@ -62,6 +62,8 @@
     }
     .atributoMinimo{
         font-size:small;
+        height:2em;
+        vertical-align:middle;
     }
 </style>
 
@@ -71,6 +73,7 @@
     //Declara um array de objetos.Ela sera usada para marcos os <option>s que serao escondidos do combo box.
     var arrayEscondidos = new Array();
     var arrayVisiveis = new Array();
+    var htmltabelaEstrutura="";
     //Na inicializacao da pagina...
     $(document).ready(function(){
         //Esconde o formulario para cadastro de tipos
@@ -78,6 +81,8 @@
         oFCKeditor.BasePath = "./js/fckeditor/" ;
         oFCKeditor.Height=300;
         oFCKeditor.ReplaceTextarea() ;
+
+        htmltabelaEstrutura=$("#tabAtributos").html();
 
         $("#formEscolheAtributos").hide();
         //Ordena o combo box cmbSelecionaAtributo.
@@ -113,12 +118,12 @@
             if(status=="success"){
 
                 //Tratamento dos dados recebidos
-                $("#tabAtributos").html("");
+                $("#tabAtributos").html(htmltabelaEstrutura);
                 $("atributo",xml).each(function(index, item){
-                    $("#tabAtributos").append("<tr>\
-                                                    <td colspan='2' width='30%' align='center'>\
+                    $("#tabAtributos").append("<tr valign=\"middle\">\
+                                                    <td colspan='2' align='center'>\
                                                      <div class='atributoMinimo' style='margin-right: 10px;'>\
-                                                       "+$(item).text()+"</div></td></tr><tr><td colspan='2'>&nbsp;</td></tr>");
+                                                       "+$(item).text()+"</div></td></tr>");
 
                 });
                 $("#frmCadEstrDivLoadingEst").hide("normal");
@@ -226,14 +231,14 @@
                         <td></td>
                     </tr>
                     <tr>
-                        <td width="30%" align="right" colspan="2">
+                        <td align="center" colspan="2">
                             <div style="margin-right: 10px;">
                                 Descri&ccedil;&atilde;o:
                             </div>
                         </td>
                     </tr>
                     <tr>
-                        <td width="70%" align="center" colspan="2">
+                        <td align="center" colspan="2">
                             <div  style="margin-left: 5px;">
                                 <textarea id="frmCadEstruturaDescricao"></textarea>
                             </div>
