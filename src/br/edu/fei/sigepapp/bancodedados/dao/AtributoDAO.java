@@ -75,8 +75,6 @@ public class AtributoDAO {
         camposDaTabela.add("DS_ATRIBUTO_OBJ");
         camposDaTabela.add("CD_TIPO");
         camposDaTabela.add("FL_ATRIB_RELAC");
-        camposDaTabela.add("NM_COLUNA");
-
 
         while (rs.next()) {
             // Cria um objeto do tipo Atributo
@@ -105,10 +103,6 @@ public class AtributoDAO {
                     case 4:
                         atributoNovo.setFl_atrib_relac(rs.getString(i));
                         break;
-
-                    case 5:
-                        atributoNovo.setNm_coluna(rs.getString(i));
-                        break;
                 }
             }
             //Adiciona o objeto a lista.
@@ -128,7 +122,7 @@ public class AtributoDAO {
             //Instancia um objeto da classe PreparedStatement com o comando para pesquisar registros no banco
             //PreparedStatement stmt = this.conn.prepareStatement(query);
 
-            cstmt = conn.prepareCall("begin  APPP_SEL_ATRIBUTO_OBJ(?, ?, ?, ?, ?, ?, ?); end;");
+            cstmt = conn.prepareCall("begin  APPP_SEL_ATRIBUTO_OBJ(?, ?, ?, ?, ?, ?); end;");
 
             pCD_ATRIBUTO_OBJ = atribPesquisa.getCd_atributo_obj();
             pCD_TIPO_OBJ = atribPesquisa.getCd_tipo();
@@ -148,10 +142,9 @@ public class AtributoDAO {
             }
 
             cstmt.setString(5, atribPesquisa.getFl_atrib_relac());
-            cstmt.setString(6, atribPesquisa.getNm_coluna());
-            cstmt.registerOutParameter(7, OracleTypes.CURSOR);
+            cstmt.registerOutParameter(6, OracleTypes.CURSOR);
             cstmt.execute();
-            rs = (ResultSet) cstmt.getObject(7);
+            rs = (ResultSet) cstmt.getObject(6);
 
             //Cria um array do tipo Atributo
             List<Atributo> atributos = PreencheList(rs);
@@ -182,23 +175,19 @@ public class AtributoDAO {
         long resultado = 0;
 
         try {
-            cstmt = conn.prepareCall("begin  APPP_INS_ATRIBUTO_OBJ(?, ?, ?, ?, ?, ?,?); end;");
+            cstmt = conn.prepareCall("begin  APPP_INS_ATRIBUTO_OBJ( ?, ?, ?, ?, ?,?); end;");
             cstmt.setNull(1, OracleTypes.NUMBER);
             cstmt.setString(2, atributoInserir.getNm_atributo_obj());
             cstmt.setString(3, atributoInserir.getDs_atributo_obj());
             cstmt.setLong(4, atributoInserir.getCd_tipo());
             cstmt.setString(5, atributoInserir.getFl_atrib_relac());
-            cstmt.setString(6, atributoInserir.getNm_coluna());
 
-            cstmt.registerOutParameter(7, OracleTypes.NUMBER);
+            cstmt.registerOutParameter(6, OracleTypes.NUMBER);
             cstmt.execute();
 
-            resultado = cstmt.getLong(7);
+            resultado = cstmt.getLong(6);
 
             cstmt.close();
-
-
-
 
             if (resultado == 1) {
                 GravarLog.gravaInformacao(Atributo.class.getName() + ": adicao no banco de dados realizada com sucesso");
@@ -219,7 +208,7 @@ public class AtributoDAO {
         long resultado = 0;
 
         try {
-            cstmt = conn.prepareCall("begin  APPP_UPD_ATRIBUTO_OBJ(?, ?, ?, ?, ?, ?, ?); end;");
+            cstmt = conn.prepareCall("begin  APPP_UPD_ATRIBUTO_OBJ( ?, ?, ?, ?, ?, ?); end;");
 
             //Seta o codigo do atributo NULL (A chave sera gerada automaticamente pela procedure do banco)
             cstmt.setLong(1, atributoAtualizar.getCd_atributo_obj());
@@ -227,12 +216,11 @@ public class AtributoDAO {
             cstmt.setString(3, atributoAtualizar.getDs_atributo_obj());
             cstmt.setLong(4, atributoAtualizar.getCd_tipo());
             cstmt.setString(5, atributoAtualizar.getFl_atrib_relac());
-            cstmt.setString(6, atributoAtualizar.getNm_coluna());
 
-            cstmt.registerOutParameter(7, OracleTypes.NUMBER);
+            cstmt.registerOutParameter(6, OracleTypes.NUMBER);
             cstmt.execute();
 
-            resultado = cstmt.getLong(7);
+            resultado = cstmt.getLong(6);
 
             cstmt.close();
 
@@ -261,7 +249,7 @@ public class AtributoDAO {
         long pCD_TIPO_OBJ = atributoDeletar.getCd_tipo();
 
         try {
-            cstmt = conn.prepareCall("begin  APPP_DEL_ATRIBUTO_OBJ(?, ?, ?, ?, ?, ?, ?); end;");
+            cstmt = conn.prepareCall("begin  APPP_DEL_ATRIBUTO_OBJ( ?, ?, ?, ?, ?, ?); end;");
             if (pCD_ATRIBUTO_OBJ > 0) {
                 cstmt.setLong(1, pCD_ATRIBUTO_OBJ);
             } else {
@@ -276,12 +264,11 @@ public class AtributoDAO {
             cstmt.setString(2, atributoDeletar.getNm_atributo_obj());
             cstmt.setString(3, atributoDeletar.getDs_atributo_obj());
             cstmt.setString(5, atributoDeletar.getFl_atrib_relac());
-            cstmt.setString(6, atributoDeletar.getNm_coluna());
 
-            cstmt.registerOutParameter(7, OracleTypes.NUMBER);
+            cstmt.registerOutParameter(6, OracleTypes.NUMBER);
             cstmt.execute();
 
-            resultado = cstmt.getLong(7);
+            resultado = cstmt.getLong(6);
             cstmt.close();
 
             if (resultado > 0) {

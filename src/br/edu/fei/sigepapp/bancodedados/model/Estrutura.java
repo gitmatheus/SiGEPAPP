@@ -8,6 +8,9 @@ import java.sql.Date;
  */
 public class Estrutura {
 
+    public Estrutura() {
+    }
+
     public Estrutura(long cd_estrutura, String nm_estrutura, String ds_estrutura, Date dt_criacao, long cod_user, String tp_estrutura) {
         setCd_estrutura(cd_estrutura);
         setNm_estrutura(nm_estrutura);

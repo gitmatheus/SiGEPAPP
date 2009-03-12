@@ -20,7 +20,6 @@
 package br.edu.fei.sigepapp.bancodedados.dao;
 
 import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -30,6 +29,10 @@ import java.util.List;
 import br.edu.fei.sigepapp.bancodedados.ConnectionFactory;
 import br.edu.fei.sigepapp.bancodedados.model.Estrutura;
 import br.edu.fei.sigepapp.log.GravarLog;
+import java.sql.CallableStatement;
+import java.sql.Date;
+import java.util.Vector;
+import oracle.jdbc.OracleTypes;
 
 /**
  *
@@ -47,135 +50,120 @@ public class Estrutura_ObjDAO {
         this.conn = ConnectionFactory.getConnection();
     }
 
-    public List<Estrutura> seleciona(String query) {
+    public List<Estrutura> PreencheList(ResultSet rs) throws SQLException {
+        // Cria um array do tipo Estrutura
+        List<Estrutura> estruturas = new ArrayList<Estrutura>();
+
+        //Cria e preenche uma lista contendo os nomes das colunas da tabela
+        Vector<String> camposDaTabela = new Vector<String>();
+        camposDaTabela.add("CD_ESTRUTURA");
+        camposDaTabela.add("NM_ESTRUTURA");
+        camposDaTabela.add("DS_ESTRUTURA");
+        camposDaTabela.add("DT_CRIACAO");
+        camposDaTabela.add("CD_USER");
+        camposDaTabela.add("TP_ESTRUTURA");
+
+        while (rs.next()) {
+            // Cria um objeto do tipo Estrutura
+            Estrutura EstruturaNovo = new Estrutura();
+
+            //Para cada coluna
+            for (int i = 1; i <= rs.getMetaData().getColumnCount(); i++) {
+                //Atribui o nome da coluna atual a variavel nomeColuna
+                String nomeColuna = rs.getMetaData().getColumnName(i);
+                //retorna o indice que esta coluna se encontra na lista
+                int selecao = camposDaTabela.indexOf(nomeColuna);
+                //seleciona cada caso de acordo com o indice e atribui ao objeto
+                switch (selecao) {
+                    case 0:
+                        EstruturaNovo.setCd_estrutura(rs.getLong(i));
+                        break;
+                    case 1:
+                        EstruturaNovo.setNm_estrutura(rs.getString(i));
+                        break;
+                    case 2:
+                        EstruturaNovo.setDs_estrutura(rs.getString(i));
+                        break;
+                    case 3:
+                        EstruturaNovo.setDt_criacao(rs.getDate(i));
+                        break;
+                    case 4:
+                        EstruturaNovo.setCod_user(rs.getLong(i));
+                        break;
+                    case 5:
+                        EstruturaNovo.setTp_estrutura(rs.getString(i));
+                        break;
+                }
+            }
+            //Adiciona o objeto a lista.
+            estruturas.add(EstruturaNovo);
+        }
+        //retorna a lista de Estruturas.
+        return estruturas;
+    }
+
+    public List<Estrutura> APPP_SEL_Estrutura_OBJ(Estrutura estrutPesquisa, Date dataFim) {
+        CallableStatement cstmt = null;
+        ResultSet rs = null;
+
+        long pCD_ESTRUTURA_OBJ = 0;
+        long pCD_USUARIO = 0;
         try {
+            //Instancia um objeto da classe PreparedStatement com o comando para pesquisar registros no banco
+            //PreparedStatement stmt = this.conn.prepareStatement(query);
 
-            PreparedStatement stmt = this.conn.prepareStatement(query);
-            ResultSet rs = stmt.executeQuery();
+            cstmt = conn.prepareCall("begin  APPP_SEL_ESTRUT_OBJ(?, ?, ?, ?, ?, ?, ?, ?); end;");
 
-            List<Estrutura> estruturas = new ArrayList<Estrutura>();
+            pCD_ESTRUTURA_OBJ = estrutPesquisa.getCd_estrutura();
+            pCD_USUARIO = estrutPesquisa.getCod_user();
 
-            while (rs.next()) {
-                Estrutura novaEstrutura = new Estrutura(rs.getLong("CD_ESTRUTURA"), rs.getString("NM_ESTRUTURA"), rs.getString("DS_ESTRUTURA"), rs.getDate("DT_CRIACAO"), rs.getLong("CD_USER"), rs.getString("TP_ESTRUTURA"));
-                estruturas.add(novaEstrutura);
+            if (pCD_ESTRUTURA_OBJ > 0) {
+                cstmt.setLong(1, pCD_ESTRUTURA_OBJ);
+            } else {
+                cstmt.setNull(1, OracleTypes.NUMBER);
             }
 
-            stmt.close();
+            cstmt.setString(2, estrutPesquisa.getNm_estrutura());
+            cstmt.setString(3, estrutPesquisa.getDs_estrutura());
+
+            cstmt.setDate(4, estrutPesquisa.getDt_criacao());
+            cstmt.setDate(5, dataFim);
+
+            if (pCD_USUARIO > 0) {
+                cstmt.setLong(6, estrutPesquisa.getCod_user());
+            } else {
+                cstmt.setNull(6, OracleTypes.NUMBER);
+            }
+
+            cstmt.setString(7, estrutPesquisa.getTp_estrutura());
+
+            cstmt.registerOutParameter(8, OracleTypes.CURSOR);
+            cstmt.execute();
+            rs = (ResultSet) cstmt.getObject(8);
+
+            //Cria um array do tipo Estrutura
+            List<Estrutura> Estruturas = PreencheList(rs);
+
+            //fecha a instancia dos objetos
             rs.close();
+            cstmt.close();
 
-            this.conn.close();
-            this.conn.commit();
+            //Grava log com a informação de sucesso
+            GravarLog.gravaInformacao(Estrutura.class.getName() + ": pesquisa no banco de dados realizada com sucesso");
 
-            return estruturas;
+            //retorna uma lista com os usuarios selecionados
+            return Estruturas;
 
-        } catch (SQLException ex) {
-            GravarLog.gravaErro(Estrutura.class.getName() + ": erro na pesquisa referente a uma excecao de SQL: " + ex.getMessage());
+        } catch (SQLException e) {
 
+            //Grava log com o erro que ocorreu durante a execução do comando SQL
+            GravarLog.gravaErro(Estrutura.class.getName() + ": erro na pesquisa referente a uma exceção de SQL: " + e.getMessage());
+
+            //Retorno da função como null em caso de erro
             return null;
         }
     }
 
-    public boolean adiciona(Estrutura estruturaAdicionar) {
-        try {
-
-            // Instancia um objeto da classe PreparedStatement com o comando para insercao do registro no banco
-            PreparedStatement stmt =
-                    this.conn.prepareStatement(
-                    "insert into appp_tb_estrut_obj (cd_estrutura, cd_user, ds_estrutura, dt_criacao," + "nm_estrutura, tp_estrutura)" + "values (?, ?, ?, ?, ?, ?)");
-
-            // Seta os valores para os pontos de interrogacao indexados pela ordem deles na string
-            stmt.setLong(1, estruturaAdicionar.getCd_estrutura());
-            stmt.setLong(2, estruturaAdicionar.getCod_user());
-            stmt.setString(3, estruturaAdicionar.getDs_estrutura());
-            stmt.setDate(4, estruturaAdicionar.getDt_criacao());
-            stmt.setString(5, estruturaAdicionar.getNm_estrutura());
-            stmt.setString(6, estruturaAdicionar.getTp_estrutura());
-
-            // executa o comando e fecha a instancia do objeto
-            stmt.execute();
-            stmt.close();
-
-            // Grava log com a informacao de sucesso
-            GravarLog.gravaInformacao(Estrutura.class.getName() + ": insercao no banco de dados realizada com sucesso");
-
-            // Fecha conexao com o banco de dados
-            this.conn.close();
-            this.conn.commit();
-
-            // Retorno da funcao como true
-            return true;
-        } catch (SQLException e) {
-
-            // Grava log com o erro que ocorreu durante a execucao do comando SQL
-            GravarLog.gravaErro(Estrutura.class.getName() + ": erro na insercao referente a uma excecao de SQL: " + e.getMessage());
-
-            // Retorno da funcao como false em caso de erro
-            return false;
-        }
-
-    }
-
-    public boolean deleta(Estrutura objDeletar) {
-        try {
-
-            PreparedStatement stmt = conn.prepareStatement("delete from APPP_TB_ESTRUT_OBJ where CD_ESTRUTURA=?");
-            stmt.setLong(1, objDeletar.getCd_estrutura());
-            stmt.execute();
-            stmt.close();
-
-            this.conn.close();
-            this.conn.commit();
-
-            return true;
-        } catch (SQLException e) {
-
-            // Grava log com o erro que ocorreu durante a execucao do comando SQL
-            GravarLog.gravaErro(Estrutura.class.getName() + ": erro na insercao referente a uma excecao de SQL: " + e.getMessage());
-
-            // Retorno da funcao como false em caso de erro
-            return false;
-        }
-    }
-
-    public boolean atualiza(Estrutura estruturaAtualizar) {
-        try {
-
-            // Instancia um objeto da classe PreparedStatement com o comando para atualizacao do registro no banco
-            PreparedStatement stmt =
-                    this.conn.prepareStatement(
-                    "update APPP_TB_ESTRUT_OBJ set cd_user=?, ds_estrutura=?, dt_criacao=?," + "nm_estrutura=?, tp_estrutura=? where CD_ESTRUTURA=?");
-
-            // Seta os valores para os pontos de interrogacao indexados pela ordem deles na string
-
-            stmt.setLong(1, estruturaAtualizar.getCod_user());
-            stmt.setString(2, estruturaAtualizar.getDs_estrutura());
-            stmt.setDate(3, estruturaAtualizar.getDt_criacao());
-            stmt.setString(4, estruturaAtualizar.getNm_estrutura());
-            stmt.setString(5, estruturaAtualizar.getTp_estrutura());
-
-            stmt.setLong(6, estruturaAtualizar.getCd_estrutura());
-            // executa o comando e fecha a instancia do objeto
-            stmt.execute();
-            stmt.close();
-
-            // Grava log com a informacao de sucesso
-            GravarLog.gravaInformacao(Estrutura.class.getName() + ": atualizacao no banco de dados realizada com sucesso");
-
-            // Fecha conexao com o banco de dados
-            this.conn.close();
-            this.conn.commit();
-
-            // retorno da funcao como true
-            return true;
-        } catch (SQLException e) {
-
-            // Grava log com o erro que ocorreu durante a execucao do comando SQL
-            GravarLog.gravaErro(Estrutura.class.getName() + ": erro na atualizacao referente a uma excecao de SQL: " + e.getMessage());
-
-            // Retorno da funcao como false em caso de erro
-            return false;
-        }
-    }
 
     /**
      * Metodo para fechar o banco de dados da classe

@@ -30,6 +30,33 @@
         Collection<Atributo> atributos;
         atributos = atributoDAO.APPP_SEL_ATRIBUTO_OBJ(new Atributo());
         atributoDAO.fechaConexao();
+
+        List<Estrutura> pattern;
+        List<Estrutura> antiPattern;
+        List<Estrutura> persona;
+        long patternID;
+        long antiPatternID;
+        long personaID;
+
+        Estrutura_ObjDAO pesqEstrutDAO = new Estrutura_ObjDAO();
+
+
+//Pesquisa o ID da Estrutura default Pattern
+        pattern = pesqEstrutDAO.APPP_SEL_Estrutura_OBJ(new Estrutura(0, "Pattern", null, null, 0, null), null);
+        patternID = pattern.size() > 0 ? pattern.get(0).getCd_estrutura() : 0;
+
+//Pesquisa o ID da Estrutura default Anti-Pattern
+        antiPattern = pesqEstrutDAO.APPP_SEL_Estrutura_OBJ(new Estrutura(0, "Anti-Pattern", null, null, 0, null), null);
+        antiPatternID = antiPattern.size() > 0 ? antiPattern.get(0).getCd_estrutura() : 0;
+
+//Pesquisa o ID da Estrutura default Persona
+        persona = pesqEstrutDAO.APPP_SEL_Estrutura_OBJ(new Estrutura(0, "ersona", null, null, 0, null), null);
+        antiPatternID = persona.size() > 0 ? persona.get(0).getCd_estrutura() : 0;
+//Fecha conexão
+        pesqEstrutDAO.fechaConexao();
+
+
+
 %>
 
 <%@include file="cabecalho.jsp"%>
@@ -122,7 +149,7 @@
                 $("atributo",xml).each(function(index, item){
                     $("#tabAtributos").append("<tr valign=\"middle\">\
                                                     <td colspan='2' align='center'>\
-                                                     <div class='atributoMinimo' style='margin-right: 10px;'>\
+                                                     <div class='atributoMinimo' style='margin-right: 10px;border-bottom:black solid thin;'>\
                                                        "+$(item).text()+"</div></td></tr>");
 
                 });
@@ -162,6 +189,9 @@
         arrayVisiveis=$.makeArray($("#cmbSelecionaAtributo option"));
     }
 
+    function func_desceAtrib(idAtributo){
+        // $("#atributo_"+idAtributo);
+    }
 
     function func_incluiAtributo(){
         if($('#cmbSelecionaAtributo option:selected').length>0){
@@ -259,7 +289,7 @@
                             <div  style="margin-left: 5px;">
                                 <select class="select_uma_linha" id="frmCadEstrTipo" name="frmCadEstrTipo" style="height: 2em;" width="150px" maxlength="30" title="Escolha o tipo de Estrutura">
                                     <option value="-1" selected>Escolha um tipo de estrutura</option>
-                                    <option value="20">Pattern</option>
+                                    <option value="<%= patternID%>">Pattern</option>
                                     <option value="21">Anti-Pattern</option>
                                     <option value="22">Persona</option>
                                     <option value="-2" style="background: #EEEEEE" onclick="alert('Aqui abre janela para procurar por estruturas existentes')" >Importar de Estrutura Existente...</option>
@@ -279,7 +309,7 @@
             <fieldset style="width: 500px;">
                 <legend><b>Escolha dos atributos:</b></legend>
                 <form action="frmCadEstrutura.jsp" method="get">
-                    <table  id="tabAtributos" border="1" cellpadding="0" cellspacing="0" width="300">
+                    <table  id="tabAtributos" border="0" cellpadding="0" cellspacing="0" width="300">
                         <tr bgcolor="#3d414c">
                             <td colspan="2" align="center" style="color:#ffffff; font-size:medium">Estrutura</td>
                         </tr>
