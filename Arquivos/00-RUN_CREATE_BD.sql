@@ -21,7 +21,7 @@ SPOOL OFF
 Spool /SiGEPAPP/Arquivos/run_invalid.sql
 
 select 'ALTER ' || OBJECT_TYPE || ' ' || OWNER || '.' || OBJECT_NAME || ' COMPILE;'
-from dba_objects 
+from sys.all_objects
 where status = 'INVALID' 
 and   object_type in ('PACKAGE','FUNCTION','PROCEDURE');
 
