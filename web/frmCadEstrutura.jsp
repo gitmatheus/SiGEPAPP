@@ -347,7 +347,8 @@
                 </table>
             </fieldset>
 
-<br><br>
+            <br><br>
+                
             <!-- Inicio da customizacao de atributos -->
             <fieldset style="width: 500px;">
                 <legend><b>Escolha dos atributos:</b></legend>
@@ -372,7 +373,7 @@
                                     <table width="300" style="background-color:#eeeeee;">
                                         <tr>
                                             <td align="right">
-                                                Busca de Atributo:
+                                                Buscar Atributo:
                                             </td>
                                             <td>
                                                 <input id="txtBusca" type="text" style="width: 145px" onkeyup="filtraCombo();"></input>
@@ -387,7 +388,7 @@
                                                 </select>
                                         </td></tr>
                                         <tr><td colspan="2" align="center">
-                                                <a onclick="" href="javascript:func_incluiAtributo();"><img src="images/add.gif" border="none">Adicionar</a>
+                                                <a onclick="" href="javascript:func_incluiAtributo();"><img src="images/add.gif" border="none">Incluira</a>
                                         </td></tr>
                                         <tr><td colspan="2"></td>
                                         </tr>
