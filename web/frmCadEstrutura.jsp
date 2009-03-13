@@ -17,7 +17,7 @@
          * |------------------------------------------------------------------|
          * |  Guilherme  |  26/02/09   | Criacao do Arquivo                   |
          * |------------------------------------------------------------------|
-         * |  Tom Mix    |  27/02/09   |                                      |
+         * |  Tom Mix    |  27/02/09   | Criacao do Layout                                     |
          * |------------------------------------------------------------------|
          * |  Guilherme  |  27/02/09   | Bug entre FIREFOX E IE:              |
          * |             |             | IE nao aceita hidden em option field |
@@ -65,9 +65,6 @@
         font-size:small;
         background-color: #CCCCCC;
 
-    }
-    .select_uma_linha option{
-        font-size: small;
     }
 
     .select_varias_linhas, .select_varias_linhas option{
@@ -184,6 +181,7 @@
 
                 //Tratamento dos dados recebidos
                 $("#tabAtributos").html(htmltabelaEstrutura);
+                //Retorno para estrutura mnima
                 $("atributo",xml).each(function(index, item){
                     $("#tabAtributos").append("<tr valign=\"middle\">\
                                                     <td colspan='2' align='center'>\
@@ -276,6 +274,7 @@
     <tr>
         <td align="center" class="titulo" style="height: 25px; vertical-align: middle;"> <font class="titulo">..:: Cadastro&nbsp;de&nbsp;Estruturas APPP ::..</font> </td>
     </tr>
+
     <tr>
         <td align="center">
             <br>
@@ -298,24 +297,6 @@
                         <td>&nbsp;</td>
                         <td></td>
                     </tr>
-                    <tr>
-                        <td align="center" colspan="2">
-                            <div style="margin-right: 10px;">
-                                Descri&ccedil;&atilde;o:
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td align="center" colspan="2">
-                            <div  style="margin-left: 5px;">
-                                <textarea id="frmCadEstruturaDescricao"></textarea>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>&nbsp;</td>
-                        <td></td>
-                    </tr>
 
                     <tr>
                         <td width="30%" align="right">
@@ -325,23 +306,48 @@
                         </td>
                         <td width="70%" align="left">
                             <div style="margin-left: 5px;">
-                                <select class="select_uma_linha" id="frmCadEstrTipo" name="frmCadEstrTipo" style="height: 2em;"  maxlength="30" title="Escolha o tipo de Estrutura">
+                                <select class="edit" id="frmCadEstrTipo" name="frmCadEstrTipo" style="height: 2em;"  maxlength="30" title="Escolha o tipo de Estrutura">
                                     <option value="-1" selected>Escolha um tipo de estrutura</option>
                                     <option value="<%= patternID%>">Pattern</option>
                                     <option value="<%= antiPatternID%>">Anti-Pattern</option>
                                     <option value="<%= personaID%>">Persona</option>
                                     <option value="-2" style="background: #EEEEEE" onclick="alert('Aqui abre janela para procurar por estruturas existentes')" >Importar de Estrutura Existente...</option>
                                 </select><img id="frmCadEstrDivLoadingEst"  src="/sigepapp/images/aguardep.gif" style="vertical-align:bottom;">
-                                
+
                             </div>
-
                         </td>
+                    </tr>
 
+                   <tr>
+                        <td>&nbsp;</td>
+                        <td></td>
+                   </tr>
+
+                   <tr>
+                        <td width="30%" align="right">
+                            <div style="margin-right: 10px;">
+                                Descri&ccedil;&atilde;o:
+                            </div>
+                        </td>
+                    </tr>
+
+                   <tr>
+                        <td>&nbsp;</td>
+                        <td></td>
+                   </tr>
+
+                    <tr>
+                        <td align="center" colspan="2">
+                            <div  style="margin-left: 5px;">
+                                <textarea id="frmCadEstruturaDescricao"></textarea>
+                            </div>
+                        </td>
                     </tr>
 
                 </table>
             </fieldset>
 
+<br><br>
             <!-- Inicio da customizacao de atributos -->
             <fieldset style="width: 500px;">
                 <legend><b>Escolha dos atributos:</b></legend>
@@ -424,7 +430,7 @@
         </tr>
         <tr>
             <td>
-                Descrição do atributo:
+                Descri&cedil;&atilde;o do atributo:
             </td>
             <td align="center">
                 <input class="edit" type="text" size="35">
