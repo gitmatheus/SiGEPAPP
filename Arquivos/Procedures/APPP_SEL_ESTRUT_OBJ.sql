@@ -12,7 +12,6 @@ create or replace procedure APPP_SEL_ESTRUT_OBJ(pCD_ESTRUTURA  IN NUMBER,
                                                 pDT_CRIACAOFIM IN DATE    ,
                                                 pCD_USER       IN NUMBER  ,
                                                 pTP_ESTRUTURA  IN VARCHAR2,
-                                                pNM_TB_ESTRUT  IN VARCHAR2, 
                                                 p_cursor       OUT SYS_REFCURSOR   ) is
 begin
     
@@ -45,8 +44,7 @@ begin
        AND   (DT_CRIACAO  >= pDT_CRIACAOINI                  OR pDT_CRIACAOINI IS NULL)
        AND   (DT_CRIACAO  <= pDT_CRIACAOFIM                  OR pDT_CRIACAOFIM IS NULL)
        AND   (CD_USER      = pCD_USER                        OR pCD_USER       IS NULL)
-       AND   (TP_ESTRUTURA = pTP_ESTRUTURA                   OR pTP_ESTRUTURA  IS NULL)
-       AND   (NM_TB_ESTRUT LIKE ('%'|| pNM_TB_ESTRUT || '%') OR pNM_TB_ESTRUT  IS NULL);
+       AND   (TP_ESTRUTURA = pTP_ESTRUTURA                   OR pTP_ESTRUTURA  IS NULL);
        
    END IF;                
 end APPP_SEL_ESTRUT_OBJ;
