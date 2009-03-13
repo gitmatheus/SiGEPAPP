@@ -1,5 +1,16 @@
 REM INSERTING into APPP_TB_TIPO
-Insert into APPP_TB_TIPO (CD_TIPO,DS_TIPO,FL_EXP_REG,NM_TIPO) values (3,'Texto AlphaNumerico','N','Texto');
-Insert into APPP_TB_TIPO (CD_TIPO,DS_TIPO,FL_EXP_REG,NM_TIPO) values (4,'Qualquer Numero','N','Numero');
-Insert into APPP_TB_TIPO (CD_TIPO,DS_TIPO,FL_EXP_REG,NM_TIPO) values (5,'Data','N','Data');
+
+INSERT INTO APPP_TB_TIPO(NM_TIPO,DS_TIPO,FL_EXP_REG) VALUES('Texto Alphanumerico','VARCHAR2','N');
+INSERT INTO APPP_TB_TIPO(NM_TIPO,DS_TIPO,FL_EXP_REG) VALUES('Número Inteiro','NUMBER','N');
+INSERT INTO APPP_TB_TIPO(NM_TIPO,DS_TIPO,FL_EXP_REG) VALUES('Número Decimal','NUMBER','N');
+INSERT INTO APPP_TB_TIPO(NM_TIPO,DS_TIPO,FL_EXP_REG) VALUES('Data','DATE','N');
+INSERT INTO APPP_TB_TIPO(NM_TIPO,DS_TIPO,FL_EXP_REG) VALUES('E-Mail','"([a-zA-Z0-9_\\-\\.]+)@((\\[a-z]{1,3}\\.[a-z]" + "{1,3}\\.[a-z]{1,3}\\.)|(([a-zA-Z\\-]+\\.)+))" + "([a-zA-Z]{2,4}|[0-9]{1,3})(\\]?)"','S');
+INSERT INTO APPP_TB_TIPO(NM_TIPO,DS_TIPO,FL_EXP_REG) VALUES('CPF','"^((\d{3})\.){2}(\d{3})-(\d{2})$"','S');
+INSERT INTO APPP_TB_TIPO(NM_TIPO,DS_TIPO,FL_EXP_REG) VALUES('Telefone','"^\d{4}-\d{4}$"','S');
+INSERT INTO APPP_TB_TIPO(NM_TIPO,DS_TIPO,FL_EXP_REG) VALUES('CEP','"^\d{5}-\d{3}$"','S');
+INSERT INTO APPP_TB_TIPO(NM_TIPO,DS_TIPO,FL_EXP_REG) VALUES('RG','"[0-9]\.[0-9]{3}\.[0-9]{3}-[0-9]"','S');
+
 commit;
+
+select * from APPP_TB_TIPO
+
