@@ -50,15 +50,14 @@
         antiPatternID = antiPattern.size() > 0 ? antiPattern.get(0).getCd_estrutura() : 0;
 
 //Pesquisa o ID da Estrutura default Persona
-        persona = pesqEstrutDAO.APPP_SEL_Estrutura_OBJ(new Estrutura(0, "ersona", null, null, 0, null), null);
-        antiPatternID = persona.size() > 0 ? persona.get(0).getCd_estrutura() : 0;
+        persona = pesqEstrutDAO.APPP_SEL_Estrutura_OBJ(new Estrutura(0, "Persona", null, null, 0, null), null);
+        personaID = persona.size() > 0 ? persona.get(0).getCd_estrutura() : 0;
 //Fecha conexão
         pesqEstrutDAO.fechaConexao();
 
 
-
 %>
-
+<link href="css/jquery-ui-1.7.css" type="stylesheet"/>
 <%@include file="cabecalho.jsp"%>
 <style>
     .formulario input, .select_uma_linha{
@@ -92,6 +91,23 @@
         height:2em;
         vertical-align:middle;
     }
+
+    #bckCadastraAtributo{
+        background-color:#000000;
+        position:absolute;
+        left: 0px;
+        top: 0px;
+
+    }
+
+    #frmCadastraAtributo td{
+        font-size:small;
+    }
+
+    #frmCadastraAtributo h1{
+        font-size:medium;
+    }
+
 </style>
 
 <script type="text/javascript" language="javascript" src="js/jquery.tinysort.js"></script>
@@ -101,9 +117,31 @@
     var arrayEscondidos = new Array();
     var arrayVisiveis = new Array();
     var htmltabelaEstrutura="";
+
+    function Show_CadastraAtributo(){
+
+        //$("#frmCadastraAtributo").hide();
+        //$("#linkAbreCadastroAtributo").click(function(){
+        $("#bckCadastraAtributo").css(
+        {   opacity : 0.8,
+            width : $(document).width(),
+            height :$(document).height()
+        }).fadeIn(1000);
+        $("#frmCadastraAtributo").css({
+            position : 'absolute',
+            left: $(document).width()/2 - $("#frmCadastraAtributo").width()/2,
+            top: '50px'
+        });
+        //});
+        $("#frmCadastraAtributo").show();
+    }
+
     //Na inicializacao da pagina...
     $(document).ready(function(){
         //Esconde o formulario para cadastro de tipos
+
+        $("#bckCadastraAtributo, #frmCadastraAtributo").hide();
+
         var oFCKeditor = new FCKeditor('frmCadEstruturaDescricao') ;
         oFCKeditor.BasePath = "./js/fckeditor/" ;
         oFCKeditor.Height=300;
@@ -140,7 +178,7 @@
 
         $.post("GetAtribDeEstrut", {codatrib: cod_Atributo}, function(xml,status){
 
-            $("#frmCadEstrDivLoadingEst").show("normal");
+        $("#frmCadEstrDivLoadingEst").css("display","inline");
 
             if(status=="success"){
 
@@ -286,18 +324,17 @@
                             </div>
                         </td>
                         <td width="70%" align="left">
-                            <div  style="margin-left: 5px;">
-                                <select class="select_uma_linha" id="frmCadEstrTipo" name="frmCadEstrTipo" style="height: 2em;" width="150px" maxlength="30" title="Escolha o tipo de Estrutura">
+                            <div style="margin-left: 5px;">
+                                <select class="select_uma_linha" id="frmCadEstrTipo" name="frmCadEstrTipo" style="height: 2em;"  maxlength="30" title="Escolha o tipo de Estrutura">
                                     <option value="-1" selected>Escolha um tipo de estrutura</option>
                                     <option value="<%= patternID%>">Pattern</option>
-                                    <option value="21">Anti-Pattern</option>
-                                    <option value="22">Persona</option>
+                                    <option value="<%= antiPatternID%>">Anti-Pattern</option>
+                                    <option value="<%= personaID%>">Persona</option>
                                     <option value="-2" style="background: #EEEEEE" onclick="alert('Aqui abre janela para procurar por estruturas existentes')" >Importar de Estrutura Existente...</option>
-                                </select>
+                                </select><img id="frmCadEstrDivLoadingEst"  src="/sigepapp/images/aguardep.gif" style="vertical-align:bottom;">
+                                
                             </div>
-                            <div id="frmCadEstrDivLoadingEst">
-                                <img src="/sigepapp/images/aguardep.gif" style="vertical-align:bottom;">Carregando estrutura...
-                            </div>
+
                         </td>
 
                     </tr>
@@ -309,12 +346,12 @@
             <fieldset style="width: 500px;">
                 <legend><b>Escolha dos atributos:</b></legend>
                 <form action="frmCadEstrutura.jsp" method="get">
-                    <table  id="tabAtributos" border="0" cellpadding="0" cellspacing="0" width="300">
+                    <table class="ui-corner-tl"  id="tabAtributos" border="0" cellpadding="0" cellspacing="0" width="300">
                         <tr bgcolor="#3d414c">
                             <td colspan="2" align="center" style="color:#ffffff; font-size:medium">Estrutura</td>
                         </tr>
                         <tr bgcolor="#3d414c">
-                            <td style="color:#ffffff; font-size:small">Nome do atributo</td>
+                            <td style="color:#ffffff; font-size:small;"></td>
                             <td style="color:#ffffff; font-size:small" width="20%"></td>
                         </tr>
                     </table>
@@ -355,48 +392,63 @@
 
                         </tr>
                         <tr>
-                            <td colspan="2"><a href="#" onclick="javascript: $('#formEscolheAtributos').show('normal');"><img src="images/add.gif" border="none">Adicionar novo atributo</a></td>
+                            <td align="center" colspan="2">
+                                <a id="linkAbreCadastroAtributo" href="#" onclick="Show_CadastraAtributo();">
+                                    <img src="images/add.gif" border="none">Adicionar novo atributo
+                                </a>
+                            </td>
                         </tr>
                     </table>
                     <input class="botao" style="background-color:#3d414c;" type="submit" value="enviar">
                 </form>
             </fieldset>
-
         </td>
     </tr>
 </table>
 
-<div id="formEscolheAtributos" style="position: absolute; left: 50%; top: 50%; background-color:silver; width: auto;">
-    <div align="right" style="background-color:#3d414c"><a style="height:5px" onclick="$('#formEscolheAtributos').hide();" href="#"><img border="nome" src="images/fechar.gif"/></a></div>
-    <br>
-    <fieldset>
-        <legend>Selecionar atributos:</legend>
-        <table width="300">
-            <tr><td align="center">Busca de Atributo:</td><td><input type="text" style="width: 145px"></input></td></tr>
-            <tr><td>Atributo:</td><td>
-                    <select size="8" style="width: 150px">
-                        <option>At1</option>
-                        <option>At2</option>
-                        <option>At3</option>
-                        <option>At4</option>
-                    </select>
-            </td></tr>
+<div id="bckCadastraAtributo"></div>
+<div id="frmCadastraAtributo" style="width:700px;" >
+    <table style="width:350px" bgcolor="white">
+        <tr bgcolor="#eeeeee">
+            <td colspan="2" align="center" style="border-bottom:black solid thin">
+                <h1>Cadastro de atributos:</h1>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Nome do atributo:
+            </td>
+            <td align="center">
+                <input class="edit" type="text" size="35">
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Descrição do atributo:
+            </td>
+            <td align="center">
+                <input class="edit" type="text" size="35">
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Tipo do atributo:
+            </td>
+            <td align="center">
+                <select class="edit" style="width:200px;" >
+                    <option>String</option>
+                    <option>Numero</option>
+                    <option>Data</option>
 
-            <tr><td colspan="2" align="center">Ou crie um atributo novo:</td></tr>
-            <tr><td>Nome:</td><td><input type="text"></input></td></tr>
-            <tr><td>Descri&cedil;&atilde;o:</td><td><input type="text"></input></td></tr>
-            <tr><td>Tipo:</td>
-                <td><select id="frmCadAtribTipo" name="frmCadAtribTipo" class="edit" width="100px" maxlength="50" title="Escolha o tipo de dados do atributo">
-                        <option label="" >data</option>
-                        <option label="" >numero</option>
-                        <option label="" >texto</option>
-                        <option label="" style="background: #EEEEEE" onclick="alert('Aqui abre janela para procurar por estruturas existentes')" >Novo atributo</option>
-                    </select>
-                    <a onclick="alert('Adiciona o novo atributo e inclui')" href="#"><img src="images/add.gif" border="none">Adicionar</a>
-            </td></tr>
-            <tr><td colspan="2"></td>
-            </tr>
-        </table>
-    </fieldset>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2" align="center">
+                <input type="submit" name="envia" value="Cadastrar">
+            </td>
+        </tr>
+    </table>
+
 </div>
 <%@include file="rodape.jsp"%>
