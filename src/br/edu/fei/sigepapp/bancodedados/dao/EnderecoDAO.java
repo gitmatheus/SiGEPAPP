@@ -53,4 +53,14 @@ public class EnderecoDAO {
             return false;
         }
     }
+
+    public void fechaConexao() {
+        try {
+            if (!this.conn.isClosed()) {
+                this.conn.close();
+            }
+        } catch (SQLException e) {
+            GravarLog.gravaErro(EnderecoDAO.class.getName() + ": erro ao finalizar connexao com o banco: " + e.getMessage());
+        }
+    }
 }

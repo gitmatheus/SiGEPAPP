@@ -258,7 +258,7 @@
                             </td>
                             <td width="70%" align="left">
                                 <div  style="margin-left: 5px;">
-                                    <input id="frmCadUserTelefone" name="frmCadUserTelefone" class="edit" style="width: 70px;" maxlength="15" title="Digite o número de telefone de seu interesse"/>
+                                    <input id="frmCadUserTelefone" name="frmCadUserTelefone" class="edit" style="width: 90px;" maxlength="15" title="Digite o número de telefone de seu interesse"/>
                                     <font class="texto"> Tipo: </font>
                                     <select id="frmCadUserTipoTel" name="frmCadUserTipoTel" class="edit" style="width: auto;">
                                         <option value="Residencial">Residencial</option>

@@ -26,6 +26,7 @@ $(document).ready(function(){
     $("#frmCadUserCEP").mask("99999-999");
     $("#frmCadUserDataNasc").mask("99/99/9999");
     $("#frmCadUserCPF").mask("999.999.999-99");
+    $("#frmCadUserTelefone").mask("(99)9999-9999");
 
     $("#adicionaendereco").click(function(){
         adicionaRemoveEndereco('add')
@@ -141,6 +142,7 @@ function EnviaCadUsuario(){
     var login = $("#frmCadUserLogin").val();
     var senha = $("#frmCadUserSenha").val();
     var email = $("#frmCadUserEmail").val();
+    var tipoemail = $("#frmCadUserTipoEmail").val();
     var cpf = $("#frmCadUserCPF").val();
     var nome = $("#frmCadUserNome").val();
     var sobrenome = $("#frmCadUserSobrenome").val();
@@ -156,7 +158,37 @@ function EnviaCadUsuario(){
     var tipotelefone = $("#frmCadUserTipoTel").val();
     var msn = $("#frmCadUserMsn").val();
     var skype = $("#frmCadUserSkype").val();
-    var 
+    var areainteresse = $("#frmCadUserAreaInt").val();
+
+    $.post("CadUsuarioServlet", {
+        login: login,
+        senha: senha,
+        email :email,
+        tipoemail: tipoemail,
+        cpf: cpf,
+        nome: nome,
+        sobrenome: sobrenome,
+        datanasc: datanasc,
+        endereco: endereco,
+        nroendereco: nroendereco,
+        endcomplemento: endcomplemento,
+        tipoendereco: tipoendereco,
+        cep: cep,
+        bairro: bairro,
+        cidade: cidade,
+        telefone: telefone,
+        tipotelefone: tipotelefone,
+        msn: msn,
+        skype: skype,
+        areainteresse: areainteresse
+    }, function(xml){
+        var confirma = $("sucesso",xml).text();
+        if (confirma == "sim"){
+            alert("Usuario cadastrado com sucesso!");
+        }else{
+            alert("Usuario nao cadastrado devido a um erro!\nTente novamente mais tarde.");
+        }
+    });
 
 }
 
@@ -176,6 +208,9 @@ $(function(){
     });
     $("#adicionaendereco2").click(function(){
         alert("Funfou!!!!");
+    });
+    $("#envia_cad_user").click(function(){
+        EnviaCadUsuario();
     });
 });
 
