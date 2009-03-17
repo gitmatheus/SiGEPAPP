@@ -10,7 +10,7 @@ SELECT 'Criando a tabela APPP_TB_USER_ENDERECO' FROM DUAL;
 create table APPP_TB_USER_ENDERECO
 (
   CD_USER           number(15) NOT NULL,
-  NR_CEP            NUMBER(6)  NOT NULL ,
+  NR_CEP            NUMBER(8)  NOT NULL ,
   NR_NUMERO         NUMBER(8)  NOT NULL, 
   DS_COMPLEMENTO    VARCHAR2(20),
   TP_ENDERECO       varchar2(2) NOT NULL

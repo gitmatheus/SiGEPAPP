@@ -9,7 +9,7 @@
 SELECT 'Criando a tabela APPP_TB_CODIGO_POSTAL' FROM DUAL;
 create table APPP_TB_CODIGO_POSTAL
 (
-  CD_CEP            number(6)    NOT NULL,
+  CD_CEP            number(8)    NOT NULL,
   NM_RUA            VARCHAR2(30) NOT NULL, 
   CD_CIDADE         NUMBER(5)    NOT NULL
 )
