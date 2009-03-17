@@ -36,6 +36,9 @@
  * |  Andrey     |  09/03/05   |    Retirada as funcoes utilizadas no |
  * |             |             | apenas no cadastro de usuarios       |
  * |------------------------------------------------------------------|
+ * |  Andrey     |  09/03/16   |    Inclusão das funções apenasNumeros|
+ * |             |             | e Asc                                |
+ * |------------------------------------------------------------------|
  */
 
 /** As funcoes contidas dentro do metodo ready, sao poderam ser executadas apos o carregamento da pagina */
@@ -158,4 +161,22 @@ function Data(){
     document.write(",&nbsp;");
     document.write(theDate.getDate() + " de " + theMonth)
     document.write(" de " +theYear);
+}
+
+// Função que retorna o códgio Asc do caracter
+function Asc(String){
+    return String.charCodeAt(0);
+}
+
+// Remove todos os caracteres não númericos.
+function apenasNumeros(str){
+    aux = "";
+    for(i = 0; i < str.length; i++){
+        if(Asc(new String(str.substring(i, i + 1))) > 47 && Asc(new String(str.substring(i, i + 1))) < 58){
+            aux += str.substring(i, i + 1);
+        }else{
+            aux += '';
+        }
+    }
+    return aux;
 }

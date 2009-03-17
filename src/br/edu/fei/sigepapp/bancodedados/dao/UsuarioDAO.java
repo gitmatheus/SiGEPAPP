@@ -51,7 +51,7 @@ public class UsuarioDAO {
     public boolean insere(Usuario usuario) {
         try {
             //Instancia um objeto da classe PreparedStatement com o comando para inserção do registro no banco
-            CallableStatement cstmt = this.conn.prepareCall("begin APPP_INS_USER(?, ?, ?, ?, ?, ?, ?, ?, ?, ?); end;");
+            CallableStatement cstmt = this.conn.prepareCall("begin APPP_INS_USER(?, ?, ?, ?, ?, ?, ?, ?, ?); end;");
 
             //Seta os valores para os pontos de interrogação indexados pela ordem deles na string
             cstmt.setLong(1, usuario.getCd_user());
@@ -59,16 +59,20 @@ public class UsuarioDAO {
             cstmt.setString(3, usuario.getNm_ult_nome());
             cstmt.setDate(4, usuario.getDt_nasc());
             cstmt.setDouble(5, usuario.getNr_nota());
-            cstmt.setDate(6, usuario.getDt_cadastro());
-            cstmt.setString(7, usuario.getDs_area_interesse());
-            cstmt.setString(8, usuario.getNm_msn());
-            cstmt.setString(9, usuario.getNm_skype());
-            cstmt.registerOutParameter(10, OracleTypes.NUMBER);
+            cstmt.setString(6, usuario.getDs_area_interesse());
+            cstmt.setString(7, usuario.getNm_msn());
+            cstmt.setString(8, usuario.getNm_skype());
+            cstmt.registerOutParameter(9, OracleTypes.NUMBER);
+
+            GravarLog.gravaAlerta("Preparou CSTMT");
 
             //executa o comando e fecha a instancia do objeto
             cstmt.execute();
 
-            int cResult = (int) cstmt.getInt(10);
+            GravarLog.gravaAlerta("Executou SQL");
+
+            int cResult = (int) cstmt.getInt(9);
+            GravarLog.gravaAlerta("cResult: " + cResult);
 
             //Grava log com a informação de sucesso
             if (cResult == 1) {

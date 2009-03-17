@@ -143,18 +143,23 @@ function EnviaCadUsuario(){
     var senha = $("#frmCadUserSenha").val();
     var email = $("#frmCadUserEmail").val();
     var tipoemail = $("#frmCadUserTipoEmail").val();
-    var cpf = $("#frmCadUserCPF").val();
+    var cpf = new String($("#frmCadUserCPF").val());
+    cpf = apenasNumeros(cpf);
     var nome = $("#frmCadUserNome").val();
     var sobrenome = $("#frmCadUserSobrenome").val();
     var datanasc = $("#frmCadUserDataNasc").val();
+    //datanasc = apenasNumeros(datanasc);
+    //datanasc = inverterData(datanasc);
     var endereco = $("#frmCadUserEndereco").val();
     var nroendereco = $("#frmCadUserNumEnd").val();
     var endcomplemento = $("#frmCadUserEndComplemento").val();
     var tipoendereco = $("#frmCadUserTipoEnd").val();
-    var cep = $("#frmCadUserCEP").val();
+    var cep = new String($("#frmCadUserCEP").val());
+    cep = apenasNumeros(cep);
     var bairro = $("#frmCadUserBairro").val();
     var cidade = $("#frmCadUserCidade").val();
-    var telefone = $("#frmCadUserTelefone").val();
+    var telefone = new String($("#frmCadUserTelefone").val());
+    telefone =  apenasNumeros(telefone);
     var tipotelefone = $("#frmCadUserTipoTel").val();
     var msn = $("#frmCadUserMsn").val();
     var skype = $("#frmCadUserSkype").val();
@@ -192,6 +197,14 @@ function EnviaCadUsuario(){
 
 }
 
+function inverterData(str){
+    var aux = "";
+    aux = str.substring(4, 8);
+    aux += str.substring(2,4);
+    aux += str.substring(0,2);
+    return aux;
+}
+
 $(function(){
     $("#alertaCadCidade").dialog({
         autoOpen: false,
@@ -203,92 +216,27 @@ $(function(){
             }
         }
     });
-    $("#adicionaemail").click(function(){
-        adicionaRemoveEmail('add');
-    });
-    $("#adicionaendereco2").click(function(){
-        alert("Funfou!!!!");
-    });
     $("#envia_cad_user").click(function(){
         EnviaCadUsuario();
     });
+
+    $("#cancela_cad_user").click(function(){
+        //area de testes
+       $("#frmCadUserLogin").val('andrey');
+       $("#frmCadUserSenha").val('andrey');
+       $("#frmCadUserEmail").val('andreymasiero@gmail.com');
+       $("#frmCadUserCPF").val('21587065894');
+       $("#frmCadUserNome").val('Andrey');
+       $("#frmCadUserSobrenome").val('Masiero');
+       $("#frmCadUserDataNasc").val('29/10/1983');
+       $("#frmCadUserEndereco").val('r juazerio');
+       $("#frmCadUserNumEnd").val('176');
+       $("#frmCadUserEndComplemento").val('casa');
+       $("#frmCadUserCEP").val('09855640');
+       $("#frmCadUserBairro").val('jd fei mizuho');
+       $("#frmCadUserTelefone").val('1143528200');
+       $("#frmCadUserMsn").val('andreymasiero@hotmail.com');
+       $("#frmCadUserSkype").val('andreymasiero');
+       $("#frmCadUserAreaInt").val('teste teste teste teste teste teste teste teste teste teste teste teste teste teste teste teste teste teste teste teste teste teste teste teste');
+    });
 });
-
-
-function adicionaRemoveEmail(str){
-    var strValue = $("#frmCadUserTipoEmail").val();
-    if(str == 'add'){
-        strEmail1sadd = "<tr><td width='30%' align='right'><div style='margin-right: 10px;'><font class='texto'> E-mail: </font>" +
-        "</div></td><td width='70%' align='left'><div style='margin-left: 5px;'><input id='frmCadUserEmail' type='text'" +
-        " name='frmCadUserEmail' class='edit' style='width: 260px;' maxlength='100' title='Digite seu email' value='" + $("#frmCadUserEmail").val() +
-        "'/><font class='texto'> Tipo: </font><select id='frmCadUserTipoEmail' name='frmCadUserTipoEmail' class='edit' style='width: auto;'>" +
-        "<option value='"+$("#frmCadUserTipoEmail").val()+"'>"+$("#frmCadUserTipoEmail").val()+"</option>";
-        if(strValue == "Pessoal"){
-            strEmail1sadd += "<option value='Comercial'>Comercial</option></select></div></td></tr>";
-        }else{
-            strEmail1sadd += "<option value='Pessoal'>Pessoal</option></select></div></td></tr>";
-        }
-        strEmail2 = "<tr><td width='30%' align='right'><div style='margin-right: 10px;'><font class='texto'> E-mail 2: </font>" +
-        "</div></td><td width='70%' align='left'><div style='margin-left: 5px;'><input id='frmCadUserEmail2' type='text'" +
-        " name='frmCadUserEmail2' class='edit' style='width: 260px;' maxlength='100' title='Digite seu email'/>" +
-        "<font class='texto'> Tipo: </font><select id='frmCadUserTipoEmail2' name='frmCadUserTipoEmail2' class='edit' style='width: auto;'>";
-        if(strValue == "Pessoal"){
-            strEmail2 += "<option value='Comercial'>Comercial</option><option value='Pessoal'>Pessoal</option></select>" +
-        "&nbsp;&nbsp;<a href='#' id='removeemail'><img  src='images/222222_11x11_icon_minus.gif' title='Remove este email' border='0'></a></div></td></tr>";
-        }else{
-            strEmail2 += "<option value='Pessoal'>Pessoal</option><option value='Comercial'>Comercial</option></select>" +
-        "&nbsp;&nbsp;<a href='#' id='removeemail'><img  src='images/222222_11x11_icon_minus.gif' title='Remove este email' border='0'></a></div></td></tr>";
-        }
-        $("#cademail").html(
-            "<table border='0' cellpadding='0' cellspacing='0' width='100%' >"+
-            strEmail1sadd + "<tr><td>&nbsp;</td><td>&nbsp;</td></tr>" +
-            strEmail2 + "</table>"
-            );
-        $("#removeemail").click(function(){
-            adicionaRemoveEmail('remove');
-        });
-    }else if(str == 'remove'){
-        strEmail1 = "<tr><td width='30%' align='right'><div style='margin-right: 10px;'><font class='texto'> E-mail: </font>" +
-        "</div></td><td width='70%' align='left'><div style='margin-left: 5px;'><input id='frmCadUserEmail' type='text'" +
-        " name='frmCadUserEmail' class='edit' style='width: 260px;' maxlength='100' title='Digite seu email' value='" + $("#frmCadUserEmail").val() +
-        "'/><font class='texto'> Tipo: </font><select id='frmCadUserTipoEmail' name='frmCadUserTipoEmail' class='edit' style='width: auto;'>" +
-        "<option value='"+$("#frmCadUserTipoEmail").val()+"'>"+$("#frmCadUserTipoEmail").val()+"</option>";
-        if(strValue == "Pessoal"){
-            strEmail1 += "<option value='Comercial'>Comercial</option></select>" +
-        "&nbsp;&nbsp;<a href='#' id='adicionaemail'><img src='images/222222_11x11_icon_plus.gif' title='Adicionar outro email' border='0'></a></div></td></tr>";
-        }else{
-            strEmail1 += "<option value='Pessoal'>Pessoal</option></select>" +
-        "&nbsp;&nbsp;<a href='#' id='adicionaemail'><img src='images/222222_11x11_icon_plus.gif' title='Adicionar outro email' border='0'></a></div></td></tr>";
-        }
-        $("#cademail").html(
-            "<table border='0' cellpadding='0' cellspacing='0' width='100%' >"+
-            strEmail1 + "</table>"
-            );
-        $("#adicionaemail").click(function(){
-            adicionaRemoveEmail('add');
-        });
-    }
-}
-var contEndereco = 1;
-
-function adicionaRemoveEndereco(str){
-    //var strValue = $("#frmCadUserTipoEnd").val();
-    //if(str == 'add'){
-    //    strEndsadd =
-
-    //    }
-    var frmEndereco = $("#cadendereco").clone();
-    //$("#cadendereco").attr("id","cadendereco_old");
-    frmEndereco.attr("id","cadendereco" + contEndereco);
-    frmEndereco.append("cadendereco");
-    frmEndereco.prepend("<tr><td colspan='2'>&nbsp;</td></tr>");
-    //$("#adicionaendereco").attr("src", "images/222222_11x11_icon_minus.gif");
-    //$("#adicionaendereco").attr("id", "adicionaendereco" + contEndereco);
-    //$("#lnkaddendereco").attr("id","lnkaddendereco" + contEndereco);
-    //$("#lnkaddendereco" + contEndereco).insertAfter("&nbsp;&nbsp;<a id='" + contEndereco + "' href='#'><img id='removeendereco" + contEndereco + "' src='images/222222_11x11_icon_minus.gif'/></a>");
-    //$("#adicionaendereco_old").attr("id", "adicionaendereco");
-    //$("#adicionaendereco").hide();
-    contEndereco++;
-}
-
-
