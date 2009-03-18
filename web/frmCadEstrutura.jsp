@@ -108,6 +108,11 @@
 </style>
 
 <script type="text/javascript" language="javascript" src="js/jquery.tinysort.js"></script>
+<script type="text/javascript" language="javascript" src="js/idrop.js"></script>
+<script type="text/javascript" language="javascript" src="js/idrag.js"></script>
+<script type="text/javascript" language="javascript" src="js/interface.js"></script>
+
+
 <script type="text/javascript" language="javascript" src="js/fckeditor/fckeditor.js"></script>
 <script type="text/javascript" language="javascript">
     //Declara um array de objetos.Ela sera usada para marcos os <option>s que serao escondidos do combo box.
@@ -175,7 +180,7 @@
 
         $.post("GetAtribDeEstrut", {codatrib: cod_Atributo}, function(xml,status){
 
-        $("#frmCadEstrDivLoadingEst").css("display","inline");
+            $("#frmCadEstrDivLoadingEst").css("display","inline");
 
             if(status=="success"){
 
@@ -235,15 +240,27 @@
             var selecao=$("#cmbSelecionaAtributo option:selected");
             //Adiciona uma linha na tabela da estrutura do atributo com um campo hidden de input para passagem
             //de header da página
-            $("#tabAtributos").append("<tr id=\"atributo_"+selecao.val()+"\">\n\
-            <td width=\"80%\" class=\"atributoAdicional\" align=\"center\">\n\
-                <input type=\"hidden\" name=\"atributos_ids\" value=\""+
+            $("#tabAtributos").append("\
+            <tr id=\"atributo_"+selecao.val()+"\">"+
+                "<td width=\"80%\" class=\"atributoAdicional\" align=\"center\">"+
+                "<input type=\"hidden\" name=\"atributos_ids\" value=\""+
                 selecao.val()+"\">"+
                 selecao.text()+
-                "</td><td width=\"20%\" align=\"center\"><a href=\"javascript:func_removeAtributo(\'"+selecao.val()+"\')\">\
-            <img src=\"images/222222_11x11_icon_minus.gif\" border=\"none\" ></a></td></tr>");
+                "</td>"+
+                "<td width=\"20%\" align=\"center\">"+
+                "<a href=\"javascript:func_removeAtributo(\'"+selecao.val()+"\')\">"+
+                "<img src=\"images/222222_11x11_icon_minus.gif\" border=\"none\" >&nbsp;"+
+                "</a>"+
+                "<a href=\"javascript:func_move(\'"+selecao.val()+"\', \'up\')\">"+
+                "<img src=\"images/454545_7x7_arrow_up.gif\" border=\"none\" >&nbsp;"+
+                "</a>&nbsp;"+
+                "<a href=\"javascript:func_move(\'"+selecao.val()+"\', \'down\')\">"+
+                "<img src=\"images/454545_7x7_arrow_down.gif\" border=\"none\" >&nbsp;"+
+                "</a>"+
+                "</td></tr>");
             //esconde o objeto <option> selecionado acima do combo box cmbSelecionaAtributo.
             esconde(selecao);
+
         }
     };
 
@@ -267,6 +284,20 @@
             }
         });
         ordenarCombo();
+    }
+    function func_move(id,tipo){
+
+        if (tipo=='up'){
+            atributo_acima=$("#atributo_"+id).prev("tr");
+            atributo=$('#atributo_'+id);
+            atributo.insertBefore(atributo_acima);
+        }else if(tipo=='down'){
+            atributo_acima=$("#atributo_"+id).next("tr");
+            atributo=$('#atributo_'+id);
+            atributo.insertAfter(atributo_acima);
+        }
+
+
     }
 </script>
 
@@ -318,12 +349,12 @@
                         </td>
                     </tr>
 
-                   <tr>
+                    <tr>
                         <td>&nbsp;</td>
                         <td></td>
-                   </tr>
+                    </tr>
 
-                   <tr>
+                    <tr>
                         <td width="30%" align="right">
                             <div style="margin-right: 10px;">
                                 Descri&ccedil;&atilde;o:
@@ -331,10 +362,10 @@
                         </td>
                     </tr>
 
-                   <tr>
+                    <tr>
                         <td>&nbsp;</td>
                         <td></td>
-                   </tr>
+                    </tr>
 
                     <tr>
                         <td align="center" colspan="2">
@@ -348,7 +379,7 @@
             </fieldset>
 
             <br><br>
-                
+
             <!-- Inicio da customizacao de atributos -->
             <fieldset style="width: 500px;">
                 <legend><b>Escolha dos atributos:</b></legend>
@@ -388,7 +419,7 @@
                                                 </select>
                                         </td></tr>
                                         <tr><td colspan="2" align="center">
-                                                <a onclick="" href="javascript:func_incluiAtributo();"><img src="images/add.gif" border="none">Incluira</a>
+                                                <a onclick="" href="javascript:func_incluiAtributo();"><img src="images/add.gif" border="none">Incluir</a>
                                         </td></tr>
                                         <tr><td colspan="2"></td>
                                         </tr>
