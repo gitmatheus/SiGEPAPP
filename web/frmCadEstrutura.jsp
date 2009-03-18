@@ -55,7 +55,6 @@
 //Fecha conexão
         pesqEstrutDAO.fechaConexao();
 
-
 %>
 <link href="css/jquery-ui-1.7.css" type="stylesheet"/>
 <%@include file="cabecalho.jsp"%>
@@ -288,11 +287,11 @@
     function func_move(id,tipo){
 
         if (tipo=='up'){
-            atributo_acima=$("#atributo_"+id).prev("tr");
+            atributo_acima=$("#atributo_"+id).prev("tr:has(td.atributoAdicional)");
             atributo=$('#atributo_'+id);
             atributo.insertBefore(atributo_acima);
         }else if(tipo=='down'){
-            atributo_acima=$("#atributo_"+id).next("tr");
+            atributo_acima=$("#atributo_"+id).next("tr:has(td.atributoAdicional)");
             atributo=$('#atributo_'+id);
             atributo.insertAfter(atributo_acima);
         }
@@ -384,7 +383,7 @@
             <fieldset style="width: 500px;">
                 <legend><b>Escolha dos atributos:</b></legend>
                 <form action="frmCadEstrutura.jsp" method="get">
-                    <table class="ui-corner-tl"  id="tabAtributos" border="0" cellpadding="0" cellspacing="0" width="300">
+                    <table class="ui-corner-tl"   border="0" cellpadding="0" cellspacing="0" width="300">
                         <tr bgcolor="#3d414c">
                             <td colspan="2" align="center" style="color:#ffffff; font-size:medium">Estrutura</td>
                         </tr>
@@ -392,6 +391,9 @@
                             <td style="color:#ffffff; font-size:small;"></td>
                             <td style="color:#ffffff; font-size:small" width="20%"></td>
                         </tr>
+                        <tbody id="tabAtributos">
+
+                        </tbody>
                     </table>
                     <table border="0" cellpadding="0" cellspacing="0" width="500">
                         <tr id="linhaDoSeletor">
