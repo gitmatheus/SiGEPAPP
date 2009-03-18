@@ -16,6 +16,8 @@ spool /SiGEPAPP/Arquivos/Insercoes/LogInsertInicial.log
 
 @ /SiGEPAPP/Arquivos/Insercoes/06-INS_APPP_TB_ATRIBUTO_OBJ.sql
 
+@ /SiGEPAPP/Arquivos/Insercoes/07-INS_TB_ESTRUT_OBJ.sql
+
 SPOOL OFF
 
 /
