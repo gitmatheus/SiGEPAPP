@@ -115,8 +115,7 @@
 <script type="text/javascript" language="javascript" src="js/fckeditor/fckeditor.js"></script>
 <script type="text/javascript" language="javascript">
     //Declara um array de objetos.Ela sera usada para marcos os <option>s que serao escondidos do combo box.
-    var arrayEscondidos = new Array();
-    var arrayVisiveis = new Array();
+    var arrayAtributos = new Array();
     var htmltabelaEstrutura="";
 
     function Show_CadastraAtributo(){
@@ -154,7 +153,12 @@
         //Ordena o combo box cmbSelecionaAtributo.
         ordenarCombo();
         //Preenche o array com os options visiceis
-        arrayVisiveis=$.makeArray($("#cmbSelecionaAtributo option"));
+        arrayAtributos=jQuery.makeArray($("#cmbSelecionaAtributo option"));
+        $(arrayAtributos).each(function(indice,item){
+            $(item).data("disponivel", "true");
+        });
+
+
         //Esconde mensagem de Loading ajax
         $("#frmCadEstrDivLoadingEst").hide();
         $(document).ajaxError(function(msg,msg1,msg2,msg3){
@@ -163,7 +167,7 @@
         //Atribui funcao ajax ao objeto frmCadEstrTipo
         $("#frmCadEstrTipo").change(function(){
             if( $("#frmCadEstrTipo").val() > -1){
-                getAtributos()
+                getAtributos();
             }else{
                 $("#tabAtributos").html("");
             }
@@ -205,32 +209,45 @@
     //Esconde um objeto. O parametro obj sera usado para passagem de um <option> do cmbSelecionaAtributo
     function esconde(obj){
         //Adiciona no array o objeto.
-        arrayEscondidos.push(obj);
+
         //remove do codigo HTML o objeto. (Esconde)
-        $(obj).remove();
+
         //Atualiza os options visiveis
-        arrayVisiveis=$.makeArray($("#cmbSelecionaAtributo option"));
+
+        $(arrayAtributos).each(function(index, item){
+            if($(item).text()==$(obj).text()){
+                $(item).data("disponivel", "false");
+            }
+        });
+
+
+        $(obj).remove();
+        //arrayVisiveis=$.makeArray($("#cmbSelecionaAtributo option"));
     }
 
     function mostra(id){
         //Pesquisa no array de objetos onde esta o id para incluir no combo box cmbSelecionaAtributo
-        $(arrayEscondidos).each(function(index,obj){
+        $(arrayAtributos).each(function(index,obj){
             //Se o atributo tiver o id procurado...
             if($(obj).attr("value") == id){
                 //...Adiciona ele como option no combo box.
                 $(obj).removeAttr("selected");
                 $("#cmbSelecionaAtributo").append(obj);
-
+                $(obj).data("disponivel", "true");
                 //Elimina o objeto da arrayDeObjetos escondidos
-                arrayEscondidos.splice(index, 1);
+                //arrayEscondidos.splice(index, 1);
+                //arrayVisiveis.push(obj);
             }
         });
         //Atualiza os options visiveis
-        arrayVisiveis=$.makeArray($("#cmbSelecionaAtributo option"));
+
+
     }
 
-    function func_desceAtrib(idAtributo){
-        // $("#atributo_"+idAtributo);
+    function ordenarCombo(){
+        //Ordena as tags "option" dentro do combo seleciona atributo.
+        $("#cmbSelecionaAtributo>option").tsort();
+
     }
 
     function func_incluiAtributo(){
@@ -263,11 +280,6 @@
         }
     };
 
-    function ordenarCombo(){
-        //Ordena as tags "option" dentro do combo seleciona atributo.
-        $("#cmbSelecionaAtributo>option").tsort();
-
-    }
 
     function func_removeAtributo(cod_atrib){
         $("#atributo_"+cod_atrib).remove();
@@ -277,9 +289,12 @@
 
     function filtraCombo(){
         $("#cmbSelecionaAtributo option").remove();
-        $(arrayVisiveis).each(function(indice, elemento){
+        $(arrayAtributos).each(function(indice, elemento){
             if($(elemento).text().toUpperCase().indexOf($("#txtBusca").val().toUpperCase(), 0)>=0){
-                $("#cmbSelecionaAtributo").append(elemento);
+                if($(elemento).data("disponivel")=="true"){
+                    $("#cmbSelecionaAtributo").append(elemento);
+                    alert($(elemento).data("disponivel"));
+                }
             }
         });
         ordenarCombo();
@@ -489,6 +504,5 @@
             </td>
         </tr>
     </table>
-
 </div>
 <%@include file="rodape.jsp"%>
