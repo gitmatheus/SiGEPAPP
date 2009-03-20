@@ -99,6 +99,13 @@
     #frmCadastraAtributo td{
         font-size:small;
     }
+    #frmCadastraAtributo table{
+        -moz-border-radius: 5px;
+        -webkit-border-radius: 5px;
+    }
+    #frmCadastraAtributo table tr td{
+        line-height:2em;
+    }
 
     #frmCadastraAtributo h1{
         font-size:medium;
@@ -107,12 +114,10 @@
 </style>
 
 <script type="text/javascript" language="javascript" src="js/jquery.tinysort.js"></script>
-<script type="text/javascript" language="javascript" src="js/idrop.js"></script>
-<script type="text/javascript" language="javascript" src="js/idrag.js"></script>
-<script type="text/javascript" language="javascript" src="js/interface.js"></script>
-
 
 <script type="text/javascript" language="javascript" src="js/fckeditor/fckeditor.js"></script>
+<script type="text/javascript" language="javascript" src="js/jquery.curvycorners.packed.js"></script>
+
 <script type="text/javascript" language="javascript">
     //Declara um array de objetos.Ela sera usada para marcos os <option>s que serao escondidos do combo box.
     var arrayAtributos = new Array();
@@ -135,11 +140,23 @@
         //});
         $("#frmCadastraAtributo").show();
     }
+    function Hide_CadastraAtributo(){
+        $("#bckCadastraAtributo").css(
+        {   opacity : 0.8,
+            width : $(document).width(),
+            height :$(document).height()
+        }).fadeOut(1000);
+        $("#frmCadastraAtributo").css({
+            position : 'absolute',
+            left: $(document).width()/2 - $("#frmCadastraAtributo").width()/2,
+            top: '50px'
+        }).hide('slow');
+    }
 
     //Na inicializacao da pagina...
     $(document).ready(function(){
         //Esconde o formulario para cadastro de tipos
-
+        
         $("#bckCadastraAtributo, #frmCadastraAtributo").hide();
 
         var oFCKeditor = new FCKeditor('frmCadEstruturaDescricao') ;
@@ -210,6 +227,11 @@
     function esconde(obj){
         //Adiciona no array o objeto.
 
+        $(arrayVisiveis).each(function(index, item){
+            if($(item).text()==$(obj).text()){
+                arrayVisiveis.splice(index, 1);
+            }
+        });
         //remove do codigo HTML o objeto. (Esconde)
 
         //Atualiza os options visiveis
@@ -222,7 +244,10 @@
 
 
         $(obj).remove();
-        //arrayVisiveis=$.makeArray($("#cmbSelecionaAtributo option"));
+        //Atualiza os options visiveis
+
+
+
     }
 
     function mostra(id){
@@ -237,9 +262,12 @@
                 //Elimina o objeto da arrayDeObjetos escondidos
                 //arrayEscondidos.splice(index, 1);
                 //arrayVisiveis.push(obj);
+                arrayVisiveis.push(obj);
             }
         });
         //Atualiza os options visiveis
+        //arrayVisiveis=$.makeArray($("#cmbSelecionaAtributo option"));
+
 
 
     }
@@ -276,7 +304,6 @@
                 "</td></tr>");
             //esconde o objeto <option> selecionado acima do combo box cmbSelecionaAtributo.
             esconde(selecao);
-
         }
     };
 
@@ -302,11 +329,11 @@
     function func_move(id,tipo){
 
         if (tipo=='up'){
-            atributo_acima=$("#atributo_"+id).prev("tr:has(td.atributoAdicional)");
+            atributo_acima=$("#atributo_"+id).prev("tr :has(td.atributoAdicional)");
             atributo=$('#atributo_'+id);
             atributo.insertBefore(atributo_acima);
         }else if(tipo=='down'){
-            atributo_acima=$("#atributo_"+id).next("tr:has(td.atributoAdicional)");
+            atributo_acima=$("#atributo_"+id).next("tr :has(td.atributoAdicional)");
             atributo=$('#atributo_'+id);
             atributo.insertAfter(atributo_acima);
         }
@@ -461,16 +488,16 @@
     </tr>
 </table>
 
-<div id="bckCadastraAtributo"></div>
+<div id="bckCadastraAtributo" onclick="Hide_CadastraAtributo();"></div>
 <div id="frmCadastraAtributo" style="width:700px;" >
-    <table style="width:350px" bgcolor="white">
+    <table style="width:500px" bgcolor="white">
         <tr bgcolor="#eeeeee">
             <td colspan="2" align="center" style="border-bottom:black solid thin">
                 <h1>Cadastro de atributos:</h1>
             </td>
         </tr>
         <tr>
-            <td>
+            <td align="right">
                 Nome do atributo:
             </td>
             <td align="center">
@@ -478,15 +505,15 @@
             </td>
         </tr>
         <tr>
-            <td>
-                Descri&cedil;&atilde;o do atributo:
+            <td align="right">
+                Descri&ccedil;&atilde;o do atributo:
             </td>
             <td align="center">
                 <input class="edit" type="text" size="35">
             </td>
         </tr>
         <tr>
-            <td>
+            <td align="right">
                 Tipo do atributo:
             </td>
             <td align="center">
@@ -496,6 +523,14 @@
                     <option>Data</option>
 
                 </select>
+            </td>
+        </tr>
+        <tr>
+            <td align="right">
+                Relacion&aacute;vel:
+            </td>
+            <td align="center">
+                <input type="checkbox">
             </td>
         </tr>
         <tr>
