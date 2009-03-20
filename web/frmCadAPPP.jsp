@@ -1,3 +1,4 @@
+<%@page import="br.edu.fei.sigepapp.bancodedados.dao.*,br.edu.fei.sigepapp.bancodedados.model.*,java.util.*" %>
 <%@include file="cabecalho.jsp"%>
 <%        /**
          * @{#}frmCadAPPP.jsp 0.01 09/01/18
@@ -19,50 +20,27 @@
 %>
 <link type="text/css" href="css/ui.all.css" rel="Stylesheet" />
 <script src="js/jquery-ui-personalized-1.5.3.js" type="text/javascript"></script>
+<%
+ Estrutura_ObjDAO daoPA = new Estrutura_ObjDAO();
+ Estrutura_ObjDAO daoAP = new Estrutura_ObjDAO();
+ Estrutura_ObjDAO daoPE = new Estrutura_ObjDAO();
+
+ List<Estrutura> estruturasPA;
+ List<Estrutura> estruturasAP;
+ List<Estrutura> estruturasPE;
+ 
+ Estrutura estPA = new Estrutura();
+ Estrutura estAP = new Estrutura();
+ Estrutura estPE = new Estrutura();
+
+
+%>
 <script type="text/javascript">
 			$(function(){
 
-				// Accordion
-				$("#accordion").accordion({ header: "h3" });
-
 				// Tabs
 				$('#tabs').tabs();
-
-
-				// Dialog
-				$('#dialog').dialog({
-					autoOpen: false,
-					width: 600,
-					buttons: {
-						"Ok": function() {
-							$(this).dialog("close");
-						},
-						"Cancel": function() {
-							$(this).dialog("close");
-						}
-					}
-				});
-
-				// Dialog Link
-				$('#dialog_link').click(function(){
-					$('#dialog').dialog('open');
-					return false;
-				})
-				.hover(
-					function() { $(this).addClass('ui-hover-state'); },
-					function() { $(this).removeClass('ui-hover-state'); }
-				);
-
-				// Datepicker
-				$('#datepicker').datepicker({
-					inline: true
-				});
-
-				// Slider
-				$('#slider').slider({
-					range: true
-				});
-
+				
 			});
 		</script>
         <style type="text/css">
@@ -79,10 +57,142 @@
 				<li><a href="#tabs-2">Anti-Patterns</a></li>
 				<li><a href="#tabs-3">Personas</a></li>
 			</ul>
-			<div id="tabs-1">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</div>
-			<div id="tabs-2">Phasellus mattis tincidunt nibh. Cras orci urna, blandit id, pretium vel, aliquet ornare, felis. Maecenas scelerisque sem non nisl. Fusce sed lorem in enim dictum bibendum.</div>
+            <div id="tabs-1">
+           <table border="0">
+                    <thead>
+                        <tr>
+                            <th>Preencha os campos:</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                            </td>
+                            <td>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                            </td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>Estrutura: <select class="edit" name="frmCadAPPPEstruturaPA" id="frmCadAPPPEstruturaPA">
+                                                 <option value="">Selecione aqui a estrutura desejada...</option>
+                                                 <%
+                                                      estPA.setTp_estrutura("PA");
+                                                      estruturasPA = daoPA.APPP_SEL_Estrutura_Geral(estPA);
+                                                      daoPA.fechaConexao();
 
-			<div id="tabs-3">Nam dui erat, auctor a, dignissim quis, sollicitudin eu, felis. Pellentesque nisi urna, interdum eget, sagittis et, consequat vestibulum, lacus. Mauris porttitor ullamcorper augue.</div>
+                                                       for (Estrutura e : estruturasPA) {%>
+                                                <option value="<%= e.getCd_estrutura()%>"><%= e.getNm_estrutura()%></option>
+                                                                                     <%}%>
+                                           </select>
+                                           </td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+			<div id="tabs-2">
+                <table border="0">
+                    <thead>
+                        <tr>
+                            <th>Preencha os campos:</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                            </td>
+                            <td>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                            </td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>Estrutura: <select class="edit" name="frmCadAPPPEstruturaAP" id="frmCadAPPPEstruturaAP">
+                                                 <option value="">Selecione aqui a estrutura desejada...</option>
+                                                 <%
+                                                      estAP.setTp_estrutura("AP");
+                                                      estruturasAP = daoAP.APPP_SEL_Estrutura_Geral(estAP);
+                                                      daoAP.fechaConexao();
+
+                                                       for (Estrutura e : estruturasAP) {%>
+                                                <option value="<%= e.getCd_estrutura()%>"><%= e.getNm_estrutura()%></option>
+                                                                                     <%}%>
+                                           </select>
+                                           </td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+			<div id="tabs-3">
+            <table border="0">
+                    <thead>
+                        <tr>
+                            <th>Preencha os campos:</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                            </td>
+                            <td>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                            </td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>Estrutura: <select class="edit" name="frmCadAPPPEstruturaPE" id="frmCadAPPPEstruturaPE">
+                                                 <option value="">Selecione aqui a estrutura desejada...</option>
+                                                 <%
+                                                      estPE.setTp_estrutura("PE");
+                                                      estruturasPE = daoPE.APPP_SEL_Estrutura_Geral(estPE);
+                                                      daoPE.fechaConexao();
+
+                                                       for (Estrutura e : estruturasPE) {%>
+                                                <option value="<%= e.getCd_estrutura()%>"><%= e.getNm_estrutura()%></option>
+                                                                                     <%}%>
+                                           </select>
+                                           </td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
 		</div>
 		
 <%@include file="rodape.jsp"%>

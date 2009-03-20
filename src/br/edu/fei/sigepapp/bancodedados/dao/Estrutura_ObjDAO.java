@@ -164,6 +164,49 @@ public class Estrutura_ObjDAO {
         }
     }
 
+    public List<Estrutura> APPP_SEL_Estrutura_Geral(Estrutura estrutPesquisa) {
+        CallableStatement cstmt = null;
+        ResultSet rs = null;
+
+        try {
+            //Instancia um objeto da classe PreparedStatement com o comando para pesquisar registros no banco
+            //PreparedStatement stmt = this.conn.prepareStatement(query);
+
+            cstmt = conn.prepareCall("begin  APPP_SEL_ESTRUT_OBJ(?, ?, ?, ?, ?, ?, ?); end;");
+
+            cstmt.setNull(1, OracleTypes.NUMBER);
+            cstmt.setNull(2, OracleTypes.VARCHAR);
+            cstmt.setNull(3, OracleTypes.DATE);
+            cstmt.setNull(4, OracleTypes.DATE);
+            cstmt.setNull(5, OracleTypes.NUMBER);
+            cstmt.setString(6, estrutPesquisa.getTp_estrutura());
+
+            cstmt.registerOutParameter(7, OracleTypes.CURSOR);
+            cstmt.execute();
+            rs = (ResultSet) cstmt.getObject(7);
+
+            //Cria um array do tipo Estrutura
+            List<Estrutura> Estruturas = PreencheList(rs);
+
+            //fecha a instancia dos objetos
+            rs.close();
+            cstmt.close();
+
+            //Grava log com a informação de sucesso
+            GravarLog.gravaInformacao(Estrutura.class.getName() + ": pesquisa no banco de dados realizada com sucesso");
+
+            //retorna uma lista com os usuarios selecionados
+            return Estruturas;
+
+        } catch (SQLException e) {
+
+            //Grava log com o erro que ocorreu durante a execução do comando SQL
+            GravarLog.gravaErro(Estrutura.class.getName() + ": erro na pesquisa referente a uma exceção de SQL: " + e.getMessage());
+
+            //Retorno da função como null em caso de erro
+            return null;
+        }
+    }
 
     /**
      * Metodo para fechar o banco de dados da classe
