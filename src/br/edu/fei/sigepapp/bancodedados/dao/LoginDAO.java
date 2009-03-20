@@ -25,7 +25,6 @@ package br.edu.fei.sigepapp.bancodedados.dao;
 //~-- JDK import --------------------------------------------------------------
 import java.sql.CallableStatement;
 import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -77,7 +76,7 @@ public class LoginDAO {
             //executa o comando e fecha a instancia do objeto
             cstmt.execute();
             
-            int cResult = (int) cstmt.getInt(6);
+            int cResult = (int) cstmt.getInt(4);
 
             if (cResult == 1) {
                 GravarLog.gravaInformacao(LoginDAO.class.getName() + ": inserção no banco de dados realizada com sucesso");

@@ -64,16 +64,11 @@ public class UsuarioDAO {
             cstmt.setString(8, usuario.getNm_skype());
             cstmt.registerOutParameter(9, OracleTypes.NUMBER);
 
-            GravarLog.gravaAlerta("Preparou CSTMT");
-
             //executa o comando e fecha a instancia do objeto
             cstmt.execute();
 
-            GravarLog.gravaAlerta("Executou SQL");
-
             int cResult = (int) cstmt.getInt(9);
-            GravarLog.gravaAlerta("cResult: " + cResult);
-
+            
             //Grava log com a informação de sucesso
             if (cResult == 1) {
                 GravarLog.gravaInformacao(UsuarioDAO.class.getName() + ": inserção no banco de dados realizada com sucesso");

@@ -49,7 +49,7 @@ public class EmailDAO {
         try {
             //Instancia um objeto da classe PreparedStatement com o comando para inserção do registro no banco
             CallableStatement cstmt = this.conn.prepareCall("begin APPP_INS_USER_EMAIL(?,?,?,?); end;");
-
+            
             //Seta os valores para os pontos de interrogação indexados pela ordem deles na string
             cstmt.setLong(1, email.getCd_user());
             cstmt.setString(2, email.getNm_email());
@@ -59,7 +59,7 @@ public class EmailDAO {
             //executa o comando e fecha a instancia do objeto
             cstmt.execute();
 
-            int cResult = (int) cstmt.getInt(6);
+            long cResult = (long) cstmt.getLong(4);
 
             if (cResult == 1) {
                 GravarLog.gravaInformacao(EmailDAO.class.getName() + ": inserção no banco de dados realizada com sucesso");
@@ -74,7 +74,7 @@ public class EmailDAO {
         } catch (SQLException e) {
 
             //Grava log com o erro que ocorreu durante a execução do comando SQL
-            GravarLog.gravaErro(EmailDAO.class.getName() + ": erro na inserção referente a uma exceção de SQL: " + e.getMessage());
+            GravarLog.gravaErro(EmailDAO.class.getName() + ": erro na inserção referente a uma exceção de SQL: " + e.getMessage() + " : " + e.getLocalizedMessage() + " : " + e.getSQLState());
 
             //Retorno da função como false em caso de erro
             return false;

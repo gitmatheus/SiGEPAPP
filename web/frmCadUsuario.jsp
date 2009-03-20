@@ -73,8 +73,8 @@
                                                 <input id="frmCadUserEmail" type="text" name="frmCadUserEmail" class="edit" style="width: 260px;" maxlength="100" title="Digite seu email" />
                                                 <font class="texto"> Tipo: </font>
                                                 <select id="frmCadUserTipoEmail" name="frmCadUserTipoEmail" class="edit" style="width: auto;">
-                                                    <option value="Pessoal">Pessoal</option>
-                                                    <option value="Comercial">Comercial</option>
+                                                    <option value="P">Pessoal</option>
+                                                    <option value="C">Comercial</option>
                                                 </select>
                                                 <!-- &nbsp;&nbsp;<a href="#"><img id="adicionaemail" src="images/222222_11x11_icon_plus.gif" title="Adicionar outro email" border="0"></a> -->
                                             </div>
@@ -165,8 +165,8 @@
                                             <input id="frmCadUserEndComplemento" type="text" name="frmCadUserEndComplemento" class="edit" style="width: 150px;" maxlength="80" title="Digite o complemento de seu endere&ccedil;o" />
                                             <font class="texto"> Tipo: </font>
                                             <select id="frmCadUserTipoEnd" name="frmCadUserTipoEnd" class="edit" style="width: auto;">
-                                                <option value="Residencial">Residencial</option>
-                                                <option value="Comercial">Comercial</option>
+                                                <option value="R">Residencial</option>
+                                                <option value="C">Comercial</option>
                                             </select>
                                             <!-- &nbsp;&nbsp;<a id="lnkaddendereco" href="#"><img id="adicionaendereco" src="images/222222_11x11_icon_plus.gif" title="Adicionar outro endere&ccedil;o" border="0"></a> -->
                                         </div>
@@ -261,9 +261,9 @@
                                     <input id="frmCadUserTelefone" name="frmCadUserTelefone" class="edit" style="width: 90px;" maxlength="15" title="Digite o número de telefone de seu interesse"/>
                                     <font class="texto"> Tipo: </font>
                                     <select id="frmCadUserTipoTel" name="frmCadUserTipoTel" class="edit" style="width: auto;">
-                                        <option value="Residencial">Residencial</option>
-                                        <option value="Comercial">Comercial</option>
-                                        <option value="Celular">Celular</option>
+                                        <option value="R">Residencial</option>
+                                        <option value="C">Comercial</option>
+                                        <option value="O">Celular</option>
                                     </select>
                                     <!--&nbsp;&nbsp;<a href="#"><img id="adicionatelefone" src="images/222222_11x11_icon_plus.gif" title="Adicionar outro telefone" border="0"></a>-->
                                 </div>

@@ -237,6 +237,6 @@ $(function(){
        $("#frmCadUserTelefone").val('1143528200');
        $("#frmCadUserMsn").val('andreymasiero@hotmail.com');
        $("#frmCadUserSkype").val('andreymasiero');
-       $("#frmCadUserAreaInt").val('teste teste teste teste teste teste teste teste teste teste teste teste teste teste teste teste teste teste teste teste teste teste teste teste');
+       $("#frmCadUserAreaInt").val('teste teste teste teste teste teste');
     });
 });

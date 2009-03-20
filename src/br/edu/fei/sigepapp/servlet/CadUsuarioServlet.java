@@ -13,6 +13,7 @@ import br.edu.fei.sigepapp.bancodedados.model.Login;
 import br.edu.fei.sigepapp.bancodedados.model.Telefone;
 import br.edu.fei.sigepapp.bancodedados.model.Usuario;
 import br.edu.fei.sigepapp.log.GravarLog;
+import com.sun.net.ssl.internal.ssl.Debug;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Date;
@@ -56,7 +57,6 @@ public class CadUsuarioServlet extends HttpServlet {
             //usuario.setDt_nasc((Date) df.parse(request.getParameter("datanasc")));
             //usuario.setDt_nasc(dt_nasc.valueOf(request.getParameter("datanasc")));
             Date dt_nasc = new Date(df.parse(request.getParameter("datanasc")).getTime());
-            GravarLog.gravaAlerta("Data: " + dt_nasc);
             usuario.setDt_nasc(dt_nasc);
         } catch (ParseException e) {
             GravarLog.gravaErro(CadUsuarioServlet.class.getName() + ": erro no parse da data: " + e.getMessage());
@@ -67,13 +67,9 @@ public class CadUsuarioServlet extends HttpServlet {
         usuario.setNm_skype(request.getParameter("skype"));
         usuario.setDs_area_interesse(request.getParameter("areainteresse"));
 
-        GravarLog.gravaAlerta("Completou Usuario");
-
         codigoPostal.setCd_cep(Long.parseLong(request.getParameter("cep")));
         codigoPostal.setCd_cidade(Long.parseLong(request.getParameter("cidade")));
         codigoPostal.setNm_rua(request.getParameter("endereco"));
-
-        GravarLog.gravaAlerta("Completou CodigoPostal");
 
         endereco.setCd_user(Long.parseLong(request.getParameter("cpf")));
         endereco.setDs_complemento(request.getParameter("endcomplemento"));
@@ -81,29 +77,20 @@ public class CadUsuarioServlet extends HttpServlet {
         endereco.setNr_numero(Long.parseLong(request.getParameter("nroendereco")));
         endereco.setTp_endereco(request.getParameter("tipoendereco"));
 
-        GravarLog.gravaAlerta("Completou Endereco");
-
         email.setCd_user(Long.parseLong(request.getParameter("cpf")));
         email.setNm_email(request.getParameter("email"));
         email.setTp_email(request.getParameter("tipoemail"));
 
-        GravarLog.gravaAlerta("Completou Email");
-
         telefone.setCd_user(Long.parseLong(request.getParameter("cpf")));
         telefone.setNr_ddi(55);
-        telefone.setNr_ddd(Long.parseLong(request.getParameter("telefone").substring(0, 1)));
-        telefone.setNr_telefone(Long.parseLong(request.getParameter("telefone").substring(2, 9)));
+        telefone.setNr_ddd(Long.parseLong(request.getParameter("telefone").substring(0, 2)));
+        telefone.setNr_telefone(Long.parseLong(request.getParameter("telefone").substring(2, 10)));
         telefone.setTp_telefone(request.getParameter("tipotelefone"));
-
-        GravarLog.gravaAlerta("Completou Telefone");
 
         login.setCd_user(Long.parseLong(request.getParameter("cpf")));
         login.setNm_login(request.getParameter("login"));
         login.setPw_senha(request.getParameter("senha"));
 
-        GravarLog.gravaAlerta("Completou Login");
-
-        GravarLog.gravaAlerta("Completou etapa 1 - ir para a gravacao");
         try {
             UsuarioDAO usuarioDao = new UsuarioDAO();
             if (usuarioDao.insere(usuario)) {
@@ -124,36 +111,29 @@ public class CadUsuarioServlet extends HttpServlet {
                                 if (loginDao.insere(login)) {
                                     loginDao.fechaConexao();
                                     inserido = true;
-                                    GravarLog.gravaAlerta("pSucesso");
                                 } else {
                                     loginDao.fechaConexao();
                                     inserido = false;
-                                    GravarLog.gravaAlerta("p6");
                                 }
                             } else {
                                 telDao.fechaConexao();
                                 inserido = false;
-                                GravarLog.gravaAlerta("p5");
                             }
                         } else {
                             emailDao.fechaConexao();
                             inserido = false;
-                            GravarLog.gravaAlerta("p4");
                         }
                     } else {
                         endDao.fechaConexao();
                         inserido = false;
-                        GravarLog.gravaAlerta("p3");
                     }
                 } else {
                     cpDao.fechaConexao();
                     inserido = false;
-                    GravarLog.gravaAlerta("p2");
                 }
             } else {
                 usuarioDao.fechaConexao();
                 inserido = false;
-                GravarLog.gravaAlerta("p1");
             }
 
         } catch (Exception e) {

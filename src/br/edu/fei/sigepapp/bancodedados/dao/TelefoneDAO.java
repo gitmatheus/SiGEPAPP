@@ -54,7 +54,7 @@ public class TelefoneDAO {
     public boolean insere(Telefone telefone) {
         try {
             //Instancia um objeto da classe PreparedStatement com o comando para inserção do registro no banco
-            CallableStatement cstmt = this.conn.prepareCall("begin APPP_INS_USER_TELEFONE(?,?,?,?,?,?)");
+            CallableStatement cstmt = this.conn.prepareCall("begin APPP_INS_USER_TELEFONE(?,?,?,?,?,?); end;");
 
             //Seta os valores para os pontos de interrogação indexados pela ordem deles na string
             cstmt.setLong(1, telefone.getCd_user());
