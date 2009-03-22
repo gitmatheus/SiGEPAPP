@@ -88,7 +88,7 @@
         vertical-align:middle;
     }
 
-    #bckCadAtributo{
+    #divbckCadAtributo{
         background-color:#000000;
         position:absolute;
         left: 0px;
@@ -96,18 +96,18 @@
 
     }
 
-    #frmCadAtributo td{
+    #divfrmCadAtributo td{
         font-size:small;
     }
-    #frmCadAtributo table{
+    #divfrmCadAtributo table{
         -moz-border-radius: 5px;
         -webkit-border-radius: 5px;
     }
-    #frmCadAtributo table tr td{
+    #divfrmCadAtributo table tr td{
         line-height:2em;
     }
 
-    #frmCadAtributo h1{
+    #divfrmCadAtributo h1{
         font-size:medium;
     }
 
@@ -116,7 +116,6 @@
 <script type="text/javascript" language="javascript" src="js/jquery.tinysort.js"></script>
 
 <script type="text/javascript" language="javascript" src="js/fckeditor/fckeditor.js"></script>
-<script type="text/javascript" language="javascript" src="js/jquery.curvycorners.packed.js"></script>
 
 <script type="text/javascript" language="javascript">
     //Declara um array de objetos.Ela sera usada para marcos os <option>s que serao escondidos do combo box.
@@ -126,32 +125,36 @@
 
     function Show_CadastraAtributo(){
 
-
-        $("#bckCadAtributo").css(
+        $("#divbckCadAtributo").css(
         {   opacity : 0.8,
             width : $(document).width(),
             height :$(document).height()
         }).fadeIn(1000);
-        $("#frmCadAtributo").css({
+        $("#divfrmCadAtributo").css({
             position : 'absolute',
-            left: $(document).width()/2 - $("#frmCadAtributo").width()/2,
+            left: $(document).width()/2 - $("#divfrmCadAtributo").width()/2,
             top: '50px'
         });
 
-        $("#frmCadAtributo").show('slow');
-        $("#frmCadAtributo input[type='text'], #frmCadAtributo textarea").val("");
+        //Limpa todas as caixas de texto
+        $("#frmCadAtributoTxtNome, #frmCadAtributoTxtDesc").val("");
+        $("#frmCadAtributoChkRel").removeAttr("checked");
+        $("#frmCadAtributoSelTipo :selected").removeAttr("selected");
+        $("#divfrmCadAtributo").show('slow',function(){
+            $("#frmCadAtributoTxtNome").focus();
+        });
 
 
     }
     function Hide_CadastraAtributo(){
-        $("#bckCadAtributo").css(
+        $("#divbckCadAtributo").css(
         {   opacity : 0.8,
             width : $(document).width(),
             height :$(document).height()
         }).fadeOut(1000);
-        $("#frmCadAtributo").css({
+        $("#divfrmCadAtributo").css({
             position : 'absolute',
-            left: $(document).width()/2 - $("#frmCadAtributo").width()/2,
+            left: $(document).width()/2 - $("#divfrmCadAtributo").width()/2,
             top: '50px'
         }).hide('slow');
     }
@@ -160,10 +163,11 @@
     $(document).ready(function(){
         //Esconde o formulario para cadastro de tipos
 
-        $("#bckCadAtributo, #frmCadAtributo").hide();
+        $("#divbckCadAtributo, #divfrmCadAtributo").hide();
 
         var oFCKeditor = new FCKeditor('frmCadEstruturaDescricao') ;
         oFCKeditor.BasePath = "./js/fckeditor/" ;
+        oFCKeditor.ToolbarSet="Sigepapp2";
         oFCKeditor.Height=300;
         oFCKeditor.ReplaceTextarea() ;
 
@@ -179,15 +183,24 @@
         $(document).ajaxError(function(msg,msg1,msg2,msg3){
             alert("erro"+msg1);
         });
+
+        $("#frmCadEstrTipo").val(0);
         //Atribui funcao ajax ao objeto frmCadEstrTipo
         $("#frmCadEstrTipo").change(function(){
             if( $("#frmCadEstrTipo").val() > -1){
-                getAtributos()
+                getAtributos();
             }else{
                 $("#tabAtributos").html("");
             }
         });
 
+        //Carrega os tipos possíveis para o cadastro de atributos
+        $.post('GetTiposServlet',null,function(xml){
+            $(xml).find("tipo").each(function(indice, item){
+                $("#frmCadAtributoSelTipo").append("<option>"+$(item).find("nome").text()+"</option>");
+            });
+            $("#frmCadAtributoSelTipo").append("<option style='background:#eeeeee'>Cadastrar novo tipo...</option>");
+        });
 
         //Fim de document.ready
     });
@@ -281,34 +294,40 @@
     }
 
     function func_incluiAtributo(){
-        if($('#frmCadEstrutCmbSelAtributo option:selected').length>0){
-            //Armazena na variavel selecao o objeto selecionado no combo box do formulario.
-            var selecao=$("#frmCadEstrutCmbSelAtributo option:selected");
-            //Adiciona uma linha na tabela da estrutura do atributo com um campo hidden de input para passagem
-            //de header da página
-            $("#tabAtributos").append("\
-            <tr id=\"atributo_"+selecao.val()+"\">"+
-                "<td width=\"80%\" class=\"atributoAdicional\" align=\"center\">"+
-                "<input type=\"hidden\" name=\"atributos_ids\" value=\""+
-                selecao.val()+"\">"+
-                selecao.text()+
-                "</td>"+
-                "<td width=\"20%\" align=\"center\">"+
-                "<a href=\"javascript:func_removeAtributo(\'"+selecao.val()+"\')\">"+
-                "<img src=\"images/222222_11x11_icon_minus.gif\" border=\"none\" >&nbsp;"+
-                "</a>"+
-                "<a href=\"javascript:func_move(\'"+selecao.val()+"\', \'up\')\">"+
-                "<img src=\"images/454545_7x7_arrow_up.gif\" border=\"none\" >&nbsp;"+
-                "</a>&nbsp;"+
-                "<a href=\"javascript:func_move(\'"+selecao.val()+"\', \'down\')\">"+
-                "<img src=\"images/454545_7x7_arrow_down.gif\" border=\"none\" >&nbsp;"+
-                "</a>"+
-                "</td></tr>");
-            //esconde o objeto <option> selecionado acima do combo box frmCadEstrutCmbSelAtributo.
-            esconde($(selecao).attr("value"));
-        }
-    };
+        if($("#frmCadEstrTipo").val()<=0){
+            alert("Selecione primeiro o tipo de estrutura");
+            $("#frmCadEstrTipo").focus();
+        }else{
 
+
+            if($('#frmCadEstrutCmbSelAtributo option:selected').length>0){
+                //Armazena na variavel selecao o objeto selecionado no combo box do formulario.
+                var selecao=$("#frmCadEstrutCmbSelAtributo option:selected");
+                //Adiciona uma linha na tabela da estrutura do atributo com um campo hidden de input para passagem
+                //de header da página
+                $("#tabAtributos").append("\
+            <tr id=\"atributo_"+selecao.val()+"\">"+
+                    "<td width=\"80%\" class=\"atributoAdicional\" align=\"center\">"+
+                    "<input type=\"hidden\" name=\"atributos_ids\" value=\""+
+                    selecao.val()+"\">"+
+                    selecao.text()+
+                    "</td>"+
+                    "<td width=\"20%\" align=\"center\">"+
+                    "<a href=\"javascript:func_removeAtributo(\'"+selecao.val()+"\')\">"+
+                    "<img src=\"images/222222_11x11_icon_minus.gif\" border=\"none\" >&nbsp;"+
+                    "</a>"+
+                    "<a href=\"javascript:func_move(\'"+selecao.val()+"\', \'up\')\">"+
+                    "<img src=\"images/454545_7x7_arrow_up.gif\" border=\"none\" >&nbsp;"+
+                    "</a>&nbsp;"+
+                    "<a href=\"javascript:func_move(\'"+selecao.val()+"\', \'down\')\">"+
+                    "<img src=\"images/454545_7x7_arrow_down.gif\" border=\"none\" >&nbsp;"+
+                    "</a>"+
+                    "</td></tr>");
+                //esconde o objeto <option> selecionado acima do combo box frmCadEstrutCmbSelAtributo.
+                esconde($(selecao).attr("value"));
+            }
+        };
+    }
     function ordenarCombo(){
         //Ordena as tags "option" dentro do combo seleciona atributo.
         $("#frmCadEstrutCmbSelAtributo>option").tsort();
@@ -400,19 +419,11 @@
                     </tr>
 
                     <tr>
-                        <td width="30%" align="right">
+                        <td valign="top" width="30%" align="right">
                             <div style="margin-right: 10px;">
                                 Descri&ccedil;&atilde;o:
                             </div>
                         </td>
-                    </tr>
-
-                    <tr>
-                        <td>&nbsp;</td>
-                        <td></td>
-                    </tr>
-
-                    <tr>
                         <td align="center" colspan="2">
                             <div  style="margin-left: 5px;">
                                 <textarea id="frmCadEstruturaDescricao"></textarea>
@@ -493,58 +504,58 @@
     </tr>
 </table>
 
-<div id="bckCadAtributo" onclick="Hide_CadastraAtributo();"></div>
-<div id="frmCadAtributo" style="width:500px;" >
-    <table width="500">
-        <tr bgcolor="#eeeeee">
-            <td colspan="2" align="center" style="border-bottom:black solid thin">
-                <h1>Cadastro de atributos:</h1>
-                <div style="font-size:x-small;right:5px;top:0px;position:absolute"><a href="javascript:Hide_CadastraAtributo();"><u>[x] Fechar</u></a></div>
-            </td>
-        </tr>
-        <tr>
-            <td align="right">
-                Nome do atributo:
-            </td>
-            <td align="center">
-                <input id="" class="edit" type="text" size="35">
-            </td>
-        </tr>
-        <tr>
-            <td align="right">
-                Descri&ccedil;&atilde;o do atributo:
-            </td>
-            <td align="center">
-                <textarea class="edit" cols="35" ></textarea>
-            </td>
-        </tr>
-        <tr>
-            <td align="right">
-                Tipo do atributo:
-            </td>
-            <td align="center">
-                <select class="edit" style="width:200px;" >
-                    <option>String</option>
-                    <option>Numero</option>
-                    <option>Data</option>
+<div id="divbckCadAtributo" onclick="Hide_CadastraAtributo();"></div>
+<div id="divfrmCadAtributo" style="width:500px;" >
+    <form id="frmCadAtributo">
+        <table width="500">
+            <tr bgcolor="#eeeeee">
+                <td colspan="2" align="center" style="border-bottom:black solid thin">
+                    <h1>Cadastro de atributos:</h1>
+                    <div style="font-size:x-small;right:5px;top:0px;position:absolute"><a href="javascript:Hide_CadastraAtributo();"><u>Fechar [x]</u></a></div>
+                </td>
+            </tr>
+            <tr>
+                <td align="right">
+                    Nome do atributo:
+                </td>
+                <td align="center">
+                    <input id="frmCadAtributoTxtNome" class="edit" type="text" size="35">
+                </td>
+            </tr>
+            <tr>
+                <td align="right">
+                    Descri&ccedil;&atilde;o do atributo:
+                </td>
+                <td align="center">
+                    <textarea id="frmCadAtributoTxtDesc" class="edit" cols="35" ></textarea>
+                </td>
+            </tr>
+            <tr>
+                <td align="right">
+                    Tipo do atributo:
+                </td>
+                <td align="center">
+                    <select id="frmCadAtributoSelTipo" class="edit" style="width:200px;" >
 
-                </select>
-            </td>
-        </tr>
-        <tr>
-            <td align="right">
-                Relacion&aacute;vel:
-            </td>
-            <td align="center">
-                <input type="checkbox">
-            </td>
-        </tr>
-        <tr>
-            <td colspan="2" align="center">
-                <input class="botao" type="submit" name="envia" value="Cadastrar">
-                <input class="botao" type="button" name="cancelar" value="Cancelar">
-            </td>
-        </tr>
-    </table>
+
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td align="right">
+                    Relacion&aacute;vel:
+                </td>
+                <td align="center">
+                    <input id="frmCadAtributoChkRel" type="checkbox">
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2" align="center">
+                    <input id="frmCadAtributoBtnEnvia" class="botao" type="submit" name="envia" value="Cadastrar">
+                    <input id="frmCadAtributoBtnCancel" class="botao" type="reset" name="cancelar" value="Cancelar" onclick="Hide_CadastraAtributo();">
+                </td>
+            </tr>
+        </table>
+    </form>
 </div>
 <%@include file="rodape.jsp"%>

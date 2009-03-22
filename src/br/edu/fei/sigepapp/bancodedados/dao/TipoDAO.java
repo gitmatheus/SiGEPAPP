@@ -64,7 +64,7 @@ public class TipoDAO {
                 // armazena os valores do ResultSet no Usuario
                 tipoNovo.setCd_tipo(rs.getLong("CD_TIPO"));
                 tipoNovo.setNm_tipo(rs.getString("NM_TIPO"));
-                tipoNovo.setDs_exp_regular(rs.getString("DS_EXP_REGULAR"));
+                tipoNovo.setDs_exp_regular(rs.getString("DS_TIPO"));
 
                 // adiciona a lista de Tipos os encontrados
                 tipos.add(tipoNovo);
@@ -76,9 +76,6 @@ public class TipoDAO {
 
             // Grava log com a informacao de sucesso
             GravarLog.gravaInformacao(Tipo.class.getName() + ": pesquisa no banco de dados realizada com sucesso");
-
-            // Fecha conexao com o banco de dados
-            this.conn.close();
 
             // retorna uma lista com os usuarios selecionados
             return tipos;

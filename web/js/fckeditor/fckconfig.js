@@ -119,6 +119,7 @@ FCKConfig.ToolbarSets["Basic"] = [
 	['Bold','Italic','-','OrderedList','UnorderedList','-','Link','Unlink','-','About']
 ] ;
 
+
 FCKConfig.ToolbarSets["Sigepapp"] = [
     ['DocProps','-','Preview','-'],
 	['Cut','Copy','Paste','PasteText','PasteWord','-','Print','SpellCheck'],
@@ -136,7 +137,12 @@ FCKConfig.ToolbarSets["Sigepapp"] = [
     ['FontName','FontSize'],
 	['TextColor','BGColor'],
 	['FitWindow','ShowBlocks','-','About']		// No comma for the last row.
-]
+] ;
+
+FCKConfig.ToolbarSets["Sigepapp2"] = [
+	['Bold','Italic','Underline','StrikeThrough','-','Subscript','Superscript'],'/',
+    ['JustifyLeft','JustifyCenter','JustifyRight','JustifyFull','Link','Unlink','TextColor','BGColor']		// No comma for the last row.
+] ;
 
 FCKConfig.EnterMode = 'p' ;			// p | div | br
 FCKConfig.ShiftEnterMode = 'br' ;	// p | div | br
@@ -220,13 +226,13 @@ FCKConfig.RemoveFormatTags = 'b,big,code,del,dfn,em,font,i,ins,kbd,q,samp,small,
 FCKConfig.RemoveAttributes = 'class,style,lang,width,height,align,hspace,valign' ;
 
 FCKConfig.CustomStyles =
-{
+    {
 	'Red Title'	: { Element : 'h3', Styles : { 'color' : 'Red' } }
 };
 
 // Do not add, rename or remove styles here. Only apply definition changes.
 FCKConfig.CoreStyles =
-{
+    {
 	// Basic Inline Styles.
 	'Bold'			: { Element : 'strong', Overrides : 'b' },
 	'Italic'		: { Element : 'em', Overrides : 'i' },
@@ -249,21 +255,21 @@ FCKConfig.CoreStyles =
 
 	// Other formatting features.
 	'FontFace' :
-	{
+        {
 		Element		: 'span',
 		Styles		: { 'font-family' : '#("Font")' },
 		Overrides	: [ { Element : 'font', Attributes : { 'face' : null } } ]
 	},
 
 	'Size' :
-	{
+        {
 		Element		: 'span',
 		Styles		: { 'font-size' : '#("Size","fontSize")' },
 		Overrides	: [ { Element : 'font', Attributes : { 'size' : null } } ]
 	},
 
 	'Color' :
-	{
+        {
 		Element		: 'span',
 		Styles		: { 'color' : '#("Color","color")' },
 		Overrides	: [ { Element : 'font', Attributes : { 'color' : null } } ]

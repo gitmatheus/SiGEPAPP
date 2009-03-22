@@ -26,7 +26,12 @@ Tom Mix Petreca</description>
     <servlet><description>Servlet para o cadastro do usuario.</description>
         <servlet-name>CadUsuarioServlet</servlet-name>
         <servlet-class>br.edu.fei.sigepapp.servlet.CadUsuarioServlet</servlet-class>
-        </servlet><servlet-mapping>
+        </servlet>
+    <servlet>
+        <servlet-name>GetTiposServlet</servlet-name>
+        <servlet-class>br.edu.fei.sigepapp.servlet.GetTiposServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
         <url-pattern>/LoginServlet</url-pattern>
     </servlet-mapping>
@@ -47,6 +52,10 @@ Tom Mix Petreca</description>
     <servlet-mapping>
         <servlet-name>CadUsuarioServlet</servlet-name>
         <url-pattern>/CadUsuarioServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>GetTiposServlet</servlet-name>
+        <url-pattern>/GetTiposServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
