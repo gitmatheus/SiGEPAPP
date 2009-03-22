@@ -88,7 +88,7 @@
         vertical-align:middle;
     }
 
-    #bckCadastraAtributo{
+    #bckCadAtributo{
         background-color:#000000;
         position:absolute;
         left: 0px;
@@ -96,18 +96,18 @@
 
     }
 
-    #frmCadastraAtributo td{
+    #frmCadAtributo td{
         font-size:small;
     }
-    #frmCadastraAtributo table{
+    #frmCadAtributo table{
         -moz-border-radius: 5px;
         -webkit-border-radius: 5px;
     }
-    #frmCadastraAtributo table tr td{
+    #frmCadAtributo table tr td{
         line-height:2em;
     }
 
-    #frmCadastraAtributo h1{
+    #frmCadAtributo h1{
         font-size:medium;
     }
 
@@ -120,35 +120,38 @@
 
 <script type="text/javascript" language="javascript">
     //Declara um array de objetos.Ela sera usada para marcos os <option>s que serao escondidos do combo box.
-    var arrayAtributos = new Array();
+    var arrayEscondidos = new Array();
+    var arrayVisiveis = new Array();
     var htmltabelaEstrutura="";
 
     function Show_CadastraAtributo(){
 
-        //$("#frmCadastraAtributo").hide();
-        //$("#linkAbreCadastroAtributo").click(function(){
-        $("#bckCadastraAtributo").css(
+
+        $("#bckCadAtributo").css(
         {   opacity : 0.8,
             width : $(document).width(),
             height :$(document).height()
         }).fadeIn(1000);
-        $("#frmCadastraAtributo").css({
+        $("#frmCadAtributo").css({
             position : 'absolute',
-            left: $(document).width()/2 - $("#frmCadastraAtributo").width()/2,
+            left: $(document).width()/2 - $("#frmCadAtributo").width()/2,
             top: '50px'
         });
-        //});
-        $("#frmCadastraAtributo").show();
+
+        $("#frmCadAtributo").show('slow');
+        $("#frmCadAtributo input[type='text'], #frmCadAtributo textarea").val("");
+
+
     }
     function Hide_CadastraAtributo(){
-        $("#bckCadastraAtributo").css(
+        $("#bckCadAtributo").css(
         {   opacity : 0.8,
             width : $(document).width(),
             height :$(document).height()
         }).fadeOut(1000);
-        $("#frmCadastraAtributo").css({
+        $("#frmCadAtributo").css({
             position : 'absolute',
-            left: $(document).width()/2 - $("#frmCadastraAtributo").width()/2,
+            left: $(document).width()/2 - $("#frmCadAtributo").width()/2,
             top: '50px'
         }).hide('slow');
     }
@@ -156,8 +159,8 @@
     //Na inicializacao da pagina...
     $(document).ready(function(){
         //Esconde o formulario para cadastro de tipos
-        
-        $("#bckCadastraAtributo, #frmCadastraAtributo").hide();
+
+        $("#bckCadAtributo, #frmCadAtributo").hide();
 
         var oFCKeditor = new FCKeditor('frmCadEstruturaDescricao') ;
         oFCKeditor.BasePath = "./js/fckeditor/" ;
@@ -167,15 +170,10 @@
         htmltabelaEstrutura=$("#tabAtributos").html();
 
         $("#formEscolheAtributos").hide();
-        //Ordena o combo box cmbSelecionaAtributo.
+        //Ordena o combo box frmCadEstrutCmbSelAtributo.
         ordenarCombo();
         //Preenche o array com os options visiceis
-        arrayAtributos=jQuery.makeArray($("#cmbSelecionaAtributo option"));
-        $(arrayAtributos).each(function(indice,item){
-            $(item).data("disponivel", "true");
-        });
-
-
+        arrayVisiveis=$.makeArray($("#frmCadEstrutCmbSelAtributo option"));
         //Esconde mensagem de Loading ajax
         $("#frmCadEstrDivLoadingEst").hide();
         $(document).ajaxError(function(msg,msg1,msg2,msg3){
@@ -184,7 +182,7 @@
         //Atribui funcao ajax ao objeto frmCadEstrTipo
         $("#frmCadEstrTipo").change(function(){
             if( $("#frmCadEstrTipo").val() > -1){
-                getAtributos();
+                getAtributos()
             }else{
                 $("#tabAtributos").html("");
             }
@@ -196,11 +194,14 @@
 
     function getAtributos(){
 
-        var cod_Atributo=$("#frmCadEstrTipo").val();
+        //Mostra todos atributos
+        mostra(null);
 
-        $.post("GetAtribDeEstrut", {codatrib: cod_Atributo}, function(xml,status){
+        var cod_Estrutura=$("#frmCadEstrTipo").val();
 
-            $("#frmCadEstrDivLoadingEst").css("display","inline");
+        $.post("GetAtribDeEstrutServlet", {codestr: cod_Estrutura}, function(xml,status){
+
+            $("#frmCadEstrDivLoadingEst").show();
 
             if(status=="success"){
 
@@ -208,13 +209,20 @@
                 $("#tabAtributos").html(htmltabelaEstrutura);
                 //Retorno para estrutura mnima
                 $("atributo",xml).each(function(index, item){
+
                     $("#tabAtributos").append("<tr valign=\"middle\">\
                                                     <td colspan='2' align='center'>\
                                                      <div class='atributoMinimo' style='margin-right: 10px;border-bottom:black solid thin;'>\
-                                                       "+$(item).text()+"</div></td></tr>");
+                                                       "+$(item).find("nome").text()+"</div></td></tr>");
 
+                    //Tira o atributo do combo para não ser inserido duas vezes
+                    esconde($(item).find("id").text())
                 });
-                $("#frmCadEstrDivLoadingEst").hide("normal");
+
+                setTimeout(function(){
+                    $("#frmCadEstrDivLoadingEst").hide();
+                }, 100);
+
             }else{
                 alert('Falhei!');
             }
@@ -223,65 +231,59 @@
         //fim de frmCadEstrTipo.change
     }
 
-    //Esconde um objeto. O parametro obj sera usado para passagem de um <option> do cmbSelecionaAtributo
-    function esconde(obj){
+    //Esconde um objeto. O parametro obj sera usado para passagem de um <option> do frmCadEstrutCmbSelAtributo
+    function esconde(id){
         //Adiciona no array o objeto.
+        //dica retirada de: http://jquery-howto.blogspot.com/2009/02/how-to-get-full-html-string-including.html
+        arrayEscondidos.push($("#frmCadEstrutCmbSelAtributo option[value="+id+"]").get(0));
 
         $(arrayVisiveis).each(function(index, item){
-            if($(item).text()==$(obj).text()){
+            if($(item).attr("value")==id){
                 arrayVisiveis.splice(index, 1);
             }
         });
         //remove do codigo HTML o objeto. (Esconde)
-
+        $("#frmCadEstrutCmbSelAtributo option[value="+id+"]").remove();
         //Atualiza os options visiveis
-
-        $(arrayAtributos).each(function(index, item){
-            if($(item).text()==$(obj).text()){
-                $(item).data("disponivel", "false");
-            }
-        });
-
-
-        $(obj).remove();
-        //Atualiza os options visiveis
-
-
 
     }
 
     function mostra(id){
-        //Pesquisa no array de objetos onde esta o id para incluir no combo box cmbSelecionaAtributo
-        $(arrayAtributos).each(function(index,obj){
-            //Se o atributo tiver o id procurado...
-            if($(obj).attr("value") == id){
-                //...Adiciona ele como option no combo box.
-                $(obj).removeAttr("selected");
-                $("#cmbSelecionaAtributo").append(obj);
-                $(obj).data("disponivel", "true");
-                //Elimina o objeto da arrayDeObjetos escondidos
-                //arrayEscondidos.splice(index, 1);
-                //arrayVisiveis.push(obj);
-                arrayVisiveis.push(obj);
-            }
-        });
-        //Atualiza os options visiveis
-        //arrayVisiveis=$.makeArray($("#cmbSelecionaAtributo option"));
+        if(id==null){
+            $(arrayEscondidos).each(function(index,obj){
+                mostra($(obj).attr("value"));
+            });
 
+        }else{
 
+            //Pesquisa no array de objetos onde esta o id para incluir no combo box frmCadEstrutCmbSelAtributo
+            $(arrayEscondidos).each(function(index,obj){
+                //Se o atributo tiver o id procurado...
+                if($(obj).attr("value") == id){
+                    //...Adiciona ele como option no combo box.
+                    $(obj).removeAttr("selected");
+                    $("#frmCadEstrutCmbSelAtributo").append(obj);
+
+                    //Elimina o objeto da arrayDeObjetos escondidos
+                    arrayEscondidos.splice(index, 1);
+                    arrayVisiveis.push(obj);
+                }
+            });
+            //Atualiza os options visiveis
+            //arrayVisiveis=$.makeArray($("#frmCadEstrutCmbSelAtributo option"));
+
+        }
 
     }
 
-    function ordenarCombo(){
-        //Ordena as tags "option" dentro do combo seleciona atributo.
-        $("#cmbSelecionaAtributo>option").tsort();
-
+    function func_desceAtrib(idAtributo){
+        // $("#atributo_"+idAtributo);
     }
 
     function func_incluiAtributo(){
-        if($('#cmbSelecionaAtributo option:selected').length>0){
+        if($('#frmCadEstrutCmbSelAtributo option:selected').length>0){
             //Armazena na variavel selecao o objeto selecionado no combo box do formulario.
-            var selecao=$("#cmbSelecionaAtributo option:selected");
+            var selecao=$("#frmCadEstrutCmbSelAtributo option:selected");
             //Adiciona uma linha na tabela da estrutura do atributo com um campo hidden de input para passagem
             //de header da página
             $("#tabAtributos").append("\
@@ -302,11 +304,16 @@
                 "<img src=\"images/454545_7x7_arrow_down.gif\" border=\"none\" >&nbsp;"+
                 "</a>"+
                 "</td></tr>");
-            //esconde o objeto <option> selecionado acima do combo box cmbSelecionaAtributo.
-            esconde(selecao);
+            //esconde o objeto <option> selecionado acima do combo box frmCadEstrutCmbSelAtributo.
+            esconde($(selecao).attr("value"));
         }
     };
 
+    function ordenarCombo(){
+        //Ordena as tags "option" dentro do combo seleciona atributo.
+        $("#frmCadEstrutCmbSelAtributo>option").tsort();
+
+    }
 
     function func_removeAtributo(cod_atrib){
         $("#atributo_"+cod_atrib).remove();
@@ -315,13 +322,10 @@
     };
 
     function filtraCombo(){
-        $("#cmbSelecionaAtributo option").remove();
-        $(arrayAtributos).each(function(indice, elemento){
-            if($(elemento).text().toUpperCase().indexOf($("#txtBusca").val().toUpperCase(), 0)>=0){
-                if($(elemento).data("disponivel")=="true"){
-                    $("#cmbSelecionaAtributo").append(elemento);
-                    alert($(elemento).data("disponivel"));
-                }
+        $("#frmCadEstrutCmbSelAtributo option").remove();
+        $(arrayVisiveis).each(function(indice, elemento){
+            if($(elemento).text().toUpperCase().indexOf($("#frmCadEstruturaTxtBusca").val().toUpperCase(), 0)>=0){
+                $("#frmCadEstrutCmbSelAtributo").append(elemento);
             }
         });
         ordenarCombo();
@@ -361,7 +365,7 @@
                         </td>
                         <td width="70%" align="left">
                             <div  style="margin-left: 5px;">
-                                <input class="edit" type="text" size="20"/>
+                                <input class="edit" type="text" size="27"/>
                             </div>
                         </td>
                     </tr>
@@ -377,16 +381,16 @@
                             </div>
                         </td>
                         <td width="70%" align="left">
-                            <div style="margin-left: 5px;">
+                            <div style="margin-left: 5px;display:inline">
                                 <select class="edit" id="frmCadEstrTipo" name="frmCadEstrTipo" style="height: 2em;"  maxlength="30" title="Escolha o tipo de Estrutura">
                                     <option value="-1" selected>Escolha um tipo de estrutura</option>
                                     <option value="<%= patternID%>">Pattern</option>
                                     <option value="<%= antiPatternID%>">Anti-Pattern</option>
                                     <option value="<%= personaID%>">Persona</option>
                                     <option value="-2" style="background: #EEEEEE" onclick="alert('Aqui abre janela para procurar por estruturas existentes')" >Importar de Estrutura Existente...</option>
-                                </select><img id="frmCadEstrDivLoadingEst"  src="/sigepapp/images/aguardep.gif" style="vertical-align:bottom;">
-
+                                </select>
                             </div>
+                            <img id="frmCadEstrDivLoadingEst"  src="/sigepapp/images/aguardep.gif" style="vertical-align:middle;">
                         </td>
                     </tr>
 
@@ -422,9 +426,10 @@
             <br><br>
 
             <!-- Inicio da customizacao de atributos -->
-            <fieldset style="width: 500px;">
-                <legend><b>Escolha dos atributos:</b></legend>
-                <form action="frmCadEstrutura.jsp" method="get">
+            <form action="frmCadEstrutura.jsp" method="get">
+                <fieldset style="width: 500px;">
+                    <legend><b>Escolha dos atributos:</b></legend>
+
                     <table class="ui-corner-tl"   border="0" cellpadding="0" cellspacing="0" width="300">
                         <tr bgcolor="#3d414c">
                             <td colspan="2" align="center" style="color:#ffffff; font-size:medium">Estrutura</td>
@@ -437,63 +442,64 @@
 
                         </tbody>
                     </table>
-                    <table border="0" cellpadding="0" cellspacing="0" width="500">
-                        <tr id="linhaDoSeletor">
-                            <td colspan="2" width="30%" align="center">
-                            <div style="margin-right: 10px;">
+                </fieldset>
+                <table border="0" cellpadding="0" cellspacing="0" width="500">
+                    <tr id="linhaDoSeletor">
+                        <td colspan="2" width="30%" align="center">
+                        <div style="margin-right: 10px;">
 
-                                <br>
-                                <fieldset style="background-color:#eeeeee;">
-                                    <legend>Selecionar atributos:</legend>
-                                    <table width="300" style="background-color:#eeeeee;">
-                                        <tr>
-                                            <td align="right">
-                                                Buscar Atributo:
-                                            </td>
-                                            <td>
-                                                <input id="txtBusca" type="text" style="width: 145px" onkeyup="filtraCombo();"></input>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td align="right">Atributo:</td><td>
-                                                <select class="select_varias_linhas" size="8" style="width: 150px" id="cmbSelecionaAtributo" ondblclick="func_incluiAtributo();">
-                                                    <%for (Atributo t : atributos) {%>
-                                                    <option  value ="<%= t.getCd_atributo_obj()%>" title="<%= t.getDs_atributo_obj()%>" ><%= t.getNm_atributo_obj()%></option>
-                                                    <% }%>
-                                                </select>
-                                        </td></tr>
-                                        <tr><td colspan="2" align="center">
-                                                <a onclick="" href="javascript:func_incluiAtributo();"><img src="images/add.gif" border="none">Incluir</a>
-                                        </td></tr>
-                                        <tr><td colspan="2"></td>
-                                        </tr>
-                                    </table>
-                                </fieldset>
-                            </div>
+                            <br>
+                            <fieldset style="background-color:#eeeeee;">
+                                <legend>Selecionar atributos:</legend>
+                                <table width="100%" style="background-color:#eeeeee;">
+                                    <tr>
+                                        <td align="right">
+                                            Buscar Atributo:
+                                        </td>
+                                        <td>
+                                            <input id="frmCadEstruturaTxtBusca" type="text" class="edit" style="width: 250px" onkeyup="filtraCombo();"></input>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td align="right">Atributo:</td><td>
+                                            <select class="select_varias_linhas" size="8" style="width: 250px" id="frmCadEstrutCmbSelAtributo" ondblclick="func_incluiAtributo();">
+                                                <%for (Atributo t : atributos) {%>
+                                                <option  value ="<%= t.getCd_atributo_obj()%>" title="<%= t.getDs_atributo_obj()%>" ><%= t.getNm_atributo_obj()%></option>
+                                                <% }%>
+                                            </select>
+                                    </td></tr>
+                                    <tr><td colspan="2" align="center">
+                                            <a onclick="" href="javascript:func_incluiAtributo();"><img src="images/add.gif" border="none">Adicionar à estrutura</a>
+                                    </td></tr>
+                                    <tr><td colspan="2"></td>
+                                    </tr>
+                                </table>
+                            </fieldset>
+                        </div>
 
 
-                        </tr>
-                        <tr>
-                            <td align="center" colspan="2">
-                                <a id="linkAbreCadastroAtributo" href="#" onclick="Show_CadastraAtributo();">
-                                    <img src="images/add.gif" border="none">Adicionar novo atributo
-                                </a>
-                            </td>
-                        </tr>
-                    </table>
-                    <input class="botao" style="background-color:#3d414c;" type="submit" value="enviar">
-                </form>
-            </fieldset>
+                    </tr>
+                    <tr>
+                        <td align="center" colspan="2">
+                            <a id="linkAbreCadastroAtributo" href="#" onclick="Show_CadastraAtributo();">
+                                <img src="images/add.gif" border="none">Criar novo atributo
+                            </a>
+                        </td>
+                    </tr>
+                </table>
+                <input class="botao" style="background-color:#3d414c;" type="submit" value="enviar">
+            </form>
         </td>
     </tr>
 </table>
 
-<div id="bckCadastraAtributo" onclick="Hide_CadastraAtributo();"></div>
-<div id="frmCadastraAtributo" style="width:700px;" >
-    <table style="width:500px" bgcolor="white">
+<div id="bckCadAtributo" onclick="Hide_CadastraAtributo();"></div>
+<div id="frmCadAtributo" style="width:500px;" >
+    <table width="500">
         <tr bgcolor="#eeeeee">
             <td colspan="2" align="center" style="border-bottom:black solid thin">
                 <h1>Cadastro de atributos:</h1>
+                <div style="font-size:x-small;right:5px;top:0px;position:absolute"><a href="javascript:Hide_CadastraAtributo();"><u>[x] Fechar</u></a></div>
             </td>
         </tr>
         <tr>
@@ -501,7 +507,7 @@
                 Nome do atributo:
             </td>
             <td align="center">
-                <input class="edit" type="text" size="35">
+                <input id="" class="edit" type="text" size="35">
             </td>
         </tr>
         <tr>
@@ -509,7 +515,7 @@
                 Descri&ccedil;&atilde;o do atributo:
             </td>
             <td align="center">
-                <input class="edit" type="text" size="35">
+                <textarea class="edit" cols="35" ></textarea>
             </td>
         </tr>
         <tr>
@@ -535,7 +541,8 @@
         </tr>
         <tr>
             <td colspan="2" align="center">
-                <input type="submit" name="envia" value="Cadastrar">
+                <input class="botao" type="submit" name="envia" value="Cadastrar">
+                <input class="botao" type="button" name="cancelar" value="Cancelar">
             </td>
         </tr>
     </table>

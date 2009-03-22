@@ -288,6 +288,49 @@ public class AtributoDAO {
         }
     }
 
+
+
+    public List<Atributo> APPP_PES_ATRIB_POR_ESTRUT(long Cd_Estrutura) {
+        CallableStatement cstmt = null;
+        ResultSet rs = null;
+
+        try {
+            //Instancia um objeto da classe PreparedStatement com o comando para pesquisar registros no banco
+            //PreparedStatement stmt = this.conn.prepareStatement(query);
+
+            cstmt = conn.prepareCall("begin  APPP_PES_ATRIB_POR_ESTRUT(?, ?); end;");
+
+            cstmt.setLong(1 , Cd_Estrutura);
+
+            cstmt.registerOutParameter(2, OracleTypes.CURSOR);
+            cstmt.execute();
+            rs = (ResultSet) cstmt.getObject(2);
+
+            //Cria um array do tipo Atributo
+            List<Atributo> atributos = PreencheList(rs);
+
+
+            //fecha a instancia dos objetos
+            rs.close();
+            cstmt.close();
+
+            //Grava log com a informação de sucesso
+            GravarLog.gravaInformacao(Atributo.class.getName() + ": pesquisa no banco de dados realizada com sucesso");
+
+            //retorna uma lista com os usuarios selecionados
+            return atributos;
+
+        } catch (SQLException e) {
+
+            //Grava log com o erro que ocorreu durante a execução do comando SQL
+            GravarLog.gravaErro(Atributo.class.getName() + ": erro na pesquisa referente a uma exceção de SQL: " + e.getMessage());
+
+            //Retorno da função como null em caso de erro
+            return null;
+        }
+    }
+
+
     public void fechaConexao() {
         try {
             if (!this.conn.isClosed()) {

@@ -10,7 +10,6 @@ import br.edu.fei.sigepapp.bancodedados.model.Atrib_Estrutura;
 import br.edu.fei.sigepapp.bancodedados.model.Atributo;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.net.URLEncoder;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.logging.Level;
@@ -24,7 +23,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author lopespt
  */
-public class GetAtribDeEstrut extends HttpServlet {
+public class GetAtribDeEstrutServlet extends HttpServlet {
 
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -35,31 +34,27 @@ public class GetAtribDeEstrut extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-            response.setContentType("text/xml;charset=UTF-8");
+        response.setContentType("text/xml;charset=UTF-8");
         PrintWriter out = response.getWriter();
         try {
-            Atrib_EstruturaDAO atrib_EstruturaDAO = new Atrib_EstruturaDAO();
-
-            List<Atrib_Estrutura> codAtributos = atrib_EstruturaDAO.APPP_SEL_ATRIB_ESTRUTURA(new Atrib_Estrutura(Long.parseLong(request.getParameter("codatrib")) , 0));
-            atrib_EstruturaDAO.fechaConexao();
-            List<Atributo> nomes;
-
             AtributoDAO atributoDAO = new AtributoDAO();
+            List<Atributo> rsAtributos;
+
             out.println("<xml>");
-            for (Atrib_Estrutura atrib_Estrutura : codAtributos) {
-                Atributo atributo = new Atributo(atrib_Estrutura.getCd_atributo_obj(), null, null, 0, null);
-                nomes = atributoDAO.APPP_SEL_ATRIBUTO_OBJ(atributo);
 
-                out.println("<atributo>" + nomes.get(0).getNm_atributo_obj().trim()  + "</atributo>");
-
-            
-            }
-            out.println("</xml>");
+            rsAtributos = atributoDAO.APPP_PES_ATRIB_POR_ESTRUT(Long.parseLong(request.getParameter("codestr")));
             atributoDAO.fechaConexao();
+
+            for (Atributo atributo : rsAtributos) {
+                out.println("<atributo><nome>" + atributo.getNm_atributo_obj().trim() + "</nome><id>" + atributo.getCd_atributo_obj() + "</id></atributo>");
+            }
+
+            out.println("</xml>");
+
             out.flush();
             out.close();
         } catch (SQLException ex) {
-            Logger.getLogger(GetAtribDeEstrut.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(GetAtribDeEstrutServlet.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
         }
     }
