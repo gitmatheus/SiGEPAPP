@@ -60,6 +60,4 @@ SPOOL OFF
 
 
 
-
-
 /
