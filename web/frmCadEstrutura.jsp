@@ -57,6 +57,7 @@
 
 %>
 <%@include file="cabecalho.jsp"%>
+<link type="text/css" rel="stylesheet" href="css/jquery-ui-1.7.css">
 <style type="text/css">
     .formulario input, .select_uma_linha{
         height: 20px;
