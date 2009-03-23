@@ -39,6 +39,10 @@ Tom Mix Petreca</description>
         <servlet-name>CadAtributoServlet</servlet-name>
         <servlet-class>br.edu.fei.sigepapp.servlet.CadAtributoServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>CadEstruturaServlet</servlet-name>
+        <servlet-class>br.edu.fei.sigepapp.servlet.CadEstruturaServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
         <url-pattern>/LoginServlet</url-pattern>
@@ -72,6 +76,10 @@ Tom Mix Petreca</description>
     <servlet-mapping>
         <servlet-name>CadAtributoServlet</servlet-name>
         <url-pattern>/CadAtributoServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CadEstruturaServlet</servlet-name>
+        <url-pattern>/CadEstruturaServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

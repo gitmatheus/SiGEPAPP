@@ -56,9 +56,8 @@
         pesqEstrutDAO.fechaConexao();
 
 %>
-<link href="css/jquery-ui-1.7.css" rel="stylesheet" type="text/css"/>
 <%@include file="cabecalho.jsp"%>
-<style>
+<style type="text/css">
     .formulario input, .select_uma_linha{
         height: 20px;
         font-size:small;
@@ -313,6 +312,18 @@ $("#divbckCadAtributo").css(
             }
         });
 
+        $("#frmCadEstruturaEnvia").click(function(){
+
+
+            $.post("CadEstruturaServlet", {
+                nm_estrutura: $("#frmCadEstrNome").val(),
+                ds_estrutura: $("#frmCadEstruturaDescricao").val(),
+                tp_estrutura: $("#frmCadEstrTipo").val()
+            }, function(data, txtStatus){
+                informa(data, "Retorno do Servlet");
+            });
+        });
+
         $("#alertPadrao").dialog({
             autoOpen: false,
             modal: false,
@@ -484,13 +495,9 @@ $("#divbckCadAtributo").css(
                     "</td>"+
                     "<td width=\"20%\" align=\"center\">"+
                     "<a href=\"javascript:func_removeAtributo(\'"+selecao.val()+"\')\">"+
+                    "["+
                     "<img src=\"images/222222_11x11_icon_minus.gif\" border=\"none\" >&nbsp;"+
-                    "</a>"+
-                    "<a href=\"javascript:func_move(\'"+selecao.val()+"\', \'up\')\">"+
-                    "<img src=\"images/454545_7x7_arrow_up.gif\" border=\"none\" >&nbsp;"+
-                    "</a>&nbsp;"+
-                    "<a href=\"javascript:func_move(\'"+selecao.val()+"\', \'down\')\">"+
-                    "<img src=\"images/454545_7x7_arrow_down.gif\" border=\"none\" >&nbsp;"+
+                    "] Remover"+
                     "</a>"+
                     "</td></tr>");
                 //esconde o objeto <option> selecionado acima do combo box frmCadEstrutCmbSelAtributo.
@@ -556,7 +563,7 @@ $("#divbckCadAtributo").css(
                         </td>
                         <td width="70%" align="left">
                             <div  style="margin-left: 5px;">
-                                <input class="edit" type="text" size="27"/>
+                                <input id="frmCadEstrNome" class="edit" type="text" size="27"/>
                             </div>
                         </td>
                     </tr>
@@ -575,9 +582,9 @@ $("#divbckCadAtributo").css(
                             <div style="margin-left: 5px;display:inline">
                                 <select class="edit" id="frmCadEstrTipo" name="frmCadEstrTipo" style="height: 2em;"  maxlength="30" title="Escolha o tipo de Estrutura">
                                     <option value="-1" selected>Escolha um tipo de estrutura</option>
-                                    <option value="<%= patternID%>">Pattern</option>
-                                    <option value="<%= antiPatternID%>">Anti-Pattern</option>
-                                    <option value="<%= personaID%>">Persona</option>
+                                    <option value="PA">Pattern</option>
+                                    <option value="AP">Anti-Pattern</option>
+                                    <option value="PE">Persona</option>
                                     <option value="-2" style="background: #EEEEEE" onclick="alert('Aqui abre janela para procurar por estruturas existentes')" >Importar de Estrutura Existente...</option>
                                 </select>
                             </div>
@@ -677,7 +684,7 @@ $("#divbckCadAtributo").css(
                         </td>
                     </tr>
                 </table>
-                <input class="botao" style="background-color:#3d414c;" type="submit" value="enviar">
+                <input id="frmCadEstruturaEnvia" class="botao" style="background-color:#3d414c;" type="button" value="enviar">
             </form>
         </td>
     </tr>

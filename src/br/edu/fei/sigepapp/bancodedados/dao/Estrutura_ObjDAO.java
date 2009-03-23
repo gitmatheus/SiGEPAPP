@@ -208,6 +208,48 @@ public class Estrutura_ObjDAO {
         }
     }
 
+    public long APPP_INS_Estrutura_Obj(Estrutura estrutAdicionar) {
+        CallableStatement cstmt = null;
+
+        try {
+            long result = 0;
+            long cod_estrutura = 0;
+            //Instancia um objeto da classe PreparedStatement com o comando para pesquisar registros no banco
+            //PreparedStatement stmt = this.conn.prepareStatement(query);
+
+            cstmt = conn.prepareCall("begin  APPP_INS_ESTRUT_OBJ(?, ?, ?, ?, ?, ?); end;");
+
+            cstmt.setLong(4, estrutAdicionar.getCod_user());
+            cstmt.setString(3, estrutAdicionar.getDs_estrutura());
+            cstmt.setString(2, estrutAdicionar.getNm_estrutura());
+            cstmt.setString(5, estrutAdicionar.getTp_estrutura());
+
+            cstmt.registerOutParameter(1, OracleTypes.NUMBER);
+            cstmt.registerOutParameter(6, OracleTypes.NUMBER);
+
+            cstmt.execute();
+            cod_estrutura = cstmt.getLong(1);
+            result = cstmt.getLong(6);
+
+            //fecha a instancia dos objetos
+            cstmt.close();
+
+            //Grava log com a informação de sucesso
+            GravarLog.gravaInformacao(Estrutura.class.getName() + ": Insercao no banco de dados realizada com sucesso");
+
+            //retorna uma lista com os usuarios selecionados
+            return cod_estrutura;
+
+        } catch (SQLException e) {
+
+            //Grava log com o erro que ocorreu durante a execução do comando SQL
+            GravarLog.gravaErro(Estrutura.class.getName() + ": erro na Insercao referente a uma exceção de SQL: " + e.getMessage());
+
+            //Retorno da função como null em caso de erro
+            return -1;
+        }
+    }
+
     /**
      * Metodo para fechar o banco de dados da classe
      */
