@@ -115,7 +115,7 @@
                                     <tr class="menubv"><td>
                                     <a id="menubv" href="/sigepapp/frmCadAPPP.jsp" title="Cadastro de Patterns, Anti-Patterns e Personas" >Cadastro dos APPP</a></tr>
                                     <tr class="menubv"><td>
-                                    <a id="menubv" href="#" title="Cadastro das Estruturas disponiveis no sistema" >Cadastro de Estruturas</a></tr>
+                                    <a id="menubv" href="/sigepapp/frmCadUsuario.jsp" title="Cadastro das Estruturas disponiveis no sistema" >Cadastro de Usuário</a></tr>
                                     <tr class="menubv"><td>
                                     <a id="menubv" href="#" title="Sistema de busca de Patterns, Anti-Patterns e Personas" >Busca de APPP</a></tr>
 

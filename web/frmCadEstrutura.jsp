@@ -678,7 +678,7 @@ $("#divbckCadAtributo").css(
 
                     </tr>
                     <tr>
-                        <td align="center" colspan="2">
+                        <td align="left" colspan="2">
                             <a id="linkAbreCadastroAtributo" href="#">
                                 <img src="images/add.gif" border="none">Criar novo atributo
                             </a>
