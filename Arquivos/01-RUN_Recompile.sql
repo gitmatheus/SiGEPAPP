@@ -7,7 +7,8 @@ Spool /SiGEPAPP/Arquivos/run_invalid.sql
 select 'ALTER ' || OBJECT_TYPE || ' ' || OWNER || '.' || OBJECT_NAME || ' COMPILE;'
 from sys.all_objects
 where status = 'INVALID' 
-and   object_type in ('PACKAGE','FUNCTION','PROCEDURE');
+and   object_type in ('PACKAGE','FUNCTION','PROCEDURE')
+and   OBJECT_NAME LIKE '%APPP_%';
 
 spool off;
 

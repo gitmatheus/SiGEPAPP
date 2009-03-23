@@ -52,8 +52,14 @@ spool /SiGEPAPP/Arquivos/ScriptsDrop/LogDropBanco.log
 
 @ /SiGEPAPP/Arquivos/ScriptsDrop/DROP_APPP_TB_USER.SQL
 
-@ /SiGEPAPP/Arquivos/ScriptsDrop/DROP_APPP_CREATE_USERS.sql                                                                                                  
+@ /SiGEPAPP/Arquivos/ScriptsDrop/DROP_APPP_CREATE_USERS.sql  
+
+@ /SiGEPAPP/Arquivos/ScriptsDrop/01-DROP_CREATED_TABLES.sql                                                                                                
 
 SPOOL OFF
+
+
+
+
 
 /
