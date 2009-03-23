@@ -49,7 +49,6 @@ import oracle.jdbc.OracleTypes;
 public class AtributoDAO {
 
     private Connection conn;
-
     /** Construtor da classe DAO:
      * Todos os atributos da classe terao como valores NULL
      *  
@@ -288,8 +287,6 @@ public class AtributoDAO {
         }
     }
 
-
-
     public List<Atributo> APPP_PES_ATRIB_POR_ESTRUT(long Cd_Estrutura) {
         CallableStatement cstmt = null;
         ResultSet rs = null;
@@ -329,7 +326,6 @@ public class AtributoDAO {
             return null;
         }
     }
-
 
     public void fechaConexao() {
         try {

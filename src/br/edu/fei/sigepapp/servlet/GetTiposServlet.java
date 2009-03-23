@@ -30,21 +30,23 @@ public class GetTiposServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/xml;charset=UTF-8");
+        response.setHeader("Cache-Control", "no-cache");
+        
         PrintWriter out = response.getWriter();
         try {
             out.print("<xml>");
             List<Tipo> tipos;
             TipoDAO tipoDAO = new TipoDAO();
-            tipos=tipoDAO.seleciona("select * from APPP_TB_TIPO");
+            tipos = tipoDAO.APPP_SEL_TIPO_OBJ(new Tipo());
             tipoDAO.fechaConexao();
 
-            for (Tipo tipo : tipos) {
-                out.println("<tipo>");
-                out.print("<nome>"+tipo.getNm_tipo()+"</nome>"+"<cod>"+tipo.getCd_tipo()+"</cod>");
-                out.println("</tipo>");
+            for (Tipo tipo : tipos) {                
+                    out.println("<tipo>");
+                    out.print("<nome>" + tipo.getNm_tipo() + "</nome>" + "<cod>" + tipo.getCd_tipo() + "</cod>");
+                    out.println("</tipo>");
             }
 
-            
+
 
             out.print("</xml>");
 
@@ -52,9 +54,7 @@ public class GetTiposServlet extends HttpServlet {
             out.close();
 
         } catch (Exception e) {
-
         } finally {
-            
         }
     }
 

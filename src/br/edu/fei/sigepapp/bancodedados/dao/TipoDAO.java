@@ -15,13 +15,9 @@
  * |------------------------------------------------------------------|
  *
  */
-
-
-
 package br.edu.fei.sigepapp.bancodedados.dao;
 //~-- JDK import --------------------------------------------------------------
 import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -31,9 +27,16 @@ import java.util.List;
 import br.edu.fei.sigepapp.bancodedados.ConnectionFactory;
 import br.edu.fei.sigepapp.bancodedados.model.Tipo;
 import br.edu.fei.sigepapp.log.GravarLog;
-/**
- *
- * @author lopespt
+import java.sql.CallableStatement;
+import java.util.Vector;
+import oracle.jdbc.OracleTypes;
+
+/** Classe responsavel pelo acesso as procedures do banco: <ul>
+ * <li> APPP_SEL_TIPO - Seleciona tipos </li>
+ * <li> APPP_INS_TIPO - Insere tipos    </li>
+ * <li> APPP_UPD_TIPO - Atualiza tipos  </li>
+ * <li> APPP_DEL_TIPO - Deleta tipos    </li>
+ * </ul>
  */
 public class TipoDAO {
 
@@ -41,156 +44,143 @@ public class TipoDAO {
 
     public TipoDAO() throws SQLException {
         this.conn = ConnectionFactory.getConnection();
+
     }
 
-    public List<Tipo> seleciona(String query) {
+
+// <editor-fold defaultstate="collapsed" desc="Função - Preenche Lista">
+    public List<Tipo> PreencheList(ResultSet rs) throws SQLException {
+        // Cria um array do tipo Tipo
+        List<Tipo> tipos = new ArrayList<Tipo>();
+
+        //Cria e preenche uma lista contendo os nomes das colunas da tabela
+        Vector<String> camposDaTabela = new Vector<String>();
+        camposDaTabela.add("CD_TIPO");
+        camposDaTabela.add("NM_TIPO");
+        camposDaTabela.add("DS_TIPO");
+        camposDaTabela.add("FL_EXP_REG");
+
+        while (rs.next()) {
+            // Cria um objeto do tipo Tipo
+            Tipo tipoNovo = new Tipo();
+
+            //Para cada coluna
+            for (int i = 1; i <= rs.getMetaData().getColumnCount(); i++) {
+                //Atribui o nome da coluna atual a variavel nomeColuna
+                String nomeColuna = rs.getMetaData().getColumnName(i);
+                //retorna o indice que esta coluna se encontra na lista
+                int selecao = camposDaTabela.indexOf(nomeColuna);
+                //seleciona cada caso de acordo com o indice e atribui ao objeto
+
+                switch (selecao) {
+                    case 0:
+                        tipoNovo.setCd_tipo(rs.getLong(i));
+                        break;
+                    case 1:
+                        tipoNovo.setNm_tipo(rs.getString(i));
+                        break;
+                    case 2:
+                        tipoNovo.setDs_tipo(rs.getString(i));
+                        break;
+                    case 3:
+                        tipoNovo.setFl_exp_reg(rs.getString(i));
+                        break;
+                }
+
+            }
+            //Adiciona o objeto a lista.
+            tipos.add(tipoNovo);
+        }
+        //retorna a lista de tipos.
+        return tipos;
+    }
+
+// </editor-fold>
+    public List<Tipo> APPP_SEL_TIPO_OBJ(Tipo tipoPesquisa) {
+        CallableStatement cstmt = null;
+        ResultSet rs = null;
+
+        long pCD_TIPO = tipoPesquisa.getCd_tipo();
+
         try {
-            this.conn = ConnectionFactory.getConnection();
-            // Instancia um objeto da classe PreparedStatement com o comando para pesquisar registros no banco
-            PreparedStatement stmt = this.conn.prepareStatement(query);
+            //Instancia um objeto da classe PreparedStatement com o comando para pesquisar registros no banco
+            //PreparedStatement stmt = this.conn.prepareStatement(query);
 
-            // Executa a query e armazenando em um Objeto ResultSet
-            ResultSet rs = stmt.executeQuery();
+            cstmt = conn.prepareCall("begin  APPP_SEL_TIPO(?, ?, ?, ?, ?); end;");
 
-            // Cria um array do tipo Usuarios
-            List<Tipo> tipos = new ArrayList<Tipo>();
 
-            // Enquando a pesquisa nao chegar ao fim ele armazena no array os resultados e permanece no loop
-            while (rs.next()) {
-
-                // Cria um objeto do tipo Tipo
-                Tipo tipoNovo = new Tipo();
-
-                // armazena os valores do ResultSet no Usuario
-                tipoNovo.setCd_tipo(rs.getLong("CD_TIPO"));
-                tipoNovo.setNm_tipo(rs.getString("NM_TIPO"));
-                tipoNovo.setDs_exp_regular(rs.getString("DS_TIPO"));
-
-                // adiciona a lista de Tipos os encontrados
-                tipos.add(tipoNovo);
+            if (pCD_TIPO > 0) {
+                cstmt.setLong(1, pCD_TIPO);
+            } else {
+                cstmt.setNull(1, OracleTypes.NUMBER);
             }
 
-            // fecha a instancia dos objetos
-            rs.close();
-            stmt.close();
+            cstmt.setString(2, tipoPesquisa.getDs_tipo());
+            cstmt.setString(3, tipoPesquisa.getFl_exp_reg());
+            cstmt.setString(4, tipoPesquisa.getNm_tipo());
 
-            // Grava log com a informacao de sucesso
+            cstmt.registerOutParameter(5, OracleTypes.CURSOR);
+            cstmt.execute();
+            rs = (ResultSet) cstmt.getObject(5);
+
+            //Cria um array do tipo Tipo
+            List<Tipo> tipos = PreencheList(rs);
+
+
+            //fecha a instancia dos objetos
+            rs.close();
+            cstmt.close();
+
+            //Grava log com a informação de sucesso
             GravarLog.gravaInformacao(Tipo.class.getName() + ": pesquisa no banco de dados realizada com sucesso");
 
-            // retorna uma lista com os usuarios selecionados
+            //retorna uma lista com os usuarios selecionados
             return tipos;
+
         } catch (SQLException e) {
-
-            // Grava log com o erro que ocorreu durante a execucao do comando SQL
-            GravarLog.gravaErro(Tipo.class.getName() + ": erro na pesquisa referente a uma excecao de SQL: " + e.getMessage());
-
-            // Retorno da funcao como null em caso de erro
+            //Grava log com o erro que ocorreu durante a execução do comando SQL
+            GravarLog.gravaErro(Tipo.class.getName() + ": erro na pesquisa referente a uma exceção de SQL: " + e.getMessage());
+            //Retorno da função como null em caso de erro
             return null;
         }
-
     }
 
-    public boolean adiciona(Tipo tipoAdicionar) {
+    public boolean APPP_INS_TIPO(Tipo tipoInserir) {
+        CallableStatement cstmt = null;
+        long resultado = 0;
+        long pCD_TIPO=tipoInserir.getCd_tipo();
+
         try {
-            this.conn = ConnectionFactory.getConnection();
-            // Instancia um objeto da classe PreparedStatement com o comando para insercao do registro no banco
-            PreparedStatement stmt =
-                    this.conn.prepareStatement("insert into APPP_TB_TIPO (CD_TIPO, NM_TIPO, DS_EXP_REGULAR) values( ?, ?, ?)");
+            cstmt = conn.prepareCall("begin  APPP_INS_TIPO( ?, ?, ?, ?, ?); end;");
 
+            if (pCD_TIPO > 0) {
+                cstmt.setLong(1, pCD_TIPO);
+            } else {
+                cstmt.setNull(1, OracleTypes.NUMBER);
+            }
+            cstmt.setString(2, tipoInserir.getNm_tipo());
+            cstmt.setString(3, tipoInserir.getDs_tipo());
+            cstmt.setString(4, tipoInserir.getFl_exp_reg());
 
+            cstmt.registerOutParameter(5, OracleTypes.NUMBER);
+            cstmt.execute();
 
-            // Seta os valores para os pontos de interrogaï¿½ï¿½o indexados pela ordem deles na string
-            stmt.setLong(1, tipoAdicionar.getCd_tipo());
-            stmt.setString(2, tipoAdicionar.getNm_tipo());
-            stmt.setString(3, tipoAdicionar.getDs_exp_regular());
+            resultado = cstmt.getLong(5);
 
-            // executa o comando e fecha a instancia do objeto
-            stmt.execute();
-            stmt.close();
+            cstmt.close();
 
-            // Grava log com a informacao de sucesso
-            GravarLog.gravaInformacao(Tipo.class.getName() + ": insercao no banco de dados realizada com sucesso");
-
-            // Fecha conexao com o banco de dados
-            this.conn.close();
-
-            // Retorno da funcao como true
-            return true;
-        } catch (SQLException e) {
-
-            // Grava log com o erro que ocorreu durante a execucao do comando SQL
-            GravarLog.gravaErro(Tipo.class.getName() + ": erro na insercao referente a uma excecao de SQL: " + e.getMessage());
-
-            // Retorno da funcao como false em caso de erro
+            if (resultado == 1) {
+                GravarLog.gravaInformacao(Tipo.class.getName() + ": adicao no banco de dados realizada com sucesso");
+                return true;
+            } else {
+                GravarLog.gravaErro(Tipo.class.getName() + ": erro na adicao no banco de dados: Erro generico.");
+                return false;
+            }
+        } catch (SQLException ex) {
+            GravarLog.gravaErro(Tipo.class.getName() + ": erro na adicao no banco de dados: " + ex.getSQLState());
             return false;
         }
-    }
 
-    public boolean deleta(Tipo tipoDeletar) {
-        try {
-            this.conn = ConnectionFactory.getConnection();
-            // Instancia um objeto da classe PreparedStatement com o comando para remocao do registro no banco
-            PreparedStatement stmt = this.conn.prepareStatement("delete from APPP_TB_TIPO where cd_tipo=?");
-
-            // Seta os valores para os pontos de interrogacao indexados pela ordem deles na string
-            stmt.setLong(1, tipoDeletar.getCd_tipo());
-
-            // executa o comando e fecha a instancia do objeto
-            stmt.execute();
-            stmt.close();
-
-            // Grava log com a informacao de sucesso
-            GravarLog.gravaInformacao(Tipo.class.getName() + ": remocao no banco de dados realizada com sucesso");
-
-            // Fecha conexao com o banco de dados
-            this.conn.close();
-
-            // retorno da funcao como true
-            return true;
-        } catch (SQLException e) {
-
-            // Grava log com o erro que ocorreu durante a execucao do comando SQL
-            GravarLog.gravaErro(Tipo.class.getName() + ": erro na remocao referente a uma excecao de SQL: " + e.getMessage());
-
-            // Retorno da funcao como false em caso de erro
-            return false;
-        }
-    }
-
-    public boolean atualiza(Tipo tipoAtualizar) {
-        try {
-            this.conn = ConnectionFactory.getConnection();
-            // Instancia um objeto da classe PreparedStatement com o comando para atualizacao do registro no banco
-            PreparedStatement stmt =
-                    this.conn.prepareStatement(
-                    "update APPP_TB_TIPO set NM_TIPO=?, DS_EXP_REGULAR=? where CD_TIPO=?");
-
-            // Seta os valores para os pontos de interrogacao indexados pela ordem deles na string
-
-            stmt.setString(1, tipoAtualizar.getNm_tipo());
-            stmt.setString(2, tipoAtualizar.getDs_exp_regular());
-
-            stmt.setLong(3, tipoAtualizar.getCd_tipo());
-            // executa o comando e fecha a instancia do objeto
-            stmt.execute();
-            stmt.close();
-
-            // Grava log com a informacao de sucesso
-            GravarLog.gravaInformacao(Tipo.class.getName() + ": atualizacao no banco de dados realizada com sucesso");
-
-            // Fecha conexao com o banco de dados
-            this.conn.close();
-
-            // retorno da funcao como true
-            return true;
-        } catch (SQLException e) {
-
-            // Grava log com o erro que ocorreu durante a execucao do comando SQL
-            GravarLog.gravaErro(Tipo.class.getName() + ": erro na atualizacao referente a uma excecao de SQL: " + e.getMessage());
-
-            // Retorno da funcao como false em caso de erro
-            return false;
-        }
     }
 
     /**

@@ -56,7 +56,7 @@
         pesqEstrutDAO.fechaConexao();
 
 %>
-<link href="css/jquery-ui-1.7.css" type="stylesheet"/>
+<link href="css/jquery-ui-1.7.css" rel="stylesheet" type="text/css"/>
 <%@include file="cabecalho.jsp"%>
 <style>
     .formulario input, .select_uma_linha{
@@ -76,7 +76,6 @@
         height: 2em;
         font-weight:bold;
         font-size:small;
-
         vertical-align:middle;
     }
     .atributoAdicional img{
@@ -88,33 +87,30 @@
         vertical-align:middle;
     }
 
-    #divbckCadAtributo{
-        background-color:#000000;
-        position:absolute;
-        left: 0px;
-        top: 0px;
-
-    }
-
-    #divfrmCadAtributo td{
+    #divfrmCadAtributo td, #divfrmCadTipo td {
         font-size:small;
     }
-    #divfrmCadAtributo table{
+    #divfrmCadAtributo table, #divfrmCadTipo table{
         -moz-border-radius: 5px;
         -webkit-border-radius: 5px;
     }
-    #divfrmCadAtributo table tr td{
+    #divfrmCadAtributo table tr td, #divfrmCadTipo table tr td{
         line-height:2em;
     }
 
-    #divfrmCadAtributo h1{
+    #divfrmCadAtributo h1, #divfrmCadTipo h1{
         font-size:medium;
+    }
+
+    .ui-widget-overlay {
+        background: #aaaaaa url(../images/ui-bg_flat_0_aaaaaa_40x100.png) 50% 50% repeat-x;
+        opacity: .80
     }
 
 </style>
 
 <script type="text/javascript" language="javascript" src="js/jquery.tinysort.js"></script>
-
+<script type="text/javascript" language="javascript" src="js/jquery-ui-1.7.js"></script>
 <script type="text/javascript" language="javascript" src="js/fckeditor/fckeditor.js"></script>
 
 <script type="text/javascript" language="javascript">
@@ -123,9 +119,8 @@
     var arrayVisiveis = new Array();
     var htmltabelaEstrutura="";
 
-    function Show_CadastraAtributo(){
-
-        $("#divbckCadAtributo").css(
+    function show_CadastraAtributo(){
+        /*        $("#divbckCadAtributo").css(
         {   opacity : 0.8,
             width : $(document).width(),
             height :$(document).height()
@@ -135,7 +130,6 @@
             left: $(document).width()/2 - $("#divfrmCadAtributo").width()/2,
             top: '50px'
         });
-
         //Limpa todas as caixas de texto
         $("#frmCadAtributoTxtNome, #frmCadAtributoTxtDesc").val("");
         $("#frmCadAtributoChkRel").removeAttr("checked");
@@ -143,11 +137,17 @@
         $("#divfrmCadAtributo").show('slow',function(){
             $("#frmCadAtributoTxtNome").focus();
         });
+         */
+        $(document).scrollTop(0);
+        $("#divfrmCadAtributo").dialog('open');
+
 
 
     }
-    function Hide_CadastraAtributo(){
-        $("#divbckCadAtributo").css(
+
+    function hide_CadastraAtributo(){
+        /*
+$("#divbckCadAtributo").css(
         {   opacity : 0.8,
             width : $(document).width(),
             height :$(document).height()
@@ -157,33 +157,181 @@
             left: $(document).width()/2 - $("#divfrmCadAtributo").width()/2,
             top: '50px'
         }).hide('slow');
+         */
+
+
+    }
+
+
+    function show_CadastraTipo(){
+        /*$("#divbckCadTipo").css(
+        {   opacity : 0.8,
+            width : $(document).width(),
+            height :$(document).height()
+        }).fadeIn(1000);
+        $("#divfrmCadTipo").css({
+            position : 'absolute',
+            left: $(document).width()/2 - $("#divfrmCadAtributo").width()/2,
+            top: '50px'
+        });
+        //Limpa todas as caixas de texto
+        $("#frmCadTipoTxtNome, #frmCadTipoTxtExpReg").val("");
+        $("#divfrmCadTipo").show('slow',function(){
+            $("#frmCadTipoTxtNome").focus();
+        });*/
+        $(document).scrollTop(0);
+        $("#divfrmCadTipo").dialog('open');
+
+
+    }
+
+
+    function hide_CadastraTipo(){
+        /*$("#divbckCadTipo").css(
+        {   opacity : 0.8,
+            width : $(document).width(),
+            height :$(document).height()
+        }).fadeOut(1000);
+        $("#divfrmCadTipo").css({
+            position : 'absolute',
+            left: $(document).width()/2 - $("#divfrmCadTipo").width()/2,
+            top: '50px'
+        }).hide('slow');*/
     }
 
     //Na inicializacao da pagina...
+    function informa(Texto, Titulo){
+        $("#alertPadrao").dialog('option','title',Titulo);
+        $("#alertPadrao").html(Texto);
+        $(document).scrollTop(0);
+        $("#alertPadrao").dialog("open");
+    }
+
+    function getTipos(){
+        $("#frmCadAtributoSelTipo option").remove();
+        $.post('GetTiposServlet',null,function(xml){
+            $(xml).find("tipo").each(function(indice, item){
+                $("#frmCadAtributoSelTipo").append("<option value='"+
+                    $(item).find("cod").text()+"'>"+
+                    $(item).find("nome").text()+
+                    "</option>");
+            });
+            $("#frmCadAtributoSelTipo").append(
+            "<option value='-1' style='background:#eeeeee'>"+
+                "Cadastrar novo tipo..."+
+                "</option>");
+        });
+    }
+
     $(document).ready(function(){
-        //Esconde o formulario para cadastro de tipos
 
-        $("#divbckCadAtributo, #divfrmCadAtributo").hide();
+        $("#alertInsAtrib").dialog({autoOpen: false});
+        $("#linkAbreCadastroAtributo").click(function(){show_CadastraAtributo()});
 
-        var oFCKeditor = new FCKeditor('frmCadEstruturaDescricao') ;
-        oFCKeditor.BasePath = "./js/fckeditor/" ;
-        oFCKeditor.ToolbarSet="Sigepapp2";
-        oFCKeditor.Height=300;
-        oFCKeditor.ReplaceTextarea() ;
+        $("#divfrmCadAtributo").dialog({
+            width: 511,
+            modal: true,
+            autoOpen: false,
+            buttons: {
+                Cancelar: function() {
+                    $(this).dialog('close');
+                },
+                Cadastrar: function() {
+                    var relacionavel;
+                    if($("#frmCadAtributoChkRel").is(":checked")){
+                        relacionavel="S";
+                    }else{
+                        relacionavel="N";
+                    }
 
-        htmltabelaEstrutura=$("#tabAtributos").html();
+                    if($("#frmCadAtributoTxtNome").val()==""){
+                        informa("Nome não preenchido", "Erro");
+                        $("#frmCadAtributoTxtNome").focus();
+                    }else if($("#frmCadAtributoTxtDesc").val()==""){
+                        informa("Descrição não preenchida", "Erro");
+                        $("#frmCadAtributoTxtDesc").focus();
+                    }else if($("#frmCadAtributoSelTipo").val()=="" || $("#frmCadAtributoSelTipo").val()=="-1"){
+                        informa("Tipo de atributo não selecionado", "Erro");
+                    }else{
 
-        $("#formEscolheAtributos").hide();
-        //Ordena o combo box frmCadEstrutCmbSelAtributo.
-        ordenarCombo();
-        //Preenche o array com os options visiceis
-        arrayVisiveis=$.makeArray($("#frmCadEstrutCmbSelAtributo option"));
-        //Esconde mensagem de Loading ajax
-        $("#frmCadEstrDivLoadingEst").hide();
-        $(document).ajaxError(function(msg,msg1,msg2,msg3){
-            alert("erro"+msg1);
+                        $.post("CadAtributoServlet",{
+                            nome:   $("#frmCadAtributoTxtNome").val(),
+                            descricao: $("#frmCadAtributoTxtDesc").val(),
+                            codTipo: $("#frmCadAtributoSelTipo").val(),
+                            relac: relacionavel
+                        } , function(dados, msgstatus){
+                            if(msgstatus=="success"){
+                                getAtributos();
+                                informa(dados, "Cadastro");
+                                $("#divfrmCadAtributo").dialog("close");
+                            }
+
+                        });
+                    }
+                }
+            },
+            close: function(){
+                $("#frmCadAtributoTxtNome").val("");
+                $("#frmCadAtributoTxtDesc").val("");
+                $("#frmCadAtributoSelTipo:selected").removeAttr("selected");
+                $("#frmCadAtributoSelTipo:first").attr("selected","selected");
+                $("frmCadAtributoSelTipo").removeAttr("checked");
+            },
+            open: function(){
+                getTipos();
+            }
         });
 
+        $("#divfrmCadTipo").dialog({
+            width: 511,
+            modal: false,
+            autoOpen: false,
+            buttons: {
+                Cancelar: function() {
+                    $("#divfrmCadTipo").dialog('close');
+                },
+                Cadastrar: function() {
+                    if($("#frmCadTipoTxtNome").val()==""){
+                        informa("Nome não preenchido", "Erro")
+                    }else{
+                        $.post("CadTipoServlet",{
+                            nome:   $("#frmCadTipoTxtNome").val(),
+                            expreg: $("#frmCadTipoTxtExpReg").val()
+                        } , function(dados, msgstatus){
+                            if(msgstatus=="success"){
+                                getTipos();
+                                informa(dados, "Cadastro");
+                                $("#divfrmCadTipo").dialog('close');
+                            }
+                        });
+                    }
+                }
+            },
+            close: function(){
+                $("#frmCadTipoTxtNome").val("");
+                $("#frmCadTipoTxtExpReg").val("");
+            }
+        });
+
+        $("#alertPadrao").dialog({
+            autoOpen: false,
+            modal: false,
+            buttons: {
+                Ok: function(){
+                    $(this).dialog("close");
+                }
+            }
+        });
+
+
+
+        //Esconde o formulario para cadastro de tipos
+        //$("#divbckCadAtributo, #divfrmCadAtributo").hide();
+        //$("#divbckCadTipo, #divfrmCadTipo").hide();
+
+
+
+        //Valor inicial do combo de TIPO de ESTRUTURA
         $("#frmCadEstrTipo").val(0);
         //Atribui funcao ajax ao objeto frmCadEstrTipo
         $("#frmCadEstrTipo").change(function(){
@@ -194,13 +342,34 @@
             }
         });
 
-        //Carrega os tipos possíveis para o cadastro de atributos
-        $.post('GetTiposServlet',null,function(xml){
-            $(xml).find("tipo").each(function(indice, item){
-                $("#frmCadAtributoSelTipo").append("<option>"+$(item).find("nome").text()+"</option>");
-            });
-            $("#frmCadAtributoSelTipo").append("<option style='background:#eeeeee'>Cadastrar novo tipo...</option>");
+        //Cria editor HTML
+        var oFCKeditor = new FCKeditor('frmCadEstruturaDescricao') ;
+        oFCKeditor.BasePath = "./js/fckeditor/" ;
+        oFCKeditor.ToolbarSet="Sigepapp2";
+        oFCKeditor.Height=300;
+        oFCKeditor.ReplaceTextarea() ;
+        htmltabelaEstrutura=$("#tabAtributos").html();
+
+        //Ordena o combo box frmCadEstrutCmbSelAtributo.
+        ordenarCombo();
+        //Preenche o array com os options visiceis
+        arrayVisiveis=$.makeArray($("#frmCadEstrutCmbSelAtributo option"));
+        //Esconde mensagem de Loading ajax
+        $("#frmCadEstrDivLoadingEst").hide();
+        $(document).ajaxError(function(event, XMLHttpRequest, ajaxOptions, thrownError){
+            alert("Erro ao enviar solicitação ao servidor.\nMande um e-mail para: sigepapp@sigepapp.com.br para mais informações.");
         });
+
+
+        //Evento de clique para abrir a janela de cadastro de tipos
+
+
+        $("#frmCadAtributoSelTipo").change(function(){
+            if($("#frmCadAtributoSelTipo option:selected").attr("value")=="-1"){
+                show_CadastraTipo();
+            }
+        });
+        //FIM Janela de CADASTRO DE TIPOS
 
         //Fim de document.ready
     });
@@ -295,7 +464,8 @@
 
     function func_incluiAtributo(){
         if($("#frmCadEstrTipo").val()<=0){
-            alert("Selecione primeiro o tipo de estrutura");
+            $(document).scrollTop(0);
+            $("#alertInsAtrib").dialog('open');
             $("#frmCadEstrTipo").focus();
         }else{
 
@@ -326,6 +496,8 @@
                 //esconde o objeto <option> selecionado acima do combo box frmCadEstrutCmbSelAtributo.
                 esconde($(selecao).attr("value"));
             }
+            $("#tabAtributos").sortable({items: 'tr:has(td.atributoAdicional)',cursor: "move"});
+            $("#tabAtributos tr:has(td.atributoAdicional)").css("cursor", "pointer");
         };
     }
     function ordenarCombo(){
@@ -379,7 +551,7 @@
                     <tr>
                         <td width="30%" align="right">
                             <div style="margin-right: 10px;">
-                                Nome da estrutura:
+                                <font class="texto">Nome da estrutura:</font>
                             </div>
                         </td>
                         <td width="70%" align="left">
@@ -396,7 +568,7 @@
                     <tr>
                         <td width="30%" align="right">
                             <div style="margin-right: 10px;">
-                                Tipo de Estrutura:
+                                <font class="texto">Tipo de Estrutura:</font>
                             </div>
                         </td>
                         <td width="70%" align="left">
@@ -421,7 +593,7 @@
                     <tr>
                         <td valign="top" width="30%" align="right">
                             <div style="margin-right: 10px;">
-                                Descri&ccedil;&atilde;o:
+                                <font class="texto">Descri&ccedil;&atilde;o:</font>
                             </div>
                         </td>
                         <td align="center" colspan="2">
@@ -457,42 +629,49 @@
                 <table border="0" cellpadding="0" cellspacing="0" width="500">
                     <tr id="linhaDoSeletor">
                         <td colspan="2" width="30%" align="center">
-                        <div style="margin-right: 10px;">
+                            <div style="margin-right: 10px;">
 
-                            <br>
-                            <fieldset style="background-color:#eeeeee;">
-                                <legend>Selecionar atributos:</legend>
-                                <table width="100%" style="background-color:#eeeeee;">
-                                    <tr>
-                                        <td align="right">
-                                            Buscar Atributo:
-                                        </td>
-                                        <td>
-                                            <input id="frmCadEstruturaTxtBusca" type="text" class="edit" style="width: 250px" onkeyup="filtraCombo();"></input>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td align="right">Atributo:</td><td>
-                                            <select class="select_varias_linhas" size="8" style="width: 250px" id="frmCadEstrutCmbSelAtributo" ondblclick="func_incluiAtributo();">
-                                                <%for (Atributo t : atributos) {%>
-                                                <option  value ="<%= t.getCd_atributo_obj()%>" title="<%= t.getDs_atributo_obj()%>" ><%= t.getNm_atributo_obj()%></option>
-                                                <% }%>
-                                            </select>
-                                    </td></tr>
-                                    <tr><td colspan="2" align="center">
-                                            <a onclick="" href="javascript:func_incluiAtributo();"><img src="images/add.gif" border="none">Adicionar à estrutura</a>
-                                    </td></tr>
-                                    <tr><td colspan="2"></td>
-                                    </tr>
-                                </table>
-                            </fieldset>
-                        </div>
-
+                                <br>
+                                <fieldset style="background-color:#eeeeee;">
+                                    <legend>Selecionar atributos:</legend>
+                                    <table width="100%" style="background-color:#eeeeee;">
+                                        <tr>
+                                            <td align="right">
+                                                Buscar Atributo:
+                                            </td>
+                                            <td>
+                                                <input id="frmCadEstruturaTxtBusca" type="text" class="edit" style="width: 250px" onkeyup="filtraCombo();"></input>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td align="right">
+                                                Atributo:
+                                            </td>
+                                            <td>
+                                                <select class="select_varias_linhas" size="8" style="width: 250px" id="frmCadEstrutCmbSelAtributo" ondblclick="func_incluiAtributo();">
+                                                    <%for (Atributo t : atributos) {%>
+                                                    <option  value ="<%= t.getCd_atributo_obj()%>" title="<%= t.getDs_atributo_obj()%>" ><%= t.getNm_atributo_obj()%></option>
+                                                    <% }%>
+                                                </select>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="2" align="center">
+                                                <a onclick="" href="javascript:func_incluiAtributo();"><img src="images/add.gif" border="none">Adicionar à estrutura</a>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="2"></td>
+                                        </tr>
+                                    </table>
+                                </fieldset>
+                            </div>
+                        </td>
 
                     </tr>
                     <tr>
                         <td align="center" colspan="2">
-                            <a id="linkAbreCadastroAtributo" href="#" onclick="Show_CadastraAtributo();">
+                            <a id="linkAbreCadastroAtributo" href="#">
                                 <img src="images/add.gif" border="none">Criar novo atributo
                             </a>
                         </td>
@@ -504,27 +683,23 @@
     </tr>
 </table>
 
-<div id="divbckCadAtributo" onclick="Hide_CadastraAtributo();"></div>
-<div id="divfrmCadAtributo" style="width:500px;" >
+
+
+<!--Janela para cadastro de ATRIBUTOS -->
+<div id="divfrmCadAtributo" title="Cadastro de Atributo">
     <form id="frmCadAtributo">
         <table width="500">
-            <tr bgcolor="#eeeeee">
-                <td colspan="2" align="center" style="border-bottom:black solid thin">
-                    <h1>Cadastro de atributos:</h1>
-                    <div style="font-size:x-small;right:5px;top:0px;position:absolute"><a href="javascript:Hide_CadastraAtributo();"><u>Fechar [x]</u></a></div>
-                </td>
-            </tr>
             <tr>
                 <td align="right">
-                    Nome do atributo:
+                    <font class="texto">Nome do atributo:</font>
                 </td>
                 <td align="center">
                     <input id="frmCadAtributoTxtNome" class="edit" type="text" size="35">
                 </td>
             </tr>
             <tr>
-                <td align="right">
-                    Descri&ccedil;&atilde;o do atributo:
+                <td align="right"  valign="top">
+                    <font class="texto">Descri&ccedil;&atilde;o do atributo:</font>
                 </td>
                 <td align="center">
                     <textarea id="frmCadAtributoTxtDesc" class="edit" cols="35" ></textarea>
@@ -532,7 +707,7 @@
             </tr>
             <tr>
                 <td align="right">
-                    Tipo do atributo:
+                    <font class="texto">Tipo do atributo:</font>
                 </td>
                 <td align="center">
                     <select id="frmCadAtributoSelTipo" class="edit" style="width:200px;" >
@@ -543,7 +718,7 @@
             </tr>
             <tr>
                 <td align="right">
-                    Relacion&aacute;vel:
+                    <font class="texto">Relacion&aacute;vel:</font>
                 </td>
                 <td align="center">
                     <input id="frmCadAtributoChkRel" type="checkbox">
@@ -551,11 +726,76 @@
             </tr>
             <tr>
                 <td colspan="2" align="center">
-                    <input id="frmCadAtributoBtnEnvia" class="botao" type="submit" name="envia" value="Cadastrar">
-                    <input id="frmCadAtributoBtnCancel" class="botao" type="reset" name="cancelar" value="Cancelar" onclick="Hide_CadastraAtributo();">
+                    <!--<input id="frmCadAtributoBtnEnvia" class="botao" type="submit" name="envia" value="Cadastrar">
+                    <input id="frmCadAtributoBtnCancel" class="botao" type="reset" name="cancelar" value="Cancelar" onclick="hide_CadastraAtributo();">
+                    -->
                 </td>
             </tr>
         </table>
     </form>
 </div>
+
+
+
+<!--Janela para cadastro de TIPOS -->
+<div id="divfrmCadTipo" title="Cadastro de Tipos" >
+    <form id="frmCadTipo">
+        <table width="500">
+            <tr>
+                <td align="right">
+                    <font class="texto">Nome do Tipo:</font>
+                </td>
+                <td align="center">
+                    <input id="frmCadTipoTxtNome" class="edit" type="text" size="35">
+                </td>
+            </tr>
+            <tr>
+                <td align="right"  valign="top">
+                    <font class="texto">Expressão Regular:</font>
+                </td>
+                <td align="center">
+                    <textarea id="frmCadTipoTxtExpReg" class="edit" cols="35" ></textarea>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2" align="center">
+                    <!--<input id="frmCadTipoBtnEnvia" class="botao" type="button" name="envia" value="Cadastrar">
+                    <input id="frmCadTipoBtnCancel" class="botao" type="reset" name="cancelar" value="Cancelar" onclick="hide_CadastraTipo();">
+                    -->
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>
+
+<!--Janela para Seleção de Estruturas
+<div id="divfrmPesqEstrutura" title="Selecionar Estruturas" >
+    <form id="frmPesqEstrutura">
+        <table width="500">
+            <tr>
+                <td align="right">
+                    <font class="texto">Pesquisa por nome:</font>
+                </td>
+                <td align="center">
+                    <input id="frmPesqEstruturaTxtNome" class="edit" type="text" size="35">
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2" align="center">
+                 <select size="10">
+                     <option>teste</option>
+
+                 </select>
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>
+-->
+<div id="alertInsAtrib" title="Erro ao inserir atributo">
+    <p style="color:red" align="center"><font size="5"><b>Erro:</b></font></p>
+    <p style="color:black">Antes de inserir atributos &eacute; necess&aacute;rio selecionar um tipo de estrutura.</p>
+</div>
+<div id="alertPadrao" title="Informação"></div>
+
 <%@include file="rodape.jsp"%>
