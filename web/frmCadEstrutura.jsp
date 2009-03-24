@@ -225,6 +225,17 @@ $("#divbckCadAtributo").css(
 
     $(document).ready(function(){
 
+
+        $(document).find("body").append("<div id='janelinha'></div>");
+        $("#janelinha").load("frmPesqEstruturas.html",null,function(data,txtstatus,XML){
+            $("#janelinha").dialog({title: "Busca de estrutura", width:310});
+        });
+        //alert(data);
+
+
+
+
+
         $("#alertInsAtrib").dialog({autoOpen: false});
         $("#linkAbreCadastroAtributo").click(function(){show_CadastraAtributo()});
 
@@ -253,6 +264,9 @@ $("#divbckCadAtributo").css(
                     }else if($("#frmCadAtributoSelTipo").val()=="" || $("#frmCadAtributoSelTipo").val()=="-1"){
                         informa("Tipo de atributo não selecionado", "Erro");
                     }else{
+                        var nome=$("#frmCadAtributoTxtNome").val();
+                        var desc=$("#frmCadAtributoTxtDesc").val();
+                        var cod_atrib;
 
                         $.post("CadAtributoServlet",{
                             nome:   $("#frmCadAtributoTxtNome").val(),
@@ -261,11 +275,11 @@ $("#divbckCadAtributo").css(
                             relac: relacionavel
                         } , function(dados, msgstatus){
                             if(msgstatus=="success"){
-                                getAtributos();
-                                informa(dados, "Cadastro");
+                                cod_atrib=$(dados).find("codAtrib").text();
+                                funcIncluiAtributoDisponivel(nome, desc, cod_atrib);
+                                informa($(dados).find("mensagem").text() , "Cadastro");
                                 $("#divfrmCadAtributo").dialog("close");
                             }
-
                         });
                     }
                 }
@@ -314,8 +328,6 @@ $("#divbckCadAtributo").css(
         });
 
         $("#frmCadEstruturaEnvia").click(function(){
-
-
             $.post("CadEstruturaServlet", {
                 nm_estrutura: $("#frmCadEstrNome").val(),
                 ds_estrutura: $("#frmCadEstruturaDescricao").val(),
@@ -348,7 +360,7 @@ $("#divbckCadAtributo").css(
         //Atribui funcao ajax ao objeto frmCadEstrTipo
         $("#frmCadEstrTipo").change(function(){
             if( $("#frmCadEstrTipo").val() > -1){
-                getAtributos();
+                getAtributosDeEstrutura();
             }else{
                 $("#tabAtributos").html("");
             }
@@ -386,7 +398,7 @@ $("#divbckCadAtributo").css(
         //Fim de document.ready
     });
 
-    function getAtributos(){
+    function getAtributosDeEstrutura(){
 
         //Mostra todos atributos
         mostra(null);
@@ -470,10 +482,6 @@ $("#divbckCadAtributo").css(
 
     }
 
-    function func_desceAtrib(idAtributo){
-        // $("#atributo_"+idAtributo);
-    }
-
     function func_incluiAtributo(){
         if($("#frmCadEstrTipo").val()<=0){
             $(document).scrollTop(0);
@@ -543,6 +551,11 @@ $("#divbckCadAtributo").css(
 
 
     }
+
+    function funcIncluiAtributoDisponivel(Nome, Descricao, ID){
+        $("#frmCadEstrutCmbSelAtributo:selected").removeAttr("selected");
+        $("#frmCadEstrutCmbSelAtributo").append("<option selected value='"+ID+"' title='"+Descricao+"'>"+Nome+"</option>");
+    }
 </script>
 
 <table border="0" cellpadding="0" cellspacing="0" width="100%" align="right" class="formulario">
@@ -586,7 +599,7 @@ $("#divbckCadAtributo").css(
                                     <option value="PA">Pattern</option>
                                     <option value="AP">Anti-Pattern</option>
                                     <option value="PE">Persona</option>
-                                    <option value="-2" style="background: #EEEEEE" onclick="alert('Aqui abre janela para procurar por estruturas existentes')" >Importar de Estrutura Existente...</option>
+                                    <option value="-2" style="background: #EEEEEE" >Importar de Estrutura Existente...</option>
                                 </select>
                             </div>
                             <img id="frmCadEstrDivLoadingEst"  src="/sigepapp/images/aguardep.gif" style="vertical-align:middle;">
