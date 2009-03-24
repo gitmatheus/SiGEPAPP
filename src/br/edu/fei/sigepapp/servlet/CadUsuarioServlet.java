@@ -13,7 +13,6 @@ import br.edu.fei.sigepapp.bancodedados.model.Login;
 import br.edu.fei.sigepapp.bancodedados.model.Telefone;
 import br.edu.fei.sigepapp.bancodedados.model.Usuario;
 import br.edu.fei.sigepapp.log.GravarLog;
-import com.sun.net.ssl.internal.ssl.Debug;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Date;
@@ -38,6 +37,8 @@ public class CadUsuarioServlet extends HttpServlet {
         PrintWriter writer = response.getWriter();
 
         boolean inserido = false;
+        boolean erro = false;
+        boolean cadastrado = false;
 
         Usuario usuario = new Usuario();
         Endereco endereco = new Endereco();
@@ -93,47 +94,74 @@ public class CadUsuarioServlet extends HttpServlet {
 
         try {
             UsuarioDAO usuarioDao = new UsuarioDAO();
-            if (usuarioDao.insere(usuario)) {
-                usuarioDao.fechaConexao();
-                CodigoPostalDAO cpDao = new CodigoPostalDAO();
-                if (cpDao.insere(codigoPostal)) {
-                    cpDao.fechaConexao();
-                    EnderecoDAO endDao = new EnderecoDAO();
-                    if (endDao.insere(endereco)) {
-                        endDao.fechaConexao();
-                        EmailDAO emailDao = new EmailDAO();
-                        if (emailDao.insere(email)) {
-                            emailDao.fechaConexao();
-                            TelefoneDAO telDao = new TelefoneDAO();
-                            if (telDao.insere(telefone)) {
-                                telDao.fechaConexao();
-                                LoginDAO loginDao = new LoginDAO();
-                                if (loginDao.insere(login)) {
-                                    loginDao.fechaConexao();
-                                    inserido = true;
-                                } else {
-                                    loginDao.fechaConexao();
-                                    inserido = false;
-                                }
-                            } else {
-                                telDao.fechaConexao();
-                                inserido = false;
-                            }
-                        } else {
-                            emailDao.fechaConexao();
-                            inserido = false;
-                        }
-                    } else {
-                        endDao.fechaConexao();
-                        inserido = false;
-                    }
-                } else {
-                    cpDao.fechaConexao();
-                    inserido = false;
+            CodigoPostalDAO cpDao = new CodigoPostalDAO();
+            EnderecoDAO endDao    = new EnderecoDAO();
+            EmailDAO emailDao     = new EmailDAO();
+            TelefoneDAO telDao    = new TelefoneDAO();
+            LoginDAO loginDao     = new LoginDAO();
+
+
+            int c = cpDao.insere(codigoPostal);
+            if (c == 3) {
+                GravarLog.gravaErro(CadUsuarioServlet.class.getName() + ": erro no cadastro do Código Postal");
+                erro = true;
+                cpDao.fechaConexao();
+            }else{
+                erro = false;
+                cpDao.fechaConexao();
+            }
+            
+            if (!erro){
+                c = usuarioDao.insere(usuario);
+                if (c == 1){
+                    erro = false;
+                    usuarioDao.fechaConexao();
+                }else if (c == 2){
+                    cadastrado = true;
+                    usuarioDao.fechaConexao();
+                }else{
+                    erro = true;
+                    usuarioDao.fechaConexao();
                 }
-            } else {
-                usuarioDao.fechaConexao();
-                inserido = false;
+            }
+
+            if (!erro && !cadastrado){
+               c = endDao.insere(endereco);
+               if(c == 1){
+                   erro = false;
+                   endDao.fechaConexao();
+                   c = emailDao.insere(email);
+                   if(c == 1){
+                       erro = false;
+                       emailDao.fechaConexao();
+                       c = telDao.insere(telefone);
+                       if (c == 1){
+                           erro = false;
+                           telDao.fechaConexao();
+                           c = loginDao.insere(login);
+                           if (c == 1){
+                               erro = false;
+                               loginDao.fechaConexao();
+                           }else{
+                               erro = true;
+                               loginDao.fechaConexao();
+                           }
+                       }else{
+                           erro = false;
+                           telDao.fechaConexao();
+                       }
+                   }else{
+                       erro = true;
+                       emailDao.fechaConexao();
+                   }
+               }else{
+                   erro = true;
+                   endDao.fechaConexao();
+               }
+            }
+
+            if (erro){
+                rollback();
             }
 
         } catch (Exception e) {
@@ -149,5 +177,9 @@ public class CadUsuarioServlet extends HttpServlet {
         writer.flush();
         writer.close();
 
+    }
+
+    public void rollback(){
+        
     }
 }

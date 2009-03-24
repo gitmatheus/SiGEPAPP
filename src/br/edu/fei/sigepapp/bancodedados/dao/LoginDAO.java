@@ -58,9 +58,9 @@ public class LoginDAO {
      * Metodo que adiciona um registro do Objeto Login no banco de dados
      *
      * @param login
-     * @return true para registro inserido com suscesso e false para erro na inserção do registro no banco de dados
+     * @return 1 - Cadastrado / 2 - Já existente / 3 - Erro
      */
-    public boolean insere(Login login) {
+    public int insere(Login login) {
         try {
             //Instancia um objeto da classe PreparedStatement com o comando para inserção do registro no banco
             CallableStatement cstmt = this.conn.prepareCall("begin APPP_INS_TB_LOGIN( ?, ?, ?, ?); end;");
@@ -81,11 +81,15 @@ public class LoginDAO {
             if (cResult == 1) {
                 GravarLog.gravaInformacao(LoginDAO.class.getName() + ": inserção no banco de dados realizada com sucesso");
                 cstmt.close();
-                return true;
-            } else {
+                return 1;
+            } else if(cResult == -1){
+                GravarLog.gravaInformacao(LoginDAO.class.getName() + ": Login já cadastrado");
+                cstmt.close();
+                return 2;
+            }else{
                 GravarLog.gravaAlerta(LoginDAO.class.getName() + ": " + cResult + ": erro ao cadastrar novo usuário.");
                 cstmt.close();
-                return false;
+                return 3;
             }
         } catch (SQLException e) {
 
@@ -93,7 +97,7 @@ public class LoginDAO {
             GravarLog.gravaErro(LoginDAO.class.getName() + ": erro na inserção referente a uma exceção de SQL: " + e.getMessage());
 
             //Retorno da função como false em caso de erro
-            return false;
+            return 3;
         }
 
     }

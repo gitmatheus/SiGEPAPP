@@ -45,7 +45,7 @@ public class EmailDAO {
         this.conn = ConnectionFactory.getConnection();
     }
 
-    public boolean insere(Email email) {
+    public int insere(Email email) {
         try {
             //Instancia um objeto da classe PreparedStatement com o comando para inserção do registro no banco
             CallableStatement cstmt = this.conn.prepareCall("begin APPP_INS_USER_EMAIL(?,?,?,?); end;");
@@ -64,11 +64,15 @@ public class EmailDAO {
             if (cResult == 1) {
                 GravarLog.gravaInformacao(EmailDAO.class.getName() + ": inserção no banco de dados realizada com sucesso");
                 cstmt.close();
-                return true;
-            } else {
+                return 1;
+            } else if(cResult == -1){
+                GravarLog.gravaInformacao(EmailDAO.class.getName() + ": Email já cadastrado");
+                cstmt.close();
+                return 2;
+            }else{
                 GravarLog.gravaAlerta(EmailDAO.class.getName() + ": " + cResult + ": erro ao cadastrar novo usuário.");
                 cstmt.close();
-                return false;
+                return 3;
             }
 
         } catch (SQLException e) {
@@ -77,7 +81,7 @@ public class EmailDAO {
             GravarLog.gravaErro(EmailDAO.class.getName() + ": erro na inserção referente a uma exceção de SQL: " + e.getMessage() + " : " + e.getLocalizedMessage() + " : " + e.getSQLState());
 
             //Retorno da função como false em caso de erro
-            return false;
+            return 3;
         }
     }
 

@@ -48,7 +48,12 @@ public class UsuarioDAO {
         this.conn = ConnectionFactory.getConnection();
     }
 
-    public boolean insere(Usuario usuario) {
+    /**
+     * Metodo de inserção de usuario no banco de dados
+     * @param usuario
+     * @return 1 - Cadastrado / 2 - Existente no BD / 3 - Erro
+     */
+    public int insere(Usuario usuario) {
         try {
             //Instancia um objeto da classe PreparedStatement com o comando para inserção do registro no banco
             CallableStatement cstmt = this.conn.prepareCall("begin APPP_INS_USER(?, ?, ?, ?, ?, ?, ?, ?, ?); end;");
@@ -73,11 +78,15 @@ public class UsuarioDAO {
             if (cResult == 1) {
                 GravarLog.gravaInformacao(UsuarioDAO.class.getName() + ": inserção no banco de dados realizada com sucesso");
                 cstmt.close();
-                return true;
+                return 1;
+            }else if(cResult == -1){
+                GravarLog.gravaInformacao(UsuarioDAO.class.getName() + ": Usuário já cadastrado");
+                cstmt.close();
+                return 2;
             }else{
                 GravarLog.gravaInformacao(UsuarioDAO.class.getName() + ": " + cResult + ": erro ao cadastrar novo usuário.");
                 cstmt.close();
-                return false;
+                return 3;
             }
             
         } catch (SQLException e) {
@@ -86,10 +95,33 @@ public class UsuarioDAO {
             GravarLog.gravaErro(UsuarioDAO.class.getName() + ": erro na inserção referente a uma exceção de SQL: " + e.getMessage());
 
             //Retorno da função como false em caso de erro
-            return false;
+            return 3;
         }
     }
 
+    public boolean deleta(Usuario usuario){
+        try{
+            CallableStatement cstmt = this.conn.prepareCall("begin APPP_DEL_USER(?,?,?,?,?,?,?,?,?,?,?,?,?); end;");
+
+            cstmt.setLong(1, usuario.getCd_user());
+            cstmt.setString(2, usuario.getNm_prim_nome());
+            cstmt.setString(3, usuario.getNm_ult_nome());
+            cstmt.setDate(4, usuario.getDt_nasc());
+            cstmt.setDouble(5, usuario.getNr_nota());
+            cstmt.setString(6, usuario.getDs_area_interesse());
+            cstmt.setString(7, usuario.getNm_msn());
+            cstmt.setString(8, usuario.getNm_skype());
+            cstmt.registerOutParameter(9, OracleTypes.NUMBER);
+
+            cstmt.execute();
+
+            int cResult = (int) cstmt.getLong(13);
+
+            return true;
+        }catch(SQLException e){
+            return false;
+        }
+    }
    
     /**
      * Metodo para fechar o banco de dados da classe

@@ -21,7 +21,7 @@ public class EnderecoDAO {
         this.conn = ConnectionFactory.getConnection();
     }
 
-    public boolean insere(Endereco endereco) {
+    public int insere(Endereco endereco) {
         try {
             CallableStatement cstmt = this.conn.prepareCall("begin APPP_INS_USER_ENDERECO(?,?,?,?,?,?); end;");
 
@@ -39,18 +39,22 @@ public class EnderecoDAO {
             if (cResult == 1) {
                 GravarLog.gravaInformacao(EnderecoDAO.class.getName() + ": inserção no banco de dados realizada com sucesso");
                 cstmt.close();
-                return true;
-            } else {
+                return 1;
+            } else if(cResult == -1){
+                GravarLog.gravaInformacao(EnderecoDAO.class.getName() + ": Endereço já cadastrado.");
+                cstmt.close();
+                return 2;
+            }else{
                 GravarLog.gravaAlerta(EnderecoDAO.class.getName() + ": " + cResult + ": erro ao cadastrar novo usuário.");
                 cstmt.close();
-                return false;
+                return 3;
             }
         } catch (SQLException e) {
              //Grava log com o erro que ocorreu durante a execução do comando SQL
             GravarLog.gravaErro(EnderecoDAO.class.getName() + ": erro na inserção referente a uma exceção de SQL: " + e.getMessage());
 
             //Retorno da função como false em caso de erro
-            return false;
+            return 3;
         }
     }
 

@@ -51,7 +51,7 @@ public class TelefoneDAO {
      *
      * @see DAO#adiciona(Object) adiciona
      */
-    public boolean insere(Telefone telefone) {
+    public int insere(Telefone telefone) {
         try {
             //Instancia um objeto da classe PreparedStatement com o comando para inserção do registro no banco
             CallableStatement cstmt = this.conn.prepareCall("begin APPP_INS_USER_TELEFONE(?,?,?,?,?,?); end;");
@@ -73,11 +73,15 @@ public class TelefoneDAO {
             if (cResult == 1) {
                 GravarLog.gravaInformacao(TelefoneDAO.class.getName() + ": inserção no banco de dados realizada com sucesso");
                 cstmt.close();
-                return true;
+                return 1;
+            }else if(cResult == -1){
+                GravarLog.gravaInformacao(TelefoneDAO.class.getName() + ": Telefone já cadastrado.");
+                cstmt.close();
+                return 2;
             }else{
                 GravarLog.gravaInformacao(TelefoneDAO.class.getName() + ": " + cResult + ": erro ao cadastrar novo usuário.");
                 cstmt.close();
-                return false;
+                return 3;
             }
         } catch (SQLException e) {
 
@@ -85,7 +89,7 @@ public class TelefoneDAO {
             GravarLog.gravaErro(TelefoneDAO.class.getName() + ": erro na inserção referente a uma exceção de SQL: " + e.getMessage());
 
             //Retorno da função como false em caso de erro
-            return false;
+            return 3;
         }
     }
 

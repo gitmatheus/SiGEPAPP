@@ -25,7 +25,7 @@ public class CodigoPostalDAO {
         }
     }
 
-    public boolean insere(CodigoPostal codigoPostal) {
+    public int insere(CodigoPostal codigoPostal) {
         try {
             CallableStatement cstmt = this.conn.prepareCall("begin APPP_INS_CODIGO_POSTAL(?,?,?,?); end;");
             cstmt.setLong(1, codigoPostal.getCd_cep());
@@ -39,15 +39,19 @@ public class CodigoPostalDAO {
             if (cResult == 1) {
                 GravarLog.gravaInformacao(CodigoPostalDAO.class.getName() + ": inserção no banco de dados realizada com sucesso");
                 cstmt.close();
-                return true;
-            } else {
+                return 1;
+            } else if (cResult == -1){
+                GravarLog.gravaInformacao(CodigoPostalDAO.class.getName() + ": Código Postal já existe.");
+                cstmt.close();
+                return 2;
+            }else{
                 GravarLog.gravaAlerta(CodigoPostalDAO.class.getName() + ": " + cResult + ": erro ao cadastrar novo usuário.");
                 cstmt.close();
-                return false;
+                return 3;
             }
         } catch (SQLException e) {
             GravarLog.gravaErro(CodigoPostalDAO.class.getName() + ": erro na inserção referente a uma exceção de SQL: " + e.getMessage());
-            return false;
+            return 3;
         }
     }
 
