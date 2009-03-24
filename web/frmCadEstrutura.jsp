@@ -418,7 +418,7 @@ $("#divbckCadAtributo").css(
                 }, 100);
 
             }else{
-                alert('Falhei!');
+                alert('Erro ao carregar...!');
             }
         });
 
