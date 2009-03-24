@@ -35,6 +35,7 @@ import java.util.Vector;
 //~-- Sigepapp import ---------------------------------------------------------
 import br.edu.fei.sigepapp.bancodedados.ConnectionFactory;
 import br.edu.fei.sigepapp.bancodedados.model.Atributo;
+import br.edu.fei.sigepapp.bancodedados.model.AtributoCompleto;
 import br.edu.fei.sigepapp.log.GravarLog;
 import java.sql.CallableStatement;
 import oracle.jdbc.OracleTypes;
@@ -110,7 +111,67 @@ public class AtributoDAO {
         //retorna a lista de atributos.
         return atributos;
     }
+public List<AtributoCompleto> PreencheListAtribCompleta(ResultSet rs) throws SQLException {
+        // Cria um array do tipo atributo
+        List<AtributoCompleto> atributos = new ArrayList<AtributoCompleto>();
 
+        //Cria e preenche uma lista contendo os nomes das colunas da tabela
+        Vector<String> camposDaTabela = new Vector<String>();
+
+
+        camposDaTabela.add("CD_ATRIBUTO_OBJ");
+        camposDaTabela.add("CD_TIPO");
+        camposDaTabela.add("DS_ATRIBUTO_OBJ");
+        camposDaTabela.add("EXP_REG");
+        camposDaTabela.add("FL_EXP_REG");
+        camposDaTabela.add("NM_ATRIBUTO_OBJ");
+        camposDaTabela.add("NM_TIPO");
+        camposDaTabela.add("T_TYPE");
+
+        while (rs.next()) {
+            // Cria um objeto do tipo Atributo
+            AtributoCompleto atributoNovo = new AtributoCompleto();
+
+            //Para cada coluna
+            for (int i = 1; i <= rs.getMetaData().getColumnCount(); i++) {
+                //Atribui o nome da coluna atual a variavel nomeColuna
+                String nomeColuna = rs.getMetaData().getColumnName(i);
+                //retorna o indice que esta coluna se encontra na lista
+                int selecao = camposDaTabela.indexOf(nomeColuna);
+                //seleciona cada caso de acordo com o indice e atribui ao objeto
+                switch (selecao) {
+                    case 0:
+                        atributoNovo.setCd_atributo_obj(rs.getLong(i));
+                        break;
+                    case 1:
+                        atributoNovo.setCd_tipo(rs.getLong(i));
+                        break;
+                    case 2:
+                        atributoNovo.setDs_atributo_obj(rs.getString(i));
+                        break;
+                    case 3:
+                        atributoNovo.setExp_reg(rs.getString(i));
+                        break;
+                    case 4:
+                        atributoNovo.setFl_exp_reg(rs.getString(i));
+                        break;
+                    case 5:
+                        atributoNovo.setNm_atributo_obj(rs.getString(i));
+                        break;
+                    case 6:
+                        atributoNovo.setNm_tipo(rs.getString(i));
+                        break;
+                    case 7:
+                        atributoNovo.setT_type(rs.getString(i));
+                        break;    
+                }
+            }
+            //Adiciona o objeto a lista.
+            atributos.add(atributoNovo);
+        }
+        //retorna a lista de atributos.
+        return atributos;
+    }
     public List<Atributo> APPP_SEL_ATRIBUTO_OBJ(Atributo atribPesquisa) {
         CallableStatement cstmt = null;
         ResultSet rs = null;
@@ -287,7 +348,7 @@ public class AtributoDAO {
         }
     }
 
-    public List<Atributo> APPP_PES_ATRIB_POR_ESTRUT(long Cd_Estrutura) {
+    public List<AtributoCompleto> APPP_PES_ATRIB_POR_ESTRUT(long Cd_Estrutura) {
         CallableStatement cstmt = null;
         ResultSet rs = null;
 
@@ -304,9 +365,8 @@ public class AtributoDAO {
             rs = (ResultSet) cstmt.getObject(2);
 
             //Cria um array do tipo Atributo
-            List<Atributo> atributos = PreencheList(rs);
-
-
+          
+            List<AtributoCompleto> atributoCompleto = PreencheListAtribCompleta(rs);
             //fecha a instancia dos objetos
             rs.close();
             cstmt.close();
@@ -315,7 +375,7 @@ public class AtributoDAO {
             GravarLog.gravaInformacao(Atributo.class.getName() + ": pesquisa no banco de dados realizada com sucesso");
 
             //retorna uma lista com os usuarios selecionados
-            return atributos;
+            return atributoCompleto;
 
         } catch (SQLException e) {
 

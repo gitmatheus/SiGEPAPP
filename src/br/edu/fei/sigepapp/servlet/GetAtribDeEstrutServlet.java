@@ -1,13 +1,25 @@
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+ * @(#)GetAtribDeEstrutServlet.java 0.01 21/02/09
+ *
+ * Este código é parte integrante do projeto de formatura,
+ * do curso de ciências da computação, do Centro Universitário da FEI
+ * Orientado pelo Prof Plinio T. Aquino Jr.
+ *
+ * Copyright (c) 2009 Equipe SiGePAPP
+ * |------------------------------------------------------------------|
+ * |                   Modificações no Código                         |
+ * |------------------------------------------------------------------|
+ * |   Autor     |   Data      |   Descrição                          |
+ * |------------------------------------------------------------------|
+ * | Guilherme   | 21/02/09    | Criação e elaboração inicial         |
+ * | Matheus     | 24/03/09    | Alteração do Servlet                 |
+ * |------------------------------------------------------------------|
  */
+
 package br.edu.fei.sigepapp.servlet;
 
-import br.edu.fei.sigepapp.bancodedados.dao.Atrib_EstruturaDAO;
 import br.edu.fei.sigepapp.bancodedados.dao.AtributoDAO;
-import br.edu.fei.sigepapp.bancodedados.model.Atrib_Estrutura;
-import br.edu.fei.sigepapp.bancodedados.model.Atributo;
+import br.edu.fei.sigepapp.bancodedados.model.AtributoCompleto;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -19,10 +31,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/**
- *
- * @author lopespt
- */
 public class GetAtribDeEstrutServlet extends HttpServlet {
 
     /** 
@@ -38,15 +46,25 @@ public class GetAtribDeEstrutServlet extends HttpServlet {
         PrintWriter out = response.getWriter();
         try {
             AtributoDAO atributoDAO = new AtributoDAO();
-            List<Atributo> rsAtributos;
+            List<AtributoCompleto> rsAtributos;
 
             out.println("<xml>");
 
             rsAtributos = atributoDAO.APPP_PES_ATRIB_POR_ESTRUT(Long.parseLong(request.getParameter("codestr")));
             atributoDAO.fechaConexao();
+              
 
-            for (Atributo atributo : rsAtributos) {
-                out.println("<atributo><nome>" + atributo.getNm_atributo_obj().trim() + "</nome><id>" + atributo.getCd_atributo_obj() + "</id></atributo>");
+            for (AtributoCompleto atributo : rsAtributos) {
+                out.println("<atributo>");
+                out.println("<nome>" + atributo.getNm_atributo_obj().trim() + "</nome>");
+                out.println("<id>" + atributo.getCd_atributo_obj() + "</id>");
+                out.println("<descricao>" + atributo.getDs_atributo_obj() + "</descricao>");
+                out.println("<idtipo>" + atributo.getCd_tipo() + "</idtipo>");
+                out.println("<nmtipo>" + atributo.getNm_tipo() + "</nmtipo>");
+                out.println("<oracletype>" + atributo.getT_type().trim() + "</oracletype>");
+                out.println("<flagexpreg>" + atributo.getFl_exp_reg().trim() + "</flagexpreg>");
+                out.println("<expreg>" + atributo.getFl_exp_reg() + "</expreg>");
+                out.println("</atributo>");
             }
 
             out.println("</xml>");

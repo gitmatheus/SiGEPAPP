@@ -33,7 +33,7 @@ public class Atributo {
 
 
 
-    public Atributo() {
+    public   Atributo() {
     setCd_atributo_obj(0);
         setNm_atributo_obj(null);
         setDs_atributo_obj(null);

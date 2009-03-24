@@ -172,18 +172,19 @@ public class Estrutura_ObjDAO {
             //Instancia um objeto da classe PreparedStatement com o comando para pesquisar registros no banco
             //PreparedStatement stmt = this.conn.prepareStatement(query);
 
-            cstmt = conn.prepareCall("begin  APPP_SEL_ESTRUT_OBJ(?, ?, ?, ?, ?, ?, ?); end;");
+            cstmt = conn.prepareCall("begin  APPP_SEL_ESTRUT_OBJ(?, ?, ?, ?, ?, ?, ?, ?); end;");
 
             cstmt.setNull(1, OracleTypes.NUMBER);
             cstmt.setNull(2, OracleTypes.VARCHAR);
-            cstmt.setNull(3, OracleTypes.DATE);
+            cstmt.setNull(3, OracleTypes.VARCHAR);
             cstmt.setNull(4, OracleTypes.DATE);
-            cstmt.setNull(5, OracleTypes.NUMBER);
-            cstmt.setString(6, estrutPesquisa.getTp_estrutura());
+            cstmt.setNull(5, OracleTypes.DATE);
+            cstmt.setNull(6, OracleTypes.NUMBER);
+            cstmt.setString(7, estrutPesquisa.getTp_estrutura());
 
-            cstmt.registerOutParameter(7, OracleTypes.CURSOR);
+            cstmt.registerOutParameter(8, OracleTypes.CURSOR);
             cstmt.execute();
-            rs = (ResultSet) cstmt.getObject(7);
+            rs = (ResultSet) cstmt.getObject(8);
 
             //Cria um array do tipo Estrutura
             List<Estrutura> Estruturas = PreencheList(rs);
