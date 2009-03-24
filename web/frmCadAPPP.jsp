@@ -43,17 +43,96 @@
 
         $("#frmCadAPPPEstruturaPA").change(function(){
           
-          getAtributos();
+          getAtributosPA();
+        });
+        $("#frmCadAPPPEstruturaAP").change(function(){
+          
+          getAtributosAP();
+        });
+        $("#frmCadAPPPEstruturaPE").change(function(){
+          
+          getAtributosPE();
         });
         // Tabs
 
 
         
     });
-    function getAtributos(){
+    function getAtributosPA(){
 
 
             var cod_Estrutura=$("#frmCadAPPPEstruturaPA").val();
+
+            $.post("GetAtribDeEstrutServlet", {codestr: cod_Estrutura}, function(xml,status){
+                
+                if(status=="success"){
+                    //Retorno para estrutura minima
+                    $("atributo",xml).each(function(index, item){
+                        if( $(item).find("oracletype").text().toUpperCase() == "VARCHAR2"){
+                          $("#tabAtributosPA").append("<tr><td>" + $(item).find("nome").text() + "</td>" +
+                          "<input type='texfield' name='" + $(item).find("nome").text() + "' size='70'>" +
+                          "</td></tr>");
+                        }
+
+                        if( $(item).find("oracletype").text().toUpperCase() == "DATE"){
+                          $("#tabAtributosPA").append("<tr><td>" + $(item).find("nome").text() + "</td>" +
+                          "<input type='texfield' name='" + $(item).find("nome").text() + "' size='35'>" +
+                          "</td></tr>");
+                        }
+                        if( $(item).find("oracletype").text().toUpperCase() == "NUMBER"){
+                          $("#tabAtributosPA").append("<tr><td>" + $(item).find("nome").text() + "</td>" +
+                          "<input type='texfield' name='" + $(item).find("nome").text() + "'size='50'>" +
+                          "</td></tr>");
+                        }
+
+                       });           
+
+
+                }else{
+                    alert('Erro ao carregar...!');
+                }
+            });
+
+            //fim de frmCadEstrTipo.change
+        }
+        function getAtributosAP(){
+            var cod_Estrutura=$("#frmCadAPPPEstruturaAP").val();
+
+            $.post("GetAtribDeEstrutServlet", {codestr: cod_Estrutura}, function(xml,status){
+                
+                if(status=="success"){
+                    //Retorno para estrutura minima
+                    $("atributo",xml).each(function(index, item){
+                        if( $(item).find("oracletype").text().toUpperCase() == "VARCHAR2"){
+                          $("#tabAtributosAP").append("<tr><td>" + $(item).find("nome").text() + "</td>" +
+                          "<input type='texfield' name='" + $(item).find("nome").text() + "' size='70'>" +
+                          "</td></tr>");
+                        }
+
+                        if( $(item).find("oracletype").text().toUpperCase() == "DATE"){
+                          $("#tabAtributosAP").append("<tr><td>" + $(item).find("nome").text() + "</td>" +
+                          "<input type='texfield' name='" + $(item).find("nome").text() + "' size='35'>" +
+                          "</td></tr>");
+                        }
+                        if( $(item).find("oracletype").text().toUpperCase() == "NUMBER"){
+                          $("#tabAtributosAP").append("<tr><td>" + $(item).find("nome").text() + "</td>" +
+                          "<input type='texfield' name='" + $(item).find("nome").text() + "'size='50'>" +
+                          "</td></tr>");
+                        }
+
+                       });
+                       
+                }else{
+                    alert('Erro ao carregar...!');
+                }
+            });
+
+            //fim de frmCadEstrTipo.change
+        }
+        function getAtributosPE(){
+
+
+            var cod_Estrutura=$("#frmCadAPPPEstruturaPE").val();
 
             $.post("GetAtribDeEstrutServlet", {codestr: cod_Estrutura}, function(xml,status){
                 
@@ -77,12 +156,7 @@
                           "</td></tr>");
                         }
 
-                        //"<tr valign=\"middle\">\
-                        //<td colspan='2' align='center'>\
-                        //<div class='atributoMinimo' style='margin-right: 10px;border-bottom:black solid thin;'>\
-                        // "+$(item).find("nome").text()+"</div></td></tr>"
-
-                    });
+                       });
                     
 
 
@@ -147,7 +221,7 @@
                     <td></td>
                 </tr>
                 <tr>
-                    <td><form><table id="tabAtributosPE"></table></form></td>
+                    <td><form><table id="tabAtributosPA"></table></form></td>
                     <td></td>
                 </tr>
             </tbody>
@@ -194,7 +268,7 @@
 
                 </tr>
                 <tr>
-                    <td></td>
+                    <td><form><table id="tabAtributosAP"></table></form></td>
                     <td></td>
                 </tr>
             </tbody>
@@ -240,7 +314,7 @@
                     <td></td>
                 </tr>
                 <tr>
-                    <td></td>
+                    <td><form><table id="tabAtributosPE"></table></form></td>
                     <td></td>
                 </tr>
             </tbody>
