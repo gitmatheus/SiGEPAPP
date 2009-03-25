@@ -6,19 +6,16 @@
 * History           : 04/03/2009 - Matheus Gonçalves
 *******************************************************************************/
 create or replace procedure APPP_INS_RESPOSTA(pCD_RESPOSTA OUT NUMBER  ,
-                                              pDS_RESPOSTA IN VARCHAR2,
-                                              pNR_PESO_RESPOSTA NUMBER ,
+                                              pDS_RESPOSTA IN VARCHAR2,                                              
                                               vResult     out number) is
 vERRO        VARCHAR2(600);
 begin
     
    insert into APPP_TB_RESPOSTA(CD_RESPOSTA     ,
-                                DS_RESPOSTA     ,
-                                NR_PESO_RESPOSTA
+                                DS_RESPOSTA    
                                )
                         values( pCD_RESPOSTA     ,
-                                pDS_RESPOSTA     ,
-                                pNR_PESO_RESPOSTA
+                                pDS_RESPOSTA     
                               );
   
    select APPP_SEQ_RESPOSTA.CURRVAL

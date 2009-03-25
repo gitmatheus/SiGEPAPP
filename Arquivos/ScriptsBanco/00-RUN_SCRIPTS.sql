@@ -1,6 +1,6 @@
 set termout on
 set head off
-set linesize 132  
+set linesizFe 132  
 
 spool /SiGEPAPP/Arquivos/ScriptsBanco/LogCriacaoBanco.log
 
@@ -40,17 +40,21 @@ spool /SiGEPAPP/Arquivos/ScriptsBanco/LogCriacaoBanco.log
 
 @ /SiGEPAPP/Arquivos/ScriptsBanco/APPP_TB_RELAC_ATRIB.SQL
 
-@ /SiGEPAPP/Arquivos/ScriptsBanco/APPP_TB_QUESTIONARIO.SQL
-
 @ /SiGEPAPP/Arquivos/ScriptsBanco/APPP_TB_PERGUNTA.SQL
 
 @ /SiGEPAPP/Arquivos/ScriptsBanco/APPP_TB_RESPOSTA.SQL
 
-@ /SiGEPAPP/Arquivos/ScriptsBanco/APPP_TB_PERGUNTA_QUEST.SQL
+@ /SiGEPAPP/Arquivos/ScriptsBanco/APPP_TB_ESTRUT_QUEST.sql 
 
-@ /SiGEPAPP/Arquivos/ScriptsBanco/APPP_TB_RESPOSTA_PERGUNTA.SQL
+@ /SiGEPAPP/Arquivos/ScriptsBanco/APPP_TB_RELAC_PERG_RESP.SQL 
 
-@ /SiGEPAPP/Arquivos/ScriptsBanco/APPP_TB_ATRIB_ESTRUTURA.SQL
+@ /SiGEPAPP/Arquivos/ScriptsBanco/APPP_TB_RELAC_QUEST_OBJ.sql  
+
+@ /SiGEPAPP/Arquivos/ScriptsBanco/APPP_TB_QUEST_PREENCH.sql  
+
+@ /SiGEPAPP/Arquivos/ScriptsBanco/APPP_TB_RESP_QUEST_PREENCH.sql 
+
+@ /SiGEPAPP/Arquivos/ScriptsBanco/APPP_TB_ATRIB_ESTRUTURA.SQL 
 
 SPOOL OFF
 

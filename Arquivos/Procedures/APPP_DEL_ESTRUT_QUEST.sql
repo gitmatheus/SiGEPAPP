@@ -1,28 +1,26 @@
 /**********************************************************************************************************************
-* Project Name            : SiGEPAPP
-* APPP_DEL_PERGUNTA_QUEST : Procedure para DELETAR dados de PERGUNTA_QUEST
-*                           vResult(0=NadaDeletado; 1=OK; -99=ErroGeral)
-* Author                  : WeeDo 
-* History                 : 06/03/2009 - Matheus Gonçalves
+* Project Name          : SiGEPAPP
+* APPP_DEL_ESTRUT_QUEST : Procedure para DELETAR dados de ESTRUT_QUEST
+*                         vResult(0=NadaDeletado; 1=OK; -99=ErroGeral)
+* Author                : WeeDo 
+* History               : 24/03/2009 - Matheus Gonçalves
 ***********************************************************************************************************************/
-create or replace procedure APPP_DEL_PERGUNTA_QUEST(pCD_QUEST    NUMBER,
-                                                    pCD_PERGUNTA NUMBER,
-                                                    pCD_RESPOSTA NUMBER,
-                                                    vResult     out number) is
+create or replace procedure APPP_DEL_ESTRUT_QUEST(pCD_QUEST    NUMBER,
+                                                  pCD_PERGUNTA NUMBER,                                                  
+                                                  vResult     out number) is
 vERRO        VARCHAR2(600);                                                  
 begin
     
       SELECT COUNT(*) INTO vResult
-      FROM APPP_TB_PERGUNTA_QUEST
+      FROM APPP_TB_ESTRUT_QUEST
       WHERE CD_QUEST    = pCD_QUEST
-      AND   CD_PERGUNTA = pCD_PERGUNTA
-      AND   CD_RESPOSTA = pCD_RESPOSTA;
+      AND   CD_PERGUNTA = pCD_PERGUNTA;
       
       if vResult > 0 then
-         DELETE FROM APPP_TB_PERGUNTA_QUEST
+         DELETE FROM APPP_TB_ESTRUT_QUEST
          WHERE CD_QUEST    = pCD_QUEST
-         AND   CD_PERGUNTA = pCD_PERGUNTA
-         AND   CD_RESPOSTA = pCD_RESPOSTA;         
+         AND   CD_PERGUNTA = pCD_PERGUNTA;
+                  
          commit;         
       end if;   
       
@@ -45,5 +43,5 @@ begin
              END IF;
          END;    
                
-end APPP_DEL_PERGUNTA_QUEST;
+end APPP_DEL_ESTRUT_QUEST;
 /

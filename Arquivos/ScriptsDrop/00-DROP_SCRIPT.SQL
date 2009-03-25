@@ -4,17 +4,21 @@ set linesize 132
 
 spool /SiGEPAPP/Arquivos/ScriptsDrop/LogDropBanco.log
 
-@ /SiGEPAPP/Arquivos/ScriptsDrop/DROP_APPP_TB_RESPOSTA_PERGUNTA.SQL
+@ /SiGEPAPP/Arquivos/ScriptsBanco/DROP_APPP_TB_RESP_QUEST_PREENCH.sql 
 
-@ /SiGEPAPP/Arquivos/ScriptsDrop/DROP_APPP_TB_PERGUNTA_QUEST.SQL
+@ /SiGEPAPP/Arquivos/ScriptsBanco/DROP_APPP_TB_QUEST_PREENCH.sql   
+
+@ /SiGEPAPP/Arquivos/ScriptsBanco/DROP_APPP_TB_RELAC_QUEST_OBJ.sql 
+
+@ /SiGEPAPP/Arquivos/ScriptsBanco/DROP_APPP_TB_RELAC_PERG_RESP.SQL 
+
+@ /SiGEPAPP/Arquivos/ScriptsBanco/DROP_APPP_TB_ESTRUT_QUEST.sql 
 
 @ /SiGEPAPP/Arquivos/ScriptsDrop/DROP_APPP_TB_RESPOSTA.SQL
 
 @ /SiGEPAPP/Arquivos/ScriptsDrop/DROP_APPP_TB_PERGUNTA.SQL
 
 @ /SiGEPAPP/Arquivos/ScriptsDrop/DROP_APPP_TB_ATRIB_ESTRUTURA.SQL
-
-@ /SiGEPAPP/Arquivos/ScriptsDrop/DROP_APPP_TB_QUESTIONARIO.SQL
 
 @ /SiGEPAPP/Arquivos/ScriptsDrop/DROP_APPP_TB_RELAC_ATRIB.SQL
 
@@ -52,9 +56,9 @@ spool /SiGEPAPP/Arquivos/ScriptsDrop/LogDropBanco.log
 
 @ /SiGEPAPP/Arquivos/ScriptsDrop/DROP_APPP_TB_USER.SQL
 
-@ /SiGEPAPP/Arquivos/ScriptsDrop/DROP_APPP_CREATE_USERS.sql  
-
 @ /SiGEPAPP/Arquivos/ScriptsDrop/01-DROP_CREATED_TABLES.sql                                                                                                
+
+@ /SiGEPAPP/Arquivos/ScriptsDrop/DROP_APPP_CREATE_USERS.sql 
 
 SPOOL OFF
 

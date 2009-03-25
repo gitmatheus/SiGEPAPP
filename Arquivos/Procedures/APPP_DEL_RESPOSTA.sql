@@ -7,16 +7,12 @@
 ***********************************************************************************************************************/
 create or replace procedure APPP_DEL_RESPOSTA(pCD_RESPOSTA IN NUMBER  ,
                                               pDS_RESPOSTA IN VARCHAR2 ,
-                                              pNR_PESO_RESPOSTAINI NUMBER ,
-                                              pNR_PESO_RESPOSTAFIM NUMBER ,
                                               vResult     out number) is
                                                   
   CURSOR C IS 
        SELECT CD_RESPOSTA
        FROM APPP_TB_RESPOSTA
-       WHERE (NR_PESO_RESPOSTA >= pNR_PESO_RESPOSTAINI AND pNR_PESO_RESPOSTAINI IS NOT NULL)
-       AND   (NR_PESO_RESPOSTA <= pNR_PESO_RESPOSTAFIM AND pNR_PESO_RESPOSTAFIM IS NOT NULL)
-       AND   (DS_RESPOSTA  like ('%'|| pDS_RESPOSTA || '%') OR pDS_RESPOSTA IS NULL);
+       WHERE (DS_RESPOSTA  like ('%'|| pDS_RESPOSTA || '%') OR pDS_RESPOSTA IS NULL);
  
  vCD_TEMP NUMBER(20);
  vERRO        VARCHAR2(600);    

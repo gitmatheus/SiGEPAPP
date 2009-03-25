@@ -1,24 +1,22 @@
 /*****************************************************************************************************
-* Project Name          : SiGEPAPP
-* APPP_DEL_QUESTIONARIO : Procedure para DELETAR dados de ATRIBUTOS
-*                         vResult(0=NadaDeletado; 1=OK; -99=ErroGeral)
-* Author                : WeeDo 
-* History               : 02/03/2009 - Matheus Gonçalves
+* Project Name           : SiGEPAPP
+* APPP_DEL_QUEST_PREENCH : Procedure para DELETAR dados de ATRIBUTOS
+*                          vResult(0=NadaDeletado; 1=OK; -99=ErroGeral)
+* Author                 : WeeDo 
+* History                : 24/03/2009 - Matheus Gonçalves
 ******************************************************************************************************/
-create or replace procedure APPP_DEL_QUESTIONARIO(pCD_QUEST         IN NUMBER   ,
+create or replace procedure APPP_DEL_QUEST_PREENCH(pCD_QUEST_PREENCH         IN NUMBER   ,
                                                   pDT_APLICACAOINI  IN DATE     ,
                                                   pDT_APLICACAOFIM  IN DATE     ,
                                                   pVL_AVALIACAOINI  IN NUMBER   ,
                                                   pVL_AVALIACAOFIM  IN NUMBER   ,
                                                   pDS_PROJ_APLIC    IN VARCHAR2 ,
-                                                  pCD_USER          IN NUMBER   ,
                                                   vResult           out number) is
                                                   
   CURSOR C IS 
-       SELECT CD_QUEST
-       FROM APPP_TB_QUESTIONARIO
-       WHERE (CD_USER = pCD_USER OR pCD_USER IS NULL)
-       AND   (DT_APLICACAO >= pDT_APLICACAOINI or pDT_APLICACAOINI IS NULL)
+       SELECT CD_QUEST_PREENCH
+       FROM APPP_TB_QUEST_PREENCH
+       WHERE (DT_APLICACAO >= pDT_APLICACAOINI or pDT_APLICACAOINI IS NULL)
        AND   (DT_APLICACAO <= pDT_APLICACAOFIM or pDT_APLICACAOFIM IS NULL)
        AND   (VL_AVALIACAO >= pVL_AVALIACAOINI OR pVL_AVALIACAOINI IS NULL)
        AND   (VL_AVALIACAO <= pVL_AVALIACAOFIM OR pVL_AVALIACAOFIM IS NULL)
@@ -29,17 +27,17 @@ create or replace procedure APPP_DEL_QUESTIONARIO(pCD_QUEST         IN NUMBER   
   vERRO        VARCHAR2(600);   
 begin
     
-   if pCD_QUEST is not null then
+   if pCD_QUEST_PREENCH is not null then
       --Se foi informado o código, é só fazer a exclusão dos dados se existirem.
 
       SELECT COUNT(*) INTO vResult
-      FROM APPP_TB_QUESTIONARIO 
-      WHERE CD_QUEST  = pCD_QUEST;
+      FROM APPP_TB_QUEST_PREENCH 
+      WHERE CD_QUEST_PREENCH  = pCD_QUEST_PREENCH;
       
       if vResult > 0 then
 
-          DELETE APPP_TB_QUESTIONARIO 
-          WHERE CD_QUEST  = pCD_QUEST;
+          DELETE APPP_TB_QUEST_PREENCH 
+          WHERE CD_QUEST_PREENCH  = pCD_QUEST_PREENCH;
 
          commit;
          
@@ -57,8 +55,8 @@ begin
           EXIT WHEN C%NOTFOUND;
           vResult := vResult + 1;
          
-         DELETE FROM APPP_TB_QUESTIONARIO
-         WHERE CD_QUEST  = vCD_TEMP;          
+         DELETE FROM APPP_TB_QUEST_PREENCH
+         WHERE CD_QUEST_PREENCH  = vCD_TEMP;          
          
        END LOOP; 
        CLOSE C;  
@@ -79,5 +77,5 @@ begin
         vResult := SQLCODE; -- Erro generico.
         vERRO   := SUBSTR(SQLERRM,600);
                
-end APPP_DEL_QUESTIONARIO;
+end APPP_DEL_QUEST_PREENCH;
 /
