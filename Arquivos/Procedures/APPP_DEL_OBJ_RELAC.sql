@@ -9,8 +9,10 @@
 * Author          : WeeDo 
 * History         : 04/03/2009 - Matheus Gonçalves
 ******************************************************************************************************/
-create or replace procedure APPP_DEL_OBJ_RELAC(pCD_OBJETO       IN NUMBER,
-                                               pCD_OBJETO_RELAC IN NUMBER,
+create or replace procedure APPP_DEL_OBJ_RELAC(pCD_RELAC            IN OUT NUMBER   ,
+                                               pCD_OBJ_RELACIONADO  IN number   ,
+                                               pCD_OBJ_RELACIONANDO IN number   , 
+                                               pCD_ATRIBUTO_OBJ     IN NUMBER   ,                                               
                                                vResult    out number) is
                                                   
 vERRO        VARCHAR2(600);  
@@ -18,14 +20,18 @@ begin
     
       SELECT COUNT(*) INTO vResult
       FROM APPP_TB_OBJ_RELAC
-      WHERE CD_OBJETO       = pCD_OBJETO 
-      AND   CD_OBJETO_RELAC = PCD_OBJETO_RELAC;
+      WHERE (CD_OBJ_RELACIONADO  = pCD_OBJ_RELACIONADO  OR pCD_OBJ_RELACIONADO  IS NULL)
+      AND   (CD_OBJ_RELACIONANDO = pCD_OBJ_RELACIONANDO OR pCD_OBJ_RELACIONANDO IS NULL)
+      AND   (CD_RELAC            = pCD_RELAC            OR pCD_RELAC            IS NULL)
+      AND   (CD_ATRIBUTO_OBJ     = pCD_ATRIBUTO_OBJ     OR pCD_ATRIBUTO_OBJ     IS NULL);
 
       if vResult > 0 then
 
          DELETE FROM APPP_TB_OBJ_RELAC
-         WHERE CD_OBJETO       = pCD_OBJETO 
-         AND   CD_OBJETO_RELAC = PCD_OBJETO_RELAC;
+         WHERE (CD_OBJ_RELACIONADO  = pCD_OBJ_RELACIONADO  OR pCD_OBJ_RELACIONADO  IS NULL)
+         AND   (CD_OBJ_RELACIONANDO = pCD_OBJ_RELACIONANDO OR pCD_OBJ_RELACIONANDO IS NULL)
+         AND   (CD_RELAC            = pCD_RELAC            OR pCD_RELAC            IS NULL)
+         AND   (CD_ATRIBUTO_OBJ     = pCD_ATRIBUTO_OBJ     OR pCD_ATRIBUTO_OBJ     IS NULL);
 
          commit;
          

@@ -5,18 +5,29 @@
 * Author             : WeeDo 
 * History            : 04/03/2009 - Matheus Gonçalves
 ********************************************************************************/
-create or replace procedure APPP_INS_OBJ_RELAC(pCD_OBJETO       IN NUMBER,
-                                               pCD_OBJETO_RELAC IN NUMBER, 
+create or replace procedure APPP_INS_OBJ_RELAC(pCD_RELAC            IN OUT NUMBER   ,
+                                               pCD_OBJ_RELACIONADO  IN number   ,
+                                               pCD_OBJ_RELACIONANDO IN number   , 
+                                               pCD_ATRIBUTO_OBJ     IN NUMBER   ,
+                                               pVL_RELAC            IN VARCHAR2 ,
+                                               p_cursor         OUT SYS_REFCURSOR, 
                                                vResult          out number) is
 vERRO        VARCHAR2(600);
 begin
    
-   insert into APPP_TB_OBJ_RELAC(CD_OBJETO        ,
-                                 CD_OBJETO_RELAC
+   insert into APPP_TB_OBJ_RELAC(CD_OBJ_RELACIONADO  ,
+                                 CD_OBJ_RELACIONANDO ,
+                                 CD_ATRIBUTO_OBJ     ,
+                                 VL_RELAC
                                 )
-                          values( pCD_OBJETO       ,
-                                  pCD_OBJETO_RELAC 
-                                );                             
+                          values(pCD_OBJ_RELACIONADO  ,
+                                 pCD_OBJ_RELACIONANDO ,
+                                 pCD_ATRIBUTO_OBJ     ,
+                                 pVL_RELAC
+                                );          
+                                                   
+   SELECT APPP_SEQ_OBJ_RELAC.CURRVAL INTO pCD_RELAC FROM DUAL ; 
+   
    vResult := 1;
    commit;
    

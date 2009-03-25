@@ -33,8 +33,8 @@ begin
          WHERE CD_PATTERN  = pCD_PATTERN;
          
          DELETE FROM APPP_TB_OBJ_RELAC ObR
-         WHERE ObR.CD_OBJETO       = pCD_PATTERN
-         OR    ObR.CD_OBJETO_RELAC = pCD_PATTERN;
+         WHERE ObR.Cd_Obj_Relacionado  = pCD_PATTERN
+         OR    ObR.Cd_Obj_Relacionando = pCD_PATTERN;
          
          DELETE FROM APPP_TB_OBJETO
          WHERE CD_OBJETO = pCD_PATTERN;
@@ -59,8 +59,8 @@ begin
           WHERE CD_PATTERN  = vCD_TEMP;
          
           DELETE FROM APPP_TB_OBJ_RELAC ObR
-          WHERE ObR.CD_OBJETO       = vCD_TEMP
-          OR    ObR.CD_OBJETO_RELAC = vCD_TEMP;
+          WHERE ObR.Cd_Obj_Relacionado       = vCD_TEMP
+          OR    ObR.Cd_Obj_Relacionando = vCD_TEMP;
          
           DELETE FROM APPP_TB_OBJETO
           WHERE CD_OBJETO = vCD_TEMP;          

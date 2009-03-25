@@ -36,8 +36,8 @@ begin
          WHERE AP.CD_ANTI_PATTERN  = vCD_ANTI_PATTERN;
          
          DELETE FROM APPP_TB_OBJ_RELAC ObR
-         WHERE ObR.CD_OBJETO       = vCD_ANTI_PATTERN
-         OR    ObR.CD_OBJETO_RELAC = vCD_ANTI_PATTERN;
+         WHERE ObR.Cd_Obj_Relacionado  = vCD_ANTI_PATTERN
+         OR    ObR.Cd_Obj_Relacionando = vCD_ANTI_PATTERN;
          
          DELETE FROM APPP_TB_OBJETO
          WHERE CD_OBJETO = vCD_ANTI_PATTERN;
@@ -62,8 +62,8 @@ begin
           WHERE AP.CD_ANTI_PATTERN  = vCD_TEMP;
          
           DELETE FROM APPP_TB_OBJ_RELAC ObR
-          WHERE ObR.CD_OBJETO       = vCD_TEMP
-          OR    ObR.CD_OBJETO_RELAC = vCD_TEMP;
+          WHERE ObR.Cd_Obj_Relacionado       = vCD_TEMP
+          OR    ObR.Cd_Obj_Relacionando = vCD_TEMP;
          
           DELETE FROM APPP_TB_OBJETO
           WHERE CD_OBJETO = vCD_TEMP;          
