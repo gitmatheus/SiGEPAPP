@@ -71,7 +71,7 @@
 
 
         var cod_Estrutura=$("#frmCadAPPPEstruturaPA").val();
-
+        $("#tabAtributosPA").html("");
         $.post("GetAtribDeEstrutServlet", {codestr: cod_Estrutura}, function(xml,status){
 
             if(status=="success"){
