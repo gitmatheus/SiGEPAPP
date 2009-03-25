@@ -156,4 +156,16 @@ public class Atrib_EstruturaDAO {
             GravarLog.gravaErro(AtributoDAO.class.getName() + ": erro ao finalizar connexao com o banco: " + e.getMessage());
         }
     }
+    public boolean campoDescritivo(String vCampo){
+
+        return (    (vCampo.toUpperCase().matches("DESCRIÇÃO")      )
+                 || (vCampo.toUpperCase().matches("CONTEXTO")       )
+                 || (vCampo.toUpperCase().matches("PROBLEMA")       )
+                 || (vCampo.toUpperCase().matches("SOLUÇÃO")        )
+                 || (vCampo.toUpperCase().matches("BARREIRAS")      )
+                 || (vCampo.toUpperCase().matches("SINTOMAS")       )
+                 || (vCampo.toUpperCase().matches("CONSEQUÊNCIAS")  )
+                 || (vCampo.toUpperCase().matches("RECOMENDAÇÕES")  )
+               );
+    }
 }

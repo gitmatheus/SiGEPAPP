@@ -112,4 +112,9 @@ public class GetAtribDeEstrutServlet extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
+    
+    public boolean campoDescritivo(String vCampo){
+
+        return ( (vCampo.toUpperCase() == "DESCRIÇÃO") || (vCampo.toUpperCase() == "CONTEXTO") );
+    }
 }
