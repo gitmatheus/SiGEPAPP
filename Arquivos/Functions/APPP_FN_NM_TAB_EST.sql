@@ -16,7 +16,7 @@ create or replace function APPP_FN_NM_TAB_EST(NM_ESTRUTURA IN VARCHAR2)
 begin
 
    RESULT    := 'APPP_TB_' ||
-                UPPER(TRIM(SUBSTR(TRANSLATE(NM_ESTRUTURA, ' -', '__'), 0, 18)));
+                UPPER(TRIM(SUBSTR(TRANSLATE(APPP_FN_REMOVE_ACENTO(NM_ESTRUTURA), ' -', '__'), 0, 18)));
    vCHARTEMP := RESULT;
 
    Loop
