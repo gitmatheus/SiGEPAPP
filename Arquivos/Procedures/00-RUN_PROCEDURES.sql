@@ -107,6 +107,7 @@ spool /SiGEPAPP/Arquivos/Procedures/LogProcedures.log
 @ /SiGEPAPP/Arquivos/Procedures/APPP_UPD_USER_EMAIL.sql
 @ /SiGEPAPP/Arquivos/Procedures/APPP_UPD_USER_ENDERECO.sql
 @ /SiGEPAPP/Arquivos/Procedures/APPP_UPD_USER_TELEFONE.sql
+@ /SiGEPAPP/Arquivos/Procedures/APPP_PES_PARAM_PROCEDURE.sql
 
 SPOOL OFF
 
