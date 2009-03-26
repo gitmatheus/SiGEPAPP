@@ -15,14 +15,16 @@
  * | Matheus     | 24/03/09    | Alteração do Servlet                 |
  * |------------------------------------------------------------------|
  */
-
 package br.edu.fei.sigepapp.servlet;
 
 import br.edu.fei.sigepapp.bancodedados.dao.AtributoDAO;
 import br.edu.fei.sigepapp.bancodedados.model.AtributoCompleto;
+import br.edu.fei.sigepapp.bancodedados.model.AtributoCompleto;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
+import java.util.Collection;
+import java.util.Comparator;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -30,6 +32,10 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.apache.commons.collections.ComparatorUtils;
+import org.apache.commons.collections.comparators.ComparableComparator;
+import sun.misc.Compare;
+import sun.misc.Sort;
 
 public class GetAtribDeEstrutServlet extends HttpServlet {
 
@@ -40,6 +46,19 @@ public class GetAtribDeEstrutServlet extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
+    protected void ordenaLista(List<AtributoCompleto> lista) {
+        Object[] listaArray = lista.toArray();
+        Sort.quicksort(listaArray, new Compare() {
+            public int doCompare(Object arg0, Object arg1) {
+                return ((AtributoCompleto) arg0).getNm_tipo().compareTo(((AtributoCompleto) arg1).getNm_tipo());
+            }
+        });
+        lista.clear();
+        for (Object atributoCompleto : listaArray) {
+            lista.add((AtributoCompleto)atributoCompleto);
+        }
+    }
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/xml;charset=UTF-8");
@@ -48,11 +67,12 @@ public class GetAtribDeEstrutServlet extends HttpServlet {
             AtributoDAO atributoDAO = new AtributoDAO();
             List<AtributoCompleto> rsAtributos;
 
-            out.println("<xml>");
 
+            out.println("<xml>");
             rsAtributos = atributoDAO.APPP_PES_ATRIB_POR_ESTRUT(Long.parseLong(request.getParameter("codestr")));
             atributoDAO.fechaConexao();
-              
+
+            ordenaLista(rsAtributos);
 
             for (AtributoCompleto atributo : rsAtributos) {
                 out.println("<atributo>");

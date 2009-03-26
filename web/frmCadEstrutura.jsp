@@ -104,7 +104,10 @@
 
     .ui-widget-overlay {
         background: #aaaaaa url(../images/ui-bg_flat_0_aaaaaa_40x100.png) 50% 50% repeat-x;
-        opacity: .80
+        opacity: .80;
+    }
+    .erroRG{
+        background-color:#ff3333;
     }
 
 </style>
@@ -120,83 +123,20 @@
     var htmltabelaEstrutura="";
 
     function show_CadastraAtributo(){
-        /*        $("#divbckCadAtributo").css(
-        {   opacity : 0.8,
-            width : $(document).width(),
-            height :$(document).height()
-        }).fadeIn(1000);
-        $("#divfrmCadAtributo").css({
-            position : 'absolute',
-            left: $(document).width()/2 - $("#divfrmCadAtributo").width()/2,
-            top: '50px'
-        });
-        //Limpa todas as caixas de texto
-        $("#frmCadAtributoTxtNome, #frmCadAtributoTxtDesc").val("");
-        $("#frmCadAtributoChkRel").removeAttr("checked");
-        $("#frmCadAtributoSelTipo :selected").removeAttr("selected");
-        $("#divfrmCadAtributo").show('slow',function(){
-            $("#frmCadAtributoTxtNome").focus();
-        });
-         */
         $(document).scrollTop(0);
         $("#divfrmCadAtributo").dialog('open');
-
-
-
     }
 
-    function hide_CadastraAtributo(){
-        /*
-$("#divbckCadAtributo").css(
-        {   opacity : 0.8,
-            width : $(document).width(),
-            height :$(document).height()
-        }).fadeOut(1000);
-        $("#divfrmCadAtributo").css({
-            position : 'absolute',
-            left: $(document).width()/2 - $("#divfrmCadAtributo").width()/2,
-            top: '50px'
-        }).hide('slow');
-         */
-
-
-    }
 
 
     function show_CadastraTipo(){
-        /*$("#divbckCadTipo").css(
-        {   opacity : 0.8,
-            width : $(document).width(),
-            height :$(document).height()
-        }).fadeIn(1000);
-        $("#divfrmCadTipo").css({
-            position : 'absolute',
-            left: $(document).width()/2 - $("#divfrmCadAtributo").width()/2,
-            top: '50px'
-        });
-        //Limpa todas as caixas de texto
-        $("#frmCadTipoTxtNome, #frmCadTipoTxtExpReg").val("");
-        $("#divfrmCadTipo").show('slow',function(){
-            $("#frmCadTipoTxtNome").focus();
-        });*/
         $(document).scrollTop(0);
         $("#divfrmCadTipo").dialog('open');
-
-
     }
 
-
-    function hide_CadastraTipo(){
-        /*$("#divbckCadTipo").css(
-        {   opacity : 0.8,
-            width : $(document).width(),
-            height :$(document).height()
-        }).fadeOut(1000);
-        $("#divfrmCadTipo").css({
-            position : 'absolute',
-            left: $(document).width()/2 - $("#divfrmCadTipo").width()/2,
-            top: '50px'
-        }).hide('slow');*/
+    function show_PesqEstrutura(){
+        $(document).scrollTop(0);
+        $("#divfrmPesqEstrutura").dialog('open');
     }
 
     //Na inicializacao da pagina...
@@ -223,18 +163,8 @@ $("#divbckCadAtributo").css(
         });
     }
 
+
     $(document).ready(function(){
-
-
-        $(document).find("body").append("<div id='janelinha'></div>");
-        $("#janelinha").load("frmPesqEstruturas.html",null,function(data,txtstatus,XML){
-            $("#janelinha").dialog({title: "Busca de estrutura", width:310});
-        });
-        //alert(data);
-
-
-
-
 
         $("#alertInsAtrib").dialog({autoOpen: false});
         $("#linkAbreCadastroAtributo").click(function(){show_CadastraAtributo()});
@@ -283,279 +213,344 @@ $("#divbckCadAtributo").css(
                         });
                     }
                 }
-            },
-            close: function(){
-                $("#frmCadAtributoTxtNome").val("");
-                $("#frmCadAtributoTxtDesc").val("");
-                $("#frmCadAtributoSelTipo:selected").removeAttr("selected");
-                $("#frmCadAtributoSelTipo:first").attr("selected","selected");
-                $("frmCadAtributoSelTipo").removeAttr("checked");
-            },
-            open: function(){
-                getTipos();
-            }
-        });
+        },
+    close: function(){
+        $("#frmCadAtributoTxtNome").val("");
+        $("#frmCadAtributoTxtDesc").val("");
+        $("#frmCadAtributoSelTipo:selected").removeAttr("selected");
+        $("#frmCadAtributoSelTipo:first").attr("selected","selected");
+        $("frmCadAtributoSelTipo").removeAttr("checked");
+    },
+    open: function(){
+        getTipos();
+    }
+});
 
-        $("#divfrmCadTipo").dialog({
-            width: 511,
-            modal: false,
-            autoOpen: false,
-            buttons: {
-                Cancelar: function() {
-                    $("#divfrmCadTipo").dialog('close');
-                },
-                Cadastrar: function() {
-                    if($("#frmCadTipoTxtNome").val()==""){
-                        informa("Nome não preenchido", "Erro")
-                    }else{
-                        $.post("CadTipoServlet",{
-                            nome:   $("#frmCadTipoTxtNome").val(),
-                            expreg: $("#frmCadTipoTxtExpReg").val()
-                        } , function(dados, msgstatus){
-                            if(msgstatus=="success"){
-                                getTipos();
-                                informa(dados, "Cadastro");
-                                $("#divfrmCadTipo").dialog('close');
-                            }
-                        });
-                    }
-                }
-            },
-            close: function(){
-                $("#frmCadTipoTxtNome").val("");
-                $("#frmCadTipoTxtExpReg").val("");
-            }
-        });
-
-        $("#frmCadEstruturaEnvia").click(function(){
-            $.post("CadEstruturaServlet", {
-                nm_estrutura: $("#frmCadEstrNome").val(),
-                ds_estrutura: $("#frmCadEstruturaDescricao").val(),
-                tp_estrutura: $("#frmCadEstrTipo").val()
-            }, function(data, txtStatus){
-                informa(data, "Retorno do Servlet");
-            });
-        });
-
-        $("#alertPadrao").dialog({
-            autoOpen: false,
-            modal: false,
-            buttons: {
-                Ok: function(){
-                    $(this).dialog("close");
-                }
-            }
-        });
-
-
-
-        //Esconde o formulario para cadastro de tipos
-        //$("#divbckCadAtributo, #divfrmCadAtributo").hide();
-        //$("#divbckCadTipo, #divfrmCadTipo").hide();
-
-
-
-        //Valor inicial do combo de TIPO de ESTRUTURA
-        $("#frmCadEstrTipo").val(0);
-        //Atribui funcao ajax ao objeto frmCadEstrTipo
-        $("#frmCadEstrTipo").change(function(){
-            if( $("#frmCadEstrTipo").val() > -1){
-                getAtributosDeEstrutura();
+$("#divfrmCadTipo").dialog({
+    width: 511,
+    modal: false,
+    autoOpen: false,
+    buttons: {
+        Cancelar: function() {
+            $("#divfrmCadTipo").dialog('close');
+        },
+        Cadastrar: function() {
+            if($("#frmCadTipoTxtNome").val()==""){
+                informa("Nome não preenchido", "Erro")
             }else{
-                $("#tabAtributos").html("");
+                $.post("CadTipoServlet",{
+                    nome:   $("#frmCadTipoTxtNome").val(),
+                    expreg: $("#frmCadTipoTxtExpReg").val()
+                } , function(dados, msgstatus){
+                    if(msgstatus=="success"){
+                        getTipos();
+                        informa(dados, "Cadastro");
+                        $("#divfrmCadTipo").dialog('close');
+                    }
+                });
             }
-        });
+        }
+    },
+    close: function(){
+        $("#frmCadTipoTxtNome").val("");
+        $("#frmCadTipoTxtExpReg").val("");
+    }
+});
+$("#frmCadTipoTxtExpReg").keyup(function(){
+    //$("#frmCadTipoTxtTesteExpReg").filter(function(){
+    $("#frmCadTipoTxtExpReg").removeClass("erroRG");
 
-        //Cria editor HTML
-        var oFCKeditor = new FCKeditor('frmCadEstruturaDescricao') ;
-        oFCKeditor.BasePath = "./js/fckeditor/" ;
-        oFCKeditor.ToolbarSet="Sigepapp2";
-        oFCKeditor.Height=300;
-        oFCKeditor.ReplaceTextarea() ;
-        htmltabelaEstrutura=$("#tabAtributos").html();
-
-        //Ordena o combo box frmCadEstrutCmbSelAtributo.
-        ordenarCombo();
-        //Preenche o array com os options visiceis
-        arrayVisiveis=$.makeArray($("#frmCadEstrutCmbSelAtributo option"));
-        //Esconde mensagem de Loading ajax
-        $("#frmCadEstrDivLoadingEst").hide();
-        $(document).ajaxError(function(event, XMLHttpRequest, ajaxOptions, thrownError){
-            alert("Erro ao enviar solicitação ao servidor.\nMande um e-mail para: sigepapp@sigepapp.com.br para mais informações.");
-        });
-
-
-        //Evento de clique para abrir a janela de cadastro de tipos
-
-
-        $("#frmCadAtributoSelTipo").change(function(){
-            if($("#frmCadAtributoSelTipo option:selected").attr("value")=="-1"){
-                show_CadastraTipo();
-            }
-        });
-        //FIM Janela de CADASTRO DE TIPOS
-
-        //Fim de document.ready
+    $("#frmCadTipoTxtTesteExpReg").keyup(function(){
+        try{
+        var txtRG=new RegExp($("#frmCadTipoTxtExpReg").val());
+        var txtTest=$("#frmCadTipoTxtTesteExpReg").val();
+        
+        if(!txtTest.match(txtRG)){
+            $("#frmCadTipoTxtTesteExpReg").addClass("erroRG");
+        }else{
+            $("#frmCadTipoTxtTesteExpReg").removeClass("erroRG");
+        }
+        }catch(e){
+            $("#frmCadTipoTxtExpReg").addClass("erroRG");
+        }
     });
 
-    function getAtributosDeEstrutura(){
+    $("#frmCadTipoTxtTesteExpReg").keyup();
+    
+});
 
-        //Mostra todos atributos
-        mostra(null);
 
-        var cod_Estrutura=$("#frmCadEstrTipo").val();
+$("#divfrmPesqEstrutura").dialog({
+    width: 511,
+    modal: false,
+    autoOpen: false,
+    buttons: {
+        Cancelar: function() {
+            $("#divfrmPesqEstrutura").dialog('close');
+        },
+        Importar: function() {
+            if($("#frmCadTipoTxtNome").val()==""){
+                informa("Nome não preenchido", "Erro")
+            }else{
+                $.post("CadTipoServlet",{
+                    nome:   $("#frmCadTipoTxtNome").val(),
+                    expreg: $("#frmCadTipoTxtExpReg").val()
+                } , function(dados, msgstatus){
+                    if(msgstatus=="success"){
+                        getTipos();
+                        informa(dados, "Cadastro");
+                        $("#divfrmCadTipo").dialog('close');
+                    }
+                });
+            }
+        }
+    },
+    close: function(){
+        $("#frmCadTipoTxtNome").val("");
+        $("#frmCadTipoTxtExpReg").val("");
+    },
+    open: function(){
+        getEstruturas();
+    }
+});
 
-        $.post("GetAtribDeEstrutServlet", {codestr: cod_Estrutura}, function(xml,status){
 
-            $("#frmCadEstrDivLoadingEst").show();
 
-            if(status=="success"){
+$("#frmCadEstruturaEnvia").click(function(){
+    $.post("CadEstruturaServlet", {
+        nm_estrutura: $("#frmCadEstrNome").val(),
+        ds_estrutura: $("#frmCadEstruturaDescricao").val(),
+        tp_estrutura: $("#frmCadEstrTipo").val()
+    }, function(data, txtStatus){
+        informa(data, "Retorno do Servlet");
+    });
+});
 
-                //Tratamento dos dados recebidos
-                $("#tabAtributos").html(htmltabelaEstrutura);
-                //Retorno para estrutura mnima
-                $("atributo",xml).each(function(index, item){
+$("#alertPadrao").dialog({
+    autoOpen: false,
+    modal: false,
+    buttons: {
+        Ok: function(){
+            $(this).dialog("close");
+        }
+    }
+});
 
-                    $("#tabAtributos").append("<tr valign=\"middle\">\
+
+
+//Esconde o formulario para cadastro de tipos
+//$("#divbckCadAtributo, #divfrmCadAtributo").hide();
+//$("#divbckCadTipo, #divfrmCadTipo").hide();
+
+
+
+//Valor inicial do combo de TIPO de ESTRUTURA
+$("#frmCadEstrTipo").val(0);
+//Atribui funcao ajax ao objeto frmCadEstrTipo
+$("#frmCadEstrTipo").change(function(){
+    if( $("#frmCadEstrTipo").val() == "PA" || $("#frmCadEstrTipo").val() == "AP" || $("#frmCadEstrTipo").val() == "PE"){
+        getAtributosDeEstrutura();
+    }else{
+        $("#tabAtributos").html("");
+    }
+});
+
+//Cria editor HTML
+var oFCKeditor = new FCKeditor('frmCadEstruturaDescricao') ;
+oFCKeditor.BasePath = "./js/fckeditor/" ;
+oFCKeditor.ToolbarSet="Sigepapp2";
+oFCKeditor.Height=300;
+oFCKeditor.ReplaceTextarea() ;
+htmltabelaEstrutura=$("#tabAtributos").html();
+
+//Ordena o combo box frmCadEstrutCmbSelAtributo.
+ordenarCombo();
+//Preenche o array com os options visiceis
+arrayVisiveis=$.makeArray($("#frmCadEstrutCmbSelAtributo option"));
+//Esconde mensagem de Loading ajax
+$("#frmCadEstrDivLoadingEst").hide();
+$(document).ajaxError(function(event, XMLHttpRequest, ajaxOptions, thrownError){
+    alert("Erro ao enviar solicitação ao servidor.\nMande um e-mail para: sigepapp@sigepapp.com.br para mais informações.");
+});
+
+
+//Evento de clique para abrir a janela de cadastro de tipos
+
+
+$("#frmCadAtributoSelTipo").change(function(){
+    if($("#frmCadAtributoSelTipo option:selected").attr("value")=="-1"){
+        show_CadastraTipo();
+    }
+});
+//FIM Janela de CADASTRO DE TIPOS
+
+//Fim de document.ready
+});
+
+function getAtributosDeEstrutura(){
+
+//Mostra todos atributos
+mostra(null);
+var cod_Estrutura;
+if($("#frmCadEstrTipo").val()=="PA"){
+    cod_Estrutura=<%=patternID%>
+}else if($("#frmCadEstrTipo").val()=="AP"){
+    cod_Estrutura=<%=antiPatternID%>
+}else if($("#frmCadEstrTipo").val()=="PE"){
+    cod_Estrutura=<%=personaID%>
+}
+
+$.post("GetAtribDeEstrutServlet", {codestr: cod_Estrutura}, function(xml,status){
+
+    $("#frmCadEstrDivLoadingEst").show();
+
+    if(status=="success"){
+
+        //Tratamento dos dados recebidos
+        $("#tabAtributos").html(htmltabelaEstrutura);
+        //Retorno para estrutura mnima
+        $("atributo",xml).each(function(index, item){
+
+            $("#tabAtributos").append("<tr valign=\"middle\">\
                                                     <td colspan='2' align='center'>\
                                                      <div class='atributoMinimo' style='margin-right: 10px;border-bottom:black solid thin;'>\
                                                        "+$(item).find("nome").text()+"</div></td></tr>");
 
-                    //Tira o atributo do combo para não ser inserido duas vezes
-                    esconde($(item).find("id").text())
-                });
-
-                setTimeout(function(){
-                    $("#frmCadEstrDivLoadingEst").hide();
-                }, 100);
-
-            }else{
-                alert('Erro ao carregar...!');
-            }
+            //Tira o atributo do combo para não ser inserido duas vezes
+            esconde($(item).find("id").text())
         });
 
-        //fim de frmCadEstrTipo.change
+        setTimeout(function(){
+            $("#frmCadEstrDivLoadingEst").hide();
+        }, 100);
+
+    }else{
+        alert('Erro ao carregar...!');
     }
+});
 
-    //Esconde um objeto. O parametro obj sera usado para passagem de um <option> do frmCadEstrutCmbSelAtributo
-    function esconde(id){
-        //Adiciona no array o objeto.
-        //dica retirada de: http://jquery-howto.blogspot.com/2009/02/how-to-get-full-html-string-including.html
-        arrayEscondidos.push($("#frmCadEstrutCmbSelAtributo option[value="+id+"]").get(0));
+//fim de frmCadEstrTipo.change
+}
 
-        $(arrayVisiveis).each(function(index, item){
-            if($(item).attr("value")==id){
-                arrayVisiveis.splice(index, 1);
-            }
-        });
-        //remove do codigo HTML o objeto. (Esconde)
-        $("#frmCadEstrutCmbSelAtributo option[value="+id+"]").remove();
-        //Atualiza os options visiveis
+//Esconde um objeto. O parametro obj sera usado para passagem de um <option> do frmCadEstrutCmbSelAtributo
+function esconde(id){
+//Adiciona no array o objeto.
+//dica retirada de: http://jquery-howto.blogspot.com/2009/02/how-to-get-full-html-string-including.html
+arrayEscondidos.push($("#frmCadEstrutCmbSelAtributo option[value="+id+"]").get(0));
 
+$(arrayVisiveis).each(function(index, item){
+    if($(item).attr("value")==id){
+        arrayVisiveis.splice(index, 1);
     }
+});
+//remove do codigo HTML o objeto. (Esconde)
+$("#frmCadEstrutCmbSelAtributo option[value="+id+"]").remove();
+//Atualiza os options visiveis
 
-    function mostra(id){
-        if(id==null){
-            $(arrayEscondidos).each(function(index,obj){
-                mostra($(obj).attr("value"));
-            });
+}
 
-        }else{
+function mostra(id){
+if(id==null){
+    $(arrayEscondidos).each(function(index,obj){
+        mostra($(obj).attr("value"));
+    });
 
-            //Pesquisa no array de objetos onde esta o id para incluir no combo box frmCadEstrutCmbSelAtributo
-            $(arrayEscondidos).each(function(index,obj){
-                //Se o atributo tiver o id procurado...
-                if($(obj).attr("value") == id){
-                    //...Adiciona ele como option no combo box.
-                    $(obj).removeAttr("selected");
-                    $("#frmCadEstrutCmbSelAtributo").append(obj);
+}else{
 
-                    //Elimina o objeto da arrayDeObjetos escondidos
-                    arrayEscondidos.splice(index, 1);
-                    arrayVisiveis.push(obj);
-                }
-            });
-            //Atualiza os options visiveis
-            //arrayVisiveis=$.makeArray($("#frmCadEstrutCmbSelAtributo option"));
+    //Pesquisa no array de objetos onde esta o id para incluir no combo box frmCadEstrutCmbSelAtributo
+    $(arrayEscondidos).each(function(index,obj){
+        //Se o atributo tiver o id procurado...
+        if($(obj).attr("value") == id){
+            //...Adiciona ele como option no combo box.
+            $(obj).removeAttr("selected");
+            $("#frmCadEstrutCmbSelAtributo").append(obj);
 
+            //Elimina o objeto da arrayDeObjetos escondidos
+            arrayEscondidos.splice(index, 1);
+            arrayVisiveis.push(obj);
         }
+    });
+    //Atualiza os options visiveis
+    //arrayVisiveis=$.makeArray($("#frmCadEstrutCmbSelAtributo option"));
 
-    }
+}
 
-    function func_incluiAtributo(){
-        if($("#frmCadEstrTipo").val()<=0){
-            $(document).scrollTop(0);
-            $("#alertInsAtrib").dialog('open');
-            $("#frmCadEstrTipo").focus();
-        }else{
+}
+
+function func_incluiAtributo(){
+if($("#frmCadEstrTipo").val()<=0){
+    $(document).scrollTop(0);
+    $("#alertInsAtrib").dialog('open');
+    $("#frmCadEstrTipo").focus();
+}else{
 
 
-            if($('#frmCadEstrutCmbSelAtributo option:selected').length>0){
-                //Armazena na variavel selecao o objeto selecionado no combo box do formulario.
-                var selecao=$("#frmCadEstrutCmbSelAtributo option:selected");
-                //Adiciona uma linha na tabela da estrutura do atributo com um campo hidden de input para passagem
-                //de header da página
-                $("#tabAtributos").append("\
+    if($('#frmCadEstrutCmbSelAtributo option:selected').length>0){
+        //Armazena na variavel selecao o objeto selecionado no combo box do formulario.
+        var selecao=$("#frmCadEstrutCmbSelAtributo option:selected");
+        //Adiciona uma linha na tabela da estrutura do atributo com um campo hidden de input para passagem
+        //de header da página
+        $("#tabAtributos").append("\
             <tr id=\"atributo_"+selecao.val()+"\">"+
-                    "<td width=\"80%\" class=\"atributoAdicional\" align=\"center\">"+
-                    "<input type=\"hidden\" name=\"atributos_ids\" value=\""+
-                    selecao.val()+"\">"+
-                    selecao.text()+
-                    "</td>"+
-                    "<td width=\"20%\" align=\"center\">"+
-                    "<a href=\"javascript:func_removeAtributo(\'"+selecao.val()+"\')\">"+
-                    "["+
-                    "<img src=\"images/222222_11x11_icon_minus.gif\" border=\"none\" >&nbsp;"+
-                    "] Remover"+
-                    "</a>"+
-                    "</td></tr>");
-                //esconde o objeto <option> selecionado acima do combo box frmCadEstrutCmbSelAtributo.
-                esconde($(selecao).attr("value"));
-            }
-            $("#tabAtributos").sortable({items: 'tr:has(td.atributoAdicional)',cursor: "move"});
-            $("#tabAtributos tr:has(td.atributoAdicional)").css("cursor", "pointer");
-        };
+            "<td width=\"80%\" class=\"atributoAdicional\" align=\"center\">"+
+            "<input type=\"hidden\" name=\"atributos_ids\" value=\""+
+            selecao.val()+"\">"+
+            selecao.text()+
+            "</td>"+
+            "<td width=\"20%\" align=\"center\">"+
+            "<a href=\"javascript:func_removeAtributo(\'"+selecao.val()+"\')\">"+
+            "["+
+            "<img src=\"images/222222_11x11_icon_minus.gif\" border=\"none\" >&nbsp;"+
+            "] Remover"+
+            "</a>"+
+            "</td></tr>");
+        //esconde o objeto <option> selecionado acima do combo box frmCadEstrutCmbSelAtributo.
+        esconde($(selecao).attr("value"));
     }
-    function ordenarCombo(){
-        //Ordena as tags "option" dentro do combo seleciona atributo.
-        $("#frmCadEstrutCmbSelAtributo>option").tsort();
+    $("#tabAtributos").sortable({items: 'tr:has(td.atributoAdicional)',cursor: "move"});
+    $("#tabAtributos tr:has(td.atributoAdicional)").css("cursor", "pointer");
+};
+}
+function ordenarCombo(){
+//Ordena as tags "option" dentro do combo seleciona atributo.
+$("#frmCadEstrutCmbSelAtributo>option").tsort();
 
+}
+
+function func_removeAtributo(cod_atrib){
+$("#atributo_"+cod_atrib).remove();
+mostra(cod_atrib);
+ordenarCombo();
+};
+
+function filtraCombo(){
+$("#frmCadEstrutCmbSelAtributo option").remove();
+$(arrayVisiveis).each(function(indice, elemento){
+    if($(elemento).text().toUpperCase().indexOf($("#frmCadEstruturaTxtBusca").val().toUpperCase(), 0)>=0){
+        $("#frmCadEstrutCmbSelAtributo").append(elemento);
     }
+});
+ordenarCombo();
+}
+function func_move(id,tipo){
 
-    function func_removeAtributo(cod_atrib){
-        $("#atributo_"+cod_atrib).remove();
-        mostra(cod_atrib);
-        ordenarCombo();
-    };
-
-    function filtraCombo(){
-        $("#frmCadEstrutCmbSelAtributo option").remove();
-        $(arrayVisiveis).each(function(indice, elemento){
-            if($(elemento).text().toUpperCase().indexOf($("#frmCadEstruturaTxtBusca").val().toUpperCase(), 0)>=0){
-                $("#frmCadEstrutCmbSelAtributo").append(elemento);
-            }
-        });
-        ordenarCombo();
-    }
-    function func_move(id,tipo){
-
-        if (tipo=='up'){
-            atributo_acima=$("#atributo_"+id).prev("tr :has(td.atributoAdicional)");
-            atributo=$('#atributo_'+id);
-            atributo.insertBefore(atributo_acima);
-        }else if(tipo=='down'){
-            atributo_acima=$("#atributo_"+id).next("tr :has(td.atributoAdicional)");
-            atributo=$('#atributo_'+id);
-            atributo.insertAfter(atributo_acima);
-        }
+if (tipo=='up'){
+    atributo_acima=$("#atributo_"+id).prev("tr :has(td.atributoAdicional)");
+    atributo=$('#atributo_'+id);
+    atributo.insertBefore(atributo_acima);
+}else if(tipo=='down'){
+    atributo_acima=$("#atributo_"+id).next("tr :has(td.atributoAdicional)");
+    atributo=$('#atributo_'+id);
+    atributo.insertAfter(atributo_acima);
+}
 
 
-    }
+}
 
-    function funcIncluiAtributoDisponivel(Nome, Descricao, ID){
-        $("#frmCadEstrutCmbSelAtributo:selected").removeAttr("selected");
-        $("#frmCadEstrutCmbSelAtributo").append("<option selected value='"+ID+"' title='"+Descricao+"'>"+Nome+"</option>");
-    }
+function funcIncluiAtributoDisponivel(Nome, Descricao, ID){
+$("#frmCadEstrutCmbSelAtributo:selected").removeAttr("selected");
+$("#frmCadEstrutCmbSelAtributo").append("<option selected value='"+ID+"' title='"+Descricao+"'>"+Nome+"</option>");
+}
 </script>
 
 <table border="0" cellpadding="0" cellspacing="0" width="100%" align="right" class="formulario">
@@ -747,9 +742,6 @@ $("#divbckCadAtributo").css(
             </tr>
             <tr>
                 <td colspan="2" align="center">
-                    <!--<input id="frmCadAtributoBtnEnvia" class="botao" type="submit" name="envia" value="Cadastrar">
-                    <input id="frmCadAtributoBtnCancel" class="botao" type="reset" name="cancelar" value="Cancelar" onclick="hide_CadastraAtributo();">
-                    -->
                 </td>
             </tr>
         </table>
@@ -779,40 +771,48 @@ $("#divbckCadAtributo").css(
                 </td>
             </tr>
             <tr>
-                <td colspan="2" align="center">
-                    <!--<input id="frmCadTipoBtnEnvia" class="botao" type="button" name="envia" value="Cadastrar">
-                    <input id="frmCadTipoBtnCancel" class="botao" type="reset" name="cancelar" value="Cancelar" onclick="hide_CadastraTipo();">
-                    -->
-                </td>
-            </tr>
-        </table>
-    </form>
-</div>
-
-<!--Janela para Seleção de Estruturas
-<div id="divfrmPesqEstrutura" title="Selecionar Estruturas" >
-    <form id="frmPesqEstrutura">
-        <table width="500">
-            <tr>
-                <td align="right">
-                    <font class="texto">Pesquisa por nome:</font>
+                <td align="center">
+                    Teste sua Expressão Regular:
                 </td>
                 <td align="center">
-                    <input id="frmPesqEstruturaTxtNome" class="edit" type="text" size="35">
+                    <input type="text" id="frmCadTipoTxtTesteExpReg" class="edit" cols="35">
                 </td>
             </tr>
             <tr>
                 <td colspan="2" align="center">
-                 <select size="10">
-                     <option>teste</option>
-
-                 </select>
                 </td>
             </tr>
         </table>
     </form>
 </div>
--->
+
+<!--Janela para Seleção de Estruturas-->
+<div id="divfrmPesqEstrutura">
+    <table>
+        <tr>
+            <td>Pesquisar estrutura:</td>
+            <td><input class="edit" type="text" id="frmPesqEstruturasTxtNome">
+                <input class="botao" type="button" id="frmPesqEstruturasButOk" value="Ok">
+            </td>
+        </tr>
+        <tr><td colspan="2">
+                <table id="frmPesqEstruturasTabResult" width="100%">
+                    <tr class="ui-widget-header">
+                        <td align="center" >
+                            Resultado da busca
+                        </td>
+                        <tr class="ui-widget-content">
+                            <td>
+                                teste
+                            </td>
+                        </tr>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+</div>
+<!-- -->
 <div id="alertInsAtrib" title="Erro ao inserir atributo">
     <p style="color:red" align="center"><font size="5"><b>Erro:</b></font></p>
     <p style="color:black">Antes de inserir atributos &eacute; necess&aacute;rio selecionar um tipo de estrutura.</p>
