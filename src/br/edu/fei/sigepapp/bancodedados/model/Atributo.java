@@ -31,6 +31,8 @@ public class Atributo {
     private long cd_tipo;
     private String fl_atrib_relac;
 
+
+
     public   Atributo() {
     setCd_atributo_obj(0);
         setNm_atributo_obj(null);
