@@ -4,15 +4,15 @@ set linesize 132
 
 spool /SiGEPAPP/Arquivos/ScriptsDrop/LogDropBanco.log
 
-@ /SiGEPAPP/Arquivos/ScriptsBanco/DROP_APPP_TB_RESP_QUEST_PREENCH.sql 
+@ /SiGEPAPP/Arquivos/ScriptsDrop/DROP_APPP_TB_RESP_QUEST_PREENCH.sql 
 
-@ /SiGEPAPP/Arquivos/ScriptsBanco/DROP_APPP_TB_QUEST_PREENCH.sql   
+@ /SiGEPAPP/Arquivos/ScriptsDrop/DROP_APPP_TB_QUEST_PREENCH.sql   
 
-@ /SiGEPAPP/Arquivos/ScriptsBanco/DROP_APPP_TB_RELAC_QUEST_OBJ.sql 
+@ /SiGEPAPP/Arquivos/ScriptsDrop/DROP_APPP_TB_RELAC_QUEST_OBJ.sql 
 
-@ /SiGEPAPP/Arquivos/ScriptsBanco/DROP_APPP_TB_RELAC_PERG_RESP.SQL 
+@ /SiGEPAPP/Arquivos/ScriptsDrop/DROP_APPP_TB_RELAC_PERG_RESP.SQL 
 
-@ /SiGEPAPP/Arquivos/ScriptsBanco/DROP_APPP_TB_ESTRUT_QUEST.sql 
+@ /SiGEPAPP/Arquivos/ScriptsDrop/DROP_APPP_TB_ESTRUT_QUEST.sql 
 
 @ /SiGEPAPP/Arquivos/ScriptsDrop/DROP_APPP_TB_RESPOSTA.SQL
 
