@@ -157,7 +157,7 @@ begin
    /********************************************************************************************************************************
                        C O N C L U I   P R O C E D U R E   D E   I N S E R C A O
    ********************************************************************************************************************************/   
-     vSQL_INS_CAB := vSQL_INS_CAB || RPAD(' ',56,' ') || ', vResult OUT NUMBER ) is' || chr(10) || ' BEGIN '|| chr(10) || chr(10);
+     vSQL_INS_CAB := vSQL_INS_CAB || RPAD(' ',56,' ') || ', vResult IN OUT NUMBER ) is' || chr(10) || ' BEGIN '|| chr(10) || chr(10);
      vSQL_INS_ATR := vSQL_INS_ATR || RPAD(' ',40,' ') || ')'  || chr(10) ;
      vSQL_INS_VAL := vSQL_INS_VAL || RPAD(' ',40,' ') || ');' || chr(10) ; 
      
@@ -177,7 +177,7 @@ begin
                         C O N C L U I   P R O C E D U R E    D E   S E L E C A O
    ********************************************************************************************************************************/   
  
-     vSQL_SEL_CAB := vSQL_SEL_CAB || RPAD(' ',56,' ') || ',p_cursor    OUT SYS_REFCURSOR   ) is' || chr(10) || ' BEGIN '|| chr(10) || chr(10);
+     vSQL_SEL_CAB := vSQL_SEL_CAB || RPAD(' ',56,' ') || ',p_cursor    IN OUT SYS_REFCURSOR   ) is' || chr(10) || ' BEGIN '|| chr(10) || chr(10);
      vSQL_SEL_ATR := vSQL_SEL_ATR || '    FROM ' || vNOME_TABELA  || chr(10) ;
      vSQL_SEL_WHE := vSQL_SEL_WHE || ';'  || chr(10) ; 
      
@@ -191,7 +191,7 @@ begin
                         C O N C L U I   P R O C E D U R E    D E   D E L E T E
    ********************************************************************************************************************************/   
  
-     vSQL_DEL_CAB := vSQL_DEL_CAB || RPAD(' ',56,' ') || ', vResult OUT NUMBER ) is' || chr(10) || ' BEGIN '|| chr(10) || chr(10);
+     vSQL_DEL_CAB := vSQL_DEL_CAB || RPAD(' ',56,' ') || ', vResult IN OUT NUMBER ) is' || chr(10) || ' BEGIN '|| chr(10) || chr(10);
      vSQL_DEL_CAB := vSQL_DEL_CAB || '  vResult := 0;                    '  || chr(10);
      vSQL_DEL_CAB := vSQL_DEL_CAB || '  if pCD_OBJETO is not null then   '  || chr(10)|| chr(10);
      
@@ -216,7 +216,7 @@ begin
   /********************************************************************************************************************************
                        C O N C L U I   P R O C E D U R E   D E   U P D A T E
    ********************************************************************************************************************************/   
-     vSQL_UPD_CAB := vSQL_UPD_CAB || RPAD(' ',56,' ') || ', vResult OUT NUMBER ) is' || chr(10) || ' BEGIN '|| chr(10) || chr(10);
+     vSQL_UPD_CAB := vSQL_UPD_CAB || RPAD(' ',56,' ') || ', vResult IN OUT NUMBER ) is' || chr(10) || ' BEGIN '|| chr(10) || chr(10);
           
      --JUNTA CABECALHO, ATRIBUTOS E VALORES DA PROCEDURE DE UPDATE
      vSQL_UPD := vSQL_UPD_CAB || vSQL_UPD_ATR || chr(10) ;
