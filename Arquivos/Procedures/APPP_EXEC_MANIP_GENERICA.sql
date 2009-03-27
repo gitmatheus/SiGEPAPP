@@ -15,11 +15,11 @@ create or replace procedure APPP_EXEC_MANIP_GENERICA(pNM_TABELA  IN VARCHAR2,
                                                      pVT_VALORES IN APPP_PKG_VETORES.CHAR_VECTOR,
                                                      pVT_ORATYPE IN APPP_PKG_VETORES.CHAR_VECTOR,                                                       
                                                      vResult OUT NUMBER,   
-                                                     p_cursor OUT SYS_REFCURSOR) is
+                                                     p_cursorGen OUT SYS_REFCURSOR) is
   vERRO         VARCHAR2(600);
   vNM_PROCEDURE VARCHAR2(60) ;
   vNM_PARAMETRO VARCHAR2(60) ;
-  vSQL          VARCHAR2(32000);
+  vSQL          VARCHAR2(32000) := 'VAZIO';
   vCONTA_PARAM     number(10) := 0;   
   
   CURSOR C IS 
@@ -59,7 +59,7 @@ begin
                        
                        --VERIFICA SE É O PARÂMETRO DE CURSOR
                        IF UPPER(vNM_PARAMETRO) = 'P_CURSOR' THEN
-                          vSQL := chr(10) || vSQL || ':p_cursor,';
+                          vSQL := vSQL ||chr(10)|| ' :p_cursorGen,';
                        ELSE
                            IF UPPER(pVT_ORATYPE(vCONTA_PARAM)) = 'VARCHAR2' THEN
                               vSQL := vSQL || chr(10) || '''' ||pVT_VALORES(vCONTA_PARAM)||''''||','; 
@@ -82,16 +82,16 @@ begin
                  vSQL := vSQL || ');' || chr(10);
                  vSQL := vSQL || 'end;'; -- FECHA A SQL DA EXECUÇÃO DA PROCEDURE + PARAMETROS
                  
-                 IF (vResult > -6) THEN
+                 IF (vResult > -6 AND  vCONTA_PARAM > 0) THEN
                  
                      EXECUTE IMMEDIATE vSQL  
-                     USING   p_cursor;  -- USADO PARA DEVOLVER O SELECT
+                     USING OUT p_cursorGen;  -- USADO PARA DEVOLVER O SELECT
                            
                  END IF;
                  
-           ELSIF TRIM(UPPER(pTP_ACESSO)) = 'INS' THEN
+           ELSIF TRIM(UPPER(pTP_ACESSO)) in ('INS','UPD','DEL') THEN
            /*****************************************************
-                         MANIPULAÇÃO DE INSERT
+                    MANIPULAÇÃO DE INSERT, UPDATE OU DELETE
            ******************************************************/
            
                  
@@ -109,7 +109,7 @@ begin
                        
                        --VERIFICA SE É O PARÂMETRO DE SAÍDA
                        IF UPPER(vNM_PARAMETRO) = 'VRESULT' THEN
-                          vSQL := chr(10) || vSQL || ':vResult,';
+                          vSQL := vSQL ||chr(10) || ' :vResult,';
                        ELSE
                            IF UPPER(pVT_ORATYPE(vCONTA_PARAM)) = 'VARCHAR2' THEN
                               vSQL := vSQL || chr(10) || '''' ||pVT_VALORES(vCONTA_PARAM)||''''||','; 
@@ -132,7 +132,7 @@ begin
                  vSQL := vSQL || ');' || chr(10);
                  vSQL := vSQL || 'end;'; -- FECHA A SQL DA EXECUÇÃO DA PROCEDURE + PARAMETROS
                  
-                 IF (vResult > -6) THEN
+                 IF (vResult > -6 AND vCONTA_PARAM > 0) THEN
                      
                      vResult := NULL;
                      EXECUTE IMMEDIATE vSQL
