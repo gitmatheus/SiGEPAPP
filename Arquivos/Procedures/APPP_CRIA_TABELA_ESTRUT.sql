@@ -96,24 +96,24 @@ begin
          vSQL := vSQL || 'CD_OBJETO NUMBER(10) NOT NULL';  
          
          -- CREATE PROCEDURE INS -- INICIO
-         vSQL_INS_CAB := 'create or replace procedure ' || 'APPP_INS' || SUBSTR(vNOME_TABELA,8,18) || '( pCD_OBJETO IN NUMBER ' || chr(10);
+         vSQL_INS_CAB := 'create or replace procedure ' || 'APPP_INS' || SUBSTR(vNOME_TABELA,8,LENGTH(vNOME_TABELA)) || '( pCD_OBJETO IN NUMBER ' || chr(10);
          vSQL_INS_ATR := '   INSERT INTO '|| vNOME_TABELA || '(CD_OBJETO ' || chr(10);
          vSQL_INS_VAL := RPAD(' ',33,' ') || 'VALUES (pCD_OBJETO '  || chr(10); 
          
          
          -- CREATE PROCEDURE SEL -- INICIO
-         vSQL_SEL_CAB := 'create or replace procedure ' || 'APPP_SEL' || SUBSTR(vNOME_TABELA,8,18) || '(  pCD_OBJETO IN NUMBER ' || chr(10);
+         vSQL_SEL_CAB := 'create or replace procedure ' || 'APPP_SEL' || SUBSTR(vNOME_TABELA,8,LENGTH(vNOME_TABELA)) || '(  pCD_OBJETO IN NUMBER ' || chr(10);
          vSQL_SEL_ATR :=                  '    open p_cursor FOR' || chr(10);
          vSQL_SEL_ATR :=  vSQL_SEL_ATR || '    SELECT CD_OBJETO ' || chr(10);
          vSQL_SEL_WHE :=                  '    WHERE (CD_OBJETO = pCD_OBJETO OR pCD_OBJETO IS NULL)';
          
          -- CREATE PROCEDURE DEL -- INICIO
-         vSQL_DEL_CAB := 'create or replace procedure ' || 'APPP_DEL' || SUBSTR(vNOME_TABELA,8,18) || '(  pCD_OBJETO IN NUMBER ' || chr(10);
+         vSQL_DEL_CAB := 'create or replace procedure ' || 'APPP_DEL' || SUBSTR(vNOME_TABELA,8,LENGTH(vNOME_TABELA)) || '(  pCD_OBJETO IN NUMBER ' || chr(10);
          vSQL_DEL_ATR := '        DELETE FROM ' || vNOME_TABELA || chr(10);
          vSQL_DEL_WHE := '        WHERE CD_OBJETO = pCD_OBJETO ;'|| chr(10);
          
          -- CREATE PROCEDURE UPD -- INICIO
-         vSQL_UPD_CAB := 'create or replace procedure ' || 'APPP_UPD' || SUBSTR(vNOME_TABELA,8,18) || '(  pCD_OBJETO IN NUMBER ' || chr(10);
+         vSQL_UPD_CAB := 'create or replace procedure ' || 'APPP_UPD' || SUBSTR(vNOME_TABELA,8,LENGTH(vNOME_TABELA)) || '(  pCD_OBJETO IN NUMBER ' || chr(10);
          vSQL_UPD_WHE := '    WHERE CD_OBJETO = pCD_OBJETO ';
 
        end if;
@@ -169,7 +169,7 @@ begin
      vSQL_INS := vSQL_INS || '  EXCEPTION '                                   || chr(10) ;
      vSQL_INS := vSQL_INS || '  WHEN OTHERS THEN '                            || chr(10) ;
      vSQL_INS := vSQL_INS || '     rollback;     '                            || chr(10) ;  
-     vSQL_INS := vSQL_INS || '     vResult := -99; -- Erro generico.'         || chr(10) ;  
+     vSQL_INS := vSQL_INS || '      vResult := SQLCODE; -- Erro generico.'    || chr(10) ;  
      vSQL_INS := vSQL_INS || 'END '|| 'APPP_INS' || SUBSTR(vNOME_TABELA,8,18) ||';'      ;  
      
      
@@ -227,7 +227,7 @@ begin
      vSQL_UPD := vSQL_UPD || '  EXCEPTION '                                   || chr(10) ;
      vSQL_UPD := vSQL_UPD || '  WHEN OTHERS THEN '                            || chr(10) ;
      vSQL_UPD := vSQL_UPD || '     rollback;     '                            || chr(10) ;  
-     vSQL_UPD := vSQL_UPD || '     vResult := -99; -- Erro generico.'         || chr(10) ;  
+     vSQL_UPD := vSQL_UPD || '     vResult := SQLCODE; -- Erro generico.'     || chr(10) ;  
      vSQL_UPD := vSQL_UPD || 'END '|| 'APPP_UPD' || SUBSTR(vNOME_TABELA,8,18) ||';'      ; 
   
   

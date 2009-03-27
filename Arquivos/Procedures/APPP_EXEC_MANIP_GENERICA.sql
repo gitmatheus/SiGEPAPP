@@ -35,8 +35,8 @@ begin
        ELSIF TRIM(UPPER(pTP_ACESSO)) NOT IN ('UPD', 'SEL', 'DEL', 'INS') THEN
            vResult := -4;
        ELSE
-           
-           vNM_PROCEDURE := 'APPP_'||pTP_ACESSO|| SUBSTR(pNM_TABELA,8,LENGTH(pNM_TABELA) - 2);
+           vResult := 1;  
+           vNM_PROCEDURE := 'APPP_'||pTP_ACESSO|| SUBSTR(pNM_TABELA,8,LENGTH(pNM_TABELA));
            
            IF TRIM(UPPER(pTP_ACESSO)) = 'SEL' THEN
                  
@@ -50,18 +50,20 @@ begin
 
                     vCONTA_PARAM := vCONTA_PARAM + 1;
                     
-                    IF vCONTA_PARAM <= pVT_VALORES.LAST AND vCONTA_PARAM <= pVT_ORATYPE.LAST THEN 
+                    IF (vCONTA_PARAM - 1) <= pVT_VALORES.LAST AND (vCONTA_PARAM - 1) <= pVT_ORATYPE.LAST THEN 
                        
                        --VERIFICA SE É O PARÂMETRO DE CURSOR
                        IF UPPER(vNM_PARAMETRO) = 'P_CURSOR' THEN
-                          vSQL := chr(10) || vSQL || 'p_cursor => :p_cursor,';
+                          vSQL := chr(10) || vSQL || ':p_cursor,';
                        ELSE
                            IF UPPER(pVT_ORATYPE(vCONTA_PARAM)) = 'VARCHAR2' THEN
-                              vSQL := chr(10) || vSQL || '''' ||pVT_VALORES(vCONTA_PARAM)||''''||','; 
+                              vSQL := vSQL || chr(10) || '''' ||pVT_VALORES(vCONTA_PARAM)||''''||','; 
                            ELSIF UPPER(pVT_ORATYPE(vCONTA_PARAM)) = 'DATE' THEN
-                              vSQL := chr(10) || vSQL ||' TO_DATE('||''''|| pVT_VALORES(vCONTA_PARAM)||''''||','||''''||'DD/MM/YYYY'||''''||'),';
+                              vSQL := vSQL || chr(10) ||' TO_DATE('||''''|| pVT_VALORES(vCONTA_PARAM)||''''||','||''''||'DD/MM/RRRR'||''''||'),';
+                           ELSIF UPPER(pVT_ORATYPE(vCONTA_PARAM)) = 'NUMBER' THEN
+                              vSQL := vSQL || chr(10) ||pVT_VALORES(vCONTA_PARAM)||',';
                            ELSE
-                              vSQL := chr(10) || vSQL ||pVT_VALORES(vCONTA_PARAM)||',';
+                              vSQL := vSQL || chr(10) ||' NULL ,';
                            END IF;
                        END IF;       
                     ELSE
@@ -75,13 +77,11 @@ begin
                  vSQL := vSQL || ');' || chr(10);
                  vSQL := vSQL || 'end;';
                  
-                 IF pVT_VALORES.LAST = vCONTA_PARAM THEN
+                 IF (vResult > -6) THEN
                  
                      EXECUTE IMMEDIATE vSQL  
                      USING   p_cursor;  
                            
-                 ELSE
-                    vResult := -6;
                  END IF;      
            END IF;
        END IF;    
