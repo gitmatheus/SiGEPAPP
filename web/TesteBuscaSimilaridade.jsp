@@ -39,8 +39,6 @@
                         maiorPalavraDef=max(maiorItem.toString().length,palavra.toString().length);
                         i=i-1;
                     }
-
-
                 }
 
                 return new Array(i-1, maiorPalavraDef);

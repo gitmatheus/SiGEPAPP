@@ -127,7 +127,12 @@ public class Estrutura_ObjDAO {
             cstmt.setString(3, estrutPesquisa.getDs_estrutura());
 
             cstmt.setDate(4, estrutPesquisa.getDt_criacao());
-            cstmt.setDate(5, dataFim);
+
+            if (dataFim == null) {
+                cstmt.setDate(5, dataFim);
+            } else {
+                cstmt.setNull(5, OracleTypes.DATE);
+            }
 
             if (pCD_USUARIO > 0) {
                 cstmt.setLong(6, estrutPesquisa.getCod_user());
