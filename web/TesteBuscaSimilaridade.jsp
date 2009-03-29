@@ -33,15 +33,16 @@
                         }
                     });
 
-                //    maiorPalavraDef=max(maiorItem.toString().length,palavra.toString().length);
+                    maiorPalavraDef=maiorItem;
 
                     if($(VetorNovo).length==0){
                         maiorPalavraDef=max(maiorItem.toString().length,palavra.toString().length);
                         i=i-1;
                     }
 
+
                 }
-                alert(maiorPalavraDef);
+
                 return new Array(i-1, maiorPalavraDef);
             }
 
@@ -59,22 +60,21 @@
                 var totalChars=0;
                 var comunsChars=0;
                 var maiorPalavra=0;
-                $(Texto1).each(function(indice, palavra, maiorPalavra){
-                    ArrayResultado=buscaMaiorSubstringNoVetor(Texto2, palavra, maiorPalavra);
+                $(Texto1).each(function(indice, palavra){
+                    ArrayResultado=buscaMaiorSubstringNoVetor(Texto2, palavra);
                     comunsChars+=$(ArrayResultado).get(0);
                     maiorPalavra+=$(ArrayResultado).get(1);
-                    alert(comunsChars);
-                    // alert(maiorPalavra);
-                });
-                //alert(comunsChars/maiorPalavra);
 
-                //            alert(letrasDePalavrasIguais/total);
+                });
+                $("#resultado").val(comunsChars/maiorPalavra);
+
+
             }
 
             $(document).ready(function(){
                 // alert(similaridade());
 
-                $("#botao").click(function(){
+                $("#texto1,#texto2").keyup(function(){
                     similaridade();
                 })
 
@@ -93,7 +93,10 @@
                     <textarea rows="20" style="width:100%" id="texto2">Funcionando</textarea>
                 </td>
             </tr>
-            <input type="button" id="botao" value="Comparar">
+            <tr>
+                <td colspan="2" align="center"><input type="text" id="resultado" size="5"></td>
+            </tr>
+
         </table>
 
 
