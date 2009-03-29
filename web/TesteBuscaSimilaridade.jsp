@@ -20,11 +20,11 @@
             }
             function buscaMaiorSubstringNoVetor(Vetor, palavra){
 
-                var Maximo=0;
                 var VetorNovo=Vetor;
                 var maiorItem=0;
                 var maiorPalavraDef=0;
                 for(i=1;i<=palavra.toString().length && $(VetorNovo).length>0;i++){
+                    maiorPalavraDef=maiorItem;
                     maiorItem=0;
                     VetorNovo=$.grep(VetorNovo,function(item){
                         if(palavra.toString().substr(0, i).toLowerCase()==item.toString().substr(0, i).toLowerCase()){
@@ -32,30 +32,27 @@
                             return true;
                         }
                     });
-
-                    maiorPalavraDef=maiorItem;
-
                     if($(VetorNovo).length==0){
-                        maiorPalavraDef=max(maiorItem.toString().length,palavra.toString().length);
+                        maiorItem=maiorPalavraDef;
+                        maiorPalavraDef=max(maiorItem,palavra.toString().length);
                         i=i-1;
                     }
+                    maiorPalavraDef=max(maiorItem,palavra.toString().length);
                 }
 
+
+                $("#resultado1").val(i-1);
+                $("#resultado2").val(maiorPalavraDef);
                 return new Array(i-1, maiorPalavraDef);
             }
 
             function similaridade(){
                 var Texto1;
                 var Texto2;
-                //if($("#texto1").val().length>=$("#texto2").val().length){
+
                 Texto1=$("#texto1").val().split(" ");
                 Texto2=$("#texto2").val().split(" ");
-                // }else{
-                //   Texto1=$("#texto2").val().split(" ");
-                // Texto2=$("#texto1").val().split(" ");
-                // }
 
-                var totalChars=0;
                 var comunsChars=0;
                 var maiorPalavra=0;
                 $(Texto1).each(function(indice, palavra){
@@ -65,12 +62,10 @@
 
                 });
                 $("#resultado").val(comunsChars/maiorPalavra);
-
-
             }
 
             $(document).ready(function(){
-                // alert(similaridade());
+
 
                 $("#texto1,#texto2").keyup(function(){
                     similaridade();
@@ -90,6 +85,12 @@
                 <td>
                     <textarea rows="20" style="width:100%" id="texto2">Funcionando</textarea>
                 </td>
+            </tr>
+            <tr>
+                <td colspan="2" align="center"><input type="text" id="resultado1" size="5"></td>
+            </tr>
+            <tr>
+                <td colspan="2" align="center"><input type="text" id="resultado2" size="5"></td>
             </tr>
             <tr>
                 <td colspan="2" align="center"><input type="text" id="resultado" size="5"></td>
