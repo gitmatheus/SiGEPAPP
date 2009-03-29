@@ -12,41 +12,72 @@
     <body>
         <script type="text/javascript" src="js/jquery-1.3.2.js" ></script>
         <script type="text/javascript">
-            function similaridade(){
-                Texto1=$("#texto1").text().split(" ");
-                Texto2=$("#texto2").text().split(" ");
-                var letrasDePalavrasIguais=0;
+            function max(val1, val2){
+                return val1>val2?val1:val2;
+            }
+            function min(val1, val2){
+                return val1<val2?val1:val2;
+            }
+            function buscaMaiorSubstringNoVetor(Vetor, palavra){
 
-                $(Texto1).each(function(palavra, indice){
-                    $(Texto2).each(function(palavra2, indice2){
-                        if($(palavra).text().toLowerCase()==$(palavra2).text().toLowerCase()){
-                            letrasDePalavrasIguais+=$(palavra2).text().length;
+                var Maximo=0;
+                var VetorNovo=Vetor;
+                var maiorItem=0;
+                var maiorPalavraDef=0;
+                for(i=1;i<=palavra.toString().length && $(VetorNovo).length>0;i++){
+                    maiorItem=0;
+                    VetorNovo=$.grep(VetorNovo,function(item){
+                        if(palavra.toString().substr(0, i).toLowerCase()==item.toString().substr(0, i).toLowerCase()){
+                            maiorItem=max(maiorItem,item.toString().length);
+                            return true;
                         }
                     });
+
+                //    maiorPalavraDef=max(maiorItem.toString().length,palavra.toString().length);
+
+                    if($(VetorNovo).length==0){
+                        maiorPalavraDef=max(maiorItem.toString().length,palavra.toString().length);
+                        i=i-1;
+                    }
+
+                }
+                alert(maiorPalavraDef);
+                return new Array(i-1, maiorPalavraDef);
+            }
+
+            function similaridade(){
+                var Texto1;
+                var Texto2;
+                //if($("#texto1").val().length>=$("#texto2").val().length){
+                Texto1=$("#texto1").val().split(" ");
+                Texto2=$("#texto2").val().split(" ");
+                // }else{
+                //   Texto1=$("#texto2").val().split(" ");
+                // Texto2=$("#texto1").val().split(" ");
+                // }
+
+                var totalChars=0;
+                var comunsChars=0;
+                var maiorPalavra=0;
+                $(Texto1).each(function(indice, palavra, maiorPalavra){
+                    ArrayResultado=buscaMaiorSubstringNoVetor(Texto2, palavra, maiorPalavra);
+                    comunsChars+=$(ArrayResultado).get(0);
+                    maiorPalavra+=$(ArrayResultado).get(1);
+                    alert(comunsChars);
+                    // alert(maiorPalavra);
                 });
-                return letrasDePalavrasIguais;
+                //alert(comunsChars/maiorPalavra);
+
+                //            alert(letrasDePalavrasIguais/total);
             }
 
             $(document).ready(function(){
                 // alert(similaridade());
 
-                Texto1=$("#texto1").text().split(" ");
-                Texto2=$("#texto2").text().split(" ");
+                $("#botao").click(function(){
+                    similaridade();
+                })
 
-                var letrasDePalavrasIguais=0;
-
-                alert(Texto1);
-                $(Texto1).each(function(indice, palavra){
-                    $(Texto2).each(function(indice2, palavra2){
-                        if($(palavra).text().toLowerCase()==$(palavra2).text().toLowerCase()){
-                            letrasDePalavrasIguais+=$(palavra2).text().toString().length;
-                        }
-                    });
-
-                });
-
-
-                alert(letrasDePalavrasIguais);
             });
 
 
@@ -56,18 +87,13 @@
         <table width="100%">
             <tr>
                 <td>
-                    <textarea rows="20" style="width:100%" id="texto1">Texto 1. Este texto serve para comparar com o texto 2
-                a idéia é desconsiderar a caixa do texto.A fórmula é baseada  na relação de palavras
-                iguas por todas as palavras comparadas.
-                    </textarea>
+                    <textarea rows="20" style="width:100%" id="texto1">Funciona</textarea>
                 </td>
                 <td>
-                    <textarea rows="20" style="width:100%" id="texto2">Texto 2. Este texto serve para comparar com o texto 1
-                a idéia é desconsiderar a caixa do texto.A fórmula é baseada  na relação de palavras
-                    iguas por todas as palavras comparadas.</textarea>
+                    <textarea rows="20" style="width:100%" id="texto2">Funcionando</textarea>
                 </td>
             </tr>
-
+            <input type="button" id="botao" value="Comparar">
         </table>
 
 
