@@ -36,12 +36,12 @@ begin
        ELSIF TRIM(UPPER(pTP_ACESSO)) NOT IN ('UPD', 'SEL', 'DEL', 'INS') THEN
            vResult := -4;
        ELSE
-<<<<<<< .mine           vResult := 1;  -- INICIA VARIAVEL DE RESULTADO.
-=======           vResult := 1;  -- INICIA VARIAVEL DE RESULTADO.           
-           -- PEGA O NOME DA PROCEDURE
-           vNM_PROCEDURE := 'APPP_'||pTP_ACESSO|| SUBSTR(pNM_TABELA,8,LENGTH(pNM_TABELA));
->>>>>>> .r276          
-           -- PEGA O NOME DA PROCEDURE           vNM_PROCEDURE := 'APPP_'||upper(pTP_ACESSO)|| SUBSTR(pNM_TABELA,8,LENGTH(pNM_TABELA));                     IF TRIM(UPPER(pTP_ACESSO)) = 'SEL' THEN
+           vResult := 1;  -- INICIA VARIAVEL DE RESULTADO.           
+         
+           -- PEGA O NOME DA PROCEDURE           
+           vNM_PROCEDURE := 'APPP_'||upper(pTP_ACESSO)|| SUBSTR(pNM_TABELA,8,LENGTH(pNM_TABELA));                     
+           
+           IF TRIM(UPPER(pTP_ACESSO)) = 'SEL' THEN
            /*****************************************************
                          MANIPULAÇÃO DE SELECT
            ******************************************************/ 

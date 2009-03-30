@@ -2,7 +2,8 @@
 * Project Name         : SiGEPAPP
 * APPP_FN_SIMILARIDADE : Function retorna um número de 0 à 1 de acordo com a similaridade de 2 textos
 * Author               : WeeDo 
-* History              : 29/03/2009 - Guilherme Wachs Lopes
+* History              : 29/03/2009 - Guilherme Wachs Lopes - Versao Inicial
+*                      : 30/03/2009 - Matheus Goncalves - Verificacao de acentos e case sensitive
 ***************************************************************************************************/
 
 create or replace FUNCTION APPP_FN_SIMILARIDADE
@@ -12,8 +13,8 @@ create or replace FUNCTION APPP_FN_SIMILARIDADE
 
 comumChars NUMBER(10):=0;
 totalChars NUMBER(10):=0;
-Vetor1 APPP_PKG_VETORES.CHAR_VECTOR:=appp_fn_split(texto1,' ');
-Vetor2 APPP_PKG_VETORES.CHAR_VECTOR:=appp_fn_split(texto2,' ');
+Vetor1 APPP_PKG_VETORES.CHAR_VECTOR := appp_fn_split(appp_fn_remove_acento(UPPER(texto1)),' ');
+Vetor2 APPP_PKG_VETORES.CHAR_VECTOR := appp_fn_split(appp_fn_remove_acento(UPPER(texto2)),' ');
 VetorTemp APPP_PKG_VETORES.CHAR_VECTOR;
 saida NUMBER;
 BEGIN
