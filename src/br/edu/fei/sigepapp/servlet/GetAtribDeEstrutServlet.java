@@ -50,7 +50,7 @@ public class GetAtribDeEstrutServlet extends HttpServlet {
 
             out.println("<xml>");
 
-            rsAtributos = atributoDAO.APPP_PES_ATRIB_POR_ESTRUT(Long.parseLong(request.getParameter("codestr")));
+            rsAtributos = atributoDAO.APPP_PES_ATRIB_POR_ESTRUT(Long.parseLong(request.getParameter("codestr").trim()));
             atributoDAO.fechaConexao();
               
 

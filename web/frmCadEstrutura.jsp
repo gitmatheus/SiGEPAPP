@@ -169,10 +169,13 @@
                 $(xml).find("Estrutura").each(function(indice,item){
                     $("#frmPesqEstruturasTabResult").append("<tr>"+
                                     "<td colspan='2'>"+
-                                    "<input type='radio' id='frmPesqEstruturasRadio'>"+
+                                    "<input name='PesqEstruturas' type='radio' id='frmPesqEstruturasRadio'>"+
                                     $(item).find("Nome").text()+
                                     "</td></tr>");
-                                $("#frmPesqEstrChk"+$(item).find("Cod").text()).data("cod", $(item).find("Cod").text());
+                                //alert($(item).find("Cod").text());
+                                $("#frmPesqEstruturasTabResult input:radio:eq("+indice+")").data("Cod",$(item).find("Cod").text());
+                                //alert($("#frmPesqEstruturasTabResult input:radio:eq("+indice+")").data("Cod"));
+
                 });
             }
         });
@@ -298,6 +301,7 @@
             width: 511,
             modal: false,
             autoOpen: false,
+            title: 'Busca de Estruturas',
             buttons: {
                 Cancelar: function() {
                     $("#divfrmPesqEstrutura").dialog('close');
@@ -352,9 +356,10 @@
         $("#frmCadEstrTipo").change(function(){
             if( $("#frmCadEstrTipo").val() == "PA" || $("#frmCadEstrTipo").val() == "AP" || $("#frmCadEstrTipo").val() == "PE"){
                 getAtributosDeEstrutura();
-            }else{
+            }else if($("#frmCadEstrTipo").val()==-1){
                 $("#tabAtributos").html("");
-                $("#divfrmPesqEstrutura").dialog('open');
+                show_PesqEstrutura();
+                //$("#divfrmPesqEstrutura").dialog('open');
             }
         });
 
@@ -406,8 +411,7 @@
         }else if($("#frmCadEstrTipo").val()=="PE"){
             cod_Estrutura=<%=personaID%>
         }else{
-            cod_Estrutura=$("#frmPesqEstruturasRadio:checked").data("cod");
-            
+            cod_Estrutura=$("#frmPesqEstruturasRadio:checked").data("Cod");            
         }
 
         $.post("GetAtribDeEstrutServlet", {codestr: cod_Estrutura}, function(xml,status){
@@ -488,13 +492,12 @@
     }
 
     function func_incluiAtributo(){
-        if($("#frmCadEstrTipo").val()<=0){
+        if($("#frmCadEstrTipo").val()==-2){
             $(document).scrollTop(0);
             $("#alertInsAtrib").dialog('open');
             $("#frmCadEstrTipo").focus();
+
         }else{
-
-
             if($('#frmCadEstrutCmbSelAtributo option:selected').length>0){
                 //Armazena na variavel selecao o objeto selecionado no combo box do formulario.
                 var selecao=$("#frmCadEstrutCmbSelAtributo option:selected");
@@ -600,11 +603,11 @@
                         <td width="70%" align="left">
                             <div style="margin-left: 5px;display:inline">
                                 <select class="edit" id="frmCadEstrTipo" name="frmCadEstrTipo" style="height: 2em;"  maxlength="30" title="Escolha o tipo de Estrutura">
-                                    <option value="-1" selected>Escolha um tipo de estrutura</option>
+                                    <option value="-2" selected>Escolha um tipo de estrutura</option>
                                     <option value="PA">Pattern</option>
                                     <option value="AP">Anti-Pattern</option>
                                     <option value="PE">Persona</option>
-                                    <option value="-2" style="background: #EEEEEE" >Importar de Estrutura Existente...</option>
+                                    <option value="-1" style="background: #EEEEEE" >Importar de Estrutura Existente...</option>
                                 </select>
                             </div>
                             <img id="frmCadEstrDivLoadingEst"  src="/sigepapp/images/aguardep.gif" style="vertical-align:middle;">
