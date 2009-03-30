@@ -3,9 +3,9 @@
 * APPP_PES_PARAM_PROCEDURE  : Procedure para EXECUTAR PROCEDURES GENERICAS.
 *                             TODOS OS PARAMETROS DE ENTRADA DEVEM SER PREENCHIDOS.
 *                             vResult=( 1 = ok; 
-*                                      -4 = TP_ACESSO COM CÓDIGO ERRADO;
+*                                      -4 = TP_ACESSO COM CODIGO ERRADO;
 *                                      -5 = todos os paramentros de entrada devem ser preenchidos;
-*                                      -6 = número incompatível de parâmetros e valores dos vetores; 
+*                                      -6 = numero incompativel de parametros e valores dos vetores; 
 *                                     ) 
 * Author                    : WeeDo 
 * History                   : 26/03/2009 - Matheus Goncalves
@@ -43,7 +43,7 @@ begin
            
            IF TRIM(UPPER(pTP_ACESSO)) = 'SEL' THEN
            /*****************************************************
-                         MANIPULAÇÃO DE SELECT
+                         MANIPULACAO DE SELECT
            ******************************************************/ 
                  vSQL :=  'begin '                    || chr(10);                                 
                  vSQL := vSQL || vNM_PROCEDURE || '(' ;
@@ -57,7 +57,7 @@ begin
                     
                     IF (vCONTA_PARAM - 1) <= pVT_VALORES.LAST AND (vCONTA_PARAM - 1) <= pVT_ORATYPE.LAST THEN 
                        
-                       --VERIFICA SE É O PARÂMETRO DE CURSOR
+                       --VERIFICA SE E O PARAMETRO DE CURSOR
                        IF UPPER(vNM_PARAMETRO) = 'P_CURSOR' THEN
                           vSQL := vSQL ||chr(10)|| ' :p_cursorGen,';
                        ELSE
@@ -80,7 +80,7 @@ begin
                  
                  vSQL := SUBSTR(vSQL,0,LENGTH(vSQL) - 1); -- TIRA A ULTIMA VIRGULA
                  vSQL := vSQL || ');' || chr(10);
-                 vSQL := vSQL || 'end;'; -- FECHA A SQL DA EXECUÇÃO DA PROCEDURE + PARAMETROS
+                 vSQL := vSQL || 'end;'; -- FECHA A SQL DA EXECUCAO DA PROCEDURE + PARAMETROS
                  
                  IF (vResult > -6 AND  vCONTA_PARAM > 0) THEN
                  
@@ -91,7 +91,7 @@ begin
                  
            ELSIF TRIM(UPPER(pTP_ACESSO)) in ('INS','UPD','DEL') THEN
            /*****************************************************
-                    MANIPULAÇÃO DE INSERT, UPDATE OU DELETE
+                    MANIPULACAO DE INSERT, UPDATE OU DELETE
            ******************************************************/
            
                  
@@ -107,7 +107,7 @@ begin
                     
                     IF (vCONTA_PARAM - 1) <= pVT_VALORES.LAST AND (vCONTA_PARAM - 1) <= pVT_ORATYPE.LAST THEN 
                        
-                       --VERIFICA SE É O PARÂMETRO DE SAÍDA
+                       --VERIFICA SE E O PARAMETRO DE SAIDA
                        IF UPPER(vNM_PARAMETRO) = 'VRESULT' THEN
                           vSQL := vSQL ||chr(10) || ' :vResult,';
                        ELSE
@@ -130,7 +130,7 @@ begin
                  
                  vSQL := SUBSTR(vSQL,0,LENGTH(vSQL) - 1); -- TIRA A ULTIMA VIRGULA
                  vSQL := vSQL || ');' || chr(10);
-                 vSQL := vSQL || 'end;'; -- FECHA A SQL DA EXECUÇÃO DA PROCEDURE + PARAMETROS
+                 vSQL := vSQL || 'end;'; -- FECHA A SQL DA EXECUCAO DA PROCEDURE + PARAMETROS
                  
                  IF (vResult > -6 AND vCONTA_PARAM > 0) THEN
                      
