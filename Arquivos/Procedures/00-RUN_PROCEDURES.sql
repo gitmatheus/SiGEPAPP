@@ -110,6 +110,7 @@ spool /SiGEPAPP/Arquivos/Procedures/LogProcedures.log
 @ /SiGEPAPP/Arquivos/Procedures/APPP_PES_PARAM_PROCEDURE.sql
 @ /SiGEPAPP/Arquivos/Procedures/APPP_PKG_VETORES.sql
 @ /SiGEPAPP/Arquivos/Procedures/APPP_EXEC_MANIP_GENERICA.sql
+@ /SiGEPAPP/Arquivos/Procedures/APPP_SEL_OBJ_SIMILARES.sql
 
 SPOOL OFF
 

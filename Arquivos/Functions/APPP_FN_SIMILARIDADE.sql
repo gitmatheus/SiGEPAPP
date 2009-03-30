@@ -13,8 +13,8 @@ create or replace FUNCTION APPP_FN_SIMILARIDADE
 
 comumChars NUMBER(10):=0;
 totalChars NUMBER(10):=0;
-Vetor1 APPP_PKG_VETORES.CHAR_VECTOR := appp_fn_split(appp_fn_remove_acento(UPPER(texto1)),' ');
-Vetor2 APPP_PKG_VETORES.CHAR_VECTOR := appp_fn_split(appp_fn_remove_acento(UPPER(texto2)),' ');
+Vetor1 APPP_PKG_VETORES.CHAR_VECTOR := appp_fn_split(appp_fn_remove_acento_pont(UPPER(texto1)),' ');
+Vetor2 APPP_PKG_VETORES.CHAR_VECTOR := appp_fn_split(appp_fn_remove_acento_pont(UPPER(texto2)),' ');
 VetorTemp APPP_PKG_VETORES.CHAR_VECTOR;
 saida NUMBER;
 BEGIN
