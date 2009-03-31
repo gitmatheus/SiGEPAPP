@@ -117,8 +117,9 @@
                                     <tr class="menubv"><td>
                                     <a id="menubv" href="/sigepapp/frmCadUsuario.jsp" title="Cadastro das Estruturas disponiveis no sistema" >Cadastro de Usuário</a></tr>
                                     <tr class="menubv"><td>
-                                    <a id="menubv" href="#" title="Sistema de busca de Patterns, Anti-Patterns e Personas" >Busca de APPP</a></tr>
-
+                                    <a id="menubv" href="/sigepapp/frmCadAPPP.jsp" title="Sistema de busca de Patterns, Anti-Patterns e Personas" >Busca de APPP</a></tr>
+                                    <tr class="menubv"><td>
+                                    <a id="menubv" href="/sigepapp/frmCadPergResp.jsp" title="Cadastro das Perguntas e Respostas do questionário" >Perguntas e Respostas</a></tr>
 
                                 </table>
                             </td>
