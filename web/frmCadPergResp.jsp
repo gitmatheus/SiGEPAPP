@@ -17,7 +17,7 @@
                         </td>
                         <td width="65%" align="center">
                             <div style="margin-right: 10px;">
-                                <input id="frmCadPergRespNomePergunta" type="text" name="frmCadPergRespNomePergunta" class="edit" style="width: 320px;" maxlength="100" title="Digite sua pergunta" />
+                                <input id="frmCadPergRespNomePerg" type="text" name="frmCadPergRespNomePerg" class="edit" style="width: 320px;" maxlength="100" title="Digite sua pergunta" />
                             </div>
                         </td>
                         <td width="10%" align="center">
@@ -42,7 +42,7 @@
                         </td>
                         <td width="65%" align="center">
                             <div style="margin-right: 10px;">
-                                <input id="frmCadPergRespNomePerguntas" type="text" name="frmCadPergRespNomePerguntas" class="edit" style="width: 320px;" maxlength="100" title="Digite sua pergunta" />
+                                <input id="frmCadPergRespNomeResp" type="text" name="frmCadPergRespNomeResp" class="edit" style="width: 320px;" maxlength="100" title="Digite sua resposta" />
                             </div>
                         </td>
                         <td width="10%" align="center">

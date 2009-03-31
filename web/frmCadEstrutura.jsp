@@ -425,7 +425,7 @@
                 //Retorno para estrutura mnima
                 $("atributo",xml).each(function(index, item){
 
-                    $("#tabAtributos").append("<tr valign=\"middle\">\
+                $("#tabAtributos").append("<tr valign=\"middle\">\
                                                     <td colspan='2' align='center'>\
                                                      <div class='atributoMinimo' style='margin-right: 10px;border-bottom:black solid thin;'>\
                                                        "+$(item).find("nome").text()+"</div></td></tr>");
