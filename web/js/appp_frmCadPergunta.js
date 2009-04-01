@@ -1,6 +1,6 @@
 $(document).ready(function(){
 
-    $("#frmCadPergRespBotaoEnviaPerg").click(function(){
+    $("#envia_cad_pergunta").click(function(){
         EnviaCadUsuario();
     });
 });
@@ -9,7 +9,7 @@ function EnviaCadUsuario(){
     var cd_pergunta = 1;
     var ds_pergunta = $("#frmCadPergRespDescPerg").val();
     
-    $.post("CadUsuarioServlet", {
+    $.post("CadPerguntaServlet", {
         cd_pergunta: cd_pergunta,
         ds_pergunta: ds_pergunta
 

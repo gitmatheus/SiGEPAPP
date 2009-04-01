@@ -8,7 +8,6 @@
 
 <script type="text/javascript" src="js/jquery-ui-1.5.3.js" ></script>
 <script type="text/javascript" src="js/jquery.maskedinput-1.2.1.js"></script>
-<script type="text/javascript" language="javascript" src="js/i18n/ui.datepicker-pt-BR.js"></script>
 <script type="text/javascript" language="javascript" src="js/appp_frmCadPergunta.js"></script>
 
 <fieldset title="Perguntas">
@@ -23,11 +22,11 @@
                         </td>
                         <td width="65%" align="center">
                             <div style="margin-right: 10px;">
-                                <input id="frmCadPergRespDescPerg" type="text" name="frmCadPergRespDescPerg" class="edit" style="width: 320px;" maxlength="100" title="Digite sua pergunta" />
+                                <input id="frmCadPergRespDescPerg" name="frmCadPergRespDescPerg" type="text" class="edit" style="width: 320px;" maxlength="100" title="Digite sua pergunta" />
                             </div>
                         </td>
                         <td width="10%" align="center">
-                            <input id="frmCadPergRespBotaoEnviaPerg" name="frmCadPergRespEnviaPerg" class="botao" style="background-color:#3d414c;" type="button" value="cadastrar">
+                            <input id="envia_cad_pergunta" name="envia_cad_pergunta" class="botao" style="background-color:#3d414c;" type="button" value="cadastrar">
                         </td>
                 </tr>
             </table
@@ -48,11 +47,11 @@
                         </td>
                         <td width="65%" align="center">
                             <div style="margin-right: 10px;">
-                                <input id="frmCadPergRespDescResp" type="text" name="frmCadPergRespDescResp" class="edit" style="width: 320px;" maxlength="100" title="Digite sua resposta" />
+                                <input id="frmCadPergRespDescResp" name="frmCadPergRespDescResp" type="text" class="edit" style="width: 320px;" maxlength="100" title="Digite sua resposta" />
                             </div>
                         </td>
                         <td width="10%" align="center">
-                            <input id="frmCadPergRespBotaoEnviaResp" name="frmCadPergRespEnviaResp" class="botao" style="background-color:#3d414c;" type="button" value="cadastrar">
+                            <input id="envia_cad_resposta" name="envia_cad_resposta" class="botao" style="background-color:#3d414c;" type="button" value="cadastrar">
                         </td>
                 </tr>
             </table>
