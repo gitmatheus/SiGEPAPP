@@ -14,13 +14,20 @@ function LimpaDescPergunta(){
 function EnviaCadUsuario(){
     var cd_pergunta = 1;
     var ds_pergunta = $("#frmCadPergRespDescPerg").val();
-    
+
     $.post("CadPerguntaServlet", {
         cd_pergunta: cd_pergunta,
         ds_pergunta: ds_pergunta
 
     }, function(xml){
         var confirma = $("sucesso",xml).text();
+        
+        /*
+        if(confirma == "nao" && ds_pergunta!=''){
+            alert("Digite sua pergunta no campo !");
+        }else
+        */
+
         if (confirma == "nao"){ //Esse NÃO é para ser SIM porque ??? Tom Mix 01/04/2008
             alert("Pergunta cadastrada com sucesso!");
         }else{
