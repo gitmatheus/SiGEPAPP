@@ -4,6 +4,7 @@ $(document).ready(function(){
         EnviaCadUsuario();
         LimpaDescPergunta();
     });
+    
 });
 
 function LimpaDescPergunta(){
@@ -20,7 +21,7 @@ function EnviaCadUsuario(){
 
     }, function(xml){
         var confirma = $("sucesso",xml).text();
-        if (confirma == "nao"){ //Esse NÃO é para ser SIM PORQUE ??? Tom Mix
+        if (confirma == "nao"){ //Esse NÃO é para ser SIM porque ??? Tom Mix 01/04/2008
             alert("Pergunta cadastrada com sucesso!");
         }else{
             alert("Pergunta nao cadastrada devido a um erro!\nTente novamente mais tarde.");
