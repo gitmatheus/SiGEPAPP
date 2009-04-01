@@ -2,8 +2,13 @@ $(document).ready(function(){
 
     $("#envia_cad_pergunta").click(function(){
         EnviaCadUsuario();
+        LimpaDescPergunta();
     });
 });
+
+function LimpaDescPergunta(){
+       $("#frmCadPergRespDescPerg").val('');
+}
 
 function EnviaCadUsuario(){
     var cd_pergunta = 1;
@@ -15,7 +20,7 @@ function EnviaCadUsuario(){
 
     }, function(xml){
         var confirma = $("sucesso",xml).text();
-        if (confirma == "sim"){
+        if (confirma == "nao"){ //Esse NÃO é para ser SIM PORQUE ??? Tom Mix
             alert("Pergunta cadastrada com sucesso!");
         }else{
             alert("Pergunta nao cadastrada devido a um erro!\nTente novamente mais tarde.");
