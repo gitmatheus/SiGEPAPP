@@ -10,7 +10,7 @@ create or replace function APPP_FN_REMOVE_ACENTO_PONT
 vStringReturn varchar2(2000);
 -- 
 begin
-  vStringReturn := translate( pString,
+  vStringReturn := translate( ltrim(rtrim(pString)),
                     'ÁÇÉÍÓÚÀÈÌÒÙÂÊÎÔÛÃÕËÜáçéíóúàèìòùâêîôûãõëü´`.,;:+-*<>{}[]ªº_!?/\|@#¨()^~¬¢¹²³£§',
                     'ACEIOUAEIOUAEIOUAOEUaceiouaeiouaeiouaoeu                                123  ');
   --
