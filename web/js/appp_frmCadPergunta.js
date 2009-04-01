@@ -1,10 +1,17 @@
+$(document).ready(function(){
+
+    $("#frmCadPergRespBotaoEnviaPerg").click(function(){
+        EnviaCadUsuario();
+    });
+});
+
 function EnviaCadUsuario(){
-    var codPerg = 1;
-    var descPerg = $("#frmCadPergRespNomePerg").val();
+    var cd_pergunta = 1;
+    var ds_pergunta = $("#frmCadPergRespDescPerg").val();
     
     $.post("CadUsuarioServlet", {
-        codPerg: codPerg,
-        descPerg: descPerg
+        cd_pergunta: cd_pergunta,
+        ds_pergunta: ds_pergunta
 
     }, function(xml){
         var confirma = $("sucesso",xml).text();

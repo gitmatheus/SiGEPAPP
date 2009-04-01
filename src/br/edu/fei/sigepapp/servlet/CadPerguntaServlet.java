@@ -29,8 +29,8 @@ public class CadPerguntaServlet extends HttpServlet {
 
         Pergunta pergunta = new Pergunta();
 
-        pergunta.setCd_pergunta(Long.parseLong(request.getParameter("codPerg")));
-        pergunta.setDs_pergunta(request.getParameter("descPerg"));
+        pergunta.setCd_pergunta(Long.parseLong(request.getParameter("cd_pergunta")));
+        pergunta.setDs_pergunta(request.getParameter("ds_pergunta"));
 
         try {
             PerguntaDAO perguntaDao = new PerguntaDAO();

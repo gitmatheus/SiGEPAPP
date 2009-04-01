@@ -23,11 +23,11 @@
                         </td>
                         <td width="65%" align="center">
                             <div style="margin-right: 10px;">
-                                <input id="frmCadPergRespNomePerg" type="text" name="frmCadPergRespNomePerg" class="edit" style="width: 320px;" maxlength="100" title="Digite sua pergunta" />
+                                <input id="frmCadPergRespDescPerg" type="text" name="frmCadPergRespDescPerg" class="edit" style="width: 320px;" maxlength="100" title="Digite sua pergunta" />
                             </div>
                         </td>
                         <td width="10%" align="center">
-                            <input id="frmCadPergRespEnviaPerg" class="botao" style="background-color:#3d414c;" type="button" value="cadastrar">
+                            <input id="frmCadPergRespBotaoEnviaPerg" name="frmCadPergRespEnviaPerg" class="botao" style="background-color:#3d414c;" type="button" value="cadastrar">
                         </td>
                 </tr>
             </table
@@ -48,11 +48,11 @@
                         </td>
                         <td width="65%" align="center">
                             <div style="margin-right: 10px;">
-                                <input id="frmCadPergRespNomeResp" type="text" name="frmCadPergRespNomeResp" class="edit" style="width: 320px;" maxlength="100" title="Digite sua resposta" />
+                                <input id="frmCadPergRespDescResp" type="text" name="frmCadPergRespDescResp" class="edit" style="width: 320px;" maxlength="100" title="Digite sua resposta" />
                             </div>
                         </td>
                         <td width="10%" align="center">
-                            <input id="frmCadPergRespEnviaResp" class="botao" style="background-color:#3d414c;" type="button" value="cadastrar">
+                            <input id="frmCadPergRespBotaoEnviaResp" name="frmCadPergRespEnviaResp" class="botao" style="background-color:#3d414c;" type="button" value="cadastrar">
                         </td>
                 </tr>
             </table>
