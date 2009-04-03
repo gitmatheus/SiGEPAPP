@@ -1,53 +1,57 @@
 /**************************************************************************************************
 * Project Name         : SiGEPAPP
 * APPP_FN_MAIORSUB     : Function retorna a maior substring em comum entre uma palavra e um vetor
-		       : e o maior tamanho da palavra que tem essa maior substring em comum.
-* Author               : WeeDo 
+*                      : e o maior tamanho da palavra que tem essa maior substring em comum.
+* Author               : WeeDo
 * History              : 29/03/2009 - Guilherme Wachs Lopes
+*                      : 02/04/2009 - Guilherme Wachs Lopes - Melhoria no algoritmo
 ***************************************************************************************************/
-CREATE OR REPLACE FUNCTION APPP_FN_MAIORSUB( Vetor IN APPP_PKG_VETORES.CHAR_VECTOR
-                                            , Palavra IN VARCHAR2
-                                            , MaiorTamanho OUT NUMBER
-                                            )RETURN NUMBER AS
+CREATE OR REPLACE
+FUNCTION APPP_FN_MAIORSUB
+( Vetor IN APPP_PKG_VETORES.CHAR_VECTOR
+, Palavra IN VARCHAR2
+, maxSimilar_Caracter OUT NUMBER
+)
+RETURN NUMBER AS
 
-      VetorNovo APPP_PKG_VETORES.CHAR_VECTOR:= vetor;
-      maiorItem number(10):=1;
-      subPalavra VARCHAR2(100);
-      subPalavraVet VARCHAR2(100);
-      VetorTemp APPP_PKG_VETORES.CHAR_VECTOR;
-      indice number(10):=1;
-      retorno number(10):=0;
+maxSimilar_Comum number:=0;
+
+MaiorRelacao number:=0;
+fl_continua boolean:=true;
+indice_sub number;
+maior_palavra number;
+j number:=1;
 BEGIN
 
-  for i in 1..length(palavra) loop
-      maiortamanho:= maioritem;
-      maiorItem:=1;
-      subPalavra:= substr(Palavra, 1, i);
-      VetorTemp.DELETE;
-      indice:=1;
-      for j in 1..VetorNovo.count loop
+maxSimilar_Caracter:=length(palavra);
 
-          subPalavraVet:= substr(VetorNovo(j), 1, i);
-          if(subpalavra=subpalavravet) then
-              vetortemp(indice):=VetorNovo(j);
-              indice:=indice+1;
-              maiorItem:= greatest(maiorItem, length(VetorNovo(j)));
-          end if;
+  IF (length(palavra)>0) THEN
+    FOR i IN REVERSE 1..length(palavra) LOOP
 
-      end loop;
+        FOR j IN 1..Vetor.Count LOOP
 
-      VetorNovo:=VetorTemp;
-      retorno:=i;
+          indice_sub:=Least(i,length(Vetor(j)));
 
-      if (VetorNovo.count=0) then
-         MaiorItem:=MaiorTamanho;
-         MaiorTamanho:=greatest(maioritem, length(palavra));
-         retorno:=i-1;
-      end if;
+          IF Substr(Vetor(j),1, indice_sub)= substr(palavra, 1, indice_sub) THEN
+              maior_palavra:=greatest(Length(Vetor(j)),Length(palavra));
+              IF (i/maior_palavra) > maiorrelacao THEN
+                  maxSimilar_Caracter:=maior_palavra;
+                  MaiorRelacao:=i/maxSimilar_Caracter;
+                  maxSimilar_comum:=i;
 
-      exit when VetorNovo.Count=0;
-  end loop;
+                  IF MaiorRelacao=1 THEN
+                    fl_continua:=false;
+                  END IF;
 
-  RETURN retorno;
+              END IF;
+          END IF;
+
+        EXIT WHEN fl_continua=false;
+        END LOOP;
+    END LOOP;
+
+  END IF;
+
+  RETURN maxSimilar_Comum;
 
 END APPP_FN_MAIORSUB;
