@@ -10,7 +10,6 @@ create or replace procedure APPP_INS_OBJ_RELAC(pCD_RELAC            IN OUT NUMBE
                                                pCD_OBJ_RELACIONANDO IN number   , 
                                                pCD_ATRIBUTO_OBJ     IN NUMBER   ,
                                                pVL_RELAC            IN VARCHAR2 ,
-                                               p_cursor         OUT SYS_REFCURSOR, 
                                                vResult          out number) is
 vERRO        VARCHAR2(600);
 begin

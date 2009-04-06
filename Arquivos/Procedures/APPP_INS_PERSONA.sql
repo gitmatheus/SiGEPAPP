@@ -4,13 +4,14 @@
 *                    vResult( 1=OK; -99=ErroGeral)
 *                     
 * Author           : WeeDo 
-* History          : 04/03/2009 - Matheus Gonçalves
+* History          : 04/03/2009 - Matheus Goncalves
+*                  : 30/03/2009 - Matheus Goncalves - Alteracao de Parametro
 *******************************************************************************/
 create or replace procedure APPP_INS_PERSONA(pCD_PERSONA IN NUMBER,
                                              pNM_PERSONA IN VARCHAR2,
+                                             pURL_FOTO   IN VARCHAR2,
                                              vResult     out number) is
- vImgPath varchar2(6) := '/img/';                                           
-                                              
+                                     
 vERRO        VARCHAR2(600);
 begin
     
@@ -22,7 +23,7 @@ begin
                               )
                         values(pCD_PERSONA ,
                                pNM_PERSONA ,
-                               vImgPath || 'IMG_' || to_char(pCD_PERSONA,'9999999999') || '.jpg'
+                               pURL_FOTO
                               );
   
    vResult := 1; -- OK
