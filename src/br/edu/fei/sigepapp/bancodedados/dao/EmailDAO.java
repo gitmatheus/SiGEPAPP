@@ -85,6 +85,33 @@ public class EmailDAO {
         }
     }
 
+    public boolean deleta(Email email){
+        try{
+            CallableStatement cstmt = this.conn.prepareCall("begin APPP_DEL_EMAIL_USER(?,?,?,?); end;");
+
+            cstmt.setLong(1, email.getCd_user());
+            cstmt.setString(2, email.getNm_email());
+            cstmt.setString(3, email.getTp_email());
+            cstmt.registerOutParameter(4, OracleTypes.NUMBER);
+
+            cstmt.execute();
+
+            int cResult = (int) cstmt.getLong(4);
+
+            if (cResult == 1){
+                GravarLog.gravaInformacao(EmailDAO.class.getName() + ": email removido com sucesso");
+                cstmt.close();
+                return true;
+            }else{
+                GravarLog.gravaAlerta(EmailDAO.class.getName() + ": problema durante a remoção: retorno " + cResult );
+                cstmt.close();
+                return false;
+            }
+        }catch(SQLException e){
+            GravarLog.gravaErro(EmailDAO.class.getName() + ": erro na execucao do metodo delete: " + e.getSQLState() + " : " + e.getMessage());
+            return false;
+        }
+    }
     /**
      * Metodo para fechar o banco de dados da classe
      */

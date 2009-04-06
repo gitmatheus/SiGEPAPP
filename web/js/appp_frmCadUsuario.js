@@ -148,8 +148,6 @@ function EnviaCadUsuario(){
     var nome = $("#frmCadUserNome").val();
     var sobrenome = $("#frmCadUserSobrenome").val();
     var datanasc = $("#frmCadUserDataNasc").val();
-    //datanasc = apenasNumeros(datanasc);
-    //datanasc = inverterData(datanasc);
     var endereco = $("#frmCadUserEndereco").val();
     var nroendereco = $("#frmCadUserNumEnd").val();
     var endcomplemento = $("#frmCadUserEndComplemento").val();
@@ -188,10 +186,13 @@ function EnviaCadUsuario(){
         areainteresse: areainteresse
     }, function(xml){
         var confirma = $("sucesso",xml).text();
-        if (confirma == "sim"){
-            alert("Usuario cadastrado com sucesso!");
+        if (confirma == "inserido"){
+            $("#alertaCadastrado").dialog('open');
         }else{
-            alert("Usuario nao cadastrado devido a um erro!\nTente novamente mais tarde.");
+            if (confirma == "existente")
+                $("#alertaExistente").dialog('open');
+            else
+                $("#alertaErro").dialog('open');
         }
     });
 
@@ -216,27 +217,47 @@ $(function(){
             }
         }
     });
+
+    $("#alertaCadastrado").dialog({
+        autoOpen: false,
+        width: 'auto',
+        height: 100,
+        buttons:{
+            "Ok": function(){
+                $(this).dialog("close");
+                window.location = '/sigepapp';
+            }
+        }
+    });
+
+    $("#alertaExistente").dialog({
+        autoOpen: false,
+        width: 'auto',
+        height: 100,
+        buttons:{
+            "Ok": function(){
+                $(this).dialog("close");
+                $("#frmCadUserCPF").focus();
+            }
+        }
+    });
+
+    $("#alertaErro").dialog({
+        autoOpen: false,
+        width: 'auto',
+        height: 100,
+        buttons:{
+            "Ok": function(){
+                $(this).dialog("close");
+            }
+        }
+    });
+
     $("#envia_cad_user").click(function(){
         EnviaCadUsuario();
     });
 
     $("#cancela_cad_user").click(function(){
-        //area de testes
-       $("#frmCadUserLogin").val('andrey');
-       $("#frmCadUserSenha").val('andrey');
-       $("#frmCadUserEmail").val('andreymasiero@gmail.com');
-       $("#frmCadUserCPF").val('21587065894');
-       $("#frmCadUserNome").val('Andrey');
-       $("#frmCadUserSobrenome").val('Masiero');
-       $("#frmCadUserDataNasc").val('29/10/1983');
-       $("#frmCadUserEndereco").val('r juazerio');
-       $("#frmCadUserNumEnd").val('176');
-       $("#frmCadUserEndComplemento").val('casa');
-       $("#frmCadUserCEP").val('09855640');
-       $("#frmCadUserBairro").val('jd fei mizuho');
-       $("#frmCadUserTelefone").val('1143528200');
-       $("#frmCadUserMsn").val('andreymasiero@hotmail.com');
-       $("#frmCadUserSkype").val('andreymasiero');
-       $("#frmCadUserAreaInt").val('teste teste teste teste teste teste');
+        window.location = '/sigepapp';
     });
 });

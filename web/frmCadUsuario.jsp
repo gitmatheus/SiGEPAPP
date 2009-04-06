@@ -71,12 +71,12 @@
                                         <td width="70%" align="left">
                                             <div style="margin-left: 5px;">
                                                 <input id="frmCadUserEmail" type="text" name="frmCadUserEmail" class="edit" style="width: 260px;" maxlength="100" title="Digite seu email" />
-                                                <font class="texto"> Tipo: </font>
+                                            <!-- <font class="texto"> Tipo: </font>
                                                 <select id="frmCadUserTipoEmail" name="frmCadUserTipoEmail" class="edit" style="width: auto;">
                                                     <option value="P">Pessoal</option>
                                                     <option value="C">Comercial</option>
                                                 </select>
-                                                <!-- &nbsp;&nbsp;<a href="#"><img id="adicionaemail" src="images/222222_11x11_icon_plus.gif" title="Adicionar outro email" border="0"></a> -->
+                                                &nbsp;&nbsp;<a href="#"><img id="adicionaemail" src="images/222222_11x11_icon_plus.gif" title="Adicionar outro email" border="0"></a> -->
                                             </div>
                                         </td>
                                     </tr>
@@ -163,12 +163,12 @@
                                     <td width="70%" align="left">
                                         <div  style="margin-left: 5px;">
                                             <input id="frmCadUserEndComplemento" type="text" name="frmCadUserEndComplemento" class="edit" style="width: 150px;" maxlength="80" title="Digite o complemento de seu endere&ccedil;o" />
-                                            <font class="texto"> Tipo: </font>
+                                           <!-- <font class="texto"> Tipo: </font>
                                             <select id="frmCadUserTipoEnd" name="frmCadUserTipoEnd" class="edit" style="width: auto;">
                                                 <option value="R">Residencial</option>
                                                 <option value="C">Comercial</option>
                                             </select>
-                                            <!-- &nbsp;&nbsp;<a id="lnkaddendereco" href="#"><img id="adicionaendereco" src="images/222222_11x11_icon_plus.gif" title="Adicionar outro endere&ccedil;o" border="0"></a> -->
+                                            &nbsp;&nbsp;<a id="lnkaddendereco" href="#"><img id="adicionaendereco" src="images/222222_11x11_icon_plus.gif" title="Adicionar outro endere&ccedil;o" border="0"></a> -->
                                         </div>
                                     </td>
                                 </tr>
@@ -259,13 +259,13 @@
                             <td width="70%" align="left">
                                 <div  style="margin-left: 5px;">
                                     <input id="frmCadUserTelefone" name="frmCadUserTelefone" class="edit" style="width: 90px;" maxlength="15" title="Digite o número de telefone de seu interesse"/>
-                                    <font class="texto"> Tipo: </font>
+                                   <!-- <font class="texto"> Tipo: </font>
                                     <select id="frmCadUserTipoTel" name="frmCadUserTipoTel" class="edit" style="width: auto;">
                                         <option value="R">Residencial</option>
                                         <option value="C">Comercial</option>
                                         <option value="O">Celular</option>
                                     </select>
-                                    <!--&nbsp;&nbsp;<a href="#"><img id="adicionatelefone" src="images/222222_11x11_icon_plus.gif" title="Adicionar outro telefone" border="0"></a>-->
+                                    &nbsp;&nbsp;<a href="#"><img id="adicionatelefone" src="images/222222_11x11_icon_plus.gif" title="Adicionar outro telefone" border="0"></a>-->
                                 </div>
                             </td>
                         </tr>
@@ -315,6 +315,18 @@
                             <input type="button" id="envia_cad_user" name="envia_cad_user" class="botao" value="Confirmar" title="Confirmar cadastro de usuário">
                             &nbsp;&nbsp;
                             <input type="button" id="cancela_cad_user" name="cancela_cad_user" class="botao" value="Cancelar" title="Cancelar cadastro de usuário">
+                            <div id="alertaCadastrado" title="Cadastro de Usuário">
+                                 Usuário cadastrado com sucesso!
+                            </div>
+                            <div id="alertaExistente" title="Cadastro de Usuário">
+                                 Usuário já está cadastrado no banco!
+                            </div>
+                            <div id="alertaErro" title="Erro no cadastro">
+                                 <center><b style="color: red;">Erro</b></center>
+                                 <p>Ocorreu um erro no cadastro de usuário.<br>
+                                    Por favor, tente mais tarde!
+                                 </p>
+                            </div>
                         </td>
                     </tr>
                 </table>

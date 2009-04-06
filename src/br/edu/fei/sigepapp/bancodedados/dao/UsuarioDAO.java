@@ -107,18 +107,31 @@ public class UsuarioDAO {
             cstmt.setString(2, usuario.getNm_prim_nome());
             cstmt.setString(3, usuario.getNm_ult_nome());
             cstmt.setDate(4, usuario.getDt_nasc());
-            cstmt.setDouble(5, usuario.getNr_nota());
-            cstmt.setString(6, usuario.getDs_area_interesse());
-            cstmt.setString(7, usuario.getNm_msn());
-            cstmt.setString(8, usuario.getNm_skype());
-            cstmt.registerOutParameter(9, OracleTypes.NUMBER);
+            cstmt.setDate(5, usuario.getDt_nasc());
+            cstmt.setDouble(6, usuario.getNr_nota());
+            cstmt.setDouble(7, usuario.getNr_nota());
+            cstmt.setDate(8, usuario.getDt_cadastro());
+            cstmt.setDate(9, usuario.getDt_cadastro());
+            cstmt.setString(10, usuario.getDs_area_interesse());
+            cstmt.setString(11, usuario.getNm_msn());
+            cstmt.setString(12, usuario.getNm_skype());
+            cstmt.registerOutParameter(13, OracleTypes.NUMBER);
 
             cstmt.execute();
 
             int cResult = (int) cstmt.getLong(13);
 
-            return true;
+            if (cResult > 0){
+                GravarLog.gravaInformacao(UsuarioDAO.class.getName() + ": usuario excluido com sucesso");
+                cstmt.close();
+                return true;
+            }else{
+                GravarLog.gravaAlerta(UsuarioDAO.class.getName() + ": problemas na exclusao do usuario : retorno " + cResult);
+                cstmt.close();
+                return false;
+            }
         }catch(SQLException e){
+            GravarLog.gravaErro(UsuarioDAO.class.getName() + ": erro na execucao do metodo delete: " + e.getSQLState() + " : " + e.getMessage());
             return false;
         }
     }

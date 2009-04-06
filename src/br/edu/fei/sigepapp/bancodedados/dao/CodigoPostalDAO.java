@@ -55,6 +55,34 @@ public class CodigoPostalDAO {
         }
     }
 
+    public boolean deleta(CodigoPostal codPostal){
+        try{
+            CallableStatement cstmt = this.conn.prepareCall("begin APPP_DEL_CODIGO_POSTAL(?,?,?,?); end;");
+
+            cstmt.setLong(1, codPostal.getCd_cep());
+            cstmt.setString(2, codPostal.getNm_rua());
+            cstmt.setLong(3, codPostal.getCd_cidade());
+            cstmt.registerOutParameter(4, OracleTypes.NUMBER);
+
+            cstmt.execute();
+
+            int cResult = (int) cstmt.getLong(4);
+
+            if (cResult == 1){
+                GravarLog.gravaInformacao(CodigoPostalDAO.class.getName() + ": CP excluido com sucesso.");
+                cstmt.close();
+                return true;
+            }else{
+                GravarLog.gravaAlerta(CodigoPostalDAO.class.getName() + ": erro na exclusão: retorno " + cResult);
+                cstmt.close();
+                return false;
+            }
+        }catch(SQLException e){
+            GravarLog.gravaErro(CodigoPostalDAO.class.getName() + ": erro na execucao do metodo delete: " + e.getSQLState() + " : " + e.getMessage());
+            return false;
+        }
+        
+    }
     /**
      * Metodo para fechar o banco de dados da classe
      */

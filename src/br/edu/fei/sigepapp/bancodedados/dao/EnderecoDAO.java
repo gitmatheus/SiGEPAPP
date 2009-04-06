@@ -58,6 +58,33 @@ public class EnderecoDAO {
         }
     }
 
+    public boolean deleta(Endereco endereco){
+        try{
+            CallableStatement cstmt = this.conn.prepareCall("begin APPP_DEL_USER_ENDERECO(?,?,?); end;");
+
+            cstmt.setLong(1, endereco.getCd_user());
+            cstmt.setString(2, endereco.getTp_endereco());
+            cstmt.registerOutParameter(3, OracleTypes.NUMBER);
+
+            cstmt.execute();
+
+            int cResult = (int) cstmt.getLong(3);
+
+            if (cResult == 1){
+                GravarLog.gravaInformacao(EnderecoDAO.class.getName() + ": endereco removido com sucesso.");
+                cstmt.close();
+                return true;
+            }else{
+                GravarLog.gravaAlerta(EnderecoDAO.class.getName() + ": problemas durante a remoção: retorno " + cResult);
+                cstmt.close();
+                return false;
+            }
+        }catch (SQLException e){
+            GravarLog.gravaErro(EnderecoDAO.class.getName() + ": erro na execucao do metodo delete: " + e.getSQLState() + " : " + e.getMessage());
+            return false;
+        }
+    }
+
     public void fechaConexao() {
         try {
             if (!this.conn.isClosed()) {

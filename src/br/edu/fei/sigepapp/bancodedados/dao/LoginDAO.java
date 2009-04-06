@@ -192,6 +192,34 @@ public class LoginDAO {
         }
     }
 
+    public boolean deleta(Login login){
+        try{
+            CallableStatement cstmt = this.conn.prepareCall("begin APPP_DEL_LOGIN(? ,?); end;");
+
+            cstmt.setLong(1, login.getCd_user());
+            cstmt.registerOutParameter(2, OracleTypes.NUMBER);
+
+            cstmt.execute();
+
+            int cResult = (int) cstmt.getLong(2);
+
+            if (cResult > 0){
+                GravarLog.gravaInformacao(LoginDAO.class.getName() + ": login removido com sucesso.");
+                cstmt.close();
+                return true;
+            }else{
+                GravarLog.gravaAlerta(LoginDAO.class.getName() + ": problemas durante a remoção: retorno" + cResult);
+                cstmt.close();
+                return false;
+            }
+        }catch(SQLException e){
+            GravarLog.gravaErro(LoginDAO.class.getName() + ": erro na execucao do metodo delete: " + e.getSQLState() + " : " + e.getMessage());
+            return false;
+        }
+
+        
+    }
+
     /**
      * Metodo para fechar o banco de dados da classe
      */

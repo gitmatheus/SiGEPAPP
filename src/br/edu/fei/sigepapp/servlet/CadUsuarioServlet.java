@@ -95,19 +95,12 @@ public class CadUsuarioServlet extends HttpServlet {
         try {
             UsuarioDAO usuarioDao = new UsuarioDAO();
             CodigoPostalDAO cpDao = new CodigoPostalDAO();
-            EnderecoDAO endDao    = new EnderecoDAO();
-            EmailDAO emailDao     = new EmailDAO();
-            TelefoneDAO telDao    = new TelefoneDAO();
-            LoginDAO loginDao     = new LoginDAO();
-
 
             int c = cpDao.insere(codigoPostal);
             if (c == 3) {
                 GravarLog.gravaErro(CadUsuarioServlet.class.getName() + ": erro no cadastro do Código Postal");
-                erro = true;
                 cpDao.fechaConexao();
             }else{
-                erro = false;
                 cpDao.fechaConexao();
             }
             
@@ -125,19 +118,23 @@ public class CadUsuarioServlet extends HttpServlet {
                 }
             }
 
+            EnderecoDAO endDao = new EnderecoDAO();
             if (!erro && !cadastrado){
                c = endDao.insere(endereco);
                if(c == 1){
                    erro = false;
                    endDao.fechaConexao();
+                   EmailDAO emailDao = new EmailDAO();
                    c = emailDao.insere(email);
                    if(c == 1){
                        erro = false;
                        emailDao.fechaConexao();
+                       TelefoneDAO telDao = new TelefoneDAO();
                        c = telDao.insere(telefone);
                        if (c == 1){
                            erro = false;
                            telDao.fechaConexao();
+                           LoginDAO loginDao = new LoginDAO();
                            c = loginDao.insere(login);
                            if (c == 1){
                                erro = false;
@@ -161,7 +158,7 @@ public class CadUsuarioServlet extends HttpServlet {
             }
 
             if (erro){
-                rollback();
+                rollback(usuario, endereco, telefone, email, login);
             }
 
         } catch (Exception e) {
@@ -169,17 +166,44 @@ public class CadUsuarioServlet extends HttpServlet {
         }
 
         if (inserido) {
-            writer.println("<sucesso>sim</sucesso>");
+            writer.println("<sucesso>inserido</sucesso>");
         } else {
-            writer.println("<sucesso>nao</sucesso>");
+            if(cadastrado){
+                writer.println("<sucesso>existente</sucesso>");
+            }else{
+                writer.println("<sucesso>erro</sucesso>");
+            }
         }
 
         writer.flush();
         writer.close();
-
     }
 
-    public void rollback(){
-        
+    public void rollback(Usuario usuario, Endereco endereco, Telefone telefone, Email email, Login login){
+        try{
+            UsuarioDAO userDao = new UsuarioDAO();
+            userDao.deleta(usuario);
+            userDao.fechaConexao();
+
+            EnderecoDAO endDao = new EnderecoDAO();
+            endDao.deleta(endereco);
+            endDao.fechaConexao();
+
+            TelefoneDAO telDao = new TelefoneDAO();
+            telDao.deleta(telefone);
+            telDao.fechaConexao();
+
+            EmailDAO emailDao = new EmailDAO();
+            emailDao.deleta(email);
+            emailDao.fechaConexao();
+
+            LoginDAO loginDao = new LoginDAO();
+            loginDao.deleta(login);
+            loginDao.fechaConexao();
+            
+        }catch(Exception e){
+            GravarLog.gravaErro(CadUsuarioServlet.class.getName() + ": erro durante rollback: CD_USER = " + usuario.getCd_user() + ": Msg de erro = " + e.getMessage());
+        }
+
     }
 }

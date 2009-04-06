@@ -93,6 +93,33 @@ public class TelefoneDAO {
         }
     }
 
+    public boolean deleta(Telefone telefone){
+        try{
+            CallableStatement cstmt = this.conn.prepareCall("begin APPP_DEL_USER_TELEFONE(?,?,?); end;");
+
+            cstmt.setLong(1, telefone.getCd_user());
+            cstmt.setString(2,telefone.getTp_telefone());
+            cstmt.registerOutParameter(3, OracleTypes.NUMBER);
+
+            cstmt.execute();
+
+            int cResult = (int) cstmt.getLong(3);
+
+            if(cResult == 1){
+                GravarLog.gravaInformacao(TelefoneDAO.class.getName() + ": telefone removido com sucesso.");
+                cstmt.close();
+                return true;
+            }else{
+                GravarLog.gravaAlerta(TelefoneDAO.class.getName() + ": problemas durante a remoção: retorno " + cResult);
+                cstmt.close();
+                return false;
+            }
+        }catch(SQLException e){
+            GravarLog.gravaErro(TelefoneDAO.class.getName() + ": erro na execucao do metodo delete: " + e.getSQLState() + " : " + e.getMessage());
+            return false;
+        }
+    }
+
     /**
      * Metodo para fechar o banco de dados da classe
      */
