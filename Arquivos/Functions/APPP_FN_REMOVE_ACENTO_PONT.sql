@@ -16,7 +16,7 @@ begin
   --
   
   -- Remove os espacos duplos:
-  while instr(vStringReturn,'  ') > 1 loop
+  while instr(vStringReturn,'  ') >= 1 loop
         vStringReturn := replace( vStringReturn,'  ',' ');
   end loop;
   
