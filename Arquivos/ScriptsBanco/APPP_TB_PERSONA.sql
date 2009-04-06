@@ -2,8 +2,9 @@
 * Project Name        : SiGEPAPP
 * APPP_TB_PERSONA.SQL : Script para criação da tabela APPP_TB_PERSONA
 * Author              : WeeDo 
-* History             : 16/02/2009 - Matheus Gonçalves - VERSÃO INICIAL
-*                     : 25/02/2009 - Matheus Gonçalves - ALTERAÇÃO CAMPO URL  
+* History             : 16/02/2009 - Matheus Goncalves - VERSÃO INICIAL
+*                     : 25/02/2009 - Matheus Goncalves - ALTERAÇÃO CAMPO URL  
+*                     : 30/03/2009 - Matheus Goncalves - ALTERAÇÃO CAMPO URL
 ***********************************************************************************************************************/
 
 -- Create table 
@@ -12,7 +13,7 @@ create table APPP_TB_PERSONA
 (
   CD_PERSONA        number(10)    NOT NULL,
   NM_PERSONA        VARCHAR2(60)  NOT NULL ,
-  URL_FOTO          VARCHAR2(14)                   
+  URL_FOTO          VARCHAR2(300)                   
 )
 tablespace SYSTEM
   storage
@@ -32,8 +33,6 @@ alter table APPP_TB_PERSONA
   references APPP_TB_OBJETO (CD_OBJETO);
 
 -- Add comments to the columns 
-comment on column APPP_TB_PERSONA.URL_FOTO
-  is 'Padrão "IMG_9999999999"';
   
  -- Grant/Revoke object privileges 
 grant select, insert, UPDATE, delete, references, alter, index on APPP_TB_PERSONA to admin;
