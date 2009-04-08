@@ -108,7 +108,7 @@
                         <tr>
                             <td width="20%" valign="top">
                                 <table width="100%" border="0" cellpadding="0" cellspacing="0">
-                                	<tr class="menubv"><td>
+                                    <tr class="menubv"><td>
                                     <a id="menubv" href="/sigepapp" title="P&aacute;gina principal" >Home</a></tr>
                                     <tr class="menubv"><td>
                                     <a id="menubv" href="/sigepapp/frmCadEstrutura.jsp" title="Cadastro das Estruturas disponiveis no sistema" >Cadastro de Estruturas</a></tr>
