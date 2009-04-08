@@ -14,12 +14,6 @@
          * |------------------------------------------------------------------|
          **/
 
-
-        PerguntaDAO pergDAO = new PerguntaDAO();
-        Collection<Pergunta> perguntas;
-        perguntas = pergDAO.APPP_SEL_PERGUNTA(new Pergunta());
-        pergDAO.fechaConexao();
-
 %>
 
 <%@include file="cabecalho.jsp"%>
@@ -58,11 +52,7 @@
                 <tr>
                     <td></td>
                     <td>
-                            <select class="select_varias_linhas" size="8" style="width: 250px" id="frmCadEstrutCmbSelPergunta" ondblclick="listaPergunta();">
-                                <%for (Pergunta p : perguntas) {%>
-                                <option  value ="<%= p.getDs_pergunta()%>" title="<%= p.getDs_pergunta()%>" ><%= p.getCd_pergunta()%></option>
-                                <% }%>
-                            </select>
+                            
                     </td>
                     <td></td>
                 </tr>

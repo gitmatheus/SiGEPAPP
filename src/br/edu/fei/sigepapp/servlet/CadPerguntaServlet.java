@@ -25,25 +25,25 @@ public class CadPerguntaServlet extends HttpServlet {
 
         boolean inserido = false;
         boolean erro = false;
-        boolean cadastrado = false;
 
         Pergunta pergunta = new Pergunta();
 
         pergunta.setCd_pergunta(Long.parseLong(request.getParameter("cd_pergunta")));
         pergunta.setDs_pergunta(request.getParameter("ds_pergunta"));
 
+
+
+
         try {
             PerguntaDAO perguntaDao = new PerguntaDAO();
 
-            int c=0;
+            long c=0;
 
             if (!erro){
                 c = perguntaDao.inserePergunta(pergunta);
                 if (c == 1){
                     erro = false;
-                    perguntaDao.fechaConexao();
-                }else if (c == 2){
-                    cadastrado = true;
+                    inserido=true;
                     perguntaDao.fechaConexao();
                 }else{
                     erro = true;
@@ -51,18 +51,16 @@ public class CadPerguntaServlet extends HttpServlet {
                 }
             }
 
-            if (erro){
-                rollback();
-            }
-
         } catch (Exception e) {
             GravarLog.gravaErro(CadPerguntaServlet.class.getName() + ": erro durante o cadastro da pergunta: " + e.getMessage());
+            inserido=false;
+            erro=true;
         }
 
         if (inserido) {
-            writer.println("<sucesso>sim</sucesso>");
+            writer.println("<xml><sucesso>sim</sucesso></xml>");
         } else {
-            writer.println("<sucesso>nao</sucesso>");
+            writer.println("<xml><sucesso>nao</sucesso><xml>");
         }
 
         writer.flush();
@@ -70,7 +68,4 @@ public class CadPerguntaServlet extends HttpServlet {
 
     }
 
-    public void rollback(){
-
-    }
 }

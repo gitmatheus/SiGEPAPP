@@ -13,7 +13,7 @@ package br.edu.fei.sigepapp.bancodedados.dao;
  * |------------------------------------------------------------------|
  * |   Autor     |   Data      |   Descrição                          |
  * |------------------------------------------------------------------|
- * | Tom Mix     | 30/03/09    | Criação         |
+ * | Tom Mix     | 30/03/09    | Criação                              |
  * |------------------------------------------------------------------|
  *
  */
@@ -54,35 +54,36 @@ public class PerguntaDAO {
      * @return 1 = Cadastrado / 2 = Existente no BD / 3 = Erro
      */
     
-    public int inserePergunta(Pergunta pergunta) {
+    public long inserePergunta(Pergunta pergunta) {
         try {
             //Instancia um objeto da classe PreparedStatement com o comando para inserção do registro no banco
             CallableStatement cstmt = this.conn.prepareCall("begin APPP_INS_PERGUNTA(?, ?, ?); end;");
 
             //Seta os valores para os pontos de interrogação indexados pela ordem deles na string
-            cstmt.setLong(1, pergunta.getCd_pergunta());
-            cstmt.setString(2, pergunta.getDs_pergunta());
-            cstmt.registerOutParameter(3, OracleTypes.NUMBER);
+            cstmt.setNull(1, OracleTypes.NUMBER);
+            cstmt.registerOutParameter(1, OracleTypes.NUMBER);
 
+            cstmt.setString(2, pergunta.getDs_pergunta());
+
+            cstmt.setNull(3, OracleTypes.NUMBER);
+            cstmt.registerOutParameter(3, OracleTypes.NUMBER);
+            
             //executa o comando e fecha a instancia do objeto
             cstmt.execute();
 
-            int cResult = (int) cstmt.getInt(3);
+            long cResult = cstmt.getLong(3);
 
             //Grava log com a informação de sucesso
             if (cResult == 1) {
                 GravarLog.gravaInformacao(PerguntaDAO.class.getName() + ": inserção no banco de dados realizada com sucesso");
                 cstmt.close();
                 return 1;
-            }else if(cResult == -1){
-                GravarLog.gravaInformacao(PerguntaDAO.class.getName() + ": Pergunta já cadastrada");
-                cstmt.close();
-                return 2;
-            }else{
+            }else if(cResult < 1){
                 GravarLog.gravaInformacao(PerguntaDAO.class.getName() + ": " + cResult + ": erro ao cadastrar nova pergunta.");
                 cstmt.close();
-                return 3;
+                return 2;
             }
+            return cResult;
 
         } catch (SQLException e) {
 
@@ -90,7 +91,7 @@ public class PerguntaDAO {
             GravarLog.gravaErro(PerguntaDAO.class.getName() + ": erro na inserção referente a uma exceção de SQL: " + e.getMessage());
 
             //Retorno da função como false em caso de erro
-            return 3;
+            return 2;
         }
     }
 
