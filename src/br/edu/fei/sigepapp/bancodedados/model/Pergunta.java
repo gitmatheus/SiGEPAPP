@@ -2,6 +2,17 @@ package br.edu.fei.sigepapp.bancodedados.model;
 
 public class Pergunta {
 
+    public Pergunta(long cd_pergunta, String ds_pergunta) {
+        this.cd_pergunta = cd_pergunta;
+        this.ds_pergunta = ds_pergunta;
+    }
+
+    public Pergunta() {
+        cd_pergunta=0;
+    }
+
+    
+
     private long cd_pergunta;
     private String ds_pergunta;
 

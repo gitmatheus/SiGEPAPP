@@ -23,10 +23,16 @@ import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.SQLException;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import oracle.jdbc.OracleTypes;
 import br.edu.fei.sigepapp.bancodedados.ConnectionFactory;
 import br.edu.fei.sigepapp.bancodedados.model.Pergunta;
 import br.edu.fei.sigepapp.log.GravarLog;
+import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Vector;
 
 /**
  *
@@ -53,7 +59,6 @@ public class PerguntaDAO {
      * @param pergunta
      * @return 1 = Cadastrado / 2 = Existente no BD / 3 = Erro
      */
-    
     public long inserePergunta(Pergunta pergunta) {
         try {
             //Instancia um objeto da classe PreparedStatement com o comando para inserção do registro no banco
@@ -67,7 +72,7 @@ public class PerguntaDAO {
 
             cstmt.setNull(3, OracleTypes.NUMBER);
             cstmt.registerOutParameter(3, OracleTypes.NUMBER);
-            
+
             //executa o comando e fecha a instancia do objeto
             cstmt.execute();
 
@@ -78,7 +83,7 @@ public class PerguntaDAO {
                 GravarLog.gravaInformacao(PerguntaDAO.class.getName() + ": inserção no banco de dados realizada com sucesso");
                 cstmt.close();
                 return 1;
-            }else if(cResult < 1){
+            } else if (cResult < 1) {
                 GravarLog.gravaInformacao(PerguntaDAO.class.getName() + ": " + cResult + ": erro ao cadastrar nova pergunta.");
                 cstmt.close();
                 return 2;
@@ -95,8 +100,8 @@ public class PerguntaDAO {
         }
     }
 
-    public boolean deletaPergunta(Pergunta pergunta){
-        try{
+    public boolean deletaPergunta(Pergunta pergunta) {
+        try {
             CallableStatement cstmt = this.conn.prepareCall("begin APPP_DEL_PERGUNTA(?,?,?); end;");
 
             cstmt.setLong(1, pergunta.getCd_pergunta());
@@ -108,9 +113,58 @@ public class PerguntaDAO {
             int cResult = (int) cstmt.getLong(13);
 
             return true;
-        }catch(SQLException e){
+        } catch (SQLException e) {
             return false;
         }
+    }
+
+    public List<Pergunta> APPP_SEL_PERGUNTA(Pergunta pergPesquisar) {
+
+        CallableStatement cstmt = null;
+        ResultSet rs = null;
+        List<Pergunta> listaPerguntas = new ArrayList<Pergunta>();
+
+        long cd_pergunta = pergPesquisar.getCd_pergunta();
+        String ds_pergunta = pergPesquisar.getDs_pergunta();
+
+        try {
+            cstmt = conn.prepareCall("begin APPP_SEL_PERGUNTA(?,?,?); end;");
+
+            if (cd_pergunta == 0) {
+                cstmt.setNull(1, OracleTypes.NUMBER);
+            } else {
+                cstmt.setLong(1, cd_pergunta);
+            }
+
+            if (ds_pergunta == null) {
+                cstmt.setNull(2, OracleTypes.VARCHAR);
+            } else {
+                cstmt.setString(2, ds_pergunta);
+            }
+
+            
+            cstmt.registerOutParameter(3, OracleTypes.CURSOR);
+
+            cstmt.execute();
+
+            rs = (ResultSet) cstmt.getObject(3);
+
+            while (rs.next()) {
+                listaPerguntas.add(new Pergunta(rs.getLong(1), rs.getString(2)));
+            }
+
+            rs.close();
+            cstmt.close();
+
+            GravarLog.gravaInformacao(Pergunta.class.getName() + ": pesquisa de pergunta realizada com sucesso");
+
+        } catch (SQLException ex) {
+            GravarLog.gravaErro(Pergunta.class.getName() + ": Erro na pesquisa de pergunta referente à uma exceção SQL: " + ex.getMessage());
+        }
+
+
+
+        return listaPerguntas;
     }
 
     /**
@@ -125,7 +179,4 @@ public class PerguntaDAO {
             GravarLog.gravaErro(PerguntaDAO.class.getName() + ": erro ao finalizar connexao com o banco: " + e.getMessage());
         }
     }
-
-
-
 }

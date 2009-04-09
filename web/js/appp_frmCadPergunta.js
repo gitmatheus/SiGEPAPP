@@ -1,11 +1,25 @@
+
 $(document).ready(function(){
+    carregaListaPerguntas();
 
     $("#envia_cad_pergunta").click(function(){
         EnviaCadPergunta();
         LimpaDescPergunta();
+        carregaListaPerguntas();
     });
-    
 });
+
+function carregaListaPerguntas(){
+        $("#FrmCadPergRespComboPerg").empty();
+        $.post("GetPerguntaServlet", {},
+        function(retorno, status){
+            $(retorno).find("Pergunta").each(
+            function(indice, conteudo){
+                //$(conteudo).find("Cod").text();
+                $("#FrmCadPergRespComboPerg").append("<option>"+$(conteudo).find("DescPergunta").text()+"</option>");
+            });
+       });
+    }
 
 function LimpaDescPergunta(){
        $("#frmCadPergRespDescPerg").val('');
@@ -13,8 +27,7 @@ function LimpaDescPergunta(){
 
 function EnviaCadPergunta(){
     var cd_pergunta = 1;
-    var ds_pergunta="Guilherme Fodao!";
-    //var ds_pergunta = $("#frmCadPergRespDescPerg").val();
+    var ds_pergunta = $("#frmCadPergRespDescPerg").val();
 
     $.post("CadPerguntaServlet", {
         cd_pergunta: cd_pergunta,
