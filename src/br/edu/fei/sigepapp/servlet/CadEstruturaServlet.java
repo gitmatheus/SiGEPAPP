@@ -4,7 +4,9 @@
  */
 package br.edu.fei.sigepapp.servlet;
 
+import br.edu.fei.sigepapp.bancodedados.dao.Atrib_EstruturaDAO;
 import br.edu.fei.sigepapp.bancodedados.dao.Estrutura_ObjDAO;
+import br.edu.fei.sigepapp.bancodedados.model.Atrib_Estrutura;
 import br.edu.fei.sigepapp.bancodedados.model.Estrutura;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -35,21 +37,30 @@ public class CadEstruturaServlet extends HttpServlet {
         try {
 
             long cod_estrut = 0;
-
+            String atributos[];
             Estrutura estrutura = new Estrutura();
+            Atrib_EstruturaDAO atrib_estrut= new Atrib_EstruturaDAO();
 
             estrutura.setCod_user(35140189879l);
             estrutura.setDs_estrutura(request.getParameter("ds_estrutura"));
             estrutura.setDt_criacao(new Date(Calendar.getInstance().getTimeInMillis()));
             estrutura.setNm_estrutura(request.getParameter("nm_estrutura"));
             estrutura.setTp_estrutura(request.getParameter("tp_estrutura"));
+            atributos=request.getParameterValues("atributos");
+
 
             Estrutura_ObjDAO estrutura_ObjDAO = new Estrutura_ObjDAO();
             cod_estrut = estrutura_ObjDAO.APPP_INS_Estrutura_Obj(estrutura);
 
+
             estrutura_ObjDAO.fechaConexao();
 
-            out.println("Estrutura: "+cod_estrut+" Tipo de Estrutura: "+request.getParameter("tp_estrutura")+" Nome: "+request.getParameter("nm_estrutura")+"\n Desc:"+request.getParameter("ds_estrutura"));
+            for (String codAtrib : atributos) {
+
+                atrib_estrut.APPP_INS_ATRIB_ESTRUTURA(new Atrib_Estrutura(cod_estrut, Long.parseLong(codAtrib.trim())));
+            }
+            atrib_estrut.fechaConexao();
+            out.println("Estrutura: "+cod_estrut+" Tipo de Estrutura: "+request.getParameter("tp_estrutura")+" Nome: "+request.getParameter("nm_estrutura")+"\n Desc:"+request.getParameter("ds_estrutura")+"\nAtrib: "+atributos[1]);
             
         } catch (Exception e) {
             out.println("erro: " + e.getMessage());

@@ -25,6 +25,9 @@
          * |  Guilherme  |  05/03/09   | FIXED: BUG IE X FIREFOX acima.       |
          * |             |             | Inicio de funcoes AJAX               |
          * |------------------------------------------------------------------|
+         * |  Guilherme  |  10/04/09   | Import de estrutura já existente.    |
+         * |             |             | Comunicação com Servlet              |
+         * |------------------------------------------------------------------|
          **/
         AtributoDAO atributoDAO = new AtributoDAO();
         Collection<Atributo> atributos;
@@ -135,8 +138,14 @@
     }
 
     function show_PesqEstrutura(){
+        if($("#frmCadEstrTipo").val()==-2){
+        $(document).scrollTop(0);
+        $("#alertInsAtrib").dialog('open');
+        $("#frmCadEstrTipo").focus();
+        }else{
         $(document).scrollTop(0);
         $("#divfrmPesqEstrutura").dialog('open');
+        }
     }
 
     //Na inicializacao da pagina...
@@ -165,13 +174,13 @@
 
     function pesqEstruturas(){
         $("#frmPesqEstruturasTabResult").empty();
-        $.post("GetEstruturasServlet", {nome: $("#frmPesqEstruturasTxtNome").val()}, function(xml,status){
+        $.post("GetEstruturasServlet", {nome: $("#frmPesqEstruturasTxtNome").val(), tipo: $("#frmCadEstrTipo").val() }, function(xml,status){
             if(status=="success"){
                 $(xml).find("Estrutura").each(function(indice,item){
                     $("#frmPesqEstruturasTabResult").append(
-                        "<tr>"+
+                    "<tr>"+
                         "<td>"+
-                        "<input name='PesqEstruturas' type='radio' id='frmPesqEstruturasRadio'>"+
+                        "<input name='PesqEstruturas' type='radio' value='"+$(item).find("Cod").text()+"' id='frmPesqEstruturasRadio'>"+
                         $(item).find("Nome").text()+
                         "<div style='display:block; position:static'  class='ui-icon ui-icon-circlesmall-plus' />"+
                         "</td>"+
@@ -228,8 +237,8 @@
                         } , function(dados, msgstatus){
                             if(msgstatus=="success"){
                                 cod_atrib=$(dados).find("codAtrib").text();
-                                funcIncluiAtributoDisponivel(nome, desc, cod_atrib);
-                                informa($(dados).find("mensagem").text() , "Cadastro");
+                                alert(cod_atrib);
+                                funcIncluiAtributoDisponivel(nome, desc, cod_atrib);                                
                                 $("#divfrmCadAtributo").dialog("close");
                             }
                         });
@@ -313,7 +322,7 @@
                 },
                 Importar: function() {
                     $("#divfrmPesqEstrutura").dialog('close');
-                    getAtributosDeEstrutura();
+                    getAtributosDeEstrutura($("#frmPesqEstruturasRadio:checked").val());
                 }
             },
             close: function(){
@@ -330,10 +339,15 @@
 
 
         $("#frmCadEstruturaEnvia").click(function(){
-            $.post("CadEstruturaServlet", {
+            var atributosArray=new Array();
+            $("input[name='atributos_ids']").each(function(indice,DOM){
+                atributosArray.push($(DOM).val());
+            });
+            $.post("CadEstruturaServlet",{
                 nm_estrutura: $("#frmCadEstrNome").val(),
                 ds_estrutura: FCKeditorAPI.GetInstance('frmCadEstruturaDescricao').GetXHTML() ,
-                tp_estrutura: $("#frmCadEstrTipo").val()
+                tp_estrutura: $("#frmCadEstrTipo").val(),
+                atributos: atributosArray
             }, function(data, txtStatus){
                 informa(data, "Retorno do Servlet");
             });
@@ -361,13 +375,13 @@
         $("#frmCadEstrTipo").val(0);
         //Atribui funcao ajax ao objeto frmCadEstrTipo
         $("#frmCadEstrTipo").change(function(){
-            if( $("#frmCadEstrTipo").val() == "PA" || $("#frmCadEstrTipo").val() == "AP" || $("#frmCadEstrTipo").val() == "PE"){
+            
                 getAtributosDeEstrutura();
-            }else if($("#frmCadEstrTipo").val()==-1){
-                $("#tabAtributos").html("");
-                show_PesqEstrutura();
+            
+           
+                
                 //$("#divfrmPesqEstrutura").dialog('open');
-            }
+            
         });
 
         $("#frmPesqEstruturasButOk").click(function(){
@@ -406,21 +420,20 @@
         //Fim de document.ready
     });
 
-    function getAtributosDeEstrutura(){
+
+    function getAtributosDeEstrutura(cod_Estrutura){
 
         //Mostra todos atributos
         mostra(null);
-        var cod_Estrutura;
-        if($("#frmCadEstrTipo").val()=="PA"){
-            cod_Estrutura=<%=patternID%>
-        }else if($("#frmCadEstrTipo").val()=="AP"){
-            cod_Estrutura=<%=antiPatternID%>
-        }else if($("#frmCadEstrTipo").val()=="PE"){
-            cod_Estrutura=<%=personaID%>
-        }else{
-            cod_Estrutura=$("#frmPesqEstruturasRadio:checked").data("Cod");
+        if(cod_Estrutura==null){
+            if($("#frmCadEstrTipo").val()=="PA"){
+                cod_Estrutura=<%=patternID%>
+            }else if($("#frmCadEstrTipo").val()=="AP"){
+                cod_Estrutura=<%=antiPatternID%>
+            }else if($("#frmCadEstrTipo").val()=="PE"){
+                cod_Estrutura=<%=personaID%>
+            }
         }
-
         $.post("GetAtribDeEstrutServlet", {codestr: cod_Estrutura}, function(xml,status){
 
             $("#frmCadEstrDivLoadingEst").show();
@@ -435,7 +448,10 @@
                     $("#tabAtributos").append("<tr valign=\"middle\">\
                                                     <td colspan='2' align='center'>\
                                                      <div class='atributoMinimo' style='margin-right: 10px;border-bottom:black solid thin;'>\
-                                                       "+$(item).find("nome").text()+"</div></td></tr>");
+                                                       "+$(item).find("nome").text()+"</div>"+
+                                                        "<input type=\"hidden\" name=\"atributos_ids\" value=\""+
+                                                        $(item).find("id").text()+"\">"+
+                                                        "</td></tr>");
 
                     //Tira o atributo do combo para não ser inserido duas vezes
                     esconde($(item).find("id").text())
@@ -498,11 +514,13 @@
 
     }
 
+
+
     function func_incluiAtributo(){
         if($("#frmCadEstrTipo").val()==-2){
-            $(document).scrollTop(0);
-            $("#alertInsAtrib").dialog('open');
-            $("#frmCadEstrTipo").focus();
+        $(document).scrollTop(0);
+        $("#alertInsAtrib").dialog('open');
+        $("#frmCadEstrTipo").focus();
 
         }else{
             if($('#frmCadEstrutCmbSelAtributo option:selected').length>0){
@@ -582,7 +600,7 @@
         <td align="center">
             <br>
             <fieldset style="width: 500px">
-                <legend><b>Escolha da estrutura:</b></legend>
+                <legend><b>Dados da estrutura:</b></legend>
                 <table border="0" cellpadding="0" cellspacing="0" width="100%">
                     <tr>
                         <td width="30%" align="right">
@@ -614,8 +632,8 @@
                                     <option value="PA">Pattern</option>
                                     <option value="AP">Anti-Pattern</option>
                                     <option value="PE">Persona</option>
-                                    <option value="-1" style="background: #EEEEEE" >Importar de Estrutura Existente...</option>
-                                </select>
+
+                                </select>                                
                             </div>
                             <img id="frmCadEstrDivLoadingEst"  src="/sigepapp/images/aguardep.gif" style="vertical-align:middle;">
                         </td>
@@ -649,9 +667,12 @@
                 <fieldset style="width: 500px;">
                     <legend><b>Escolha dos atributos:</b></legend>
 
-                    <table class="ui-corner-tl"   border="0" cellpadding="0" cellspacing="0" width="300">
+                    <table class="ui-corner-tl" border="0" cellpadding="0" cellspacing="0" width="300">
+                        <tr>
+                            <td colspan="2" align="center" style="padding-bottom:5px;"><a href="javascript:show_PesqEstrutura();" style="color: #822007;" >Importar de estrutura existente...</a></td>
+                        </tr>
                         <tr bgcolor="#3d414c">
-                            <td colspan="2" align="center" style="color:#ffffff; font-size:medium">Estrutura</td>
+                            <td colspan="2" align="center" style="color:#ffffff; font-size:medium;">Estrutura</td>
                         </tr>
                         <tr bgcolor="#3d414c">
                             <td style="color:#ffffff; font-size:small;"></td>

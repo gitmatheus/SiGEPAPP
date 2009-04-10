@@ -32,6 +32,8 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import oracle.jdbc.OracleTypes;
 
 /**
@@ -139,12 +141,43 @@ public class Atrib_EstruturaDAO {
             //Retorno da função como null em caso de erro
             return null;
         }
-        
+
     }
 
     public boolean APPP_INS_ATRIB_ESTRUTURA(Atrib_Estrutura atrib_EstruturaInserir) {
+        CallableStatement cstmt = null;
+        ResultSet rs = null;
+        long vResult=0;
 
-        return true;
+        try {
+            if (atrib_EstruturaInserir.getCd_atributo_obj() == 0 || atrib_EstruturaInserir.getCd_estrutura() == 0) {
+                return false;
+            } else {
+
+                cstmt = conn.prepareCall("begin APPP_INS_ATRIB_ESTRUTURA(?,?,?); end;");
+                cstmt.setLong(1, atrib_EstruturaInserir.getCd_estrutura());
+                cstmt.setLong(2, atrib_EstruturaInserir.getCd_atributo_obj());
+
+                cstmt.registerOutParameter(3, OracleTypes.NUMBER);
+
+                cstmt.execute();
+
+                vResult=cstmt.getLong(3);
+
+                if (vResult==1){
+                    return true;
+                }else{
+                    return false;
+                }
+
+            }
+        } catch (SQLException ex) {
+            //Grava log com o erro que ocorreu durante a execução do comando SQL
+            GravarLog.gravaErro(Atributo.class.getName() + ": erro na inserção referente a uma exceção de SQL: " + ex.getSQLState());
+
+            return false;
+
+        }
     }
 
     public void fechaConexao() {
@@ -156,16 +189,9 @@ public class Atrib_EstruturaDAO {
             GravarLog.gravaErro(AtributoDAO.class.getName() + ": erro ao finalizar connexao com o banco: " + e.getMessage());
         }
     }
-    public boolean campoDescritivo(String vCampo){
 
-        return (    (vCampo.toUpperCase().matches("DESCRIÇÃO")      )
-                 || (vCampo.toUpperCase().matches("CONTEXTO")       )
-                 || (vCampo.toUpperCase().matches("PROBLEMA")       )
-                 || (vCampo.toUpperCase().matches("SOLUÇÃO")        )
-                 || (vCampo.toUpperCase().matches("BARREIRAS")      )
-                 || (vCampo.toUpperCase().matches("SINTOMAS")       )
-                 || (vCampo.toUpperCase().matches("CONSEQUÊNCIAS")  )
-                 || (vCampo.toUpperCase().matches("RECOMENDAÇÕES")  )
-               );
+    public boolean campoDescritivo(String vCampo) {
+
+        return ((vCampo.toUpperCase().matches("DESCRIÇÃO")) || (vCampo.toUpperCase().matches("CONTEXTO")) || (vCampo.toUpperCase().matches("PROBLEMA")) || (vCampo.toUpperCase().matches("SOLUÇÃO")) || (vCampo.toUpperCase().matches("BARREIRAS")) || (vCampo.toUpperCase().matches("SINTOMAS")) || (vCampo.toUpperCase().matches("CONSEQUÊNCIAS")) || (vCampo.toUpperCase().matches("RECOMENDAÇÕES")));
     }
 }

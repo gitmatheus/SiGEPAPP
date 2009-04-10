@@ -236,16 +236,19 @@ public List<AtributoCompleto> PreencheListAtribCompleta(ResultSet rs) throws SQL
 
         try {
             cstmt = conn.prepareCall("begin  APPP_INS_ATRIBUTO_OBJ( ?, ?, ?, ?, ?,?); end;");
-            cstmt.setNull(1, OracleTypes.NUMBER);
+            
             cstmt.setString(2, atributoInserir.getNm_atributo_obj());
             cstmt.setString(3, atributoInserir.getDs_atributo_obj());
             cstmt.setLong(4, atributoInserir.getCd_tipo());
             cstmt.setString(5, atributoInserir.getFl_atrib_relac());
 
+            cstmt.registerOutParameter(1, OracleTypes.NUMBER);
             cstmt.registerOutParameter(6, OracleTypes.NUMBER);
             cstmt.execute();
 
             resultado = cstmt.getLong(6);
+
+            atributoInserir.setCd_atributo_obj(cstmt.getLong(1));
 
             cstmt.close();
 

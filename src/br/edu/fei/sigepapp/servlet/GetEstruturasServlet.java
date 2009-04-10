@@ -31,15 +31,16 @@ public class GetEstruturasServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         PrintWriter out = response.getWriter();
-        response.setContentType("text/xml");
+        response.setContentType("text/xhtml");
         try {
 
             String nome = request.getParameter("nome");
+            String tipo = request.getParameter("tipo");
 
             Estrutura_ObjDAO daoPesquisa = new Estrutura_ObjDAO();
 
             List<Estrutura> estruturasEncontradas;
-            estruturasEncontradas = daoPesquisa.APPP_SEL_Estrutura_OBJ(new Estrutura(0, nome, null, null, 0, null),null);
+            estruturasEncontradas = daoPesquisa.APPP_SEL_Estrutura_OBJ(new Estrutura(0, nome, null, null, 0, tipo),null);
             daoPesquisa.fechaConexao();
 
             out.println("<xml>");

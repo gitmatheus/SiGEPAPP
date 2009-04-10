@@ -85,8 +85,24 @@
 
                 $("#resultado1").val(comunsChars);
                 $("#resultado2").val(maiorPalavra);
+                $("#resultado1").val($("#texto1").val().toString().length);
+                $("#resultado2").val($("#texto2").val().toString().length);
                 $("#resultado").val(comunsChars/maiorPalavra);
                 $("#tempo").val(new Date().getTime()-tempoComeco);
+
+                $("table:last").append("<tr>");
+                $("table tr:last").append("<td>");
+                $("table td:last").append($("#texto1").val().toString().length);
+                $("table tr:last").append("</td>");
+                $("table tr:last").append("<td>");
+                $("table td:last").append($("#texto2").val().toString().length);
+                $("table tr:last").append("</td>");
+                $("table tr:last").append("<td>");
+                $("table td:last").append($("#tempo").val());
+                $("table tr:last").append("</td>");
+                $("table tr:last").append("</tr>");
+                $("table:last").append("</table>");
+
             }
 
             $(document).ready(function(){
@@ -97,15 +113,11 @@
                 });
 
             });
-
-
-
         </script>
         <h1>Página teste para algoritmo de similaridade</h1>
         <table width="100%">
             <tr>
                 <td>
-
                     <textarea rows="20" style="width:100%" id="texto1">É preciso ter muito claro para todos na empresa que não existe
                     </textarea>
                 </td>
@@ -119,10 +131,11 @@
                     </textarea>
                 </td>
             </tr>
-            <tr>                
+            <tr>
                 <td colspan="2" align="center">A similaridade é:<br><input type="text" id="resultado" size="5"></td>
+                <div style=""></div>
             </tr>
-            <tr>                
+            <tr>
                 <td colspan="2" align="center">Foi executado em (ms):<br><input type="text" id="tempo" size="5"></td>
             </tr>
             <tr>
@@ -131,13 +144,15 @@
             <tr>
                 <td colspan="2" align="center"><input type="text" id="resultado2" size="5"></td>
             </tr>
-            
+
 
         </table>
         <div>
 
         </div>
+        <table>
 
+        </table>
 
     </body>
 </html>

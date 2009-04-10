@@ -31,7 +31,7 @@ public class CadAtributoServlet extends HttpServlet {
             Atributo atributoInserir = new Atributo(0, request.getParameter("nome"), request.getParameter("descricao"), Long.parseLong(request.getParameter("codTipo")), request.getParameter("relac"));
             AtributoDAO atributoDAO = new AtributoDAO();
             if (atributoDAO.APPP_INS_ATRIBUTO_OBJ(atributoInserir) == true) {
-                out.print("Cadastrado com sucesso");
+                out.print("<xml><codAtrib>"+atributoInserir.getCd_atributo_obj()+"</codAtrib></xml>");
             } else {
                 out.print("Erro no cadastro");
             }
