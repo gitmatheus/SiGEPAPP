@@ -225,6 +225,9 @@ public class Estrutura_ObjDAO {
 
             cstmt = conn.prepareCall("begin  APPP_INS_ESTRUT_OBJ(?, ?, ?, ?, ?, ?); end;");
 
+            
+
+
             cstmt.setLong(4, estrutAdicionar.getCod_user());
             cstmt.setString(3, estrutAdicionar.getDs_estrutura());
             cstmt.setString(2, estrutAdicionar.getNm_estrutura());

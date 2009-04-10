@@ -164,17 +164,22 @@
     }
 
     function pesqEstruturas(){
+        $("#frmPesqEstruturasTabResult").empty();
         $.post("GetEstruturasServlet", {nome: $("#frmPesqEstruturasTxtNome").val()}, function(xml,status){
             if(status=="success"){
                 $(xml).find("Estrutura").each(function(indice,item){
-                    $("#frmPesqEstruturasTabResult").append("<tr>"+
-                                    "<td colspan='2'>"+
-                                    "<input name='PesqEstruturas' type='radio' id='frmPesqEstruturasRadio'>"+
-                                    $(item).find("Nome").text()+
-                                    "</td></tr>");
-                                //alert($(item).find("Cod").text());
-                                $("#frmPesqEstruturasTabResult input:radio:eq("+indice+")").data("Cod",$(item).find("Cod").text());
-                                //alert($("#frmPesqEstruturasTabResult input:radio:eq("+indice+")").data("Cod"));
+                    $("#frmPesqEstruturasTabResult").append(
+                        "<tr>"+
+                        "<td>"+
+                        "<input name='PesqEstruturas' type='radio' id='frmPesqEstruturasRadio'>"+
+                        $(item).find("Nome").text()+
+                        "<div style='display:block; position:static'  class='ui-icon ui-icon-circlesmall-plus' />"+
+                        "</td>"+
+                        "</tr>"
+                );
+                    //alert($(item).find("Cod").text());
+                    $("#frmPesqEstruturasTabResult input:radio:eq("+indice+")").data("Cod",$(item).find("Cod").text());
+                    //alert($("#frmPesqEstruturasTabResult input:radio:eq("+indice+")").data("Cod"));
 
                 });
             }
@@ -316,6 +321,8 @@
                 $("#frmCadTipoTxtExpReg").val("");
             },
             open: function(){
+                $("#frmPesqEstruturasTabResult").empty();
+                $("#frmPesqEstruturasTxtNome").val("");
                 //getEstruturas();
             }
         });
@@ -325,7 +332,7 @@
         $("#frmCadEstruturaEnvia").click(function(){
             $.post("CadEstruturaServlet", {
                 nm_estrutura: $("#frmCadEstrNome").val(),
-                ds_estrutura: $("#frmCadEstruturaDescricao").val(),
+                ds_estrutura: FCKeditorAPI.GetInstance('frmCadEstruturaDescricao').GetXHTML() ,
                 tp_estrutura: $("#frmCadEstrTipo").val()
             }, function(data, txtStatus){
                 informa(data, "Retorno do Servlet");
@@ -411,7 +418,7 @@
         }else if($("#frmCadEstrTipo").val()=="PE"){
             cod_Estrutura=<%=personaID%>
         }else{
-            cod_Estrutura=$("#frmPesqEstruturasRadio:checked").data("Cod");            
+            cod_Estrutura=$("#frmPesqEstruturasRadio:checked").data("Cod");
         }
 
         $.post("GetAtribDeEstrutServlet", {codestr: cod_Estrutura}, function(xml,status){
@@ -425,7 +432,7 @@
                 //Retorno para estrutura mnima
                 $("atributo",xml).each(function(index, item){
 
-                $("#tabAtributos").append("<tr valign=\"middle\">\
+                    $("#tabAtributos").append("<tr valign=\"middle\">\
                                                     <td colspan='2' align='center'>\
                                                      <div class='atributoMinimo' style='margin-right: 10px;border-bottom:black solid thin;'>\
                                                        "+$(item).find("nome").text()+"</div></td></tr>");

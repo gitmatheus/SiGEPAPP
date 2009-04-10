@@ -45,12 +45,15 @@ public class GetAtribDeEstrutServlet extends HttpServlet {
         response.setContentType("text/xml;charset=UTF-8");
         PrintWriter out = response.getWriter();
         try {
+            long codEstrutura=Long.parseLong(request.getParameter("codestr").trim());
             AtributoDAO atributoDAO = new AtributoDAO();
             List<AtributoCompleto> rsAtributos;
 
             out.println("<xml>");
+            
 
-            rsAtributos = atributoDAO.APPP_PES_ATRIB_POR_ESTRUT(Long.parseLong(request.getParameter("codestr").trim()));
+            rsAtributos = atributoDAO.APPP_PES_ATRIB_POR_ESTRUT(codEstrutura);
+
             atributoDAO.fechaConexao();
               
 

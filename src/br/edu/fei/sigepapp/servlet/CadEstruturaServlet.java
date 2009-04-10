@@ -46,9 +46,10 @@ public class CadEstruturaServlet extends HttpServlet {
 
             Estrutura_ObjDAO estrutura_ObjDAO = new Estrutura_ObjDAO();
             cod_estrut = estrutura_ObjDAO.APPP_INS_Estrutura_Obj(estrutura);
+
             estrutura_ObjDAO.fechaConexao();
 
-            out.println("Estrutura: "+cod_estrut);
+            out.println("Estrutura: "+cod_estrut+" Tipo de Estrutura: "+request.getParameter("tp_estrutura")+" Nome: "+request.getParameter("nm_estrutura")+"\n Desc:"+request.getParameter("ds_estrutura"));
             
         } catch (Exception e) {
             out.println("erro: " + e.getMessage());
