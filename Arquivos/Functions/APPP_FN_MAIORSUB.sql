@@ -6,8 +6,7 @@
 * History              : 29/03/2009 - Guilherme Wachs Lopes
 *                      : 02/04/2009 - Guilherme Wachs Lopes - Melhoria no algoritmo
 ***************************************************************************************************/
-CREATE OR REPLACE
-FUNCTION APPP_FN_MAIORSUB
+CREATE OR REPLACE FUNCTION APPP_FN_MAIORSUB
 ( Vetor IN APPP_PKG_VETORES.CHAR_VECTOR
 , Palavra IN VARCHAR2
 , maxSimilar_Caracter OUT NUMBER
@@ -55,3 +54,5 @@ maxSimilar_Caracter:=length(palavra);
   RETURN maxSimilar_Comum;
 
 END APPP_FN_MAIORSUB;
+
+/
