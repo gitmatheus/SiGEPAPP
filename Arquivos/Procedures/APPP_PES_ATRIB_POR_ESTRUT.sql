@@ -29,7 +29,7 @@ begin
        AND   AE.CD_ESTRUTURA    = EO.CD_ESTRUTURA
        AND   AO.CD_ATRIBUTO_OBJ = AE.CD_ATRIBUTO_OBJ
        AND   T.CD_TIPO          = AO.CD_TIPO
-       ORDER BY ROWNUM DESC; --Inverte os resultados para aparecer na ordem correta.
+       ORDER BY AE.ROWID;
         
 end APPP_PES_ATRIB_POR_ESTRUT;
 /
