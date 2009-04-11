@@ -4,6 +4,7 @@
 * Author              : WeeDo 
 * History             : 04/03/2009 - Matheus Gonçalves
 *                     : 09/03/2009 - Matheus Gonçalves - Criação do atributo NM_TB_ESTRUT
+*                     : 11/04/2009 - Guilherme Lopes   - Case insensitive no nome e descrição
 ********************************************************************************************/
 create or replace procedure APPP_SEL_ESTRUT_OBJ(pCD_ESTRUTURA  IN NUMBER,
                                                 pNM_ESTRUTURA  IN VARCHAR2,
@@ -39,8 +40,8 @@ begin
               TP_ESTRUTURA ,
               NM_TB_ESTRUT
        FROM APPP_TB_ESTRUT_OBJ
-       WHERE (NM_ESTRUTURA like ('%'|| pNM_ESTRUTURA || '%') OR pNM_ESTRUTURA  IS NULL)
-       AND   (DS_ESTRUTURA like ('%'|| pDS_ESTRUTURA || '%') OR pDS_ESTRUTURA  IS NULL)
+       WHERE (lower(NM_ESTRUTURA) like ('%'|| lower(pNM_ESTRUTURA) || '%') OR pNM_ESTRUTURA  IS NULL)
+       AND   (lower(DS_ESTRUTURA) like ('%'|| lower(pDS_ESTRUTURA) || '%') OR pDS_ESTRUTURA  IS NULL)
        AND   (DT_CRIACAO  >= pDT_CRIACAOINI                  OR pDT_CRIACAOINI IS NULL)
        AND   (DT_CRIACAO  <= pDT_CRIACAOFIM                  OR pDT_CRIACAOFIM IS NULL)
        AND   (CD_USER      = pCD_USER                        OR pCD_USER       IS NULL)
@@ -48,4 +49,5 @@ begin
        
    END IF;                
 end APPP_SEL_ESTRUT_OBJ;
+
 /
