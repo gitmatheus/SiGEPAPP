@@ -56,7 +56,6 @@ public class GetAtribDeEstrutServlet extends HttpServlet {
 
             atributoDAO.fechaConexao();
               
-
             for (AtributoCompleto atributo : rsAtributos) {
                 out.println("<atributo>");
                 out.println("<nome>" + atributo.getNm_atributo_obj().trim() + "</nome>");

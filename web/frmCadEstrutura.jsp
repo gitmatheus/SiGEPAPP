@@ -237,7 +237,6 @@
                         } , function(dados, msgstatus){
                             if(msgstatus=="success"){
                                 cod_atrib=$(dados).find("codAtrib").text();
-                                alert(cod_atrib);
                                 funcIncluiAtributoDisponivel(nome, desc, cod_atrib);                                
                                 $("#divfrmCadAtributo").dialog("close");
                             }
@@ -375,9 +374,11 @@
         $("#frmCadEstrTipo").val(0);
         //Atribui funcao ajax ao objeto frmCadEstrTipo
         $("#frmCadEstrTipo").change(function(){
-            
+        if($(this).val()!=-2){
                 getAtributosDeEstrutura();
-            
+        }else{
+            $("#tabAtributos").empty();
+        }
            
                 
                 //$("#divfrmPesqEstrutura").dialog('open');
