@@ -179,12 +179,20 @@
                 $(xml).find("Estrutura").each(function(indice,item){
                     $("#frmPesqEstruturasTabResult").append(
                     "<tr>"+
-                        "<td>"+
+                        "<td style='width:auto;'>"+
                         "<input name='PesqEstruturas' type='radio' value='"+$(item).find("Cod").text()+"' id='frmPesqEstruturasRadio'>"+
                         $(item).find("Nome").text()+
-                        "<div style='display:block; position:static'  class='ui-icon ui-icon-circlesmall-plus' />"+
                         "</td>"+
-                        "</tr>"
+                        "<td>"+
+                        "<div style='' class='ui-icon ui-icon-circlesmall-plus' />"+
+                        "</td>"+
+                    "</tr>"+
+                    "<tr id='detalhesEstrut"+$(item).find("Cod").text()+"'>"+
+                    "<td colspan='2'>"+
+                    /* TODO: implementar a visão da estrutura
+                     */
+                    "</td>"+
+                    "</tr>"
                 );
                     //alert($(item).find("Cod").text());
                     $("#frmPesqEstruturasTabResult input:radio:eq("+indice+")").data("Cod",$(item).find("Cod").text());
@@ -320,8 +328,8 @@
                     $("#divfrmPesqEstrutura").dialog('close');
                 },
                 Importar: function() {
-                    $("#divfrmPesqEstrutura").dialog('close');
-                    getAtributosDeEstrutura($("#frmPesqEstruturasRadio:checked").val());
+                    $("#divfrmPesqEstrutura").dialog('close');                    
+                    getAtributosDeEstrutura($("input[name=PesqEstruturas]:checked").val());
                 }
             },
             close: function(){
@@ -448,11 +456,13 @@
 
                     $("#tabAtributos").append("<tr valign=\"middle\">\
                                                     <td colspan='2' align='center'>\
-                                                     <div class='atributoMinimo' style='margin-right: 10px;border-bottom:black solid thin;'>\
-                                                       "+$(item).find("nome").text()+"</div>"+
+                                                     <div class='atributoMinimo' style='margin-right: 10px;border-bottom:black solid thin;'>"+
+                                                        $(item).find("nome").text()+
+                                                        "</div>"+
                                                         "<input type=\"hidden\" name=\"atributos_ids\" value=\""+
                                                         $(item).find("id").text()+"\">"+
-                                                        "</td></tr>");
+                                                        "</td>"+
+                                                        "</tr>");
 
                     //Tira o atributo do combo para não ser inserido duas vezes
                     esconde($(item).find("id").text())
@@ -839,17 +849,20 @@
         </tr>
         <tr>
             <td colspan="2">
-                <table id="frmPesqEstruturasTabResult" width="100%">
+                <div style="overflow-y:scroll;height:250px;" >
+                <table cellpadding="0" cellspacing="0" id="frmPesqEstruturasTabResult">
                     <tr class="ui-widget-header">
-                        <td align="center" >
+                        <td colspan="2" align="center" >
                             Resultado da busca
                         </td>
                     </tr>
                 </table>
+                </div>
             </td>
         </tr>
     </table>
 </div>
+
 <!-- -->
 <div id="alertInsAtrib" title="Erro ao inserir atributo">
     <p style="color:red" align="center"><font size="5"><b>Erro:</b></font></p>
