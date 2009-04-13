@@ -8,11 +8,13 @@ import br.edu.fei.sigepapp.bancodedados.dao.Estrutura_ObjDAO;
 import br.edu.fei.sigepapp.bancodedados.model.Estrutura;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.net.URLEncoder;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.apache.catalina.Server;
 
 /**
  *
@@ -31,7 +33,8 @@ public class GetEstruturasServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         PrintWriter out = response.getWriter();
-        response.setContentType("text/xhtml");
+        response.setContentType("text/xml;charset=UTF-8");
+
         try {
 
             String nome = request.getParameter("nome");
@@ -43,25 +46,30 @@ public class GetEstruturasServlet extends HttpServlet {
             estruturasEncontradas = daoPesquisa.APPP_SEL_Estrutura_OBJ(new Estrutura(0, nome, null, null, 0, tipo),null);
             daoPesquisa.fechaConexao();
 
-            out.println("<xml>");
+
+
+            out.print("<xml>");
             for (Estrutura estrutura : estruturasEncontradas) {
-                out.println("<Estrutura>");
-                out.println("<Nome>");
-                out.println(estrutura.getNm_estrutura());
-                out.println("</Nome>");
-                out.println("<Cod>");
-                out.println(estrutura.getCd_estrutura());
-                out.println("</Cod>");
-                out.println("<Descricao>");
-                out.println(estrutura.getDs_estrutura());
-                out.println("</Descricao>");
-                out.println("</Estrutura>");
+                out.print("<Estrutura>");
+                out.print("<Nome>");
+                out.print(estrutura.getNm_estrutura());
+                out.print("</Nome>");
+                out.print("<Cod>");
+                out.print(estrutura.getCd_estrutura());
+                out.print("</Cod>");
+                out.print("<Descricao>");
+                out.print(estrutura.getDs_estrutura());
+                out.print("</Descricao>");
+                out.print("<Tipo>");
+                out.print(estrutura.getTp_estrutura().trim());
+                out.print("</Tipo>");
+                out.print("</Estrutura>");
             }
 
         } catch (Exception e) {
             out.println("erro: " + e.getMessage());
         } finally {
-            out.println("</xml>");
+            out.print("</xml>");
             out.flush();
             out.close();
         }
