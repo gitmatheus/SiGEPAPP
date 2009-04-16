@@ -1,9 +1,9 @@
 /**********************************************************************************************************************
 * Project Name     : SiGEPAPP
-* APPP_INS_PATTERN : Procedure para criação de dados de PATTERNS
+* APPP_INS_PATTERN : Procedure para criacao de dados de PATTERNS
 *                    vResult( 1=OK; -99=ErroGeral)
 * Author           : WeeDo 
-* History          : 04/03/2009 - Matheus Gonçalves
+* History          : 04/03/2009 - Matheus Goncalves
 ***********************************************************************************************************************/
 create or replace procedure APPP_INS_PATTERN(pCD_PATTERN      in NUMBER  , 
                                              pDS_PAT_PROBLEMA IN VARCHAR2,

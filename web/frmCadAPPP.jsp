@@ -26,7 +26,8 @@
 <script type="text/javascript" language="javascript" src="js/fckeditor/fckeditor.js"></script>
 
 
-<%      Estrutura_ObjDAO daoPA = new Estrutura_ObjDAO();
+<%      
+Estrutura_ObjDAO daoPA = new Estrutura_ObjDAO();
 Estrutura_ObjDAO daoAP = new Estrutura_ObjDAO();
 Estrutura_ObjDAO daoPE = new Estrutura_ObjDAO();
 
@@ -73,61 +74,106 @@ Estrutura estPE = new Estrutura();
 
         var cod_Estrutura=$("#frmCadAPPPEstruturaPA").val();
         $("#tabAtributosPA").html("");
-        $.post("GetAtribDeEstrutServlet", {codestr: cod_Estrutura}, function(xml,status){
+        if (cod_Estrutura == 1){
+           $("#tabAtributosPA").append("<tr><td>Nome </td>" +
+                                    "<input class='edit' type='texfield' name='frmCadAPPPNomePA' size='70'>" +
+                                    "</td></tr>");  
+           
+           $("#tabAtributosPA").append("<tr>Descricao:<td align='center' colspan='2'>" +
+                                    "<div  style='margin-left: 5px;'>"    +
+                                    "<textarea class='edit' id='frmCadAPPPDescricaoPA'></textarea>" +
+                                    "</div></td></tr>");
 
-            if(status=="success"){
-                //Retorno para estrutura minima
+                                var oFCKeditorDesc = new FCKeditor("frmCadAPPPDescricaoPA") ;
+                                oFCKeditorDesc.BasePath = "./js/fckeditor/" ;
+                                oFCKeditorDesc.ToolbarSet="Sigepapp2";
+                                oFCKeditorDesc.Height=300;
+                                oFCKeditorDesc.ReplaceTextarea() ;
+                                htmltabelaEstrutura=$("#tabAtributosPA").html();                                 
+                                
+           $("#tabAtributosPA").append("<tr>Problema:<td align='center' colspan='2'>" +
+                                    "<div  style='margin-left: 5px;'>"    +
+                                    "<textarea class='edit' id='frmCadAPPPProblemaPA'></textarea>" +
+                                    "</div></td></tr>");
 
-                $("atributo",xml).each(function(index, item){
-                    if( $(item).find("oracletype").text().toUpperCase() == "VARCHAR2"){
+                                var oFCKeditorProb = new FCKeditor("frmCadAPPPProblemaPA") ;
+                                oFCKeditorProb.BasePath = "./js/fckeditor/" ;
+                                oFCKeditorProb.ToolbarSet="Sigepapp2";
+                                oFCKeditorProb.Height=300;
+                                oFCKeditorProb.ReplaceTextarea() ;
+                                htmltabelaEstrutura=$("#tabAtributosPA").html(); 
+          
+           $("#tabAtributosPA").append("<tr>Solucao:<td align='center' colspan='2'>" +
+                                    "<div  style='margin-left: 5px;'>"    +
+                                    "<textarea class='edit' id='frmCadAPPPSolucaoPA'></textarea>" +
+                                    "</div></td></tr>");
 
-                        if($(item).find("nmtipo").text().toUpperCase() == ("TEXTO DESCRITIVO")){
+                                var oFCKeditorSol = new FCKeditor("frmCadAPPPSolucaoPA") ;
+                                oFCKeditorSol.BasePath = "./js/fckeditor/" ;
+                                oFCKeditorSol.ToolbarSet="Sigepapp2";
+                                oFCKeditorSol.Height=300;
+                                oFCKeditorSol.ReplaceTextarea() ;
+                                htmltabelaEstrutura=$("#tabAtributosPA").html(); 
+            
+        }
+        else{
+            
+            $.post("GetAtribDeEstrutServlet", {codestr: cod_Estrutura}, function(xml,status){
 
-                            $("#tabAtributosPA").append("<tr>" + $(item).find("nome").text() + ":<td align='center' colspan='2'>" +
-                                "<div  style='margin-left: 5px;'>"    +
-                                "<textarea class='edit' id='" + $(item).find("nome").text() +"PA'></textarea>" +
-                                "</div></td></tr>");
+                if(status=="success"){
+                    //Retorno para estrutura minima
 
-                            var oFCKeditor = new FCKeditor($(item).find("nome").text() + "PA") ;
-                            oFCKeditor.BasePath = "./js/fckeditor/" ;
-                            oFCKeditor.ToolbarSet="Sigepapp2";
-                            oFCKeditor.Height=300;
-                            oFCKeditor.ReplaceTextarea() ;
-                            htmltabelaEstrutura=$("#tabAtributosPA").html();
+                    $("atributo",xml).each(function(index, item){
+                        if( $(item).find("oracletype").text().toUpperCase() == "VARCHAR2"){
+
+                            if($(item).find("nmtipo").text().toUpperCase() == ("TEXTO DESCRITIVO")){
+
+                                $("#tabAtributosPA").append("<tr>" + $(item).find("nome").text() + ":<td align='center' colspan='2'>" +
+                                    "<div  style='margin-left: 5px;'>"    +
+                                    "<textarea class='edit' id='" + $(item).find("nome").text() +"PA'></textarea>" +
+                                    "</div></td></tr>");
+
+                                var oFCKeditor = new FCKeditor($(item).find("nome").text() + "PA") ;
+                                oFCKeditor.BasePath = "./js/fckeditor/" ;
+                                oFCKeditor.ToolbarSet="Sigepapp2";
+                                oFCKeditor.Height=300;
+                                oFCKeditor.ReplaceTextarea() ;
+                                htmltabelaEstrutura=$("#tabAtributosPA").html();
+                            }
+                            else{
+                                $("#tabAtributosPA").append("<tr><td>" + $(item).find("nome").text() + "</td>" +
+                                    "<input class='edit' type='texfield' name='" + $(item).find("nome").text() + "PA' size='70'>" +
+                                    "</td></tr>");
+
+                            }
+
                         }
-                        else{
+
+                        if( $(item).find("oracletype").text().toUpperCase() == "DATE"){
                             $("#tabAtributosPA").append("<tr><td>" + $(item).find("nome").text() + "</td>" +
-                                "<input class='edit' type='texfield' name='" + $(item).find("nome").text() + "PA' size='70'>" +
+                                "<input class='edit' type='texfield' id='"+$(item).find("nome").text()+"PA'  name='" + $(item).find("nome").text() + "PA' size='35'>" +
+                            "</td></tr>");
+                            $("#"+$(item).find("nome").text()+"PA").datepicker({
+                                language: 'pt-BR',
+                                yearRange: '1950:2050',
+                                dateFormat: 'dd/mm/yyyy',
+                                inline: true
+                            });
+                        }
+                        if( $(item).find("oracletype").text().toUpperCase() == "NUMBER"){
+                            $("#tabAtributosPA").append("<tr><td>" + $(item).find("nome").text() + "</td>" +
+                                "<input class='edit' type='texfield' name='" + $(item).find("nome").text() + "PA'size='50'>" +
                                 "</td></tr>");
-                              
                         }
 
-                    }
-
-                    if( $(item).find("oracletype").text().toUpperCase() == "DATE"){
-                        $("#tabAtributosPA").append("<tr><td>" + $(item).find("nome").text() + "</td>" +
-                            "<input class='edit' type='texfield' id='"+$(item).find("nome").text()+"PA'  name='" + $(item).find("nome").text() + "PA' size='35'>" +
-                        "</td></tr>");
-                        $("#"+$(item).find("nome").text()+"PA").datepicker({
-                            language: 'pt-BR',
-                            yearRange: '1950:2050',
-                            dateFormat: 'dd/mm/yyyy',
-                            inline: true
-                        });
-                    }
-                    if( $(item).find("oracletype").text().toUpperCase() == "NUMBER"){
-                        $("#tabAtributosPA").append("<tr><td>" + $(item).find("nome").text() + "</td>" +
-                            "<input class='edit' type='texfield' name='" + $(item).find("nome").text() + "PA'size='50'>" +
-                            "</td></tr>");
-                    }
-
-                });
+                    });
 
 
-            }else{
-                alert('Erro ao carregar...!');
-            }
-        });
+                }else{
+                    alert('Erro ao carregar...!');
+                }
+            });
+        }   
 
         //fim de frmCadEstrTipo.change
     }
