@@ -1,5 +1,5 @@
 
-function EnviaCadUsuario(){
+function EnviaCadPattern(){
     var cd_Estrutura = new String ($("frmCadAPPPEstruturaPA").val());
     var cd_User_criador = new String ($("system.cd_user"));
     var ds_Pat_problema = $("frmCadAPPPProblemaPA").val();
@@ -28,15 +28,6 @@ function EnviaCadUsuario(){
     });
 
 }
-
-function inverterData(str){
-    var aux = "";
-    aux = str.substring(4, 8);
-    aux += str.substring(2,4);
-    aux += str.substring(0,2);
-    return aux;
-}
-
 $(function(){
     $("#alertaCadCidade").dialog({
         autoOpen: false,

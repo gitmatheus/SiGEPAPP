@@ -74,6 +74,7 @@ Estrutura estPE = new Estrutura();
 
         var cod_Estrutura=$("#frmCadAPPPEstruturaPA").val();
         $("#tabAtributosPA").html("");
+       
         if (cod_Estrutura == 1){
            $("#tabAtributosPA").append("<tr><td>Nome </td>" +
                                     "<input class='edit' type='texfield' name='frmCadAPPPNomePA' size='70'>" +
