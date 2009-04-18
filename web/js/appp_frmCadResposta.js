@@ -1,4 +1,3 @@
-
 $(document).ready(function(){
     carregaListaRespostas();
 
@@ -10,13 +9,18 @@ $(document).ready(function(){
 });
 
 function carregaListaRespostas(){
-    $("#FrmCadQuestionarioComboResp").empty();
+    $("#frmCadResp select").empty();
     $.post("GetRespostaServlet", {},
         function(retorno, status){
             $(retorno).find("Resposta").each(
                 function(indice, conteudo){
                     //$(conteudo).find("Cod").text();
-                    $("#FrmCadQuestionarioComboResp").append("<option>"+$(conteudo).find("DescResposta").text()+"</option>");
+                    //FrmCadQuestionarioComboResp
+
+                    $("#frmCadResp select").each(function(indice, combotemp){
+                    //alert($("#frmCadResp").attr("id"));
+                    $(combotemp).append("<option>"+$(conteudo).find("DescResposta").text()+"</option>");
+                    });
                 });
         });
 }

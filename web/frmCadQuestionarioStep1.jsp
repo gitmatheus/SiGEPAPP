@@ -33,7 +33,7 @@
     <!--Menu de Navegacao do Wizard-->
     <tr>
         <td id="titulo" style="padding-left:10px">
-            Passos: <a href="#">Cadastro das Perguntas</a>&nbsp;>&nbsp;Associaçao das Respostas&nbsp;>&nbsp;
+            Passos: <a href="#">Cadastro das Perguntas</a>&nbsp;>&nbsp;Cadastro das Respostas&nbsp;>&nbsp;
         </td>
     </tr>
 
@@ -63,6 +63,9 @@
 
                                 </select>
                             </td>
+                        </tr>
+                        <tr>
+                            
                         </tr>
                     </table>
                 </form>

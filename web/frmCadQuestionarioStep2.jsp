@@ -9,13 +9,19 @@
          * |------------------------------------------------------------------|
          * |  Tom Mix    |  31/03/09   | Criacao da Servlet e DAO             |
          * |------------------------------------------------------------------|
-         * |  Tom Mix    |  01/04/09   | Cadastro de Pergunta funcionando     |
+         * |  Tom Mix    |  01/04/09   | Cadastro de Resposta funcionando     |
          * |------------------------------------------------------------------|
-         * |  Tom Mix    |  08/04/09   | Combo para mostrar Perg. cadastradas |
+         * |  Tom Mix    |  18/04/09   | Combo para mostrar Resp. cadastradas |
          * |------------------------------------------------------------------|
          * |  Tom Mix    |  18/04/09   | Criacao das Wizards                  |
          * |------------------------------------------------------------------|
+         * |  Tom Mix    |  18/04/09   | Mostrar resp. em selects dinamicos   |
+         * |------------------------------------------------------------------|
          **/
+        PerguntaDAO pergDAO = new PerguntaDAO();
+        List<Pergunta> listPerguntas = pergDAO.APPP_SEL_PERGUNTA(new Pergunta());
+        pergDAO.fechaConexao();
+        int i=0;
 %>
 
 <%@include file="cabecalho.jsp"%>
@@ -26,6 +32,7 @@
 <script type="text/javascript" language="javascript" src="js/jquery-ui-1.7.js"></script>
 <script type="text/javascript" language="javascript" src="js/fckeditor/fckeditor.js"></script>
 <script type="text/javascript" language="javascript" src="js/appp_frmCadResposta.js"></script>
+<script type="text/javascript" language="javascript" src="js/appp_frmCadPergunta.js"></script>
 
 <!--Inicio do formulário-->
 <table border="0" cellpadding="0" cellspacing="0" width="100%" align="right" class="formulario">
@@ -33,7 +40,7 @@
     <!--Menu de Navegacao do Wizard-->
     <tr>
         <td id="titulo" style="padding-left:10px">
-            Passos: <a href="frmCadQuestionarioStep1.jsp">Cadastro das Perguntas</a>&nbsp;>&nbsp;<a href="#">Associaçao das Respostas</a>&nbsp;>&nbsp;
+            Passos: <a href="frmCadQuestionarioStep1.jsp">Cadastro das Perguntas</a>&nbsp;>&nbsp;<a href="#">Cadastro das Respostas</a>&nbsp;>&nbsp;
         </td>
     </tr>
 
@@ -42,26 +49,42 @@
         <td align="center" style="padding-top:20px;">
             <fieldset title="Respostas" style="width:90%">
                 <legend><b>Resposta</b></legend>
-                <form name="frmCadResp" method="post">
+                <form id="frmCadResp" name="frmCadResp" method="post">
                     <table border="0" cellspacing="0" cellpadding="0" width="100%">
                         <tr>
-                            <td width="30%" align="left">
-                                <div style="margin-right: 10px;">Digite sua Resposta</div>
+                            <td align="left">
+                                <div style="display:inline-block ">Cadastre uma nova Resposta</div>
                             </td>
-                            <td width="70%" align="center">
-                                <div style="margin-right: 10px;">
-                                    <input id="frmCadQuestionarioDescResp" name="frmCadQuestionarioDescResp" type="text" class="edit" style="width: 320px;" maxlength="100" title="Digite sua resposta" />
+                            <td align="center">
+                                <div>
+                                    <input id="frmCadQuestionarioDescResp" name="frmCadQuestionarioDescResp" type="text" class="edit" size="40" maxlength="100" title="Digite sua resposta" />
                                 </div>
                             </td>
-                            <td width="10%" align="center">
+                            <td align="center">
                                 <input id="frmCadQuestionarioEnviaResp" name="frmCadQuestionarioEnviaResp" class="botao" style="background-color:#3d414c;" type="button" value="cadastrar">
                             </td>
                         </tr>
                         <tr>
-                            <td colspan="3" align="center" style="padding-top:5px">
-                                <select id="FrmCadQuestionarioComboResp" size="10" style="width:100%" class="edit">
-
-                                </select>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td colspan="3" align="center">
+                                <table>
+                                    <% for (Pergunta r : listPerguntas) { i++;%>
+                                    <tr>
+                                        <td colspan="5" style="padding-top:10px">
+                                            Pergunta <%=i%>: <%=r.getDs_pergunta()%>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><select id="FrmCadQuestionarioComboResp<%=r.getCd_pergunta()%>" size="1" style="width:100%" class="edit"></select></td>
+                                        <td><select id="FrmCadQuestionarioComboResp<%=r.getCd_pergunta()%>" size="1" style="width:100%" class="edit"></select></td>
+                                        <td><select id="FrmCadQuestionarioComboResp<%=r.getCd_pergunta()%>" size="1" style="width:100%" class="edit"></select></td>
+                                        <td><select id="FrmCadQuestionarioComboResp<%=r.getCd_pergunta()%>" size="1" style="width:100%" class="edit"></select></td>
+                                        <td><select id="FrmCadQuestionarioComboResp<%=r.getCd_pergunta()%>" size="1" style="width:100%" class="edit"></select></td>
+                                    </tr>
+                                    <%}%>
+                                </table>
                             </td>
                         </tr>
                     </table>
