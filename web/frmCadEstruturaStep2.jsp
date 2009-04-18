@@ -113,7 +113,7 @@
         if($(objetoClicado).attr("id")=="fieldSet1"){
             $("#fieldSet2").fadeTo('slow', 0.5);
             $("#fieldSet1").fadeTo('slow', 1);
-            
+
         }else{
             $("#fieldSet1").fadeTo('slow', 0.5);
             $("#fieldSet2").fadeTo('slow', 1);
@@ -197,7 +197,8 @@
         }, "xml");
         $("#frmAlert").dialog();
         $("#frmAlert").dialog('open');
-        $("#frmAlert").dialog('option','title',"Estrututura: <i>"+$("#frmPesqEstruturasTabResult td:has(input[value="+codEstr+"])").text()+"</i>");
+        $("#frmAlert").dialog('option','title',"Estrututura de: <i>"+$("#frmPesqEstruturasTabResult td:has(input[value="+codEstr+"])").text()+"</i>");
+
     }
 
     $(document).ready(function(){
@@ -270,8 +271,10 @@
         </td>
     </tr>
     <tr>
-        <td align="center">
-            <b style="font-size:15px;">Ou</b>
+        <td align="center" style="padding-top:10px;padding-bottom:10px">
+            <div style="border-bottom-style:dashed;border-top-style:dashed;border-width:1px;width:80%;">
+                <b style="font-size:15px;">OU</b>
+            </div>
         </td>
     </tr>
     <tr>
@@ -325,12 +328,10 @@
             </fieldset>
         </td>
     </tr>
-
-
     <tr>
         <td align="center" style="padding-top:10px;">
             <div align="right" style="width:80%">
-                <a class="navProximo ui-widget-header" href="frmCadEstruturaStep2.jsp">
+                <a class="navProximo ui-widget-header" href="frmCadEstruturaStep3.jsp">
                     <span>
                         Pr&oacute;ximo
                         <span class="ui-icon ui-icon-circle-arrow-e" style="display:inline-block;vertical-align:middle"></span>

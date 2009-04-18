@@ -54,6 +54,14 @@
         oFCKeditor.ToolbarSet="Sigepapp2";
         oFCKeditor.Height=300;
         oFCKeditor.ReplaceTextarea() ;
+
+        //Quando clicar no link "Proximo"
+        $("#linkProximo").click(function(){
+            //Grava dados no servidor
+            $(post)
+
+        });
+
     });
 </script>
 
@@ -94,11 +102,15 @@
     <tr>
         <td align="center" style="padding-top:10px;">
             <div align="right" style="width:80%">
-                <spam class="navProximo ui-widget-header"><a href="frmCadEstruturaStep2.jsp">Pr&oacute;ximo<spam class="ui-icon ui-icon-circle-arrow-e" style="display:inline-block;vertical-align:middle"></spam></a></spam>
+                <a id="linkProximo" class="navProximo ui-widget-header" href="frmCadEstruturaStep2.jsp">
+                    <span>
+                        Pr&oacute;ximo
+                        <span class="ui-icon ui-icon-circle-arrow-e" style="display:inline-block;vertical-align:middle"></span>
+                    </span>
+                </a>
             </div>
         </td>
     </tr>
 </table>
 <!--Fim do formulário-->
-
 <%@include file="rodape.jsp"%>
