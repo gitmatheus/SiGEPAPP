@@ -61,8 +61,6 @@
 %>
 <%@include file="cabecalho.jsp"%>
 
-<link type="text/css" rel="stylesheet" href="css/appp_css.css">
-
 <script type="text/javascript" language="javascript" src="js/jquery.tinysort.js"></script>
 <script type="text/javascript" language="javascript" src="js/jquery-ui-1.7.js"></script>
 <script type="text/javascript" language="javascript" src="js/fckeditor/fckeditor.js"></script>
@@ -190,14 +188,14 @@
 <table id="frmCadEstrutFormulario" border="0" cellpadding="0" cellspacing="0" width="100%" align="right" class="formulario">
     <!--Menu do Wizard-->
     <tr>
-        <td id="titulo">
+        <td id="titulo" style="padding-left:10px">
             Passo 1: <a href="frmCadEstruturaStep1.jsp">Dados da estrutura</a>&nbsp;>&nbsp;Passo 2: <a href="#">Tipo de estrutura</a>&nbsp;>&nbsp;Passo 3: Definição dos Atributos
         </td>
     </tr>
     <!--Fim do menu do Wizard-->
     <tr>
         <td align="center" style="padding-top:20px;">
-            <fieldset id="fieldSet1" style="background-color:#eeeeee;width:80%">
+            <fieldset id="fieldSet1" style="background-color:#eeeeee;width:90%">
                 <legend><input name="frmCadEstOptInicio" type="radio"><b>Estrutura primitiva:</b></legend>
                 <table width="100%">
                     <tr>
@@ -239,7 +237,7 @@
     </tr>
     <tr>
         <td align="center">
-            <fieldset id="fieldSet2" style="background-color:#eeeeee;width:80%;padding-top:10px;padding-bottom:30px;">
+            <fieldset id="fieldSet2" style="background-color:#eeeeee;width:90%;padding-top:10px;padding-bottom:30px;">
                 <legend><input name="frmCadEstOptInicio" type="radio"><b>Importar de uma estrutura existente:</b></legend>
                 Caso deseja construir uma estrutura a partir de uma já existente escolha uma estrutura:
                 <div id="divfrmPesqEstrutura">

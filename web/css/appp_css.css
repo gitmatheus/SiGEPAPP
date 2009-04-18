@@ -175,6 +175,10 @@ a {
     background-color:#eeeeee;
 }
 
+.formulario fieldset{
+    background-color:#eeeeee;
+}
+
 .formulario td#titulo{
     border-bottom-style:solid;
     border-bottom-width:1px;

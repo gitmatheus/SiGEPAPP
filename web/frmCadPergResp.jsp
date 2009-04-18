@@ -14,7 +14,6 @@
          * |  Tom Mix    |  08/04/09   | Combo para mostrar Perg. cadastradas |
          * |------------------------------------------------------------------|
          **/
-
 %>
 
 <%@include file="cabecalho.jsp"%>
@@ -23,13 +22,12 @@
 <link type="text/css" rel="stylesheet" href="css/jquery-ui-1.7.css">
 <link rel="stylesheet" type="text/css" href="css/ui.all.css"/>
 
+<script type="text/javascript" language="javascript" src="js/appp_frmCadPergunta.js"></script>
 <script type="text/javascript" language="javascript" src="js/jquery.tinysort.js"></script>
 <script type="text/javascript" language="javascript" src="js/jquery-ui-1.7.js"></script>
 <script type="text/javascript" language="javascript" src="js/fckeditor/fckeditor.js"></script>
-
 <script type="text/javascript" src="js/jquery-ui-1.5.3.js" ></script>
 <script type="text/javascript" src="js/jquery.maskedinput-1.2.1.js"></script>
-<script type="text/javascript" language="javascript" src="js/appp_frmCadPergunta.js"></script>
 
 <fieldset title="Perguntas">
     <legend><b>Perguntas</b></legend>

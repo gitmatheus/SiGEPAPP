@@ -2,7 +2,7 @@
 $(document).ready(function(){
     carregaListaPerguntas();
 
-    $("#envia_cad_pergunta").click(function(){
+    $("#frmCadQuestionarioEnviaPerg").click(function(){
         EnviaCadPergunta();
         LimpaDescPergunta();
         carregaListaPerguntas();
@@ -10,24 +10,24 @@ $(document).ready(function(){
 });
 
 function carregaListaPerguntas(){
-        $("#FrmCadPergRespComboPerg").empty();
+        $("#FrmCadQuestionarioComboPerg").empty();
         $.post("GetPerguntaServlet", {},
         function(retorno, status){
             $(retorno).find("Pergunta").each(
             function(indice, conteudo){
                 //$(conteudo).find("Cod").text();
-                $("#FrmCadPergRespComboPerg").append("<option>"+$(conteudo).find("DescPergunta").text()+"</option>");
+                $("#FrmCadQuestionarioComboPerg").append("<option>"+$(conteudo).find("DescPergunta").text()+"</option>");
             });
        });
     }
 
 function LimpaDescPergunta(){
-       $("#frmCadPergRespDescPerg").val('');
+       $("#frmCadQuestionarioDescPerg").val('');
 }
 
 function EnviaCadPergunta(){
     var cd_pergunta = 1;
-    var ds_pergunta = $("#frmCadPergRespDescPerg").val();
+    var ds_pergunta = $("#frmCadQuestionarioDescPerg").val();
 
     $.post("CadPerguntaServlet", {
         cd_pergunta: cd_pergunta,

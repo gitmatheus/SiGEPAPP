@@ -29,14 +29,14 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%" align="right" class="formulario">
     <!--Menu do Wizard-->
     <tr>
-        <td id="titulo">
-            Passo 1: <a href="#">Dados da estrutura</a>&nbsp;>&nbsp;Passo 2: Tipo de estrutura&nbsp;>&nbsp;Passo 3: Definição dos Atributos
+        <td id="titulo" style="padding-left:10px">
+            <a href="#">Passo 1: Dados da estrutura</a> &nbsp;>&nbsp;Passo 2: Tipo de estrutura&nbsp;>&nbsp;Passo 3: Definição dos Atributos
         </td>
     </tr>
     <!--Fim do menu do Wizard-->
     <tr>
         <td align="center" style="padding-top:20px;">
-            <fieldset style="background-color:#eeeeee;width:80%">
+            <fieldset style="width:90%">
                 <legend><b>Dados da estrutura</b></legend>
                 <table width="100%">
                     <tr>

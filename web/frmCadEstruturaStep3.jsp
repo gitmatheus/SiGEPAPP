@@ -192,7 +192,7 @@
 <table id="frmCadEstrutFormulario" border="0" cellpadding="0" cellspacing="0" width="100%" align="right" class="formulario">
     <!--Menu do Wizard-->
     <tr>
-        <td id="titulo">
+        <td id="titulo" style="padding-left:10px">
             Passo 1: <a href="frmCadEstruturaStep1.jsp">Dados da estrutura</a>&nbsp;>&nbsp;Passo 2: <a href="frmCadEstruturaStep2.jsp">Tipo de estrutura</a>&nbsp;>&nbsp;Passo 3: <a href="#">Definição dos Atributos</a>
         </td>
     </tr>
@@ -200,7 +200,7 @@
     <tr>
         <td align="center">
             <!--Conteudo-->
-            <fieldset style="background-color:#eeeeee;">
+            <fieldset style="background-color:#eeeeee;width:90%">
                 <legend><b>Escolha dos atributos:</b></legend>
 
                 <table class="ui-corner-tl" border="0" cellpadding="0" cellspacing="0" width="300">
@@ -217,7 +217,7 @@
                     </tbody>
                 </table>
             </fieldset>
-            <fieldset style="background-color:#eeeeee;">
+            <fieldset style="background-color:#eeeeee;width:90%">
                 <legend>Selecionar atributos:</legend>
                 <table width="100%" style="background-color:#eeeeee;">
                     <tr>
