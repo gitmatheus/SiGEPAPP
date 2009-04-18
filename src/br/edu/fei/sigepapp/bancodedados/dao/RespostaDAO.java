@@ -13,9 +13,7 @@ package br.edu.fei.sigepapp.bancodedados.dao;
  * |------------------------------------------------------------------|
  * |   Autor     |   Data      |   Descrição                          |
  * |------------------------------------------------------------------|
- * | Tom Mix     | 30/03/09    | Criacao                              |
- * |------------------------------------------------------------------|
- * | Tom Mix     | 18/04/09    | Atualizacao                          |
+ * | Tom Mix     | 18/04/09    | Criacao                              |
  * |------------------------------------------------------------------|
  *
  *
@@ -25,9 +23,10 @@ package br.edu.fei.sigepapp.bancodedados.dao;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.SQLException;
+
 import oracle.jdbc.OracleTypes;
 import br.edu.fei.sigepapp.bancodedados.ConnectionFactory;
-import br.edu.fei.sigepapp.bancodedados.model.Pergunta;
+import br.edu.fei.sigepapp.bancodedados.model.Resposta;
 import br.edu.fei.sigepapp.log.GravarLog;
 import java.sql.ResultSet;
 import java.util.ArrayList;
@@ -35,12 +34,12 @@ import java.util.List;
 
 /**
  *
- * Classe responsavel por acessar o banco de dados através do modelo pergunta
+ * Classe responsavel por acessar o banco de dados através do modelo resposta
  *
  * @author Tom Mix
  * @version 0.01 31 Mar 2009
  */
-public class PerguntaDAO {
+public class RespostaDAO {
 
     private Connection conn;
 
@@ -49,7 +48,7 @@ public class PerguntaDAO {
      *
      * @throws SQLException
      */
-    public PerguntaDAO() throws SQLException {
+    public RespostaDAO() throws SQLException {
         this.conn = ConnectionFactory.getConnection();
     }
 
@@ -58,16 +57,16 @@ public class PerguntaDAO {
      * @param pergunta
      * @return 1 = Cadastrado / 2 = Existente no BD / 3 = Erro
      */
-    public long APPP_INS_PERGUNTA(Pergunta pergunta) {
+    public long APPP_INS_RESPOSTA(Resposta resposta) {
         try {
             //Instancia um objeto da classe PreparedStatement com o comando para inserção do registro no banco
-            CallableStatement cstmt = this.conn.prepareCall("begin APPP_INS_PERGUNTA(?, ?, ?); end;");
+            CallableStatement cstmt = this.conn.prepareCall("begin APPP_INS_RESPOSTA(?, ?, ?); end;");
 
             //Seta os valores para os pontos de interrogação indexados pela ordem deles na string
             cstmt.setNull(1, OracleTypes.NUMBER);
             cstmt.registerOutParameter(1, OracleTypes.NUMBER);
 
-            cstmt.setString(2, pergunta.getDs_pergunta());
+            cstmt.setString(2, resposta.getDs_resposta());
 
             cstmt.setNull(3, OracleTypes.NUMBER);
             cstmt.registerOutParameter(3, OracleTypes.NUMBER);
@@ -78,11 +77,11 @@ public class PerguntaDAO {
 
             //Grava log com a informação de sucesso
             if (cResult == 1) {
-                GravarLog.gravaInformacao(PerguntaDAO.class.getName() + ": inserção no banco de dados realizada com sucesso");
+                GravarLog.gravaInformacao(RespostaDAO.class.getName() + ": inserção no banco de dados realizada com sucesso");
                 cstmt.close();
                 return 1;
             } else if (cResult < 1) {
-                GravarLog.gravaInformacao(PerguntaDAO.class.getName() + ": " + cResult + ": erro ao cadastrar nova pergunta.");
+                GravarLog.gravaInformacao(RespostaDAO.class.getName() + ": " + cResult + ": erro ao cadastrar nova resposta.");
                 cstmt.close();
                 return 2;
             }
@@ -91,19 +90,19 @@ public class PerguntaDAO {
         } catch (SQLException e) {
 
             //Grava log com o erro que ocorreu durante a execução do comando SQL
-            GravarLog.gravaErro(PerguntaDAO.class.getName() + ": erro na inserção referente a uma exceção de SQL: " + e.getMessage());
+            GravarLog.gravaErro(RespostaDAO.class.getName() + ": erro na inserção referente a uma exceção de SQL: " + e.getMessage());
 
             //Retorno da função como false em caso de erro
             return 2;
         }
     }
 
-    public boolean APPP_DEL_PERGUNTA(Pergunta pergunta) {
+    public boolean APPP_DEL_RESPOSTA(Resposta resposta) {
         try {
-            CallableStatement cstmt = this.conn.prepareCall("begin APPP_DEL_PERGUNTA(?,?,?); end;");
+            CallableStatement cstmt = this.conn.prepareCall("begin APPP_DEL_RESPOSTA(?,?,?); end;");
 
-            cstmt.setLong(1, pergunta.getCd_pergunta());
-            cstmt.setString(2, pergunta.getDs_pergunta());
+            cstmt.setLong(1, resposta.getCd_resposta());
+            cstmt.setString(2, resposta.getDs_resposta());
             cstmt.registerOutParameter(3, OracleTypes.NUMBER);
 
             cstmt.execute();
@@ -116,28 +115,28 @@ public class PerguntaDAO {
         }
     }
 
-    public List<Pergunta> APPP_SEL_PERGUNTA(Pergunta pergPesquisar) {
+    public List<Resposta> APPP_SEL_RESPOSTA(Resposta respPesquisar) {
 
         CallableStatement cstmt = null;
         ResultSet rs = null;
-        List<Pergunta> listaPerguntas = new ArrayList<Pergunta>();
+        List<Resposta> listaRespostas = new ArrayList<Resposta>();
 
-        long cd_pergunta = pergPesquisar.getCd_pergunta();
-        String ds_pergunta = pergPesquisar.getDs_pergunta();
+        long cd_resposta = respPesquisar.getCd_resposta();
+        String ds_resposta = respPesquisar.getDs_resposta();
 
         try {
-            cstmt = conn.prepareCall("begin APPP_SEL_PERGUNTA(?,?,?); end;");
+            cstmt = conn.prepareCall("begin APPP_SEL_RESPOSTA(?,?,?); end;");
 
-            if (cd_pergunta == 0) {
+            if (cd_resposta == 0) {
                 cstmt.setNull(1, OracleTypes.NUMBER);
             } else {
-                cstmt.setLong(1, cd_pergunta);
+                cstmt.setLong(1, cd_resposta);
             }
 
-            if (ds_pergunta == null) {
+            if (ds_resposta == null) {
                 cstmt.setNull(2, OracleTypes.VARCHAR);
             } else {
-                cstmt.setString(2, ds_pergunta);
+                cstmt.setString(2, ds_resposta);
             }
 
             cstmt.registerOutParameter(3, OracleTypes.CURSOR);
@@ -147,19 +146,19 @@ public class PerguntaDAO {
             rs = (ResultSet) cstmt.getObject(3);
 
             while (rs.next()) {
-                listaPerguntas.add(new Pergunta(rs.getLong(1), rs.getString(2)));
+                listaRespostas.add(new Resposta(rs.getLong(1), rs.getString(2)));
             }
 
             rs.close();
             cstmt.close();
 
-            GravarLog.gravaInformacao(Pergunta.class.getName() + ": pesquisa de pergunta realizada com sucesso");
+            GravarLog.gravaInformacao(Resposta.class.getName() + ": pesquisa de uma resposta realizada com sucesso");
 
         } catch (SQLException ex) {
-            GravarLog.gravaErro(Pergunta.class.getName() + ": Erro na pesquisa de pergunta referente à uma exceção SQL: " + ex.getMessage());
+            GravarLog.gravaErro(Resposta.class.getName() + ": Erro na pesquisa de uma resposta referente à uma exceção SQL: " + ex.getMessage());
         }
 
-        return listaPerguntas;
+        return listaRespostas;
     }
 
     /**

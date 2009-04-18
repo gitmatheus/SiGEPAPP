@@ -25,7 +25,7 @@
 <script type="text/javascript" language="javascript" src="js/jquery.tinysort.js"></script>
 <script type="text/javascript" language="javascript" src="js/jquery-ui-1.7.js"></script>
 <script type="text/javascript" language="javascript" src="js/fckeditor/fckeditor.js"></script>
-<script type="text/javascript" language="javascript" src="js/appp_frmCadPergunta.js"></script>
+<script type="text/javascript" language="javascript" src="js/appp_frmCadResposta.js"></script>
 
 <!--Inicio do formulário-->
 <table border="0" cellpadding="0" cellspacing="0" width="100%" align="right" class="formulario">
@@ -43,18 +43,25 @@
             <fieldset title="Respostas" style="width:90%">
                 <legend><b>Resposta</b></legend>
                 <form name="frmCadResp" method="post">
-                    <table border="0" cellspacing="0" width="100%">
+                    <table border="0" cellspacing="0" cellpadding="0" width="100%">
                         <tr>
-                            <td width="25%" align="left">
+                            <td width="30%" align="left">
                                 <div style="margin-right: 10px;">Digite sua Resposta</div>
                             </td>
-                            <td width="65%" align="center">
+                            <td width="70%" align="center">
                                 <div style="margin-right: 10px;">
-                                    <input id="frmCadPergRespDescResp" name="frmCadPergRespDescResp" type="text" class="edit" style="width: 320px;" maxlength="100" title="Digite sua resposta" />
+                                    <input id="frmCadQuestionarioDescResp" name="frmCadQuestionarioDescResp" type="text" class="edit" style="width: 320px;" maxlength="100" title="Digite sua resposta" />
                                 </div>
                             </td>
                             <td width="10%" align="center">
-                                <input id="envia_cad_resposta" name="envia_cad_resposta" class="botao" style="background-color:#3d414c;" type="button" value="cadastrar">
+                                <input id="frmCadQuestionarioEnviaResp" name="frmCadQuestionarioEnviaResp" class="botao" style="background-color:#3d414c;" type="button" value="cadastrar">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="3" align="center" style="padding-top:5px">
+                                <select id="FrmCadQuestionarioComboResp" size="10" style="width:100%" class="edit">
+
+                                </select>
                             </td>
                         </tr>
                     </table>

@@ -1,7 +1,7 @@
 package br.edu.fei.sigepapp.servlet;
 
-import br.edu.fei.sigepapp.bancodedados.dao.PerguntaDAO;
-import br.edu.fei.sigepapp.bancodedados.model.Pergunta;
+import br.edu.fei.sigepapp.bancodedados.dao.RespostaDAO;
+import br.edu.fei.sigepapp.bancodedados.model.Resposta;
 import br.edu.fei.sigepapp.log.GravarLog;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -12,9 +12,9 @@ import javax.servlet.http.HttpServletResponse;
 /**
  *
  * @author Tom Mix
- * @version 0.01 Abr 1, 2009
+ * @version 0.01 Abr 18, 2009
  */
-public class CadPerguntaServlet extends HttpServlet {
+public class CadRespostaServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -26,30 +26,30 @@ public class CadPerguntaServlet extends HttpServlet {
         boolean inserido = false;
         boolean erro = false;
 
-        Pergunta pergunta = new Pergunta();
+        Resposta resposta = new Resposta();
 
-        pergunta.setCd_pergunta(Long.parseLong(request.getParameter("cd_pergunta")));
-        pergunta.setDs_pergunta(request.getParameter("ds_pergunta"));
+        resposta.setCd_resposta(Long.parseLong(request.getParameter("cd_resposta")));
+        resposta.setDs_resposta(request.getParameter("ds_resposta"));
 
         try {
-            PerguntaDAO perguntaDao = new PerguntaDAO();
+            RespostaDAO respostaDAO = new RespostaDAO();
 
             long c=0;
 
             if (!erro){
-                c = perguntaDao.APPP_INS_PERGUNTA(pergunta);
+                c = respostaDAO.APPP_INS_RESPOSTA(resposta);
                 if (c == 1){
                     erro = false;
                     inserido=true;
-                    perguntaDao.fechaConexao();
+                    respostaDAO.fechaConexao();
                 }else{
                     erro = true;
-                    perguntaDao.fechaConexao();
+                    respostaDAO.fechaConexao();
                 }
             }
 
         } catch (Exception e) {
-            GravarLog.gravaErro(CadPerguntaServlet.class.getName() + ": erro durante o cadastro da pergunta: " + e.getMessage());
+            GravarLog.gravaErro(CadRespostaServlet.class.getName() + ": erro durante o cadastro da resposta: " + e.getMessage());
             inserido=false;
             erro=true;
         }

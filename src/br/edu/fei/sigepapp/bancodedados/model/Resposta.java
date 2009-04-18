@@ -6,6 +6,15 @@ public class Resposta {
     private String ds_resposta;
     private int nro_peso_resposta;
 
+    public Resposta(long cd_resposta, String ds_resposta) {
+        this.cd_resposta = cd_resposta;
+        this.ds_resposta = ds_resposta;
+    }
+
+    public Resposta() {
+        cd_resposta=0;
+    } 
+
     public long getCd_resposta() {
         return cd_resposta;
     }
