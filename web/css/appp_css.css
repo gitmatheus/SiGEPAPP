@@ -4,21 +4,21 @@
 *
 * Copyright (c) 2009 Equipe SiGePAPP
 * 
-* Este código apresenta os estilos de formatação encontrados no sistema SiGePAPP
-* e parte integrante do projeto de formatura, do curso de ciências da computação,
-* do Centro Universitário da FEI, sob orientação do Prof. Dr. Plinio T. Aquino Jr.
+* Este codigo apresenta os estilos de formatacao encontrados no sistema SiGePAPP
+* e parte integrante do projeto de formatura, do curso de ciencias da computacao,
+* do Centro Universitário da FEI, sob orientacao do Prof. Dr. Plinio T. Aquino Jr.
 *
 * |------------------------------------------------------------------|
-* |                   Modificações no Código                         |
+* |                   Modificacoes no Codigo                         |
 * |------------------------------------------------------------------|
-* |   Autor     |   Data      |   Descrição                          |
+* |   Autor     |   Data      |   Descricao                          |
 * |------------------------------------------------------------------|
-* |  Andrey     |  09/01/18   | Criação do Arquivo                   |
+* |  Andrey     |  09/01/18   | Criacao do Arquivo                   |
 * |------------------------------------------------------------------|
-* |  Andrey     |  09/01/23   | Alteração na formatação do menu para |
+* |  Andrey     |  09/01/23   | Alteracao na formatacao do menu para |
 * |             |             | compatibilidade entre IE e Firefox.  |
 * |------------------------------------------------------------------|
-* |  Andrey     |  09/01/26   | Inclusão das formatações dos         |
+* |  Andrey     |  09/01/26   | Inclusão das formatacoes dos         |
 * |             |             | elementos body e table               |
 * |------------------------------------------------------------------|
 * | Guilherme   |  09/02/21   | Alteracao de nome do stilo de ID para|
@@ -31,8 +31,8 @@
 */
 
 /**
-* Código das cores ecologicas para utilização no sistema
-* (remover estes códigos na versão final do sistema)
+* Codigo das cores ecologicas para utilizacao no sistema
+* (remover estes codigos na versão final do sistema)
 * #822007 (vermelho oxidado) 
 * #000000 (preto) 
 * #b2bbc0 (azul esverdeado) 
@@ -42,24 +42,24 @@
 *
 */
 
-/* Formatação Global do sistema, todos os elementos sofrem este estilo*/
+/* Formatacao Global do sistema, todos os elementos sofrem este estilo*/
 * {
     font-family: tahoma, arial, sans-serif;
     font-size: 11px;
 }
 
-/* Formatação do elemento <body> */
+/* Formatacao do elemento <body> */
 body {
     background: #CCCCCC;
     margin: 0px;
 }
 
-/* Formatação do elemento <table> */
+/* Formatacao do elemento <table> */
 table {
     background: #FFFFFF;
 }
 
-/* Formatação da classe utilizada no componete Text */
+/* Formatacao da classe utilizada no componete Text */
 .edit {
     background-color:#CCCCCC;
     border: 2px solid #3d414c;
@@ -69,7 +69,7 @@ table {
     color:#000000;
 }
 
-/* Formatação dos botoes */
+/* Formatacao dos botoes */
 .botao {
     background-color: #3d414c;
     border: 1px outset;
@@ -79,12 +79,12 @@ table {
 }
 
 .painelcontrole {
-	background: #ffffff;
-	border: none;
-	color: #3d414c;
+    background: #ffffff;
+    border: none;
+    color: #3d414c;
 }
 
-/* Formatação da classe titulo, para aplicar aos titulos do sistema */
+/* Formatacao da classe titulo, para aplicar aos titulos do sistema */
 td.titulo {
     background: #dadada url(../images/navBG.png) 0 50% repeat-x;
 }
@@ -95,12 +95,12 @@ font.titulo {
     font-weight: bold;
 }
 
-/* Formatação dos elementos <td> encontrados no cabeçalho da página */
+/* Formatacao dos elementos <td> encontrados no cabeçalho da página */
 .top_td {
     border-bottom: 2px solid #3d414c;
 }
 
-/* Formatação de texto */
+/* Formatacao de texto */
 .texto {
     background: #FFFFFF;
     color: #3d414c;
@@ -111,13 +111,13 @@ font.titulo {
     margin-right: auto;
 }
 
-/* Formantação de todos os elementos <a>link</a> no sistema */
+/* Formantacao de todos os elementos <a>link</a> no sistema */
 a {
-	color: #303030;
+    color: #303030;
     text-decoration:none;
 }
-/* Formatação do Menu na posição vertical */
-/* Formatação global para todos os elementos que possuem este id #menubv */	
+/* Formatacao do Menu na posicao vertical */
+/* Formatacao global para todos os elementos que possuem este id #menubv */
 .menubv {
     padding: 0;
     margin: 0;
@@ -125,19 +125,19 @@ a {
     font-size: 11px;
 }
 
-/* Formatação dos elementos <ul> que possuem este id #menubv */
+/* Formatacao dos elementos <ul> que possuem este id #menubv */
 .menubv td {
     list-style: none;
     margin: 0;
     padding: 0;
 }
 
-/* Formatação dos elementos <li> que possuem este id #menubv */
+/* Formatacao dos elementos <li> que possuem este id #menubv */
 .menubv tr {
     background-color: #3d414c;
 }
 
-/* Formatação dos elementos <li> e dentro deles um elemnteo <a>link</a> que possuem
+/* Formatacao dos elementos <li> e dentro deles um elemnteo <a>link</a> que possuem
 * este id #menubv 
 */
 .menubv td a {
@@ -153,18 +153,88 @@ a {
     text-decoration: none;
 }
 
-/* Formatação dos elementos <li> e dentro deles um elemnteo <a>link</a> com o mouse 
+/* Formatacao dos elementos <li> e dentro deles um elemnteo <a>link</a> com o mouse
 * posicionado sobre ele, que possuem este id #menubv 
 */
 .menubv td a:hover {
     /*border-top: 2px solid #3d414c;
     border-right: 2px solid #3d414c;*/
     border-left: 2px solid #3d414c;
-    border-bottom: 2px solid #3d414c;    
+    border-bottom: 2px solid #3d414c;
     background-color: #ffffff;
     color: #000000;
 }
 
 #fundo {
     background-color: #999999;
+}
+
+/* Formata��o das wizards no cadastro de Estrutura (Step1, Step2, Step3), Perguntas, Respostas e Question�rio.
+*/
+.formulario table{
+    background-color:#eeeeee;
+}
+
+.formulario td#titulo{
+    border-bottom-style:solid;
+    border-bottom-width:1px;
+    background-color:#eeeeee;
+    font-size:13px;
+    height:1.8em;
+}
+.formulario td#titulo a{
+    font-size:13px;
+    color:#111177;
+}
+.formulario td#titulo a:hover{
+    font-size:13px;
+    color:#6666aa;
+    text-decoration:underline;
+}
+
+.formulario td#titulo a[href='#']{
+    font-size:13px;
+    color:#FF6600;
+}
+
+.navProximo{
+    padding: 5px;
+    height:30px;
+}
+
+.navProximo a{
+    font-size:15px;
+}
+.navProximo:hover{
+    padding: 10px;
+}
+
+/* Formata��o exclusivas da wizard no cadastro de Estrutura Step3 */
+
+.formulario input, .select_uma_linha{
+    height: 20px;
+    font-size:small;
+    background-color: #CCCCCC;
+}
+
+.select_varias_linhas, .select_varias_linhas option{
+    font-size:small;
+    background-color: #CCCCCC;
+}
+
+.atributoAdicional{
+    height: 2em;
+    font-weight:bold;
+    font-size:small;
+    vertical-align:middle;
+}
+
+.atributoAdicional img{
+    vertical-align:middle;
+}
+
+.atributoMinimo{
+    font-size:small;
+    height:2em;
+    vertical-align:middle;
 }

@@ -61,77 +61,11 @@
 %>
 <%@include file="cabecalho.jsp"%>
 
+<link type="text/css" rel="stylesheet" href="css/appp_css.css">
+
 <script type="text/javascript" language="javascript" src="js/jquery.tinysort.js"></script>
 <script type="text/javascript" language="javascript" src="js/jquery-ui-1.7.js"></script>
 <script type="text/javascript" language="javascript" src="js/fckeditor/fckeditor.js"></script>
-
-<style type="text/css">
-    .formulario table{
-        background-color:#eeeeee;
-    }
-
-    .formulario td#titulo{
-        border-bottom-style:solid;
-        border-bottom-width:1px;
-        background-color:#eeeeee;
-        font-size:13px;
-        height:1.8em;
-    }
-    .formulario td#titulo a{
-        font-size:13px;
-        color:#111177;
-    }
-    .formulario td#titulo a:hover{
-        font-size:13px;
-        color:#6666aa;
-        text-decoration:underline;
-    }
-
-    .formulario td#titulo a[href='#']{
-        font-size:13px;
-        color:#FF6600;
-    }
-
-    .navProximo{
-        padding: 5px;
-        height:30px;
-    }
-
-    .navProximo a{
-        font-size:15px;
-    }
-    .navProximo:hover{
-        padding: 10px;
-    }
-        .formulario input, .select_uma_linha{
-        height: 20px;
-        font-size:small;
-        background-color: #CCCCCC;
-
-    }
-
-    .select_varias_linhas, .select_varias_linhas option{
-        font-size:small;
-        background-color: #CCCCCC;
-
-    }
-
-    .atributoAdicional{
-        height: 2em;
-        font-weight:bold;
-        font-size:small;
-        vertical-align:middle;
-    }
-    .atributoAdicional img{
-        vertical-align:middle;
-    }
-    .atributoMinimo{
-        font-size:small;
-        height:2em;
-        vertical-align:middle;
-    }
-
-</style>
 
 <script type="text/javascript" language="javascript">
     var arrayEscondidos = new Array();

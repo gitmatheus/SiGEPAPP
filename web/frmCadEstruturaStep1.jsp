@@ -1,50 +1,10 @@
 <%@include file="cabecalho.jsp"%>
 <link type="text/css" rel="stylesheet" href="css/jquery-ui-1.7.css">
+<link type="text/css" rel="stylesheet" href="css/appp_css.css">
 
 <script type="text/javascript" language="javascript" src="js/jquery.tinysort.js"></script>
 <script type="text/javascript" language="javascript" src="js/jquery-ui-1.7.js"></script>
 <script type="text/javascript" language="javascript" src="js/fckeditor/fckeditor.js"></script>
-
-<style type="text/css">
-    .formulario table{
-        background-color:#eeeeee;
-    }
-
-    .formulario td#titulo{
-        border-bottom-style:solid;
-        border-bottom-width:1px;
-        background-color:#eeeeee;
-        font-size:13px;
-        height:1.8em;
-    }
-    .formulario td#titulo a{
-        font-size:13px;
-        color:#111177;
-    }
-    .formulario td#titulo a:hover{
-        font-size:13px;
-        color:#6666aa;
-        text-decoration:underline;
-    }
-
-    .formulario td#titulo a[href='#']{
-        font-size:13px;
-        color:#FF6600;
-    }
-
-    .navProximo{
-        padding: 5px 5px 5px 5px;
-    }
-
-    .navProximo a{
-        font-size:15px;
-    }
-    .navProximo:hover{
-        padding: 8px 8px 8px 8px;
-    }
-
-
-</style>
 
 <script type="text/javascript" language="javascript">
     $(document).ready(function(){
