@@ -12,107 +12,73 @@
     <body>
         <script type="text/javascript" src="js/jquery-1.3.2.js" ></script>
         <script type="text/javascript">
-            function max(val1, val2){
-                return val1>val2?val1:val2;
-            }
-            function min(val1, val2){
-                return val1<val2?val1:val2;
-            }
-            function buscaMaiorSubstringNoVetor(Vetor, palavra){
-                var maxSimilar_Comum=0;
-                var maxSimilar_Caracter=palavra.toString().length;
-                var MaiorRelacao=0;
-                var fl_continua=true;
+            function computePrefixFunction (pattern) {
+                func=new Array(pattern.length);
 
-                if(palavra!=" " && palavra!="" && palavra!=null){
-                    //$(document).find("div:last").append("<hr><h2><b>Palavra: "+palavra+"</b></h2>");
-                    //Caracter por caracter
-                    for(i=palavra.toString().length;i>=0 && fl_continua;i--){
-                        //Varrendo o texto2 na busca por i caracteres
-                        for(j=0;j<Vetor.length && fl_continua;j++){
-                            indiceSub=min(i,Vetor[j].toString().length);
-                            if(Vetor[j].toString().substr(0, indiceSub)==palavra.toString().substr(0, i)){
-                                if((i/max(Vetor[j].toString().length,palavra.toString().length))>MaiorRelacao){
-                                    maxSimilar_Caracter=max(Vetor[j].toString().length,palavra.toString().length);
-                                    MaiorRelacao=i/maxSimilar_Caracter;
-                                    if(MaiorRelacao==1){
-                                        fl_continua=false;
-                                    }
-                                    maxSimilar_Comum=i;
-                                    //$(document).find("div:last").append("<br>Comparando: <i>"+Vetor[j]+"</i>\tComuns="+(i)+"\tTotal:"+maxSimilar_Caracter+"Relação: <b>"+MaiorRelacao+"</b>");
-                                }
-                            }
+                m    = pattern.length;
 
-                        }
+                func[0] = 0;
+
+                k = 0;
+
+                for (q = 1;  q < m;  q++) {
+
+                    //while (k > 0 &&  ! charEquals (pattern[k], pattern[q])) {
+                    while (k > 0  &&  pattern[k] != pattern[q]) {
+                        k = func[k];
+                    }
+
+
+                    //if (charEquals (pattern[k], pattern[q])) {
+                    if (pattern[k] == pattern[q]) {
+                        k ++;
+                    }
+
+                    func[q] = k;
+                }
+
+                return func;
+            }
+
+
+            function   similaridade(text,padrao)
+            {
+
+                pattern = padrao;
+                prefixFunc = new Array();
+                prefixFunc = computePrefixFunction(padrao);
+                n = text.length;
+                m = padrao.length;
+                q = 0;
+                shift = -1;
+
+                for (i = 0;  i < n;  i++) {
+
+                    while (q > 0  &&  pattern[q]!=text[i]) {
+                        // while (q > 0  &&  pattern[q] != text[i]) {
+
+                        q = prefixFunc[q];
+                    }
+
+                    //if (charEquals (pattern[q], text[i]))
+                    if (pattern[q] == text[i])
+                        q ++;
+
+                    if (q == m) {
+                        shift = i - m + 1;
+                        break;
                     }
                 }
-                //alert(maxSimilar_Caracter);
-                return new Array(maxSimilar_Comum, maxSimilar_Caracter);
 
+                return shift;
             }
 
-            function similaridade(){
-                var tempoComeco=new Date().getTime();
 
-                var Texto1;
-                var Texto2;
-                $(document).find("div:last").empty();
-                Texto1=$("#texto1").val().replace('\n', " ");
-                Texto2=$("#texto2").val().replace('\n', " ");
-
-                Texto1=$.trim(Texto1);
-                Texto2=$.trim(Texto2);
-
-                Texto1=Texto1.split(" ");
-                Texto2=Texto2.split(" ");
-
-                var Temp;
-                if(Texto1.length<Texto2.length){
-                    Temp=Texto1;
-                    Texto1=Texto2;
-                    Texto2=Temp;
-                }
-
-                var comunsChars=0;
-                var maiorPalavra=0;
-                $(Texto1).each(function(indice, palavra){
-                    ArrayResultado=buscaMaiorSubstringNoVetor(Texto2, palavra);
-
-                    comunsChars+=$(ArrayResultado).get(0);
-                    maiorPalavra+=$(ArrayResultado).get(1);
-
-                });
-
-                $("#resultado1").val(comunsChars);
-                $("#resultado2").val(maiorPalavra);
-                $("#resultado1").val($("#texto1").val().toString().length);
-                $("#resultado2").val($("#texto2").val().toString().length);
-                $("#resultado").val(comunsChars/maiorPalavra);
-                $("#tempo").val(new Date().getTime()-tempoComeco);
-/*
-                $("table:last").append("<tr>");
-                $("table tr:last").append("<td>");
-                $("table td:last").append($("#texto1").val().toString().length);
-                $("table tr:last").append("</td>");
-                $("table tr:last").append("<td>");
-                $("table td:last").append($("#texto2").val().toString().length);
-                $("table tr:last").append("</td>");
-                $("table tr:last").append("<td>");
-                $("table td:last").append($("#tempo").val());
-                $("table tr:last").append("</td>");
-                $("table tr:last").append("</tr>");
-                $("table:last").append("</table>");
-*/
-            }
 
             $(document).ready(function(){
-                similaridade();
-
-                $("#texto1,#texto2").keyup(function(){
-                    similaridade();
-                });
-
+                alert(similaridade("guilherme alberto wachs","wachs"));
             });
+
         </script>
         <h1>Página teste para algoritmo de similaridade</h1>
         <table width="100%">
