@@ -61,8 +61,7 @@
 %>
 <%@include file="cabecalho.jsp"%>
 
-<script type="text/javascript" language="javascript" src="js/jquery.tinysort.js"></script>
-<script type="text/javascript" language="javascript" src="js/jquery-ui-1.7.js"></script>
+
 <script type="text/javascript" language="javascript" src="js/fckeditor/fckeditor.js"></script>
 
 <script type="text/javascript" language="javascript">

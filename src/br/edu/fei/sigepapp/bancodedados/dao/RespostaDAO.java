@@ -1,7 +1,7 @@
 package br.edu.fei.sigepapp.bancodedados.dao;
 
 /*
- * @(#)perguntaDAO.java 0.01 20/02/09
+ * @(#)respostaDAO.java 0.01 18/04/09
  *
  * Este código é parte integrante do projeto de formatura,
  * do curso de ciências da computação, do Centro Universitário da FEI

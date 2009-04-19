@@ -41,36 +41,34 @@
     <tr>
         <td align="center" style="padding-top:20px;">
             <fieldset title="Perguntas" style="width:90%">
-                <legend><b>Perguntas</b></legend>
+                <legend><b>Question&aacute;rio</b></legend>
                 <form name="frmCadPerg" method="post">
                     <table border="0" cellspacing="0" cellpadding="0" width="100%">
                         <tr>
-                            <td width="27%" align="left">
-                                <div>Digite sua nova pergunta</div>
+                            <td width="30%" align="left">
+                                <div>Nome do Questionário</div>
                             </td>
-                            <td width="63%" align="center">
+                            <td width="70%" align="center">
                                 <div>
-                                    <input id="frmCadQuestionarioDescPerg" name="frmCadQuestionarioDescPerg" type="text" class="edit" size="50" maxlength="100" title="Digite sua pergunta" />
+                                    <input id="frmCadQuestionarioNomeQuest" name="frmCadQuestionarioNomeQuest" type="text" class="edit" size="60" maxlength="100" title="Digite sua pergunta" />
                                 </div>
                             </td>
-                            <td width="10%" align="center">
-                                <input id="frmCadQuestionarioEnviaPerg" name="frmCadQuestionarioEnviaPerg" class="botao" style="background-color:#3d414c;" type="button" value="cadastrar">
+                        </tr>
+                        <tr>
+                            <td>
+                                &nbsp;
                             </td>
                         </tr>
                         <tr>
-                            <td class="atributoAdicional">
-                                Qual seu nome ?
+                            <td width="27%" align="left">
+                                <div>Descrição do Question&aacute;rio</div>
                             </td>
-                        </tr>
-                        <tr>
-                            <td colspan="3" align="center" style="padding-top:5px">
-                                <select id="FrmCadQuestionarioComboPerg" size="10" style="width:100%" class="edit">
-                                    <div></div>
-                                </select>
-                            </td>
-                        </tr>
-                        <tr>
+                            <td width="70%" align="center">
+                                <div>
+                                    <textarea type="text" id="frmCadQuestionarioNomeQuest" rows="8" cols="70" name="frmCadQuestionarioNomeQuest" class="edit" title="Digite sua pergunta"></textarea>
 
+                                </div>
+                            </td>
                         </tr>
                     </table>
                 </form>

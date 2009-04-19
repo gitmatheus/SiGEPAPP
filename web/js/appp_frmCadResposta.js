@@ -1,6 +1,5 @@
 $(document).ready(function(){
     carregaListaRespostas();
-
     $("#frmCadQuestionarioEnviaResp").click(function(){
         EnviaCadResposta();
         LimpaDescRespostas();
@@ -9,20 +8,19 @@ $(document).ready(function(){
 });
 
 function carregaListaRespostas(){
-    $("#frmCadResp select").empty();
+    
+    //$("#frmCadResp select").empty();
     $.post("GetRespostaServlet", {},
-        function(retorno, status){
-            $(retorno).find("Resposta").each(
-                function(indice, conteudo){
-                    //$(conteudo).find("Cod").text();
-                    //FrmCadQuestionarioComboResp
-
-                    $("#frmCadResp select").each(function(indice, combotemp){
+        function(retorno, estado){
+            $(retorno).find("Resposta").each(function(indice, conteudo){
+                $("#frmCadResp select").each(function(indice2, combotemp){
                     //alert($("#frmCadResp").attr("id"));
-                    $(combotemp).append("<option>"+$(conteudo).find("DescResposta").text()+"</option>");
-                    });
+                    $(combotemp).append("<option>"+$(conteudo).find("DescResposta").text().toString()+"</option>");
                 });
+                    
+            });
         });
+        
 }
 
 function LimpaDescRespostas(){

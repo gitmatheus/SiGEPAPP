@@ -11,8 +11,6 @@ public class Pergunta {
         cd_pergunta=0;
     }
 
-    
-
     private long cd_pergunta;
     private String ds_pergunta;
 
@@ -31,8 +29,5 @@ public class Pergunta {
     public void setDs_pergunta(String ds_pergunta) {
         this.ds_pergunta = ds_pergunta;
     }
-
-
-
 
 }
