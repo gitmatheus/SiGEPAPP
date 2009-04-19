@@ -45,12 +45,12 @@
                 <form name="frmCadPerg" method="post">
                     <table border="0" cellspacing="0" cellpadding="0" width="100%">
                         <tr>
-                            <td width="25%" align="left">
-                                <div style="margin-right: 10px;">Digite sua Pergunta</div>
+                            <td width="27%" align="left">
+                                <div>Digite sua nova pergunta</div>
                             </td>
-                            <td width="65%" align="center">
-                                <div style="margin-right: 10px;">
-                                    <input id="frmCadQuestionarioDescPerg" name="frmCadQuestionarioDescPerg" type="text" class="edit" style="width: 320px;" maxlength="100" title="Digite sua pergunta" />
+                            <td width="63%" align="center">
+                                <div>
+                                    <input id="frmCadQuestionarioDescPerg" name="frmCadQuestionarioDescPerg" type="text" class="edit" size="50" maxlength="100" title="Digite sua pergunta" />
                                 </div>
                             </td>
                             <td width="10%" align="center">
@@ -58,14 +58,19 @@
                             </td>
                         </tr>
                         <tr>
+                            <td class="atributoAdicional">
+                                Qual seu nome ?
+                            </td>
+                        </tr>
+                        <tr>
                             <td colspan="3" align="center" style="padding-top:5px">
                                 <select id="FrmCadQuestionarioComboPerg" size="10" style="width:100%" class="edit">
-
+                                    <div></div>
                                 </select>
                             </td>
                         </tr>
                         <tr>
-                            
+
                         </tr>
                     </table>
                 </form>
@@ -76,7 +81,7 @@
     <!--Botao de Proximo-->
     <tr>
         <td align="center" style="padding-top:10px;">
-            <div align="right" style="width:80%">
+            <div align="right" style="width:92%">
                 <a id="linkProximo" class="navProximo ui-widget-header" href="frmCadQuestionarioStep2.jsp">
                     <span>
                         Pr&oacute;ximo

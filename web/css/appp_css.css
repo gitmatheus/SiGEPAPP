@@ -242,3 +242,12 @@ a {
     height:2em;
     vertical-align:middle;
 }
+
+/* Wizards Perguntas e Respostas */
+
+.pergunta{
+    height: 20px;
+    font-size:small;
+    font-weight:bold;
+    color: #CCCCCC;
+}
