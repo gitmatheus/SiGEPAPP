@@ -33,7 +33,7 @@
     <!--Menu de Navegacao do Wizard-->
     <tr>
         <td id="titulo" style="padding-left:10px">
-            Passos: <a href="#">Cadastro das Perguntas</a>&nbsp;>&nbsp;Cadastro das Respostas&nbsp;>&nbsp;
+            Passos: <a href="frmCadQuestionarioStep1.jsp">Dados do Formulario</a>&nbsp;>&nbsp;<a href="frmCadQuestionarioStep2.jsp">Cadastro de Perguntas</a>&nbsp;>&nbsp;<a href="frmCadQuestionarioStep3.jsp">Cadastro de Respostas</a>&nbsp;>&nbsp;
         </td>
     </tr>
 
@@ -46,7 +46,7 @@
                     <table border="0" cellspacing="0" cellpadding="0" width="100%">
                         <tr>
                             <td width="30%" align="left">
-                                <div>Cadastre sua nova pergunta</div>
+                                <div style="font-weight:bold">Cadastrar nova pergunta</div>
                             </td>
                             <td width="60%" align="center">
                                 <div>

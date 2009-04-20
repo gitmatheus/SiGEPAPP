@@ -4,6 +4,8 @@
  */
 package br.edu.fei.sigepapp.servlet;
 
+import br.edu.fei.sigepapp.bancodedados.dao.RelacPergRespDAO;
+import br.edu.fei.sigepapp.bancodedados.model.Relac_Perg_Resp;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -23,18 +25,22 @@ public class CadRelacPergRespServlet extends HttpServlet {
         PrintWriter out = response.getWriter();
         try {
 
+            RelacPergRespDAO relacPergResp = new RelacPergRespDAO();
+
             String CDPerg[] = request.getParameterValues("CDPerg");
             String CDResp[] = request.getParameterValues("CDResp");
             String PesoResp[] = request.getParameterValues("PesoResp");
 
             for (int i = 0; i < CDPerg.length; i++) {
                 if (!CDResp[i].equals("0")) {
-                    out.println("APPP_INS_RELAC_PERG_RESP(" + CDPerg[i] + "," + CDResp[i] + "," + PesoResp[i]+");");
+                    relacPergResp.APPP_INS_RELAC_PERG_RESP(new Relac_Perg_Resp(Long.parseLong(CDPerg[i]) ,Long.parseLong(CDResp[i]) ,Long.parseLong(PesoResp[i])));
                 }
             }
 
             response.sendRedirect("frmCadQuestionarioStep4.jsp");
 
+        } catch (Exception e) {
+            out.println("erro: " + e.getMessage());
         } finally {
             out.close();
         }

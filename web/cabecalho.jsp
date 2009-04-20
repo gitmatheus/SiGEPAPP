@@ -111,7 +111,7 @@
         <tr class="menubv"><td>
         <a id="menubv" href="/sigepapp" title="P&aacute;gina principal" >Home</a></tr>
         <tr class="menubv"><td>
-        <a id="menubv" href="/sigepapp/frmCadEstrutura.jsp" title="Cadastro das Estruturas disponiveis no sistema" >Cadastro de Estruturas</a></tr>
+        <a id="menubv" href="/sigepapp/frmCadEstruturaStep1.jsp" title="Cadastro das Estruturas disponiveis no sistema" >Cadastro de Estruturas</a></tr>
         <tr class="menubv"><td>
         <a id="menubv" href="/sigepapp/frmCadAPPP.jsp" title="Cadastro de Patterns, Anti-Patterns e Personas" >Cadastro dos APPP</a></tr>
         <tr class="menubv"><td>

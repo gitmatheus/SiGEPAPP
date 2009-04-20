@@ -31,14 +31,14 @@
 
 <%@include file="cabecalho.jsp"%>
 
-
+<script type="text/javascript" language="javascript" src="js/appp_frmCadResposta.js"></script>
 <!--Inicio do formulário-->
 <table border="0" cellpadding="0" cellspacing="0" width="100%" align="center" class="formulario">
 
     <!--Menu de Navegacao do Wizard-->
     <tr>
         <td id="titulo" style="padding-left:10px">
-            Passos: <a href="frmCadQuestionarioStep1.jsp">Cadastro das Perguntas</a>&nbsp;>&nbsp;<a href="#">Cadastro das Respostas</a>&nbsp;>&nbsp;
+            Passos: <a href="frmCadQuestionarioStep1.jsp">Dados do Formulario</a>&nbsp;>&nbsp;<a href="frmCadQuestionarioStep2.jsp">Cadastro de Perguntas</a>&nbsp;>&nbsp;<a href="frmCadQuestionarioStep3.jsp">Cadastro de Respostas</a>&nbsp;>&nbsp;
         </td>
     </tr>
 
@@ -51,7 +51,7 @@
                     <table align="center" border="0" cellspacing="0" cellpadding="0" width="100%">
                         <tr>
                             <td align="left">
-                                <div style="display:inline-block ">Cadastre uma nova Resposta</div>
+                                <div style="display:inline-block; font-weight:bold">Cadastrar nova resposta</div>
                             </td>
                             <td align="center">
                                 <div>
