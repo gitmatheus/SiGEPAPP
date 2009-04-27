@@ -63,8 +63,11 @@
 
 
 <script type="text/javascript" language="javascript" src="js/fckeditor/fckeditor.js"></script>
-
+<script type="text/javascript" language="javascript" src="js/jquery-ui-1.7.js"></script>
 <script type="text/javascript" language="javascript">
+
+    var carregandoXML=false;
+
     function clickFieldSet(objetoClicado){
         $(objetoClicado).children("legend").andSelf().children("input").attr("checked","checked")
         if($(objetoClicado).attr("id")=="fieldSet1"){
@@ -77,16 +80,21 @@
         }
     }
 
-    function pesqEstruturas(){
+    function pesqEstruturas(codEstr){
         $("#frmPesqEstruturasTabResult").empty();
-        $.post("GetEstruturasServlet", {nome: $("#frmPesqEstruturasTxtNome").val()}, function(texto,estado){
+
+        if(codEstr==null){
+            codEstr=0;
+        }
+
+        $.post("GetEstruturasServlet", {codEstr: codEstr, nome: $("#frmPesqEstruturasTxtNome").val()}, function(texto,estado){
             if(estado=="success"){
 
                 $(texto).find("Estrutura").each(function(indice,elemento){
 
-                    $("#frmPesqEstruturasTabResult").append("<tr align='left' onmouseover='mostraEstrutura("+$(elemento).find("Cod").text()+")'>"+
+                    $("#frmPesqEstruturasTabResult").append("<tr align='left' onmouseout='escondeEstrutura();' onmouseover='mostraEstrutura("+$(elemento).find("Cod").text()+")'>"+
                         "<td style='width:auto;'>"+
-                        "<input name='PesqEstruturas' type='radio' value='"+$(elemento).find("Cod").text()+"' id='frmPesqEstruturasRadio'>"+
+                        "<input name='codEstrutura' type='radio' value='"+$(elemento).find("Cod").text()+"' id='frmPesqEstruturasRadio'>"+
                         $(elemento).find("Nome").text()+
                         "</td>"+
                         "<td>"+
@@ -137,28 +145,69 @@
     }
 
     function mostraEstrutura(codEstr){
-        $("#frmAlert").html("<table></table>");
 
-        $.post("GetAtribDeEstrutServlet", {codestr: codEstr}, function(texto, estado){
-            if(estado=="success"){
+        if (carregandoXML==false){
+            carregandoXML=true;
+            $("#frmAlert").html("<table></table>");
+            $.post("GetAtribDeEstrutServlet", {codestr: codEstr}, function(texto, estado){
+                if(estado=="success"){
 
-                $(texto).find("atributo").each(function(indice, elemento){
-                    $("#frmAlert table:first").append("<tr>"+
-                        "<td>"+
-                        $(elemento).find("nome").text()+
-                        "</td>"+
-                        "</tr>"
-                );
-                });
-            }
-        }, "xml");
-        $("#frmAlert").dialog();
-        $("#frmAlert").dialog('open');
-        $("#frmAlert").dialog('option','title',"Estrututura de: <i>"+$("#frmPesqEstruturasTabResult td:has(input[value="+codEstr+"])").text()+"</i>");
+                    $(texto).find("atributo").each(function(indice, elemento){
+                        $("#frmAlert table:first").append("<tr>"+
+                            "<td>"+
+                            $(elemento).find("nome").text()+
+                            "</td>"+
+                            "</tr>"
+                    );
+                    });
+                }
+            }, "xml");
+            $("#frmAlert").dialog();
+            $("#frmAlert").dialog('open');
+            $("#frmAlert").dialog('option','title',"Estrututura de: <i>"+$("#frmPesqEstruturasTabResult td:has(input[value="+codEstr+"])").text()+"</i>");
+            carregandoXML=false;
+        }
 
     }
 
+    function escondeEstrutura(){
+        $('#frmAlert').dialog('close');
+    }
+
     $(document).ready(function(){
+
+        $("#divfrmPesqEstrutura input:checkbox[value='PA']").attr("checked","checked");
+        $("#divfrmPesqEstrutura input:checkbox[value='AP']").attr("checked","checked");
+        $("#divfrmPesqEstrutura input:checkbox[value='PE']").attr("checked","checked");
+  
+        $.post("readSessionServlet", {nome: "inicioEstrutura"}, function(dados){
+            
+            $("input[value='"+dados+"']").attr("checked","checked");
+        },"text");
+
+        $.post("readSessionServlet", {nome: "codEstrutura"}, function(dados){
+            if(dados=="PA" || dados=="AP" || dados=="PE"){
+                $("input[value='"+dados+"']").attr("checked","checked");
+                
+            }else{
+
+                pesqEstruturas(dados);
+                $(document).ajaxComplete(function(){
+
+                    $("input[value='"+dados+"']").click();
+                });
+                $(document).ajaxComplete(function(){});
+
+            }
+        },"text");
+
+
+
+        $("#linkProximo").click(function(){
+
+            $.post("writeSessionServlet", {inicioEstrutura: $("input[name='frmCadEstOptInicio']:checked").val(), codEstrutura: $("input[name='codEstrutura']:checked").val() }, null);
+
+        });
 
         $("#fieldSet2").fadeTo('slow', 0.5);
         $("#fieldSet1").fadeTo('slow', 1);
@@ -184,120 +233,123 @@
 </script>
 
 <!--Inicio do formulário-->
-<table id="frmCadEstrutFormulario" border="0" cellpadding="0" cellspacing="0" width="100%" align="right" class="formulario">
-    <!--Menu do Wizard-->
-    <tr>
-        <td id="titulo" style="padding-left:10px">
-            Passo 1: <a href="frmCadEstruturaStep1.jsp">Dados da estrutura</a>&nbsp;>&nbsp;Passo 2: <a href="#">Tipo de estrutura</a>&nbsp;>&nbsp;Passo 3: Definição dos Atributos
-        </td>
-    </tr>
-    <!--Fim do menu do Wizard-->
-    <tr>
-        <td align="center" style="padding-top:20px;">
-            <fieldset id="fieldSet1" style="background-color:#eeeeee;width:90%">
-                <legend><input name="frmCadEstOptInicio" type="radio"><b>Estrutura primitiva:</b></legend>
-                <table width="100%">
-                    <tr>
-                        <td>
-                            <table>
-                                <tr>
-                                    <td>
-                                        Selecione o tipo de estrutura:
-                                    </td>
-                                    <td>
-                                        <input type="radio" name="frmCadEstRadioCadEst" value="PA">Pattern
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td></td>
-                                    <td>
-                                        <input type="radio" name="frmCadEstRadioCadEst" value="AP">Anti-Pattern
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td></td>
-                                    <td>
-                                        <input type="radio" name="frmCadEstRadioCadEst" value="PE">Persona
-                                    </td>
-                                </tr>
-                            </table>
-                        </td>
-                    </tr>
-                </table>
-            </fieldset>
-        </td>
-    </tr>
-    <tr>
-        <td align="center" style="padding-top:10px;padding-bottom:10px">
-            <div style="border-bottom-style:dashed;border-top-style:dashed;border-width:1px;width:80%;">
-                <b style="font-size:15px;">OU</b>
-            </div>
-        </td>
-    </tr>
-    <tr>
-        <td align="center">
-            <fieldset id="fieldSet2" style="background-color:#eeeeee;width:90%;padding-top:10px;padding-bottom:30px;">
-                <legend><input name="frmCadEstOptInicio" type="radio"><b>Importar de uma estrutura existente:</b></legend>
-                Caso deseja construir uma estrutura a partir de uma já existente escolha uma estrutura:
-                <div id="divfrmPesqEstrutura">
+<form id="frmCadEstrutura" action="frmCadEstruturaStep3.jsp" method="get">
+
+    <table id="frmCadEstrutFormulario" border="0" cellpadding="0" cellspacing="0" width="100%" align="right" class="formulario">
+        <!--Menu do Wizard-->
+        <tr>
+            <td id="titulo" style="padding-left:10px">
+                Passo 1: <a href="frmCadEstruturaStep1.jsp">Dados da estrutura</a>&nbsp;>&nbsp;Passo 2: <a href="#">Tipo de estrutura</a>&nbsp;>&nbsp;Passo 3: Definição dos Atributos
+            </td>
+        </tr>
+        <!--Fim do menu do Wizard-->
+        <tr>
+            <td align="center" style="padding-top:20px;">
+                <fieldset id="fieldSet1" style="background-color:#eeeeee;width:90%">
+                    <legend><input id="frmCadEstOptInicioEstMinima" name="frmCadEstOptInicio" type="radio" value="Minima"><b>Estrutura m&iacute;nima</b></legend>
                     <table width="100%">
                         <tr>
-                            <td>Pesquisar por nome da estrutura:</td>
-                            <td><input class="edit" size="50" type="text" id="frmPesqEstruturasTxtNome">
-                                <input class="botao" type="button" id="frmPesqEstruturasButOk" value="Ok">
-                            </td>
-                        </tr>
-                        <tr>
-                            <td colspan="2">
-                                <table width="100%" style="background-color:#ffffff">
+                            <td>
+                                <table>
                                     <tr>
-                                        <td colspan="3" align="center">
-                                            Filtros:
+                                        <td>
+                                            Selecione o tipo de estrutura:
+                                        </td>
+                                        <td>
+                                            <input type="radio" name="codEstrutura" value="PA">Pattern
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td align="center">
-                                            <input type="checkbox" value="PA">Patterns
+                                        <td></td>
+                                        <td>
+                                            <input type="radio" name="codEstrutura" value="AP">Anti-Pattern
                                         </td>
-
-                                        <td align="center">
-                                            <input type="checkbox" value="AP">Anti-Patterns
-                                        </td>
-
-                                        <td align="center">
-                                            <input type="checkbox" value="PE">Personas
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td>
+                                            <input type="radio" name="codEstrutura" value="PE">Persona
                                         </td>
                                     </tr>
                                 </table>
                             </td>
                         </tr>
-                        <tr>
-                            <td colspan="2">
-                                <div style="overflow-y:scroll;height:250px;" >
-                                    <table align="left" cellpadding="0" cellspacing="0" id="frmPesqEstruturasTabResult">
-
-                                    </table>
-                                </div>
-                            </td>
-                        </tr>
                     </table>
+                </fieldset>
+            </td>
+        </tr>
+        <tr>
+            <td align="center" style="padding-top:10px;padding-bottom:10px">
+                <div style="border-bottom-style:dashed;border-top-style:dashed;border-width:1px;width:80%;">
+                    <b style="font-size:15px;">OU</b>
                 </div>
-            </fieldset>
-        </td>
-    </tr>
-    <tr>
-        <td align="center" style="padding-top:10px;">
-            <div align="right" style="width:80%">
-                <a class="navProximo ui-widget-header" href="frmCadEstruturaStep3.jsp">
-                    <span>
-                        Pr&oacute;ximo
-                        <span class="ui-icon ui-icon-circle-arrow-e" style="display:inline-block;vertical-align:middle"></span>
-                    </span>
-                </a>
-            </div>
-        </td>
-    </tr>
-</table>
+            </td>
+        </tr>
+        <tr>
+            <td align="center">
+                <fieldset id="fieldSet2" style="background-color:#eeeeee;width:90%;padding-top:10px;padding-bottom:30px;">
+                    <legend><input id="frmCadEstOptInicioImportar" name="frmCadEstOptInicio" type="radio" value="Importar"><b>Importar de uma estrutura existente:</b></legend>
+                    Caso deseja construir uma estrutura a partir de uma já existente escolha uma estrutura:
+                    <div id="divfrmPesqEstrutura">
+                        <table width="100%">
+                            <tr>
+                                <td>Pesquisar por nome da estrutura:</td>
+                                <td><input class="edit" size="50" type="text" id="frmPesqEstruturasTxtNome">
+                                    <input class="botao" type="button" id="frmPesqEstruturasButOk" value="Ok">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">
+                                    <table width="100%" style="background-color:#ffffff">
+                                        <tr>
+                                            <td colspan="3" align="center">
+                                                Filtros:
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td align="center">
+                                                <input type="checkbox" value="PA">Patterns
+                                            </td>
+
+                                            <td align="center">
+                                                <input type="checkbox" value="AP">Anti-Patterns
+                                            </td>
+
+                                            <td align="center">
+                                                <input type="checkbox" value="PE">Personas
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">
+                                    <div style="overflow-y:scroll;height:250px;" >
+                                        <table align="left" cellpadding="0" cellspacing="0" id="frmPesqEstruturasTabResult">
+
+                                        </table>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </fieldset>
+            </td>
+        </tr>
+        <tr>
+            <td align="center" style="padding-top:10px;">
+                <div align="right" style="width:80%">
+                    <a id="linkProximo" class="navProximo ui-widget-header" href="frmCadEstruturaStep3.jsp">
+                        <span>
+                            Pr&oacute;ximo
+                            <span class="ui-icon ui-icon-circle-arrow-e" style="display:inline-block;vertical-align:middle"></span>
+                        </span>
+                    </a>
+                </div>
+            </td>
+        </tr>
+    </table>
+</form>
 <!--Fim do formulário-->
 
 <div style="display:block;" id="frmAlert">

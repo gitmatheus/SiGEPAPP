@@ -37,7 +37,7 @@
 <head>
 
     <!-- Definicao das meta tags utilizadas pelo sistema -->
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
     <meta name="author" content="Grupo SiGePAPP" />
     <meta name="version" content="0.01" />
 

@@ -8,13 +8,11 @@ import br.edu.fei.sigepapp.bancodedados.dao.Estrutura_ObjDAO;
 import br.edu.fei.sigepapp.bancodedados.model.Estrutura;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.net.URLEncoder;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.apache.catalina.Server;
 
 /**
  *
@@ -39,11 +37,15 @@ public class GetEstruturasServlet extends HttpServlet {
 
             String nome = request.getParameter("nome");
             String tipo = request.getParameter("tipo");
-
+            long codEstr = 0l;
+            if (request.getParameter("codEstr") != null) {
+                codEstr = Long.parseLong(request.getParameter("codEstr").trim());
+            }
+  
             Estrutura_ObjDAO daoPesquisa = new Estrutura_ObjDAO();
 
             List<Estrutura> estruturasEncontradas;
-            estruturasEncontradas = daoPesquisa.APPP_SEL_Estrutura_OBJ(new Estrutura(0, nome, null, null, 0, tipo),null);
+            estruturasEncontradas = daoPesquisa.APPP_SEL_Estrutura_OBJ(new Estrutura(codEstr, nome, null, null, 0, tipo), null);
             daoPesquisa.fechaConexao();
 
 
@@ -67,8 +69,8 @@ public class GetEstruturasServlet extends HttpServlet {
             }
 
         } catch (Exception e) {
-            out.println("erro: " + e.getMessage());
-        } finally {
+            out.println("erro: "+e.getMessage());
+        } finally {        
             out.print("</xml>");
             out.flush();
             out.close();

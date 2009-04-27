@@ -49,13 +49,17 @@ Tom Mix Petreca</description>
         <servlet-class>br.edu.fei.sigepapp.servlet.GetPerguntaServlet</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>gravaNaSessao</servlet-name>
-        <servlet-class>br.edu.fei.sigepapp.servlet.writeSession</servlet-class>
+        <servlet-name>writeSessionServlet</servlet-name>
+        <servlet-class>br.edu.fei.sigepapp.servlet.writeSessionServlet</servlet-class>
     </servlet>
     <servlet><servlet-name>CadRespostaServlet</servlet-name><servlet-class>br.edu.fei.sigepapp.servlet.CadRespostaServlet</servlet-class></servlet><servlet><servlet-name>GetRespostaServlet</servlet-name><servlet-class>br.edu.fei.sigepapp.servlet.GetRespostaServlet</servlet-class></servlet>
     <servlet>
         <servlet-name>CadRelacPergRespServlet</servlet-name>
         <servlet-class>br.edu.fei.sigepapp.servlet.CadRelacPergRespServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>readSessionServlet</servlet-name>
+        <servlet-class>br.edu.fei.sigepapp.servlet.readSessionServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
@@ -108,8 +112,8 @@ Tom Mix Petreca</description>
         <url-pattern>/GetPerguntaServlet</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>gravaNaSessao</servlet-name>
-        <url-pattern>/gravaNaSessao</url-pattern>
+        <servlet-name>writeSessionServlet</servlet-name>
+        <url-pattern>/writeSessionServlet</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>CadRespostaServlet</servlet-name>
@@ -122,6 +126,10 @@ Tom Mix Petreca</description>
     <servlet-mapping>
         <servlet-name>CadRelacPergRespServlet</servlet-name>
         <url-pattern>/CadRelacPergRespServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>readSessionServlet</servlet-name>
+        <url-pattern>/readSessionServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
