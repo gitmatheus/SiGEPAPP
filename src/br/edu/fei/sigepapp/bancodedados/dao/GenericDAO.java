@@ -26,6 +26,10 @@ import java.sql.ResultSet;
 import oracle.jdbc.OracleTypes;
 import br.edu.fei.sigepapp.bancodedados.ConnectionFactory;
 import br.edu.fei.sigepapp.log.GravarLog;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.logging.SimpleFormatter;
 
 /**
  *
@@ -36,7 +40,7 @@ public class GenericDAO {
 
     private Connection conn;
     private boolean erro = false;
-    private long cd_estrutura;
+    private long cd_objeto;
 
     /**
      * Contrutor da classe:- cria uma conexão com o banco de dados
@@ -49,6 +53,12 @@ public class GenericDAO {
         
     }
 
+    /**
+     *
+     * @param strValores
+     * @param strAtributos
+     * @return
+     */
     public long insertData(String strValores[], String strAtributos[]){
         try{
             int i = 0, tamVetorOracle = 0;
@@ -64,7 +74,7 @@ public class GenericDAO {
                 i++;
             }
 
-            insereTabelaEstrutura(strValores, strAtributos);
+            insertObjeto(strValores, strAtributos);
             if(erro){
                 GravarLog.gravaErro(GenericDAO.class.getName() + ": ocorreu um erro na rotina de inserção na tabela de estrutura.");
                 return 4;
@@ -74,7 +84,7 @@ public class GenericDAO {
 
             String nm_tabela = new String();
 
-            nm_tabela = buscaNomeTabela(this.cd_estrutura);
+            nm_tabela = buscaNomeTabela(Long.parseLong(strValores[3]));
 
             if(nm_tabela.equals("")){
                 GravarLog.gravaAlerta(GenericDAO.class.getName() + ": nome da tabela nao encontrado.");
@@ -125,25 +135,125 @@ public class GenericDAO {
         }
     }
 
-    public void insereTabelaEstrutura(String strValores[], String strAtributos[]){
+    /**
+     *
+     * @param pCD_ESTR
+     * @param pQTDE_ATR
+     * @param strValores
+     * @param strAtributos
+     * @return
+     */
+    public String[] select(int pCD_ESTR, int pQTDE_ATR, String strValores[], String strAtributos[]){
+        String strRetorno[] = new String[pQTDE_ATR];
+        String strTpAtrib[] = new String[pQTDE_ATR - 7];
+        boolean erroBuscaAtrib = false;
+
         try{
-            CallableStatement cstmt = this.conn.prepareCall("begin APPP_INS_ESTRUT_OBJ(?,?,?,?,?); end;");
+            
+            int posVet = 0;
+            selectObjeto(posVet, strRetorno, strValores);
+
+            CallableStatement cstmt = this.conn.prepareCall("begin APPP_EXEC_MANIP_GENERICA(?,?,?,?,?,?); end;");
+            
+            String pNM_TABELA = buscaNomeTabela(pCD_ESTR);
+
+            cstmt.setString(1, pNM_TABELA);
+            cstmt.setString(2, "SEL");
+
+            if(strValores.length < 1){
+                cstmt.setNull(3, OracleTypes.CURSOR);
+            }else{
+                String temp[] = new String[strValores.length - 7];
+                for(int j = 0; j < (strValores.length - 7); j++){
+                    temp[j] = strValores[j + 7];
+                }
+                cstmt.setObject(3, temp);
+            }
+
+            if(strAtributos.length < 1){
+                cstmt.setNull(4, OracleTypes.CURSOR);
+            }else{
+                String temp[] = new String[strAtributos.length - 7];
+                for(int j = 0; j < (strAtributos.length - 7) && !erroBuscaAtrib; j++){
+                    String temp2 = buscaTipoAtributo(strAtributos[j+7]);
+                    if (temp2.equals("")){
+                        erroBuscaAtrib = true;
+                    }else{
+                        temp[j] = temp2;
+                    }
+                }
+                if(!erroBuscaAtrib){
+                    cstmt.setObject(4, temp);
+                    strTpAtrib = temp;
+                }else{
+                    temp[0] = "erro";
+                    return temp;
+                }
+            }
+
+            cstmt.registerOutParameter(5, OracleTypes.NUMBER);
+            cstmt.registerOutParameter(6, OracleTypes.CURSOR);
+
+            cstmt.execute();
+
+            ResultSet rs = (ResultSet) cstmt.getObject(6);
+
+            int tamRS = 0;
+            while (rs.next()){
+                tamRS++;
+            }
+            if (tamRS != 1){
+                String temp[] = new String[1];
+                temp[0] = "erro";
+                return temp;
+            }else{
+                int k = 1;
+                for(int j = posVet;j<strRetorno.length;j++){
+                    if(strTpAtrib[k-1].equals("VARCHAR")){
+                       strRetorno[j] = rs.getString(k);
+                    }else if(strTpAtrib[k-1].equals("NUMBER")){
+                       strRetorno[j] = Long.toString(rs.getLong(k));
+                    }else if(strTpAtrib[k-1].equals("DATE")){
+                       strRetorno[j] =  new SimpleDateFormat("dd/MM/yyy").format(rs.getDate(k));
+                    }
+                }
+            }
+
+            return strRetorno;
+
+        }catch(SQLException e){
+            String temp[] = new String[1];
+            temp[0] = "erro";
+            GravarLog.gravaErro(GenericDAO.class.getName() + ": ocorreu um erro durante a seleção de dados: " + e.getMessage() + " : " + e.getSQLState());
+            return temp;
+
+        }
+    }
+
+    /**
+     *
+     * @param strValores
+     * @param strAtributos
+     */
+    public void insertObjeto(String strValores[], String strAtributos[]){
+        try{
+            CallableStatement cstmt = this.conn.prepareCall("begin APPP_INS_OBJETO(?,?,?,?,?); end;");
 
             cstmt.registerOutParameter(1, OracleTypes.NUMBER);
             cstmt.registerOutParameter(6, OracleTypes.NUMBER);
 
             for (int i=0;i<4;i++){
-                if(strAtributos[i].equals("NM_ESTRUTURA")){
+                if(strAtributos[i].equals("NM_OBJETO")){
                     cstmt.setString(2, strValores[i]);
                 }else{
-                    if(strAtributos[i].equals("DS_ESTRUTURA")){
-                        cstmt.setString(3, strValores[i]);
+                    if(strAtributos[i].equals("CD_ESTRUTURA")){
+                        cstmt.setLong(3, Long.parseLong(strValores[i]));
                     }else{
-                        if(strAtributos[i].equals("CD_USER")){
-                            cstmt.setLong(4, Long.parseLong(strValores[i]));
+                        if(strAtributos[i].equals("DS_OBJETO")){
+                            cstmt.setString(4, strValores[i]);
                         }else{
-                            if(strAtributos[i].equals("TP_ESTRUTURA")){
-                                cstmt.setString(5,strValores[i]);
+                            if(strAtributos[i].equals("CD_USER_CRIADOR")){
+                                cstmt.setLong(5,Long.parseLong(strValores[i]));
                             }
                         }
                     }
@@ -152,17 +262,17 @@ public class GenericDAO {
 
             cstmt.execute();
 
-            int pCD_ESTRUTURA = (int) cstmt.getLong(1);
+            int pCD_OBJETO = (int) cstmt.getLong(1);
             int cResult = (int) cstmt.getLong(6);
 
             cstmt.close();
 
-            if (pCD_ESTRUTURA < 1){
+            if (pCD_OBJETO < 1){
                 this.erro = true;
                 GravarLog.gravaErro(GenericDAO.class.getName() + ": código da estrutura é nulo.");
             }else{
                 this.erro = false;
-                this.cd_estrutura = pCD_ESTRUTURA;
+                this.cd_objeto = pCD_OBJETO;
                 GravarLog.gravaInformacao(GenericDAO.class.getName() + ": código da estrutura gerado com sucesso.");
             }
 
@@ -174,6 +284,91 @@ public class GenericDAO {
             GravarLog.gravaErro(GenericDAO.class.getName() + ": ocorreu um erro durante a inserção de dados da estrutura: " + e.getMessage() + " : " + e.getSQLState());
             this.erro = true;
         }
+    }
+
+    public void selectObjeto(int posVet, String strRetorno[], String strValores[]){
+        try{
+            CallableStatement cstmt = this.conn.prepareCall("begin APPP_SEL_OBJETO(?,?,?,?,?,?,?,?); end;");
+            for (int j=0;j<6;j++){
+                if(!strValores[j].equals("")){
+                    switch (j){
+                        case 0:
+                            cstmt.setLong(1, Long.parseLong(strValores[j]));
+                            break;
+                        case 1:
+                            cstmt.setString(2, strValores[j]);
+                            break;
+                        case 2:
+                            cstmt.setLong(3, Long.parseLong(strValores[j]));
+                            break;
+                        case 3:
+                            cstmt.setString(4, strValores[j]);
+                            break;
+                        case 4:
+                            try{
+                                java.sql.Date data = new java.sql.Date(new SimpleDateFormat("dd/MM/yyyy").parse(strValores[j]).getTime());
+                                cstmt.setDate(5, data);
+                            }catch(ParseException e){
+                                cstmt.setNull(5, OracleTypes.DATE);
+                                GravarLog.gravaAlerta("Nao foi possivel converter a string em data - pos 4" + e.getMessage());
+                            }
+                            break;
+                        case 5:
+                            try{
+                                java.sql.Date data = new java.sql.Date(new SimpleDateFormat("dd/MM/yyyy").parse(strValores[j]).getTime());
+                                cstmt.setDate(6, data);
+                            }catch(ParseException e){
+                                cstmt.setNull(6, OracleTypes.DATE);
+                                GravarLog.gravaAlerta("Nao foi possivel converter a string em data - pos 5" + e.getMessage());
+                            }
+                            break;
+                        case 6:
+                            cstmt.setLong(7, Long.parseLong(strValores[j]));
+                            break;
+                    }
+                }
+            }
+            cstmt.registerOutParameter(8, OracleTypes.CURSOR);
+
+            cstmt.execute();
+
+            ResultSet rs = (ResultSet) cstmt.getObject(8);
+
+            int tamRS = 0;
+            while (rs.next()){
+                tamRS++;
+            }
+            if(tamRS != 1){
+                posVet = -1;
+            }else{
+                for(int j = 0; j < 6; j++){
+                    switch(j){
+                        case 0:
+                            strRetorno[j] = Long.toString(rs.getLong(0));
+                            break;
+                        case 1:
+                            strRetorno[j] = rs.getString(1);
+                            break;
+                        case 2:
+                            strRetorno[j] = Long.toString(rs.getLong(2));
+                            break;
+                        case 3:
+                            strRetorno[j] = rs.getString(3);
+                            break;
+                        case 4:
+                            strRetorno[j] = rs.getDate(4).toString();
+                            break;
+                        case 5:
+                            strRetorno[j] = Long.toString(rs.getLong(5));
+                            break;
+                    }
+                }
+            }
+        }catch(SQLException e){
+            GravarLog.gravaErro(GenericDAO.class.getName() + ": ocorreu um erro durante a seleção de dados da estrutura: " + e.getMessage() + " : " + e.getSQLState());
+            posVet = -1;
+        }
+
     }
 
     public String buscaNomeTabela(long cod_estr){
