@@ -82,7 +82,7 @@ Estrutura estPE = new Estrutura();
            
            $("#tabAtributosPA").append("<tr>Descricao:<td align='center' colspan='2'>" +
                                     "<div  style='margin-left: 5px;'>"    +
-                                    "<textarea class='edit' id='frmCadAPPPDescricaoPA'></textarea>" +
+                                    "<textarea class='edit' name='frmCadAPPPDescricaoPA' id='frmCadAPPPDescricaoPA'></textarea>" +
                                     "</div></td></tr>");
 
                                 var oFCKeditorDesc = new FCKeditor("frmCadAPPPDescricaoPA") ;
@@ -94,7 +94,7 @@ Estrutura estPE = new Estrutura();
                                 
            $("#tabAtributosPA").append("<tr>Problema:<td align='center' colspan='2'>" +
                                     "<div  style='margin-left: 5px;'>"    +
-                                    "<textarea class='edit' id='frmCadAPPPProblemaPA'></textarea>" +
+                                    "<textarea class='edit' name='frmCadAPPPProblemaPA' id='frmCadAPPPProblemaPA'></textarea>" +
                                     "</div></td></tr>");
 
                                 var oFCKeditorProb = new FCKeditor("frmCadAPPPProblemaPA") ;
@@ -106,7 +106,7 @@ Estrutura estPE = new Estrutura();
           
            $("#tabAtributosPA").append("<tr>Solucao:<td align='center' colspan='2'>" +
                                     "<div  style='margin-left: 5px;'>"    +
-                                    "<textarea class='edit' id='frmCadAPPPSolucaoPA'></textarea>" +
+                                    "<textarea class='edit' name='frmCadAPPPSolucaoPA' id='frmCadAPPPSolucaoPA'></textarea>" +
                                     "</div></td></tr>");
 
                                 var oFCKeditorSol = new FCKeditor("frmCadAPPPSolucaoPA") ;
@@ -310,6 +310,13 @@ Estrutura estPE = new Estrutura();
     <div id="tabs-1">
         <table border="0">
             <thead>
+                <tr><td><%
+                        if (!request.getParameter("msg").isEmpty()){
+                         response.getWriter().write(request.getParameter("msg"));   
+                        }          
+                
+                %></td>
+                </tr>
                 <tr>
                     <th>Preencha os campos:</th>
                 </tr>
@@ -346,7 +353,10 @@ Estrutura estPE = new Estrutura();
                     <td></td>
                 </tr>
                 <tr>
-                    <td><form><table id="tabAtributosPA"></table></form></td>
+                    <td><form action="CadPatternServlet" method="post">
+                        <table id="tabAtributosPA"></table>
+                        <input type="submit" value="Enviar">
+                        </form></td>
                     <td></td>
                 </tr>
                 <tr>

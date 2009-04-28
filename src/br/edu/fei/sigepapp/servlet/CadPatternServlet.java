@@ -29,44 +29,51 @@ public class CadPatternServlet extends HttpServlet {
 
         Pattern pattern = new Pattern();
 
-        pattern.setCd_Estrutura(Long.parseLong(request.getParameter("cd_Estrutura")));
-        // CHECAR COMO OBTER O CODIGO DE USUARIO
-        pattern.setCd_User_Criador(Long.parseLong("30150215835")); 
-        pattern.setDs_Objeto(request.getParameter("ds_Objeto"));
-        pattern.setDs_Pat_problema(request.getParameter("ds_Pat_problema"));
-        pattern.setDs_Pat_solucao(request.getParameter("ds_Pat_solucao"));
-        pattern.setNm_Objeto(request.getParameter("nm_Objeto"));
+        /*while(request.getParameterNames().hasMoreElements()){
+            request.getParameterNames().nextElement().toString()
+        }*/
+
+
+        pattern.setCd_Estrutura(1);
+        //pattern.setCd_User_Criador(Long.parseLong(request.getSession().getAttribute("codigo_usuario").toString()));
+        pattern.setCd_User_Criador(Long.parseLong("30150215835"));
+        pattern.setDs_Objeto(request.getParameter("frmCadAPPPDescricaoPA"));
+        pattern.setDs_Pat_problema(request.getParameter("frmCadAPPPProblemaPA"));
+        pattern.setDs_Pat_solucao(request.getParameter("frmCadAPPPSolucaoPA"));
+        pattern.setNm_Objeto(request.getParameter("frmCadAPPPNomePA"));
         
         try {
             PatternDAO patternDao = new PatternDAO();
             long c = patternDao.APPP_CREATE_PATTERN(pattern);
-            
+
             if (c <= 0) {
                 GravarLog.gravaErro(CadUsuarioServlet.class.getName() + ": erro no cadastro do Código Postal");
                 erro = true;
                 inserido = !erro;
                 cadastrado = !erro;
             }
+            else{
+                erro = false;
+                inserido = !erro;
+
+            }
+
             patternDao.fechaConexao();
-            
-            
+
+
         } catch (Exception e) {
             GravarLog.gravaErro(CadUsuarioServlet.class.getName() + ": erro durante o cadastro do usuario: " + e.getMessage());
         }
 
         if (inserido) {
             writer.println("<sucesso>inserido</sucesso>");
-        } else {
-            if(cadastrado){
-                writer.println("<sucesso>existente</sucesso>");
-            }else{
-                writer.println("<sucesso>erro</sucesso>");
-            }
-        }
+        } else
+        {
+              response.sendRedirect("frmCadAPPP.jsp?msg=Cadastrado%20Com%20Sucesso");
+         }
+        
 
         writer.flush();
         writer.close();
     }
-
-  
 }
