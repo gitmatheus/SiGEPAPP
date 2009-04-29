@@ -179,16 +179,16 @@
         $("#divfrmPesqEstrutura input:checkbox[value='PA']").attr("checked","checked");
         $("#divfrmPesqEstrutura input:checkbox[value='AP']").attr("checked","checked");
         $("#divfrmPesqEstrutura input:checkbox[value='PE']").attr("checked","checked");
-  
+
         $.post("readSessionServlet", {nome: "inicioEstrutura"}, function(dados){
-            
+
             $("input[value='"+dados+"']").attr("checked","checked");
         },"text");
 
         $.post("readSessionServlet", {nome: "codEstrutura"}, function(dados){
             if(dados=="PA" || dados=="AP" || dados=="PE"){
                 $("input[value='"+dados+"']").attr("checked","checked");
-                
+
             }else{
 
                 pesqEstruturas(dados);
@@ -291,107 +291,50 @@
     <tr>
         <td align="center">
             <fieldset id="fieldSet2" style="background-color:#eeeeee;width:90%;padding-top:10px;padding-bottom:30px;">
-                <legend class="legend"><input name="frmCadEstOptInicio" type="radio">Importar de uma estrutura existente:</legend>
+                <legend><input id="frmCadEstOptInicioImportar" name="frmCadEstOptInicio" type="radio" value="Importar"><b>Importar de uma estrutura existente:</b></legend>
                 Caso deseja construir uma estrutura a partir de uma já existente escolha uma estrutura:
                 <div id="divfrmPesqEstrutura">
                     <table width="100%">
                         <tr>
-                            <td>
-                                <table>
+                            <td>Pesquisar por nome da estrutura:</td>
+                            <td><input class="edit" size="50" type="text" id="frmPesqEstruturasTxtNome">
+                                <input class="botao" type="button" id="frmPesqEstruturasButOk" value="Ok">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                <table width="100%" style="background-color:#ffffff">
                                     <tr>
-                                        <td>
-                                            Selecione o tipo de estrutura:
-                                        </td>
-                                        <td>
-                                            <input type="radio" name="codEstrutura" value="PA">Pattern
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td></td>
-                                        <td>
-                                            <input type="radio" name="codEstrutura" value="AP">Anti-Pattern
+                                        <td colspan="3" align="center">
+                                            Filtros:
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td></td>
-                                        <td>
-                                            <input type="radio" name="codEstrutura" value="PE">Persona
+                                        <td align="center">
+                                            <input type="checkbox" value="PA">Patterns
+                                        </td>
+
+                                        <td align="center">
+                                            <input type="checkbox" value="AP">Anti-Patterns
+                                        </td>
+
+                                        <td align="center">
+                                            <input type="checkbox" value="PE">Personas
                                         </td>
                                     </tr>
                                 </table>
                             </td>
                         </tr>
-                    </table>
-                </fieldset>
-            </td>
-        </tr>
-        <tr>
-            <td align="center" style="padding-top:10px;padding-bottom:10px">
-                <div style="border-bottom-style:dashed;border-top-style:dashed;border-width:1px;width:80%;">
-                    <b style="font-size:15px;">OU</b>
-                </div>
-            </td>
-        </tr>
-        <tr>
-            <td align="center">
-                <fieldset id="fieldSet2" style="background-color:#eeeeee;width:90%;padding-top:10px;padding-bottom:30px;">
-                    <legend><input id="frmCadEstOptInicioImportar" name="frmCadEstOptInicio" type="radio" value="Importar"><b>Importar de uma estrutura existente:</b></legend>
-                    Caso deseja construir uma estrutura a partir de uma já existente escolha uma estrutura:
-                    <div id="divfrmPesqEstrutura">
-                        <table width="100%">
-                            <tr>
-                                <td>Pesquisar por nome da estrutura:</td>
-                                <td><input class="edit" size="50" type="text" id="frmPesqEstruturasTxtNome">
-                                    <input class="botao" type="button" id="frmPesqEstruturasButOk" value="Ok">
-                                </td>
-                            </tr>
-                            <tr>
-                                <td colspan="2">
-                                    <table width="100%" style="background-color:#ffffff">
-                                        <tr>
-                                            <td colspan="3" align="center">
-                                                Filtros:
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td align="center">
-                                                <input type="checkbox" value="PA">Patterns
-                                            </td>
+                        <tr>
+                            <td colspan="2">
+                                <div style="overflow-y:scroll;height:250px;" >
+                                    <table align="left" cellpadding="0" cellspacing="0" id="frmPesqEstruturasTabResult">
 
-                                            <td align="center">
-                                                <input type="checkbox" value="AP">Anti-Patterns
-                                            </td>
-
-                                            <td align="center">
-                                                <input type="checkbox" value="PE">Personas
-                                            </td>
-                                        </tr>
                                     </table>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td colspan="2">
-                                    <div style="overflow-y:scroll;height:250px;" >
-                                        <table align="left" cellpadding="0" cellspacing="0" id="frmPesqEstruturasTabResult">
-
-                                        </table>
-                                    </div>
-                                </td>
-                            </tr>
-                        </table>
-                    </div>
-                </fieldset>
-            </td>
-        </tr>
-        <tr>
-            <td align="center" style="padding-top:10px;">
-                <div align="right" style="width:80%">
-                    <a id="linkProximo" class="navProximo ui-widget-header" href="frmCadEstruturaStep3.jsp">
-                        <span>
-                            Pr&oacute;ximo
-                            <span class="ui-icon ui-icon-circle-arrow-e" style="display:inline-block;vertical-align:middle"></span>
-                        </span>
-                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
                 </div>
             </fieldset>
         </td>
