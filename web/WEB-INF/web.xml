@@ -58,8 +58,8 @@ Tom Mix Petreca</description>
         <servlet-class>br.edu.fei.sigepapp.servlet.CadRelacPergRespServlet</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>readSessionServlet</servlet-name>
-        <servlet-class>br.edu.fei.sigepapp.servlet.readSessionServlet</servlet-class>
+        <servlet-name>GetRelacPergResp</servlet-name>
+        <servlet-class>br.edu.fei.sigepapp.servlet.GetRelacPergRespServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
@@ -128,8 +128,8 @@ Tom Mix Petreca</description>
         <url-pattern>/CadRelacPergRespServlet</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>readSessionServlet</servlet-name>
-        <url-pattern>/readSessionServlet</url-pattern>
+        <servlet-name>GetRelacPergResp</servlet-name>
+        <url-pattern>/GetRelacPergResp</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

@@ -1,23 +1,6 @@
-<%@page import="br.edu.fei.sigepapp.bancodedados.dao.*,br.edu.fei.sigepapp.bancodedados.model.*,java.util.*" %>
-<%        /**
-         * |------------------------------------------------------------------|
-         * |                   Modificacoes no Codigo                         |
-         * |------------------------------------------------------------------|
-         * |   Autor     |   Data      |   Descricao                          |
-         * |------------------------------------------------------------------|
-         * |  Tom Mix    |  30/03/09   | Criacao                              |
-         * |------------------------------------------------------------------|
-         * |  Tom Mix    |  31/03/09   | Criacao da Servlet e DAO             |
-         * |------------------------------------------------------------------|
-         * |  Tom Mix    |  01/04/09   | Cadastro de Resposta funcionando     |
-         * |------------------------------------------------------------------|
-         * |  Tom Mix    |  18/04/09   | Combo para mostrar Resp. cadastradas |
-         * |------------------------------------------------------------------|
-         * |  Tom Mix    |  18/04/09   | Criacao das Wizards                  |
-         * |------------------------------------------------------------------|
-         * |  Tom Mix    |  18/04/09   | Mostrar resp. em selects dinamicos   |
-         * |------------------------------------------------------------------|
-         **/
+a<%@page import="br.edu.fei.sigepapp.bancodedados.dao.*,br.edu.fei.sigepapp.bancodedados.model.*,java.util.*" %>
+
+<%
         PerguntaDAO pergDAO = new PerguntaDAO();
         List<Pergunta> listPerguntas = pergDAO.APPP_SEL_PERGUNTA(new Pergunta());
         pergDAO.fechaConexao();
@@ -32,13 +15,18 @@
 <%@include file="cabecalho.jsp"%>
 
 <script type="text/javascript" language="javascript" src="js/appp_frmCadResposta.js"></script>
+
 <!--Inicio do formulário-->
 <table border="0" cellpadding="0" cellspacing="0" width="100%" align="center" class="formulario">
 
     <!--Menu de Navegacao do Wizard-->
     <tr>
         <td id="titulo" style="padding-left:10px">
-            Passos: <a href="frmCadQuestionarioStep1.jsp">Dados do Formulario</a>&nbsp;>&nbsp;<a href="frmCadQuestionarioStep2.jsp">Cadastro de Perguntas</a>&nbsp;>&nbsp;<a href="frmCadQuestionarioStep3.jsp">Cadastro de Respostas</a>&nbsp;>&nbsp;
+            <b>Passos:</b>
+            <a href="frmCadQuestionarioStep1.jsp">Dados do Question&aacute;rio</a>&nbsp;>&nbsp;
+            <a href="frmCadQuestionarioStep2.jsp">Cadastro de Perguntas</a>&nbsp;>&nbsp;
+            <a href="#">Cadastro de Respostas</a>&nbsp;>&nbsp;
+            Confirma&ccedil;&atilde;o
         </td>
     </tr>
 
@@ -46,12 +34,17 @@
     <tr>
         <td align="center" style="padding-top:20px;">
             <fieldset title="Respostas" style="width:90%">
-                <legend><b>Resposta</b></legend>
+                <legend class="legend">Cadastro de Respostas</legend>
                 <form id="frmCadResp" action="CadRelacPergRespServlet" method="post">
                     <table align="center" border="0" cellspacing="0" cellpadding="0" width="100%">
                         <tr>
-                            <td align="left">
-                                <div style="display:inline-block; font-weight:bold">Cadastrar nova resposta</div>
+                            <td align="justify" valign="middle" colspan="3" style="padding-top:5px;padding-bottom:15px">
+                                Escolha as resposta nos combos de sele&ccedil;&atilde;o para formar o conjunto de respostas de cada pergunta. Cada resposta tem um peso(valor) e o valor de cada resposta est&aacute; escrito logo abaixo de cada combo. Caso queira cadastrar uma nova resposta, utilize o campo abaixo para isso.
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="left" width="30%">
+                                <div class="labels" style="display:inline-block;">Cadastrar nova resposta</div>
                             </td>
                             <td align="center">
                                 <div>
@@ -63,16 +56,13 @@
                             </td>
                         </tr>
                         <tr>
-                            <td></td>
-                        </tr>
-                        <tr>
                             <td colspan="3" align="center">
-                                <table>
+                                <table border="0" width="100%">
                                     <% for (Pergunta p : listPerguntas) {
             i++;%>
                                     <tr>
-                                        <td colspan="5" style="padding-top:10px" class="pergunta">
-                                            Pergunta <%=i%>: <%=p.getDs_pergunta()%>
+                                        <td colspan="5" style="padding-top:10px;padding-bottom:8px" class="pergunta" align="left">
+                                            <%=i%>) <%=p.getDs_pergunta()%>
                                         </td>
                                     </tr>
                                     <tr>

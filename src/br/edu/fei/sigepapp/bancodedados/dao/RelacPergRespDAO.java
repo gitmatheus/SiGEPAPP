@@ -66,7 +66,7 @@ public class RelacPergRespDAO {
 
             //Grava log com a informação de sucesso
             if (cResult == 1) {
-                GravarLog.gravaInformacao(RelacPergRespDAO.class.getName() + ": inserção no banco de dados realizada com sucesso");
+                GravarLog.gravaInformacao(RelacPergRespDAO.class.getName() + ": inserção no banco de dados do relac de perguntas e perguntas realizada com sucesso");
                 cstmt.close();
                 return 1;
             } else if (cResult < 1) {
@@ -88,7 +88,7 @@ public class RelacPergRespDAO {
 
     public boolean APPP_DEL_PERGUNTA(Relac_Perg_Resp relac_perg_resp) {
         try {
-            CallableStatement cstmt = this.conn.prepareCall("begin APPP_INS_RELAC_PERG_RESP(?, ?, ?, ?); end;");
+            CallableStatement cstmt = this.conn.prepareCall("begin APPP_DEL_RELAC_PERG_RESP(?, ?, ?, ?); end;");
 
             //Seta os valores para os pontos de interrogação indexados pela ordem deles na string
             cstmt.setLong(1, relac_perg_resp.getCd_pergunta());

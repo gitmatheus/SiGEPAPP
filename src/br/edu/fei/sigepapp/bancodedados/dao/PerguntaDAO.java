@@ -17,6 +17,8 @@ package br.edu.fei.sigepapp.bancodedados.dao;
  * |------------------------------------------------------------------|
  * | Tom Mix     | 18/04/09    | Atualizacao                          |
  * |------------------------------------------------------------------|
+ * | Tom Mix     | 21/04/09    | Criacao do metodo upadate            |
+ * |------------------------------------------------------------------|
  *
  *
  */
@@ -112,6 +114,37 @@ public class PerguntaDAO {
 
             return true;
         } catch (SQLException e) {
+            return false;
+        }
+    }
+
+    public boolean APPP_UPD_PERGUNTA(Pergunta pergunta) {
+        CallableStatement cstmt = null;
+        long resultado = 0;
+
+        try {
+            cstmt = conn.prepareCall("begin APPP_UPD_PERGUNTA(?, ?, ?); end;");
+
+            //Seta o codigo do atributo NULL (A chave sera gerada automaticamente pela procedure do banco)
+            cstmt.setLong(1, pergunta.getCd_pergunta());
+            cstmt.setString(2, pergunta.getDs_pergunta());
+            cstmt.registerOutParameter(3, OracleTypes.NUMBER);
+
+            cstmt.execute();
+
+            resultado = cstmt.getLong(3);
+
+            cstmt.close();
+
+            if (resultado == 1) {
+                GravarLog.gravaInformacao(Pergunta.class.getName() + ": atualizacao no banco de dados realizada com sucesso");
+                return true;
+            } else {
+                GravarLog.gravaErro(Pergunta.class.getName() + ": erro na adicao no banco de dados: Erro generico.");
+                return false;
+            }
+        } catch (SQLException ex) {
+            GravarLog.gravaErro(Pergunta.class.getName() + ": erro na adicao no banco de dados: " + ex.getSQLState());
             return false;
         }
     }

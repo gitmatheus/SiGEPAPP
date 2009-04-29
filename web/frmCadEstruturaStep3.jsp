@@ -190,18 +190,23 @@
 
 <!--Inicio do formulário-->
 <table id="frmCadEstrutFormulario" border="0" cellpadding="0" cellspacing="0" width="100%" align="right" class="formulario">
+    
     <!--Menu do Wizard-->
     <tr>
         <td id="titulo" style="padding-left:10px">
-            Passo 1: <a href="frmCadEstruturaStep1.jsp">Dados da estrutura</a>&nbsp;>&nbsp;Passo 2: <a href="frmCadEstruturaStep2.jsp">Tipo de estrutura</a>&nbsp;>&nbsp;Passo 3: <a href="#">Definição dos Atributos</a>
+            <b>Passos:</b>&nbsp;
+            <a href="frmCadEstruturaStep1.jsp">Dados da estrutura</a>&nbsp;>&nbsp;
+            <a href="frmCadEstruturaStep2.jsp">Tipo de estrutura</a>&nbsp;>&nbsp;
+            <a href="#">Definição dos Atributos</a>
         </td>
     </tr>
     <!--Fim do menu do Wizard-->
+
     <tr>
-        <td align="center">
+        <td align="center" style="padding-top:20px">
             <!--Conteudo-->
             <fieldset style="background-color:#eeeeee;width:90%">
-                <legend><b>Escolha dos atributos:</b></legend>
+                <legend class="legend">Escolha dos atributos:</legend>
 
                 <table class="ui-corner-tl" border="0" cellpadding="0" cellspacing="0" width="300">
                     
@@ -218,7 +223,7 @@
                 </table>
             </fieldset>
             <fieldset style="background-color:#eeeeee;width:90%">
-                <legend>Selecionar atributos:</legend>
+                <legend class="legend">Selecionar atributos:</legend>
                 <table width="100%" style="background-color:#eeeeee;">
                     <tr>
                         <td align="right">
@@ -254,15 +259,33 @@
         </td>
     </tr>
     <tr>
-        <td align="center" style="padding-top:10px;">
-            <div align="right" style="width:80%">
-                <a class="navProximo ui-widget-header" href="frmCadEstruturaStep2.jsp">
-                    <span>
-                        Pr&oacute;ximo
-                        <span class="ui-icon ui-icon-circle-arrow-e" style="display:inline-block;vertical-align:middle"></span>
-                    </span>
-                </a>
-            </div>
+        <td>
+            <table align="center" border="0" width="92%" style="background-color:#ffffff;">
+                <tr>
+                    <!--Botao Retornar Passo-->
+                    <td align="left" style="padding-top:10px;padding-bottom:10px">
+                        <div align="left" style="width:100%">
+                            <a id="linkRetorna" class="navProximo ui-widget-header" href="frmCadEstruturaStep2.jsp">
+                                <span>
+                                    <span class="ui-icon ui-icon-circle-arrow-w" style="display:inline-block;vertical-align:middle"></span>
+                                    Retornar
+                                </span>
+                            </a>
+                        </div>
+                    </td>
+                    <!--Botao Avançar Passo-->
+                    <td align="right" style="padding-top:10px;padding-bottom:10px">
+                        <div align="right" style="width:100%">
+                            <a id="linkProximo" class="navProximo ui-widget-header" href="frmCadEstruturaStep4.jsp">
+                                <span>
+                                    Pr&oacute;ximo
+                                    <span class="ui-icon ui-icon-circle-arrow-e" style="display:inline-block;vertical-align:middle"></span>
+                                </span>
+                            </a>
+                        </div>
+                    </td>
+                </tr>
+            </table>
         </td>
     </tr>
 </table>

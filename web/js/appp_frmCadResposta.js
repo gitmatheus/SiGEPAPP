@@ -14,7 +14,6 @@ function carregaListaRespostas(){
         function(retorno, estado){
             $(retorno).find("Resposta").each(function(indice, conteudo){
                 $("#frmCadResp select").each(function(indice2, combotemp){
-                    //alert($("#frmCadResp").attr("id"));
                     $(combotemp).append("<option>"+$(conteudo).find("DescResposta").text().toString()+"</option>");
                 });
                     

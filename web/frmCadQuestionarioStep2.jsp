@@ -1,26 +1,6 @@
-<%@page import="br.edu.fei.sigepapp.bancodedados.dao.*,br.edu.fei.sigepapp.bancodedados.model.*,java.util.*" %>
-<%        /**
-         * |------------------------------------------------------------------|
-         * |                   Modificacoes no Codigo                         |
-         * |------------------------------------------------------------------|
-         * |   Autor     |   Data      |   Descricao                          |
-         * |------------------------------------------------------------------|
-         * |  Tom Mix    |  30/03/09   | Criacao                              |
-         * |------------------------------------------------------------------|
-         * |  Tom Mix    |  31/03/09   | Criacao da Servlet e DAO             |
-         * |------------------------------------------------------------------|
-         * |  Tom Mix    |  01/04/09   | Cadastro de Pergunta funcionando     |
-         * |------------------------------------------------------------------|
-         * |  Tom Mix    |  08/04/09   | Combo para mostrar Perg. cadastradas |
-         * |------------------------------------------------------------------|
-         * |  Tom Mix    |  18/04/09   | Criacao das Wizards                  |
-         * |------------------------------------------------------------------|
-         **/
-%>
+        <%@page import="br.edu.fei.sigepapp.bancodedados.dao.*,br.edu.fei.sigepapp.bancodedados.model.*,java.util.*" %>
 
 <%@include file="cabecalho.jsp"%>
-<link type="text/css" rel="stylesheet" href="css/jquery-ui-1.7.css">
-<link type="text/css" rel="stylesheet" href="css/appp_css.css">
 
 <script type="text/javascript" language="javascript" src="js/jquery.tinysort.js"></script>
 <script type="text/javascript" language="javascript" src="js/jquery-ui-1.7.js"></script>
@@ -33,7 +13,11 @@
     <!--Menu de Navegacao do Wizard-->
     <tr>
         <td id="titulo" style="padding-left:10px">
-            Passos: <a href="frmCadQuestionarioStep1.jsp">Dados do Formulario</a>&nbsp;>&nbsp;<a href="frmCadQuestionarioStep2.jsp">Cadastro de Perguntas</a>&nbsp;>&nbsp;<a href="frmCadQuestionarioStep3.jsp">Cadastro de Respostas</a>&nbsp;>&nbsp;
+            <b>Passos:</b>
+            <a href="frmCadQuestionarioStep1.jsp">Dados do Question&aacute;rio</a>&nbsp;>&nbsp;
+            <a href="#">Cadastro de Perguntas</a>&nbsp;>&nbsp;
+            Cadastro de Respostas&nbsp;>&nbsp;
+            Confirma&ccedil;&atilde;o
         </td>
     </tr>
 
@@ -41,16 +25,22 @@
     <tr>
         <td align="center" style="padding-top:20px;">
             <fieldset title="Perguntas" style="width:90%">
-                <legend><b>Perguntas</b></legend>
+                <legend class="legend">Cadastro de Perguntas</legend>
                 <form name="frmCadPerg" method="post">
                     <table border="0" cellspacing="0" cellpadding="0" width="100%">
                         <tr>
-                            <td width="30%" align="left">
-                                <div style="font-weight:bold">Cadastrar nova pergunta</div>
+                            <td align="justify" valign="middle" colspan="3" style="padding-top:5px;padding-bottom:15px">
+                                Utilize o campo abaixo para cadastrar as perguntas que formar&aacute; o question&aacute;rio
                             </td>
-                            <td width="60%" align="center">
+                        </tr>
+                        <tr>
+                        <tr>
+                            <td width="35%" align="left">
+                                <div class="labels">Cadastrar nova pergunta</div>
+                            </td>
+                            <td width="55%" align="center">
                                 <div>
-                                    <input id="frmCadQuestionarioDescPerg" name="frmCadQuestionarioDescPerg" type="text" class="edit" size="47" maxlength="100" title="Digite sua pergunta" />
+                                    <input id="frmCadQuestionarioDescPerg" name="frmCadQuestionarioDescPerg" type="text" class="edit" size="40" maxlength="100" title="Digite sua pergunta" />
                                 </div>
                             </td>
                             <td width="10%" align="center">

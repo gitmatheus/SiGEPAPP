@@ -6,7 +6,7 @@
 * 
 * Este codigo apresenta os estilos de formatacao encontrados no sistema SiGePAPP
 * e parte integrante do projeto de formatura, do curso de ciencias da computacao,
-* do Centro UniversitÃ¡rio da FEI, sob orientacao do Prof. Dr. Plinio T. Aquino Jr.
+* do Centro Universitario da FEI, sob orientacao do Prof. Dr. Plinio T. Aquino Jr.
 *
 * |------------------------------------------------------------------|
 * |                   Modificacoes no Codigo                         |
@@ -32,20 +32,20 @@
 
 /**
 * Codigo das cores ecologicas para utilizacao no sistema
-* (remover estes codigos na versÃ£o final do sistema)
+* (remover estes codigos na versao final do sistema)
 * #822007 (vermelho oxidado) 
 * #000000 (preto) 
 * #b2bbc0 (azul esverdeado) 
 * #19472a (verde bosque) 
 * #3d414c (cobalto) 
 * #ffffff (branco) 
-*
+* #CC0000 (vinho)
 */
 
 /* Formatacao Global do sistema, todos os elementos sofrem este estilo*/
 * {
     font-family: tahoma, arial, sans-serif;
-    font-size: 11px;
+    font-size: 12px;
 }
 
 /* Formatacao do elemento <body> */
@@ -169,7 +169,7 @@ a {
     background-color: #999999;
 }
 
-/* Formatação das wizards no cadastro de Estrutura (Step1, Step2, Step3), Perguntas, Respostas e Questionário.
+/* Formatação das wizards no frame Estrutura e Questionário.
 */
 .formulario table{
     background-color:#eeeeee;
@@ -198,7 +198,7 @@ a {
 
 .formulario td#titulo a[href='#']{
     font-size:13px;
-    color:#FF6600;
+    color:#CC0000;
 }
 
 .navProximo{
@@ -243,11 +243,23 @@ a {
     vertical-align:middle;
 }
 
-/* Wizards Perguntas e Respostas */
-
+/* Estilos das Wizards Questionario */
 .pergunta{
     height: 20px;
     font-size:small;
     font-weight:bold;
-    color: #CCCCCC;
+    color:#CC0000;
+}
+
+.legend{
+    font-family: tahoma, arial, sans-serif;
+    font-size: 11px;
+    color:#000000;
+    font-weight:bold;
+}
+
+.labels{
+    font-family: tahoma, arial, sans-serif;
+    font-size: 12px;
+    color:#000000;
 }

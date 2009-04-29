@@ -233,20 +233,67 @@
 </script>
 
 <!--Inicio do formulário-->
-<form id="frmCadEstrutura" action="frmCadEstruturaStep3.jsp" method="get">
+<table id="frmCadEstrutFormulario" border="0" cellpadding="0" cellspacing="0" width="100%" align="right" class="formulario">
 
-    <table id="frmCadEstrutFormulario" border="0" cellpadding="0" cellspacing="0" width="100%" align="right" class="formulario">
-        <!--Menu do Wizard-->
-        <tr>
-            <td id="titulo" style="padding-left:10px">
-                Passo 1: <a href="frmCadEstruturaStep1.jsp">Dados da estrutura</a>&nbsp;>&nbsp;Passo 2: <a href="#">Tipo de estrutura</a>&nbsp;>&nbsp;Passo 3: Definição dos Atributos
-            </td>
-        </tr>
-        <!--Fim do menu do Wizard-->
-        <tr>
-            <td align="center" style="padding-top:20px;">
-                <fieldset id="fieldSet1" style="background-color:#eeeeee;width:90%">
-                    <legend><input id="frmCadEstOptInicioEstMinima" name="frmCadEstOptInicio" type="radio" value="Minima"><b>Estrutura m&iacute;nima</b></legend>
+    <!--Menu do Wizard-->
+    <tr>
+        <td id="titulo" style="padding-left:10px">
+            <b>Passos:</b>&nbsp;
+            <a href="frmCadEstruturaStep1.jsp">Dados da estrutura</a>&nbsp;>&nbsp;
+            <a href="#">Tipo de estrutura</a>&nbsp;>&nbsp;
+            Definição dos Atributos
+        </td>
+    </tr>
+    <!--Fim do menu do Wizard-->
+
+    <tr>
+        <td align="center" style="padding-top:20px;">
+            <fieldset id="fieldSet1" style="background-color:#eeeeee;width:90%">
+                <legend class="legend"><input name="frmCadEstOptInicio" type="radio">Estrutura primitiva:</legend>
+                <table width="100%">
+                    <tr>
+                        <td>
+                            <table>
+                                <tr>
+                                    <td>
+                                        Selecione o tipo de estrutura:
+                                    </td>
+                                    <td>
+                                        <input type="radio" name="frmCadEstRadioCadEst" value="PA">Pattern
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td>
+                                        <input type="radio" name="frmCadEstRadioCadEst" value="AP">Anti-Pattern
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td>
+                                        <input type="radio" name="frmCadEstRadioCadEst" value="PE">Persona
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+            </fieldset>
+        </td>
+    </tr>
+    <tr>
+        <td align="center" style="padding-top:10px;padding-bottom:10px">
+            <div style="border-bottom-style:dashed;border-top-style:dashed;border-width:1px;width:80%;">
+                <b style="font-size:15px;">OU</b>
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td align="center">
+            <fieldset id="fieldSet2" style="background-color:#eeeeee;width:90%;padding-top:10px;padding-bottom:30px;">
+                <legend class="legend"><input name="frmCadEstOptInicio" type="radio">Importar de uma estrutura existente:</legend>
+                Caso deseja construir uma estrutura a partir de uma já existente escolha uma estrutura:
+                <div id="divfrmPesqEstrutura">
                     <table width="100%">
                         <tr>
                             <td>
@@ -346,10 +393,40 @@
                         </span>
                     </a>
                 </div>
-            </td>
-        </tr>
-    </table>
-</form>
+            </fieldset>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <table align="center" border="0" width="92%" style="background-color:#ffffff;">
+                <tr>
+                    <!--Botao Retornar Passo-->
+                    <td align="left" style="padding-top:10px;padding-bottom:10px">
+                        <div align="left" style="width:100%">
+                            <a id="linkRetorna" class="navProximo ui-widget-header" href="frmCadEstruturaStep1.jsp">
+                                <span>
+                                    <span class="ui-icon ui-icon-circle-arrow-w" style="display:inline-block;vertical-align:middle"></span>
+                                    Retornar
+                                </span>
+                            </a>
+                        </div>
+                    </td>
+                    <!--Botao Avançar Passo-->
+                    <td align="right" style="padding-top:10px;padding-bottom:10px">
+                        <div align="right" style="width:100%">
+                            <a id="linkProximo" class="navProximo ui-widget-header" href="frmCadEstruturaStep3.jsp">
+                                <span>
+                                    Pr&oacute;ximo
+                                    <span class="ui-icon ui-icon-circle-arrow-e" style="display:inline-block;vertical-align:middle"></span>
+                                </span>
+                            </a>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>
 <!--Fim do formulário-->
 
 <div style="display:block;" id="frmAlert">

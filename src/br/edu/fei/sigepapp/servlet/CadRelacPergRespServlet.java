@@ -33,8 +33,9 @@ public class CadRelacPergRespServlet extends HttpServlet {
 
             for (int i = 0; i < CDPerg.length; i++) {
                 if (!CDResp[i].equals("0")) {
-                    relacPergResp.APPP_INS_RELAC_PERG_RESP(new Relac_Perg_Resp(Long.parseLong(CDPerg[i]) ,Long.parseLong(CDResp[i]) ,Long.parseLong(PesoResp[i])));
+                    relacPergResp.APPP_INS_RELAC_PERG_RESP(new Relac_Perg_Resp(Long.parseLong(CDPerg[i]), Long.parseLong(CDResp[i]), Long.parseLong(PesoResp[i])));
                 }
+                out.println(CDPerg[i] + " " + CDResp[i]);
             }
 
             response.sendRedirect("frmCadQuestionarioStep4.jsp");
@@ -46,8 +47,8 @@ public class CadRelacPergRespServlet extends HttpServlet {
         }
     }
 
-    // <editor-fold defaultstate="collapsed" desc="Métodos HttpServlet. Clique no sinal de + à esquerda para editar o código.">
-    /** 
+// <editor-fold defaultstate="collapsed" desc="Métodos HttpServlet. Clique no sinal de + à esquerda para editar o código.">
+    /**
      * Handles the HTTP <code>GET</code> method.
      * @param request servlet request
      * @param response servlet response
@@ -60,7 +61,7 @@ public class CadRelacPergRespServlet extends HttpServlet {
         processRequest(request, response);
     }
 
-    /** 
+    /**
      * Handles the HTTP <code>POST</code> method.
      * @param request servlet request
      * @param response servlet response
@@ -73,7 +74,7 @@ public class CadRelacPergRespServlet extends HttpServlet {
         processRequest(request, response);
     }
 
-    /** 
+    /**
      * Returns a short description of the servlet.
      * @return a String containing servlet description
      */

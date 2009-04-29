@@ -15,17 +15,19 @@
          * |------------------------------------------------------------------|
          * |  Tom Mix    |  18/04/09   | Criacao das Wizards                  |
          * |------------------------------------------------------------------|
+         * |  Tom Mix    |  19/04/09   | Reformulacao e Atualizacao das steps |
+         * |------------------------------------------------------------------|
+         * |  Tom Mix    |  20/04/09   | Atualizacao das Steps e criacao da   |
+         * |             |             | Step4 como feeback do cadastro       |
+         * |------------------------------------------------------------------|
          **/
 %>
 
 <%@include file="cabecalho.jsp"%>
-<link type="text/css" rel="stylesheet" href="css/jquery-ui-1.7.css">
-<link type="text/css" rel="stylesheet" href="css/appp_css.css">
 
 <script type="text/javascript" language="javascript" src="js/jquery.tinysort.js"></script>
 <script type="text/javascript" language="javascript" src="js/jquery-ui-1.7.js"></script>
 <script type="text/javascript" language="javascript" src="js/fckeditor/fckeditor.js"></script>
-<script type="text/javascript" language="javascript" src="js/appp_frmCadPergunta.js"></script>
 
 <!--Inicio do formulário-->
 <table border="0" cellpadding="0" cellspacing="0" width="100%" align="right" class="formulario">
@@ -41,12 +43,12 @@
     <tr>
         <td align="center" style="padding-top:20px;">
             <fieldset title="Perguntas" style="width:90%">
-                <legend><b>Question&aacute;rio</b></legend>
+                <legend class="legend">Dados Gerais</legend>
                 <form name="frmCadPerg" method="post">
                     <table border="0" cellspacing="0" cellpadding="0" width="100%">
                         <tr>
                             <td width="30%" align="left">
-                                <div style="font-weight:bold">Nome do Questionário</div>
+                                <div class="labels">Nome do Questionário</div>
                             </td>
                             <td width="70%" align="center">
                                 <div>
@@ -61,7 +63,7 @@
                         </tr>
                         <tr>
                             <td width="27%" align="left">
-                                <div style="font-weight:bold">Descrição do Question&aacute;rio</div>
+                                <div class="labels">Descrição do Question&aacute;rio</div>
                             </td>
                             <td width="70%" align="center">
                                 <div>
