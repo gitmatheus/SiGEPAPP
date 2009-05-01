@@ -275,6 +275,9 @@
             $.post("writeSessionServlet", {tabAtributos: $("#tabAtributos").html() }, null);
             //alert($("#tabAtributos").parent().html());
         });
+        $("#linkProximo").click(function(){
+            $("#frmFormCadEstruturaStep4").submit();
+        });
 
     });
 </script>
@@ -295,62 +298,70 @@
 
     <tr>
         <td align="center" style="padding-top:20px">
-            <!--Conteudo-->
-            <fieldset style="background-color:#eeeeee;width:90%">
-                <legend class="legends">Escolha dos atributos:</legend>
+            <form id="frmFormCadEstruturaStep4" action="frmCadEstruturaStep4.jsp" method="post">
+                <input type="hidden" name="nm_estrutura" value="<%= request.getSession().getAttribute("nomeEstrutura")%>">
+                <input type="hidden" name="ds_estrutura" value="<%= request.getSession().getAttribute("descricaoEstrutura")%>">
+                <input type="hidden" name="cod_estrutura" value="<%= request.getSession().getAttribute("codEstrutura").toString().trim()%>">
 
-                <table class="ui-corner-tl" border="0" cellpadding="0" cellspacing="0" width="300">
 
-                    <tr bgcolor="#3d414c">
-                        <td colspan="2" align="center" style="color:#ffffff; font-size:medium;">Estrutura</td>
-                    </tr>
-                    <tr bgcolor="#3d414c">
-                        <td style="color:#ffffff; font-size:small;"></td>
-                        <td style="color:#ffffff; font-size:small" width="20%"></td>
-                    </tr>
-                    <tbody id="tabAtributos" style="background-color:#ffffff;">
 
-                    </tbody>
-                </table>
-            </fieldset>
-            <fieldset style="background-color:#eeeeee;width:90%">
-                <legend class="legends">Selecionar atributos:</legend>
-                <table width="100%" style="background-color:#eeeeee;">
-                    <tr>
-                        <td align="right">
-                            Buscar Atributo:
-                        </td>
-                        <td>
-                            <input id="frmCadEstruturaTxtBusca" type="text" class="edit" style="width: 250px" onkeyup="filtraCombo();"></input>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td align="right">
-                            Atributo:
-                        </td>
-                        <td>
-                            <select class="select_varias_linhas" size="8" style="width: 250px" id="frmCadEstrutCmbSelAtributo" ondblclick="func_incluiAtributo();">
-                                <%for (Atributo t : atributos) {%>
-                                <option  value ="<%= t.getCd_atributo_obj()%>" title="<%= t.getDs_atributo_obj()%>" ><%= t.getNm_atributo_obj()%></option>
-                                <% }%>
-                            </select>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td colspan="2" align="center" style="padding-top:10px;">
-                            <a class="navProximo ui-widget-header" href="javascript:func_incluiAtributo();">
-                                <span>
-                                    <span class="ui-icon ui-icon-circle-plus" style="display:inline-block;vertical-align:middle"></span>
-                                    Adicionar à estrutura
-                                </span>
-                            </a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td colspan="2"></td>
-                    </tr>
-                </table>
-            </fieldset>
+                <!--Conteudo-->
+                <fieldset style="background-color:#eeeeee;width:90%">
+                    <legend class="legends">Escolha dos atributos:</legend>
+
+                    <table class="ui-corner-tl" border="0" cellpadding="0" cellspacing="0" width="300">
+
+                        <tr bgcolor="#3d414c">
+                            <td colspan="2" align="center" style="color:#ffffff; font-size:medium;">Estrutura</td>
+                        </tr>
+                        <tr bgcolor="#3d414c">
+                            <td style="color:#ffffff; font-size:small;"></td>
+                            <td style="color:#ffffff; font-size:small" width="20%"></td>
+                        </tr>
+                        <tbody id="tabAtributos" style="background-color:#ffffff;">
+
+                        </tbody>
+                    </table>
+                </fieldset>
+                <fieldset style="background-color:#eeeeee;width:90%">
+                    <legend class="legends">Selecionar atributos:</legend>
+                    <table width="100%" style="background-color:#eeeeee;">
+                        <tr>
+                            <td align="right">
+                                Buscar Atributo:
+                            </td>
+                            <td>
+                                <input id="frmCadEstruturaTxtBusca" type="text" class="edit" style="width: 250px" onkeyup="filtraCombo();"></input>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right">
+                                Atributo:
+                            </td>
+                            <td>
+                                <select class="select_varias_linhas" size="8" style="width: 250px" id="frmCadEstrutCmbSelAtributo" ondblclick="func_incluiAtributo();">
+                                    <%for (Atributo t : atributos) {%>
+                                    <option  value ="<%= t.getCd_atributo_obj()%>" title="<%= t.getDs_atributo_obj()%>" ><%= t.getNm_atributo_obj()%></option>
+                                    <% }%>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2" align="center" style="padding-top:10px;">
+                                <a class="navProximo ui-widget-header" href="javascript:func_incluiAtributo();">
+                                    <span>
+                                        <span class="ui-icon ui-icon-circle-plus" style="display:inline-block;vertical-align:middle"></span>
+                                        Adicionar à estrutura
+                                    </span>
+                                </a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2"></td>
+                        </tr>
+                    </table>
+                </fieldset>
+            </form>
             <!--Fim conteudo-->
         </td>
     </tr>

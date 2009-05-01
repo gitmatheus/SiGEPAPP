@@ -1,3 +1,57 @@
+<%@page import="br.edu.fei.sigepapp.bancodedados.dao.*, br.edu.fei.sigepapp.bancodedados.model.*, java.sql.* , java.util.Calendar"%>
+<%
+Estrutura_ObjDAO estrutura_ObjDAO = new Estrutura_ObjDAO();
+Atrib_EstruturaDAO atrib_estrut= new Atrib_EstruturaDAO();
+//try{
+            String tipo_estrutura;
+            long cod_estrut = 0;
+            String atributos[];
+
+            
+
+            Estrutura estrutura = new Estrutura();
+            
+
+            estrutura.setCod_user(35140189879l);
+            estrutura.setDs_estrutura(request.getParameter("ds_estrutura"));
+            estrutura.setDt_criacao(new Date(Calendar.getInstance().getTimeInMillis()));
+
+            estrutura.setNm_estrutura(request.getParameter("nm_estrutura"));
+
+            Estrutura estrutura_pesquisar=new Estrutura();
+            estrutura_pesquisar.setCd_estrutura(Long.parseLong(request.getParameter("cod_estrutura").trim()));
+
+            //Procura a estrutura que foi derivada
+            tipo_estrutura=estrutura_ObjDAO.APPP_SEL_Estrutura_OBJ(estrutura_pesquisar, null).get(1).getTp_estrutura() ;
+            
+            estrutura.setTp_estrutura(tipo_estrutura);
+
+
+            atributos=request.getParameterValues("atributos_ids");
+            
+            cod_estrut = estrutura_ObjDAO.APPP_INS_Estrutura_Obj(estrutura);
+
+            estrutura_ObjDAO.fechaConexao();
+
+            for (String codAtrib : atributos) {
+
+                atrib_estrut.APPP_INS_ATRIB_ESTRUTURA(new Atrib_Estrutura(cod_estrut, Long.parseLong(codAtrib.trim())));
+            }
+            atrib_estrut.fechaConexao();
+
+            out.println("Estrutura: "+cod_estrut+" Tipo de Estrutura: "+request.getParameter("tp_estrutura")+" Nome: "+request.getParameter("nm_estrutura")+"\n Desc:"+request.getParameter("ds_estrutura")+"\nAtrib: "+atributos[1]);
+/*}catch(Exception e){
+    out.print(e.getMessage());
+e.printStackTrace();
+
+}finally{
+estrutura_ObjDAO.fechaConexao();
+atrib_estrut.fechaConexao();
+
+}
+*/
+%>
+
 <%@include file="cabecalho.jsp"%>
 <link type="text/css" rel="stylesheet" href="css/jquery-ui-1.7.css">
 <link type="text/css" rel="stylesheet" href="css/appp_css.css">
