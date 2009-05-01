@@ -71,9 +71,11 @@
     var arrayEscondidos = new Array();
     var arrayVisiveis = new Array();
 
+
     function getAtributosDeEstrutura(cod_Estrutura){
 
         //Mostra todos atributos
+        var baixado=false;
         mostra(null);
         if(cod_Estrutura==null){
             if($("#frmCadEstrTipo").val()=="PA"){
@@ -84,6 +86,7 @@
                 cod_Estrutura=<%=personaID%>
             }
         }
+
         $.post("GetAtribDeEstrutServlet", {codestr: cod_Estrutura}, function(xml,status){
 
             $("#frmCadEstrDivLoadingEst").show();
@@ -107,16 +110,20 @@
 
                     //Tira o atributo do combo para não ser inserido duas vezes
                     esconde($(item).find("id").text())
+
                 });
 
-                setTimeout(function(){
-                    $("#frmCadEstrDivLoadingEst").hide();
-                }, 100);
+
 
             }else{
                 alert('Erro ao carregar...!');
             }
+
+            
         });
+        setTimeout(function(){
+            $("#frmCadEstrDivLoadingEst").hide();
+        }, 1000);
     }
     function esconde(id){
         //Adiciona no array o objeto.
@@ -164,11 +171,15 @@
 
 
 
-    function func_incluiAtributo(){
+    function func_incluiAtributo(id){
 
         if($('#frmCadEstrutCmbSelAtributo option:selected').length>0){
             //Armazena na variavel selecao o objeto selecionado no combo box do formulario.
-            var selecao=$("#frmCadEstrutCmbSelAtributo option:selected");
+            if(id==null){
+                var selecao=$("#frmCadEstrutCmbSelAtributo option:selected");
+            }else{
+                var selecao=$("#frmCadEstrutCmbSelAtributo option[value="+id+"]");
+            }
             //Adiciona uma linha na tabela da estrutura do atributo com um campo hidden de input para passagem
             //de header da página
             $("#tabAtributos").append("\
@@ -230,18 +241,38 @@
 
     $(document).ready(function(){
 
+        $.ajaxSetup({async: false});
+
+        arrayVisiveis=$.makeArray($("#frmCadEstrutCmbSelAtributo option"));
+
+
         $.post("readSessionServlet", {nome: "codEstrutura"}, function(dados){
+
             getAtributosDeEstrutura(dados);
+
+            
+            $.post("readSessionServlet", {nome: "tabAtributos"}, function(dados){
+                //dados=unescape(dados);
+
+                $(dados).find("td[class='atributoAdicional'] input[name='atributos_ids']").each(function(indice, objeto){
+                    $("#frmCadEstrutCmbSelAtributo option[value="+$(objeto).attr("value")+"]").attr("selected", "selected");
+                    //alert("incluindo atributo: "+$(objeto).attr("value"));
+                    func_incluiAtributo();
+                    //func_incluiAtributo($(objeto).attr("value"));
+
+                });
+
+            },"text");
+
         },"text");
 
-        $.post("readSessionServlet", {nome: "tabAtributos"}, function(dados){
-            alert($(dados).find("tbody"));
-
-        },"text");
 
 
-        $("#linkProximo").click(function(){
-            $.post("writeSessionServlet", {tabAtributos: $("#tabAtributos").parent().html() }, null);
+
+
+
+        $("a").click(function(){
+            $.post("writeSessionServlet", {tabAtributos: $("#tabAtributos").html() }, null);
             //alert($("#tabAtributos").parent().html());
         });
 

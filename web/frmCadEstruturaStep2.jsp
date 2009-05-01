@@ -180,6 +180,9 @@
         $("#divfrmPesqEstrutura input:checkbox[value='AP']").attr("checked","checked");
         $("#divfrmPesqEstrutura input:checkbox[value='PE']").attr("checked","checked");
 */
+
+        $.ajaxSetup({async: false});
+
         $.post("readSessionServlet", {nome: "inicioEstrutura"}, function(dados){
 
             $("input[value='"+dados+"']").attr("checked","checked");
