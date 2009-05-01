@@ -251,7 +251,7 @@
     <tr>
         <td align="center" style="padding-top:20px;">
             <fieldset id="fieldSet1" style="background-color:#eeeeee;width:90%">
-                <legend class="legend"><input name="frmCadEstOptInicio" type="radio" value="primitiva">Estrutura primitiva:</legend>
+                <legend class="legends"><input name="frmCadEstOptInicio" type="radio" value="primitiva">Estrutura primitiva:</legend>
                 <table width="100%">
                     <tr>
                         <td>
@@ -360,7 +360,7 @@
                     <td align="right" style="padding-top:10px;padding-bottom:10px">
                         <div align="right" style="width:100%">
                             <a id="linkProximo" class="navProximo ui-widget-header" href="frmCadEstruturaStep3.jsp">
-                                <span>
+                                <span style="cursor:url;">
                                     Pr&oacute;ximo
                                     <span class="ui-icon ui-icon-circle-arrow-e" style="display:inline-block;vertical-align:middle"></span>
                                 </span>

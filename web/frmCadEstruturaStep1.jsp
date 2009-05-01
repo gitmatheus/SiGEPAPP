@@ -12,6 +12,8 @@
 
     $(document).ready(function(){
 
+        $.ajaxSetup({async: false});
+
         $.post("readSessionServlet", {nome: "nomeEstrutura"}, function(dados){
             $("#frmCadEstrutNome").val(dados);
         },"text");

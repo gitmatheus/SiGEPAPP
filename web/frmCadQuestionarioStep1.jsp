@@ -47,7 +47,7 @@
     <tr>
         <td align="center" style="padding-top:20px;">
             <fieldset title="Perguntas" style="width:90%">
-                <legend class="legend">Dados Gerais</legend>
+                <legend class="legends">Dados Gerais</legend>
                 <form name="frmCadPerg" method="post">
                     <table border="0" cellspacing="0" cellpadding="0" width="100%">
                         <tr>

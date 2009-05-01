@@ -34,7 +34,7 @@ a<%@page import="br.edu.fei.sigepapp.bancodedados.dao.*,br.edu.fei.sigepapp.banc
     <tr>
         <td align="center" style="padding-top:20px;">
             <fieldset title="Respostas" style="width:90%">
-                <legend class="legend">Cadastro de Respostas</legend>
+                <legend class="legends">Cadastro de Respostas</legend>
                 <form id="frmCadResp" action="CadRelacPergRespServlet" method="post">
                     <table align="center" border="0" cellspacing="0" cellpadding="0" width="100%">
                         <tr>

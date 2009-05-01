@@ -119,7 +119,7 @@
                 alert('Erro ao carregar...!');
             }
 
-            
+
         });
         setTimeout(function(){
             $("#frmCadEstrDivLoadingEst").hide();
@@ -250,7 +250,7 @@
 
             getAtributosDeEstrutura(dados);
 
-            
+
             $.post("readSessionServlet", {nome: "tabAtributos"}, function(dados){
                 //dados=unescape(dados);
 
@@ -297,7 +297,7 @@
         <td align="center" style="padding-top:20px">
             <!--Conteudo-->
             <fieldset style="background-color:#eeeeee;width:90%">
-                <legend class="legend">Escolha dos atributos:</legend>
+                <legend class="legends">Escolha dos atributos:</legend>
 
                 <table class="ui-corner-tl" border="0" cellpadding="0" cellspacing="0" width="300">
 
@@ -308,13 +308,13 @@
                         <td style="color:#ffffff; font-size:small;"></td>
                         <td style="color:#ffffff; font-size:small" width="20%"></td>
                     </tr>
-                    <tbody id="tabAtributos">
+                    <tbody id="tabAtributos" style="background-color:#ffffff;">
 
                     </tbody>
                 </table>
             </fieldset>
             <fieldset style="background-color:#eeeeee;width:90%">
-                <legend class="legend">Selecionar atributos:</legend>
+                <legend class="legends">Selecionar atributos:</legend>
                 <table width="100%" style="background-color:#eeeeee;">
                     <tr>
                         <td align="right">
@@ -337,8 +337,13 @@
                         </td>
                     </tr>
                     <tr>
-                        <td colspan="2" align="center">
-                            <a onclick="" href="javascript:func_incluiAtributo();"><img src="images/add.gif" border="none">Adicionar à estrutura</a>
+                        <td colspan="2" align="center" style="padding-top:10px;">
+                            <a class="navProximo ui-widget-header" href="javascript:func_incluiAtributo();">
+                                <span>
+                                    <span class="ui-icon ui-icon-circle-plus" style="display:inline-block;vertical-align:middle"></span>
+                                    Adicionar à estrutura
+                                </span>
+                            </a>
                         </td>
                     </tr>
                     <tr>
@@ -367,7 +372,7 @@
                     <!--Botao Avançar Passo-->
                     <td align="right" style="padding-top:10px;padding-bottom:10px">
                         <div align="right" style="width:100%">
-                            <a id="linkProximo" class="navProximo ui-widget-header" hreff="frmCadEstruturaStep4.jsp">
+                            <a id="linkProximo" class="navProximo ui-widget-header" href="frmCadEstruturaStep4.jsp">
                                 <span>
                                     Finalizar
                                     <span class="ui-icon ui-icon-circle-arrow-e" style="display:inline-block;vertical-align:middle"></span>

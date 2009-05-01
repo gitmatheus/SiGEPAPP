@@ -25,7 +25,7 @@
     <tr>
         <td align="center" style="padding-top:20px;">
             <fieldset title="Perguntas" style="width:90%">
-                <legend class="legend">Cadastro de Perguntas</legend>
+                <legend class="legends">Cadastro de Perguntas</legend>
                 <form name="frmCadPerg" method="post">
                     <table border="0" cellspacing="0" cellpadding="0" width="100%">
                         <tr>
