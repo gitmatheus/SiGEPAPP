@@ -71,6 +71,53 @@
     var arrayEscondidos = new Array();
     var arrayVisiveis = new Array();
 
+    function getAtributosDeEstrutura(cod_Estrutura){
+
+        //Mostra todos atributos
+        mostra(null);
+        if(cod_Estrutura==null){
+            if($("#frmCadEstrTipo").val()=="PA"){
+                cod_Estrutura=<%=patternID%>
+            }else if($("#frmCadEstrTipo").val()=="AP"){
+                cod_Estrutura=<%=antiPatternID%>
+            }else if($("#frmCadEstrTipo").val()=="PE"){
+                cod_Estrutura=<%=personaID%>
+            }
+        }
+        $.post("GetAtribDeEstrutServlet", {codestr: cod_Estrutura}, function(xml,status){
+
+            $("#frmCadEstrDivLoadingEst").show();
+
+            if(status=="success"){
+
+                //Tratamento dos dados recebidos
+                $("#tabAtributos").empty();
+                //Retorno para estrutura mnima
+                $("atributo",xml).each(function(index, item){
+
+                    $("#tabAtributos").append("<tr valign=\"middle\">\
+                                                    <td colspan='2' align='center'>\
+                                                     <div class='atributoMinimo' style='margin-right: 10px;border-bottom:black solid thin;'>"+
+                        $(item).find("nome").text()+
+                        "</div>"+
+                        "<input type=\"hidden\" name=\"atributos_ids\" value=\""+
+                        $(item).find("id").text()+"\">"+
+                        "</td>"+
+                        "</tr>");
+
+                    //Tira o atributo do combo para não ser inserido duas vezes
+                    esconde($(item).find("id").text())
+                });
+
+                setTimeout(function(){
+                    $("#frmCadEstrDivLoadingEst").hide();
+                }, 100);
+
+            }else{
+                alert('Erro ao carregar...!');
+            }
+        });
+    }
     function esconde(id){
         //Adiciona no array o objeto.
         //dica retirada de: http://jquery-howto.blogspot.com/2009/02/how-to-get-full-html-string-including.html
@@ -118,37 +165,32 @@
 
 
     function func_incluiAtributo(){
-        if($("#frmCadEstrTipo").val()==-2){
-        $(document).scrollTop(0);
-        $("#alertInsAtrib").dialog('open');
-        $("#frmCadEstrTipo").focus();
 
-        }else{
-            if($('#frmCadEstrutCmbSelAtributo option:selected').length>0){
-                //Armazena na variavel selecao o objeto selecionado no combo box do formulario.
-                var selecao=$("#frmCadEstrutCmbSelAtributo option:selected");
-                //Adiciona uma linha na tabela da estrutura do atributo com um campo hidden de input para passagem
-                //de header da página
-                $("#tabAtributos").append("\
+        if($('#frmCadEstrutCmbSelAtributo option:selected').length>0){
+            //Armazena na variavel selecao o objeto selecionado no combo box do formulario.
+            var selecao=$("#frmCadEstrutCmbSelAtributo option:selected");
+            //Adiciona uma linha na tabela da estrutura do atributo com um campo hidden de input para passagem
+            //de header da página
+            $("#tabAtributos").append("\
             <tr id=\"atributo_"+selecao.val()+"\">"+
-                    "<td width=\"80%\" class=\"atributoAdicional\" align=\"center\">"+
-                    "<input type=\"hidden\" name=\"atributos_ids\" value=\""+
-                    selecao.val()+"\">"+
-                    selecao.text()+
-                    "</td>"+
-                    "<td width=\"20%\" align=\"center\">"+
-                    "<a href=\"javascript:func_removeAtributo(\'"+selecao.val()+"\')\">"+
-                    "["+
-                    "<img src=\"images/222222_11x11_icon_minus.gif\" border=\"none\" >&nbsp;"+
-                    "] Remover"+
-                    "</a>"+
-                    "</td></tr>");
-                //esconde o objeto <option> selecionado acima do combo box frmCadEstrutCmbSelAtributo.
-                esconde($(selecao).attr("value"));
-            }
-            $("#tabAtributos").sortable({items: 'tr:has(td.atributoAdicional)',cursor: "move"});
-            $("#tabAtributos tr:has(td.atributoAdicional)").css("cursor", "pointer");
-        };
+                "<td width=\"80%\" class=\"atributoAdicional\" align=\"center\">"+
+                "<input type=\"hidden\" name=\"atributos_ids\" value=\""+
+                selecao.val()+"\">"+
+                selecao.text()+
+                "</td>"+
+                "<td width=\"20%\" align=\"center\">"+
+                "<a href=\"javascript:func_removeAtributo(\'"+selecao.val()+"\')\">"+
+                "["+
+                "<img src=\"images/222222_11x11_icon_minus.gif\" border=\"none\" >&nbsp;"+
+                "] Remover"+
+                "</a>"+
+                "</td></tr>");
+            //esconde o objeto <option> selecionado acima do combo box frmCadEstrutCmbSelAtributo.
+            esconde($(selecao).attr("value"));
+        }
+        $("#tabAtributos").sortable({items: 'tr:has(td.atributoAdicional)',cursor: "move"});
+        $("#tabAtributos tr:has(td.atributoAdicional)").css("cursor", "pointer");
+
     }
     function ordenarCombo(){
         //Ordena as tags "option" dentro do combo seleciona atributo.
@@ -186,11 +228,29 @@
 
     }
 
+    $(document).ready(function(){
+
+        $.post("readSessionServlet", {nome: "codEstrutura"}, function(dados){
+            getAtributosDeEstrutura(dados);
+        },"text");
+
+        $.post("readSessionServlet", {nome: "tabAtributos"}, function(dados){
+            alert($(dados).find("tbody"));
+
+        },"text");
+
+
+        $("#linkProximo").click(function(){
+            $.post("writeSessionServlet", {tabAtributos: $("#tabAtributos").parent().html() }, null);
+            //alert($("#tabAtributos").parent().html());
+        });
+
+    });
 </script>
 
 <!--Inicio do formulário-->
 <table id="frmCadEstrutFormulario" border="0" cellpadding="0" cellspacing="0" width="100%" align="right" class="formulario">
-    
+
     <!--Menu do Wizard-->
     <tr>
         <td id="titulo" style="padding-left:10px">
@@ -209,7 +269,7 @@
                 <legend class="legend">Escolha dos atributos:</legend>
 
                 <table class="ui-corner-tl" border="0" cellpadding="0" cellspacing="0" width="300">
-                    
+
                     <tr bgcolor="#3d414c">
                         <td colspan="2" align="center" style="color:#ffffff; font-size:medium;">Estrutura</td>
                     </tr>
@@ -276,9 +336,9 @@
                     <!--Botao Avançar Passo-->
                     <td align="right" style="padding-top:10px;padding-bottom:10px">
                         <div align="right" style="width:100%">
-                            <a id="linkProximo" class="navProximo ui-widget-header" href="frmCadEstruturaStep4.jsp">
+                            <a id="linkProximo" class="navProximo ui-widget-header" hreff="frmCadEstruturaStep4.jsp">
                                 <span>
-                                    Pr&oacute;ximo
+                                    Finalizar
                                     <span class="ui-icon ui-icon-circle-arrow-e" style="display:inline-block;vertical-align:middle"></span>
                                 </span>
                             </a>

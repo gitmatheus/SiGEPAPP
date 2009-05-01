@@ -175,25 +175,24 @@
     }
 
     $(document).ready(function(){
-
+/*
         $("#divfrmPesqEstrutura input:checkbox[value='PA']").attr("checked","checked");
         $("#divfrmPesqEstrutura input:checkbox[value='AP']").attr("checked","checked");
         $("#divfrmPesqEstrutura input:checkbox[value='PE']").attr("checked","checked");
-
+*/
         $.post("readSessionServlet", {nome: "inicioEstrutura"}, function(dados){
 
             $("input[value='"+dados+"']").attr("checked","checked");
         },"text");
 
         $.post("readSessionServlet", {nome: "codEstrutura"}, function(dados){
-            if(dados=="PA" || dados=="AP" || dados=="PE"){
+            if(dados=="<%= patternID %>" || dados==" <%= antiPatternID %>" || dados=="<%= personaID %>"){
                 $("input[value='"+dados+"']").attr("checked","checked");
 
             }else{
 
                 pesqEstruturas(dados);
                 $(document).ajaxComplete(function(){
-
                     $("input[value='"+dados+"']").click();
                 });
                 $(document).ajaxComplete(function(){});
@@ -249,7 +248,7 @@
     <tr>
         <td align="center" style="padding-top:20px;">
             <fieldset id="fieldSet1" style="background-color:#eeeeee;width:90%">
-                <legend class="legend"><input name="frmCadEstOptInicio" type="radio">Estrutura primitiva:</legend>
+                <legend class="legend"><input name="frmCadEstOptInicio" type="radio" value="primitiva">Estrutura primitiva:</legend>
                 <table width="100%">
                     <tr>
                         <td>
@@ -259,19 +258,19 @@
                                         Selecione o tipo de estrutura:
                                     </td>
                                     <td>
-                                        <input type="radio" name="frmCadEstRadioCadEst" value="PA">Pattern
+                                        <input type="radio" name="codEstrutura" value="<%= patternID %>">Pattern
                                     </td>
                                 </tr>
                                 <tr>
                                     <td></td>
                                     <td>
-                                        <input type="radio" name="frmCadEstRadioCadEst" value="AP">Anti-Pattern
+                                        <input type="radio" name="codEstrutura" value=" <%= antiPatternID %>">Anti-Pattern
                                     </td>
                                 </tr>
                                 <tr>
                                     <td></td>
                                     <td>
-                                        <input type="radio" name="frmCadEstRadioCadEst" value="PE">Persona
+                                        <input type="radio" name="codEstrutura" value="<%= personaID %>">Persona
                                     </td>
                                 </tr>
                             </table>

@@ -450,7 +450,7 @@
             if(status=="success"){
 
                 //Tratamento dos dados recebidos
-                $("#tabAtributos").html(htmltabelaEstrutura);
+                $("#tabAtributos").empty();
                 //Retorno para estrutura mnima
                 $("atributo",xml).each(function(index, item){
 
