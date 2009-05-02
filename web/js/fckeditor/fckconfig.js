@@ -140,7 +140,7 @@ FCKConfig.ToolbarSets["Sigepapp"] = [
 ] ;
 
 FCKConfig.ToolbarSets["Sigepapp2"] = [
-	['Bold','Italic','Underline','StrikeThrough','-','Subscript','Superscript'],'/',
+	['Bold','Italic','Underline','StrikeThrough','-','Subscript','Superscript','-','OrderedList','UnorderedList','-','Outdent','Indent','Blockquote'],'/',
     ['JustifyLeft','JustifyCenter','JustifyRight','JustifyFull','Link','Unlink','TextColor','BGColor']		// No comma for the last row.
 ] ;
 

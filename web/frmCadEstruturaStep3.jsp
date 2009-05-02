@@ -1,4 +1,5 @@
-<%@page import="br.edu.fei.sigepapp.bancodedados.dao.*,br.edu.fei.sigepapp.bancodedados.model.*,java.util.*" %>
+<%@page import="br.edu.fei.sigepapp.bancodedados.dao.*,br.edu.fei.sigepapp.bancodedados.model.*,java.util.*" pageEncoding="ISO-8859-1"%>
+
 <%        /**
          * @{#}cabecalho.jsp 0.01 09/01/18
          *
@@ -295,7 +296,7 @@
 
     <tr>
         <td align="center" style="padding-top:20px">
-            <form id="frmFormCadEstruturaStep4" action="frmCadEstruturaStep4.jsp" method="post">
+            <form accept-charset="ISO-8859-1"  id="frmFormCadEstruturaStep4" action="frmCadEstruturaStep4.jsp" method="post">
                 <input type="hidden" name="nm_estrutura" value="<%= request.getSession().getAttribute("nomeEstrutura")%>">
                 <input type="hidden" name="ds_estrutura" value="<%= request.getSession().getAttribute("descricaoEstrutura")%>">
                 <input type="hidden" name="cod_estrutura" value="<%= request.getSession().getAttribute("codEstrutura").toString().trim()%>">

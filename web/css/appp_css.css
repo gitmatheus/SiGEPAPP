@@ -28,6 +28,10 @@
 * |------------------------------------------------------------------|
 * |   Andrey    |  09/02/25   | Inclusao da classe painelcontrole    |
 * |------------------------------------------------------------------|
+* |  Guilherme  |  09/05/02   | Ajustes na classe formulario:        |
+* |                           | Background color de radio e check    |
+* |                           | era renderizado no IE                |
+* |------------------------------------------------------------------|
 */
 
 /**
@@ -70,7 +74,7 @@ table {
 }
 
 /* Formatacao dos botoes */
-.botao {
+.botao, .formulario input.botao  {
     background-color: #3d414c;
     border: 1px outset;
     -moz-border-radius: 10px;
@@ -219,6 +223,10 @@ a {
     height: 20px;
     font-size:small;
     background-color: #CCCCCC;
+}
+
+.formulario input[type='radio'], .formulario input[type='checkbox'] {
+    background-color: transparent;
 }
 
 .select_varias_linhas, .select_varias_linhas option{

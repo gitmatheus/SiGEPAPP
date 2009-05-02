@@ -94,7 +94,7 @@
 
                     $("#frmPesqEstruturasTabResult").append("<tr align='left' onmouseout='escondeEstrutura();' style='cursor:pointer' onmouseover='mostraEstrutura("+$(elemento).find("Cod").text()+")'>"+
                         "<td style='width:auto;vertical-align:top'>"+
-                        "<input name='codEstrutura' style='vertical-align:middle' type='radio' value='"+$(elemento).find("Cod").text()+"' id='frmPesqEstruturasRadio'>"+
+                        "<input name='codEstrutura' style='vertical-align:middle;' type='radio' value='"+$(elemento).find("Cod").text()+"' id='frmPesqEstruturasRadio'>"+
                         $(elemento).find("Nome").text()+
                         "</td>"+
                         "<td>"+

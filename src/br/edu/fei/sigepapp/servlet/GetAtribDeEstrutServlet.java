@@ -24,6 +24,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -42,20 +43,21 @@ public class GetAtribDeEstrutServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/xml;charset=UTF-8");
+        response.setContentType("text/xml;charset=ISO-8859-1");
         PrintWriter out = response.getWriter();
         try {
             long codEstrutura=Long.parseLong(request.getParameter("codestr").trim());
             AtributoDAO atributoDAO = new AtributoDAO();
             List<AtributoCompleto> rsAtributos;
 
+            out.println("<?xml version='1.0' encoding='ISO-8859-1'?>");
             out.println("<xml>");
             
 
             rsAtributos = atributoDAO.APPP_PES_ATRIB_POR_ESTRUT(codEstrutura);
 
             atributoDAO.fechaConexao();
-              
+            
             for (AtributoCompleto atributo : rsAtributos) {
                 out.println("<atributo>");
                 out.println("<nome>" + atributo.getNm_atributo_obj().trim() + "</nome>");
@@ -117,6 +119,6 @@ public class GetAtribDeEstrutServlet extends HttpServlet {
     
     public boolean campoDescritivo(String vCampo){
 
-        return ( (vCampo.toUpperCase() == "DESCRIÇÃO") || (vCampo.toUpperCase() == "CONTEXTO") );
+        return ( (vCampo.toUpperCase().equals("DESCRIÇÃO")) || (vCampo.toUpperCase().equals("CONTEXTO")) );
     }
 }

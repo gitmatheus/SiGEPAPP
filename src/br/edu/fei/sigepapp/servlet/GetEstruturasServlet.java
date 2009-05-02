@@ -31,7 +31,9 @@ public class GetEstruturasServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         PrintWriter out = response.getWriter();
-        response.setContentType("text/xml;charset=UTF-8");
+
+        response.setContentType("text/xml;charset=ISO-8859-1");
+        response.setHeader("charset", "ISO-8859-1");
 
         try {
 
@@ -48,8 +50,7 @@ public class GetEstruturasServlet extends HttpServlet {
             estruturasEncontradas = daoPesquisa.APPP_SEL_Estrutura_OBJ(new Estrutura(codEstr, nome, null, null, 0, tipo), null);
             daoPesquisa.fechaConexao();
 
-
-
+            out.println("<?xml version='1.0' encoding='ISO-8859-1'?>");
             out.print("<xml>");
             for (Estrutura estrutura : estruturasEncontradas) {
                 out.print("<Estrutura>");
