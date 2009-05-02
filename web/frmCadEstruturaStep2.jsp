@@ -92,17 +92,14 @@
 
                 $(texto).find("Estrutura").each(function(indice,elemento){
 
-                    $("#frmPesqEstruturasTabResult").append("<tr align='left' onmouseout='escondeEstrutura();' onmouseover='mostraEstrutura("+$(elemento).find("Cod").text()+")'>"+
-                        "<td style='width:auto;'>"+
-                        "<input name='codEstrutura' type='radio' value='"+$(elemento).find("Cod").text()+"' id='frmPesqEstruturasRadio'>"+
+                    $("#frmPesqEstruturasTabResult").append("<tr align='left' onmouseout='escondeEstrutura();' style='cursor:pointer' onmouseover='mostraEstrutura("+$(elemento).find("Cod").text()+")'>"+
+                        "<td style='width:auto;vertical-align:top'>"+
+                        "<input name='codEstrutura' style='vertical-align:middle' type='radio' value='"+$(elemento).find("Cod").text()+"' id='frmPesqEstruturasRadio'>"+
                         $(elemento).find("Nome").text()+
                         "</td>"+
                         "<td>"+
+                        
                         "<div class='ui-icon ui-icon-circlesmall-plus' />"+
-                        "</td>"+
-                        "</tr>"+
-                        "<tr id='detalhesEstrut"+$(elemento).find("Cod").text()+"'>"+
-                        "<td colspan='2'>"+
                         "</td>"+
                         "</tr>");
 
@@ -145,9 +142,6 @@
     }
 
     function mostraEstrutura(codEstr){
-
-        if (carregandoXML==false){
-            carregandoXML=true;
             $("#frmAlert").html("<table></table>");
             $.post("GetAtribDeEstrutServlet", {codestr: codEstr}, function(texto, estado){
                 if(estado=="success"){
@@ -164,9 +158,8 @@
             }, "xml");
             $("#frmAlert").dialog();
             $("#frmAlert").dialog('open');
+            $("#frmAlert").dialog('option','position',[600 ,'center']);
             $("#frmAlert").dialog('option','title',"Estrututura de: <i>"+$("#frmPesqEstruturasTabResult td:has(input[value="+codEstr+"])").text()+"</i>");
-            carregandoXML=false;
-        }
 
     }
 
@@ -180,6 +173,10 @@
         $("#divfrmPesqEstrutura input:checkbox[value='AP']").attr("checked","checked");
         $("#divfrmPesqEstrutura input:checkbox[value='PE']").attr("checked","checked");
 */
+
+         $("#frmCadEstrutFormulario fieldset").click(function(){
+            clickFieldSet(this);
+        });
 
         $.ajaxSetup({async: false});
 
@@ -195,34 +192,21 @@
             }else{
 
                 pesqEstruturas(dados);
-                $(document).ajaxComplete(function(){
-                    $("input[value='"+dados+"']").click();
-                });
-                $(document).ajaxComplete(function(){});
 
+                $("input[value='"+dados+"']").click();
             }
         },"text");
 
-
+        //$("#fieldSet2").fadeTo('slow', 0.5);
+        //$("#fieldSet1").fadeTo('slow', 1);
 
         $("#linkProximo").click(function(){
-
             $.post("writeSessionServlet", {inicioEstrutura: $("input[name='frmCadEstOptInicio']:checked").val(), codEstrutura: $("input[name='codEstrutura']:checked").val() }, null);
-
-        });
-
-        $("#fieldSet2").fadeTo('slow', 0.5);
-        $("#fieldSet1").fadeTo('slow', 1);
-
-        $("#frmCadEstrutFormulario fieldset").click(function(){
-            clickFieldSet(this);
         });
 
         $("#frmPesqEstruturasButOk").click(function(){
             pesqEstruturas();
-            $("#divfrmPesqEstrutura input:checkbox[value='PA']").attr("checked","checked");
-            $("#divfrmPesqEstrutura input:checkbox[value='AP']").attr("checked","checked");
-            $("#divfrmPesqEstrutura input:checkbox[value='PE']").attr("checked","checked");
+           
         });
 
 
@@ -299,7 +283,7 @@
                     <table width="100%">
                         <tr>
                             <td>Pesquisar por nome da estrutura:</td>
-                            <td><input class="edit" size="50" type="text" id="frmPesqEstruturasTxtNome">
+                            <td><input class="edit" size="40" type="text" id="frmPesqEstruturasTxtNome">
                                 <input class="botao" type="button" id="frmPesqEstruturasButOk" value="Ok">
                             </td>
                         </tr>
@@ -313,15 +297,15 @@
                                     </tr>
                                     <tr>
                                         <td align="center">
-                                            <input type="checkbox" value="PA">Patterns
+                                            <input type="checkbox" value="PA" checked>Patterns
                                         </td>
 
                                         <td align="center">
-                                            <input type="checkbox" value="AP">Anti-Patterns
+                                            <input type="checkbox" value="AP" checked>Anti-Patterns
                                         </td>
 
                                         <td align="center">
-                                            <input type="checkbox" value="PE">Personas
+                                            <input type="checkbox" value="PE" checked>Personas
                                         </td>
                                     </tr>
                                 </table>
