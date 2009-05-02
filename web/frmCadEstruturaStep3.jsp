@@ -383,7 +383,7 @@
                     <!--Botao Avançar Passo-->
                     <td align="right" style="padding-top:10px;padding-bottom:10px">
                         <div align="right" style="width:100%">
-                            <a id="linkProximo" class="navProximo ui-widget-header" href="frmCadEstruturaStep4.jsp">
+                            <a id="linkProximo" class="navProximo ui-widget-header" href="frmCadEstruturaStep4.jsp" onclick="return false;">
                                 <span>
                                     Finalizar
                                     <span class="ui-icon ui-icon-circle-arrow-e" style="display:inline-block;vertical-align:middle"></span>

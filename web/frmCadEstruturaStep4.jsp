@@ -3,7 +3,7 @@
 Estrutura_ObjDAO estrutura_ObjDAO = new Estrutura_ObjDAO();
 Atrib_EstruturaDAO atrib_estrut= new Atrib_EstruturaDAO();
 //try{
-            String tipo_estrutura;
+            String tipo_estrutura=new String();
             long cod_estrut = 0;
             String atributos[];
 
@@ -21,10 +21,10 @@ Atrib_EstruturaDAO atrib_estrut= new Atrib_EstruturaDAO();
             Estrutura estrutura_pesquisar=new Estrutura();
             estrutura_pesquisar.setCd_estrutura(Long.parseLong(request.getParameter("cod_estrutura").trim()));
 
+            estrutura_pesquisar=estrutura_ObjDAO.APPP_SEL_Estrutura_OBJ(estrutura_pesquisar, null).get(0);
+
             //Procura a estrutura que foi derivada
-            tipo_estrutura=estrutura_ObjDAO.APPP_SEL_Estrutura_OBJ(estrutura_pesquisar, null).get(1).getTp_estrutura() ;
-            
-            estrutura.setTp_estrutura(tipo_estrutura);
+            estrutura.setTp_estrutura(estrutura_pesquisar.getTp_estrutura());
 
 
             atributos=request.getParameterValues("atributos_ids");
@@ -49,7 +49,7 @@ estrutura_ObjDAO.fechaConexao();
 atrib_estrut.fechaConexao();
 
 }
-*/
+
 %>
 
 <%@include file="cabecalho.jsp"%>
@@ -64,7 +64,9 @@ atrib_estrut.fechaConexao();
 <script type="text/javascript" language="javascript">
 
 </script>
-
+<%= request.getMethod() %>
+<%= request.getParameter("nm_estrutura") %>
+<%= request.getParameter("cod_estrutura") %>
 <!--Inicio do formulário-->
 <form action="#">
     <table border="0" cellpadding="0" cellspacing="0" width="100%" align="right" class="formulario">
