@@ -10,6 +10,29 @@
 <script type="text/javascript" language="javascript">
 
 
+    function valida_campos_step1(){
+        var nome_estrut=$.trim($("#frmCadEstrutNome").val());
+        //Verifica se o nome da estrutura é vazio
+        if(nome_estrut==""){
+            $("#frmCadEstrutNome").parent("td").html(
+                "Nome:"+
+                "<input class='edit' type='text' size='30' id='frmCadEstrutNome' value='"+nome_estrut+"' "+
+                "style='border-color: #822007; background-color: #ee957f; color: #822007;'>"+
+                "<img src='images/uncheck.png'/>"+
+                "<font size='small' color='#822007'>&nbsp;O&nbsp;nome&nbsp;deve&nbsp;ser&nbsp;preenchido</font>"
+        );
+            $("#frmCadEstrutNome").focus();
+            return false;
+        }else{
+            
+            //Verifica se já existe um documento com esse nome
+           // if($("#frmCadEstrutNome"))
+
+            return true;
+        }
+
+    }
+
     $(document).ready(function(){
 
         $.ajaxSetup({async: false});
@@ -33,7 +56,14 @@
         $("#linkProximo").click(function(){
             //Grava dados no servidor
             //alert(escape(FCKeditorAPI.GetInstance('frmCadEstrutDesc').GetXHTML()));
-            $.post("writeSessionServlet", {nomeEstrutura: $("#frmCadEstrutNome").val(), descricaoEstrutura: escape(FCKeditorAPI.GetInstance('frmCadEstrutDesc').GetXHTML()) }, null);
+            if(valida_campos_step1()==true){
+                $.post("writeSessionServlet", {nomeEstrutura: $("#frmCadEstrutNome").val(), descricaoEstrutura: escape(FCKeditorAPI.GetInstance('frmCadEstrutDesc').GetXHTML()) }, null);
+                return true;
+            }else{
+                return false;
+            }
+
+
         });
     });
 </script>
@@ -54,9 +84,9 @@
                     <legend><b>Dados da estrutura</b></legend>
                     <table width="100%">
                         <tr>
-                            <td align="left">
+                            <td align="left" valign="middle">
                                 Nome:
-                                <input class="edit" type="text" size="50" id="frmCadEstrutNome">
+                                <input class="edit" type="text" size="30" id="frmCadEstrutNome">
                             </td>
                         </tr>
                         <tr>
