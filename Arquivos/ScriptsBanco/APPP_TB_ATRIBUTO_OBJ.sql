@@ -1,11 +1,12 @@
 /**********************************************************************************************************************
 * Project Name             : SiGEPAPP
-* APPP_TB_ATRIBUTO_OBJ.SQL : Script para criação da tabela APPP_TB_ATRIBUTO_OBJ
+* APPP_TB_ATRIBUTO_OBJ.SQL : Script para criacao da tabela APPP_TB_ATRIBUTO_OBJ
 * Author                   : WeeDo 
-* History                  : 16/02/2009 - Matheus Gonçalves - Versão Inicial
-*                          : 26/02/2009 - Matheus Gonçalves - Drop column DS_TAM_ATRIB 
-*                          : 06/03/2009 - Matheus Gonçalves - Drop column DS_TAM_ATRIB NOVAMENTE 
-*                          : 09/03/2008 - Matheus Gonçalves - Create Column NM_COLUNA
+* History                  : 16/02/2009 - Matheus Goncalves - Versão Inicial
+*                          : 26/02/2009 - Matheus Goncalves - Drop column DS_TAM_ATRIB 
+*                          : 06/03/2009 - Matheus Goncalves - Drop column DS_TAM_ATRIB NOVAMENTE 
+*                          : 09/03/2009 - Matheus Goncalves - Create Column NM_COLUNA
+*                          : 06/05/2009 - Matheus Goncalves - UK NM_ATRIBUTO_OBJ
 ***********************************************************************************************************************/
 
 -- Create table
@@ -45,8 +46,11 @@ alter table APPP_TB_ATRIBUTO_OBJ
  add constraint CK_APPP_TB_ATRIBUTO_OBJ check (FL_ATRIB_RELAC in ('S','N'));
 
 alter table APPP_TB_ATRIBUTO_OBJ
-  add constraint UK_APPP_TB_ATRIBUTO_OBJ01 unique (NM_COLUNA);
+  add constraint UK_APPP_TB_ATRIBUTO_OBJ01 unique (NM_COLUNA); 
 
+alter table APPP_TB_ATRIBUTO_OBJ
+  add constraint UK_APPP_TB_ATRIBUTO_OBJ02 unique (NM_ATRIBUTO_OBJ); 
+		
 -- Drop columns 
 alter table APPP_TB_ATRIBUTO_OBJ drop column DS_TAM_ATRIB;
   

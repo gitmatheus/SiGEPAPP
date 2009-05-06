@@ -12,7 +12,6 @@ SELECT 'Criando a tabela APPP_TB_PERSONA' FROM DUAL;
 create table APPP_TB_PERSONA
 (
   CD_PERSONA        number(10)    NOT NULL,
-  NM_PERSONA        VARCHAR2(60)  NOT NULL ,
   URL_FOTO          VARCHAR2(300)                   
 )
 tablespace SYSTEM

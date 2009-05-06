@@ -6,18 +6,11 @@
 * History          : 06/03/2009 - Matheus Gonçalves
 ***********************************************************************************************************************/
 create or replace procedure APPP_UPD_PERSONA(pCD_PERSONA NUMBER  ,
-                                             pNM_PERSONA VARCHAR2,
                                              pURL_FOTO   VARCHAR2,
                                              vResult     out number) is
 vERRO        VARCHAR2(600);
 begin
     
-   IF pNM_PERSONA IS NOT NULL THEN
-      UPDATE APPP_TB_PERSONA 
-      SET NM_PERSONA = pNM_PERSONA
-      WHERE CD_PERSONA = pCD_PERSONA;
-   END IF;   
-   
    IF pURL_FOTO IS NOT NULL THEN
       UPDATE APPP_TB_PERSONA 
       SET URL_FOTO = pURL_FOTO

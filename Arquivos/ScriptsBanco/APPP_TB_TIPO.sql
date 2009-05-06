@@ -38,6 +38,8 @@ alter table APPP_TB_TIPO
   add constraint CK_APPP_TB_TIPO01
   check (FL_EXP_REG IN ('S','N'));
 
+alter table APPP_TB_TIPO
+  add constraint UK_APPP_TB_TIPO01 UNIQUE (NM_TIPO);
 
   -- Grant/Revoke object privileges 
 grant select, insert, UPDATE, delete, references, alter, index on APPP_TB_TIPO to admin;

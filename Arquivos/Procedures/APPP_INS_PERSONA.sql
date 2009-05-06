@@ -8,7 +8,6 @@
 *                  : 30/03/2009 - Matheus Goncalves - Alteracao de Parametro
 *******************************************************************************/
 create or replace procedure APPP_INS_PERSONA(pCD_PERSONA IN NUMBER,
-                                             pNM_PERSONA IN VARCHAR2,
                                              pURL_FOTO   IN VARCHAR2,
                                              vResult     out number) is
                                      
@@ -18,11 +17,9 @@ begin
       
  
    insert into APPP_TB_PERSONA(CD_PERSONA ,
-                               NM_PERSONA ,
                                URL_FOTO
                               )
                         values(pCD_PERSONA ,
-                               pNM_PERSONA ,
                                pURL_FOTO
                               );
   

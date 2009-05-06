@@ -3,13 +3,14 @@
 * APPP_DEL_ANTI_PATTERN : Procedure para DELETAR dados de ANTI-PATTERNS
 *                         vResult(0=NadaDeletado; 1=OK; -99=ErroGeral)
 * Author                : WeeDo 
-* History               : 02/03/2009 - Matheus Gonçalves
+* History               : 02/03/2009 - Matheus Goncalves
 ***********************************************************************************************************************/
 create or replace procedure APPP_DEL_ANTI_PATTERN(vCD_ANTI_PATTERN  in NUMBER  , 
                                                   vDS_SINTOMAS      in VARCHAR2, 
                                                   vDS_RECOMENDACOES in VARCHAR2,
                                                   vDS_CONSEQUENCIAS in VARCHAR2,
                                                   vDS_BARREIRAS     in VARCHAR2,
+																									vDS_PROBLEMA      in VARCHAR2, 
                                                   vResult           out number) is
                                                   
   CURSOR C IS 
@@ -18,7 +19,8 @@ create or replace procedure APPP_DEL_ANTI_PATTERN(vCD_ANTI_PATTERN  in NUMBER  ,
        WHERE (AP.DS_SINTOMAS      like ('%'|| vDS_SINTOMAS || '%')      OR vDS_SINTOMAS      IS NULL)
        AND   (AP.DS_RECOMENDACOES like ('%'|| vDS_RECOMENDACOES || '%') OR vDS_RECOMENDACOES IS NULL)
        AND   (AP.DS_CONSEQUENCIAS like ('%'|| vDS_CONSEQUENCIAS || '%') OR vDS_CONSEQUENCIAS IS NULL)
-       AND   (AP.DS_BARREIRAS     like ('%'|| vDS_BARREIRAS || '%')     OR vDS_BARREIRAS     IS NULL);                                                   
+       AND   (AP.DS_BARREIRAS     like ('%'|| vDS_BARREIRAS || '%')     OR vDS_BARREIRAS     IS NULL)
+			 AND   (AP.DS_PROBLEMA      like ('%'|| vDS_PROBLEMA  || '%')     OR vDS_PROBLEMA      IS NULL)  ;                                                   
 
   vCD_TEMP NUMBER(20);     
   vERRO        VARCHAR2(600);

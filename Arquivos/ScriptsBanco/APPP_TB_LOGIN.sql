@@ -1,8 +1,8 @@
 /**********************************************************************************************************************
 * Project Name      : SiGEPAPP
-* APPP_TB_LOGIN.SQL : Script para criação da tabela APPP_TB_LOGIN
+* APPP_TB_LOGIN.SQL : Script para criacao da tabela APPP_TB_LOGIN
 * Author            : WeeDo 
-* History           : 16/02/2009 - Matheus Gonçalves
+* History           : 16/02/2009 - Matheus Goncalves
 ***********************************************************************************************************************/
 
 -- Create table
@@ -27,7 +27,12 @@ alter table APPP_TB_LOGIN
 
 alter table APPP_TB_LOGIN
  add constraint FK_APPP_TB_LOGIN foreign key (CD_USER)
-  references appp_tb_user (CD_USER);
+  references appp_tb_user (CD_USER);   
+ 
+alter table APPP_TB_LOGIN
+ add constraint UK_APPP_TB_LOGIN01 UNIQUE (NM_LOGIN);   
+	 
+	
   
   -- Grant/Revoke object privileges 
 grant select, insert, UPDATE, delete, references, alter, index on APPP_TB_LOGIN to admin;

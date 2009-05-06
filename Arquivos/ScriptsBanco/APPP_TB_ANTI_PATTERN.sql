@@ -1,8 +1,9 @@
 /**********************************************************************************************************************
 * Project Name             : SiGEPAPP
-* APPP_TB_ANTI_PATTERN.SQL : Script para criação da tabela APPP_TB_ANTI_PATTERN
+* APPP_TB_ANTI_PATTERN.SQL : Script para criacao da tabela APPP_TB_ANTI_PATTERN
 * Author                   : WeeDo 
-* History                  : 16/02/2009 - Matheus Gonçalves
+* History                  : 16/02/2009 - Matheus Goncalves
+*                          : 06/05/2009 - Matheus Goncalves - Adicao do campo DS_PROBLEMA
 ***********************************************************************************************************************/
 
 -- Create table 
@@ -10,10 +11,11 @@ SELECT 'Criando a tabela APPP_TB_ANTI_PATTERN' FROM DUAL;
 create table APPP_TB_ANTI_PATTERN
 (
   CD_ANTI_PATTERN   number(10)     NOT NULL,
-  DS_SINTOMAS       VARCHAR2(300)  NOT NULL ,
-  DS_RECOMENDACOES  VARCHAR2(300)           ,
-  DS_CONSEQUENCIAS  VARCHAR2(300)           ,
-  DS_BARREIRAS      VARCHAR2(300)  
+  DS_SINTOMAS       VARCHAR2(2000)  NOT NULL ,
+  DS_RECOMENDACOES  VARCHAR2(2000)           ,
+  DS_CONSEQUENCIAS  VARCHAR2(2000)           ,
+  DS_BARREIRAS      VARCHAR2(2000)           ,
+	DS_PROBLEMA       VARCHAR2(2000)   
 )
 tablespace SYSTEM
   storage

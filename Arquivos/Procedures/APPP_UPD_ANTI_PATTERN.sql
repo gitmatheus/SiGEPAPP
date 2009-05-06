@@ -1,15 +1,16 @@
 /**********************************************************************************************************************
 * Project Name          : SiGEPAPP
-* APPP_UPD_ANTI_PATTERN : Procedure para criação de dados de ANTI-PATTERNS
+* APPP_UPD_ANTI_PATTERN : Procedure para criacao de dados de ANTI-PATTERNS
 *                         vResult( 1=OK; -99=ErroGeral)
 * Author                : WeeDo 
-* History               : 02/03/2009 - Matheus Gonçalves
+* History               : 02/03/2009 - Matheus Goncalves
 ***********************************************************************************************************************/
 create or replace procedure APPP_UPD_ANTI_PATTERN(vCD_ANTI_PATTERN  in NUMBER  , 
                                                   vDS_SINTOMAS      in VARCHAR2, 
                                                   vDS_RECOMENDACOES in VARCHAR2,
                                                   vDS_CONSEQUENCIAS in VARCHAR2,
                                                   vDS_BARREIRAS     in VARCHAR2,
+																									vDS_PROBLEMA      in VARCHAR2, 
                                                   vResult           out number) is
 vERRO        VARCHAR2(600);
 begin
@@ -36,7 +37,13 @@ begin
       UPDATE APPP_TB_ANTI_PATTERN 
       SET DS_BARREIRAS = vDS_BARREIRAS
       WHERE CD_ANTI_PATTERN = vCD_ANTI_PATTERN;
-   END IF;
+   END IF; 
+
+   IF vDS_BARREIRAS IS NOT NULL THEN
+      UPDATE APPP_TB_ANTI_PATTERN 
+      SET DS_PROBLEMA = vDS_PROBLEMA
+      WHERE CD_ANTI_PATTERN = vCD_ANTI_PATTERN;
+   END IF; 
    
    vResult := 1; -- OK
    commit;

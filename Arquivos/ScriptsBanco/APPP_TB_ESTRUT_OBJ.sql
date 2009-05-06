@@ -43,7 +43,11 @@ alter table APPP_TB_ESTRUT_OBJ
  
 -- Create/Recreate check constraints
 alter table APPP_TB_ESTRUT_OBJ
- add constraint CK_APPP_TB_ESTRUT_OBJ check (TP_ESTRUTURA in ('PE','PA','AP'));
+ add constraint CK_APPP_TB_ESTRUT_OBJ check (TP_ESTRUTURA in ('PE','PA','AP')); 
+
+alter table APPP_TB_ESTRUT_OBJ
+ add constraint UK_APPP_TB_ESTRUT_OBJ01 UNIQUE (NM_ESTRUTURA);  
+
  
    -- Grant/Revoke object privileges 
 grant select, insert, UPDATE, delete, references, alter, index on APPP_TB_ESTRUT_OBJ to admin;

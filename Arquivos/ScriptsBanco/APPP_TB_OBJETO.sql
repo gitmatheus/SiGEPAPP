@@ -4,18 +4,20 @@
 * Author             : WeeDo 
 * History            : 16/02/2009 - Matheus Goncalves
 *                    : 12/03/2009 - Matheus Goncalves - Mudanca de DS_OBJETO VARCHAR2(1000)
+*                    : 06/05/2009 - Matheus Goncalves - Adicao de Flag de Ativo, check dessa flag e UK em NM_OBJETO
 ***********************************************************************************************************************/
 
 -- Create table
 SELECT 'Criando a tabela APPP_TB_OBJETO' FROM DUAL;
 create table APPP_TB_OBJETO
 (
-  CD_OBJETO         number(10)    NOT NULL,
-  NM_OBJETO         VARCHAR2(40)  NOT NULL ,
-  CD_ESTRUTURA      number(10)    NOT NULL,
+  CD_OBJETO         number(10)     NOT NULL,
+  NM_OBJETO         VARCHAR2(40)   NOT NULL ,
+  CD_ESTRUTURA      number(10)     NOT NULL,
   DS_OBJETO         VARCHAR2(1000) NOT NULL, 
-  DT_CRIACAO        DATE DEFAULT  SYSDATE NOT NULL,
-  CD_USER_CRIADOR   NUMBER(15)    not null
+  DT_CRIACAO        DATE           DEFAULT  SYSDATE NOT NULL,
+  CD_USER_CRIADOR   NUMBER(15)     not null,
+	FL_ATIVO          NUMBER(1)      DEFAULT 1 NOT NULL
 )
 tablespace SYSTEM
   storage
@@ -37,7 +39,15 @@ alter table APPP_TB_OBJETO
 -- Create/Recreate FK_APPP_TB_OBJETO02
 alter table APPP_TB_OBJETO
  add constraint FK_APPP_TB_OBJETO02 foreign key (CD_ESTRUTURA)
-  references APPP_TB_ESTRUT_OBJ (CD_ESTRUTURA);  
+  references APPP_TB_ESTRUT_OBJ (CD_ESTRUTURA);   
+
+alter table APPP_TB_OBJETO
+ add constraint UK_APPP_TB_OBJETO01 unique (NM_OBJETO); 
+
+alter table APPP_TB_OBJETO
+ add constraint CK_APPP_TB_OBJETO01 CHECK (FL_ATIVO IN (0,1));
+ 
+	
   
   -- Grant/Revoke object privileges 
 grant select, insert, UPDATE, delete, references, alter, index on APPP_TB_OBJETO to admin;

@@ -38,8 +38,6 @@ spool /SiGEPAPP/Arquivos/ScriptsBanco/LogCriacaoBanco.log
 
 @ /SiGEPAPP/Arquivos/ScriptsBanco/APPP_TB_ATRIBUTO_OBJ.SQL
 
-@ /SiGEPAPP/Arquivos/ScriptsBanco/APPP_TB_RELAC_ATRIB.SQL
-
 @ /SiGEPAPP/Arquivos/ScriptsBanco/APPP_TB_PERGUNTA.SQL
 
 @ /SiGEPAPP/Arquivos/ScriptsBanco/APPP_TB_RESPOSTA.SQL
@@ -47,8 +45,6 @@ spool /SiGEPAPP/Arquivos/ScriptsBanco/LogCriacaoBanco.log
 @ /SiGEPAPP/Arquivos/ScriptsBanco/APPP_TB_ESTRUT_QUEST.sql 
 
 @ /SiGEPAPP/Arquivos/ScriptsBanco/APPP_TB_RELAC_PERG_RESP.SQL 
-
-@ /SiGEPAPP/Arquivos/ScriptsBanco/APPP_TB_RELAC_QUEST_OBJ.sql  
 
 @ /SiGEPAPP/Arquivos/ScriptsBanco/APPP_TB_QUEST_PREENCH.sql  
 

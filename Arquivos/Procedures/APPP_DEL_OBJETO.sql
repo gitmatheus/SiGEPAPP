@@ -16,12 +16,14 @@ create or replace procedure APPP_DEL_OBJETO(pCD_OBJETO       IN NUMBER ,
                                             pDT_CRIACAOINI   IN DATE  , 
                                             pDT_CRIACAOFIM   IN DATE  , 
                                             pCD_USER_CRIADOR IN NUMBER,
+																						pFL_ATIVO        IN NUMBER,
                                             vResult    out number) is
                                                   
   CURSOR C IS 
        SELECT CD_OBJETO
        FROM APPP_TB_OBJETO
        WHERE (NM_OBJETO like ('%'|| pNM_OBJETO ||'%') OR pNM_OBJETO       IS NULL)
+			 AND   (FL_ATIVO        = pFL_ATIVO             OR pFL_ATIVO        IS NULL)
        AND   (CD_ESTRUTURA    = pCD_ESTRUTURA         OR pCD_ESTRUTURA    IS NULL)
        AND   (DS_OBJETO LIKE ('%'|| pDS_OBJETO ||'%') OR pDS_OBJETO       IS NULL)
        AND   (DT_CRIACAO     >= pDT_CRIACAOINI        OR pDT_CRIACAOINI   IS NULL)

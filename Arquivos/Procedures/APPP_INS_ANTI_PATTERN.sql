@@ -10,6 +10,7 @@ create or replace procedure APPP_INS_ANTI_PATTERN(pCD_ANTI_PATTERN  in NUMBER  ,
                                                   pDS_RECOMENDACOES in VARCHAR2,
                                                   pDS_CONSEQUENCIAS in VARCHAR2,
                                                   pDS_BARREIRAS     in VARCHAR2,
+																									pDS_PROBLEMA      in VARCHAR2,
                                                   vResult           out number) is
 vERRO        VARCHAR2(600);
 begin
@@ -18,13 +19,15 @@ begin
                                     DS_SINTOMAS      , 
                                     DS_RECOMENDACOES ,
                                     DS_CONSEQUENCIAS ,
-                                    DS_BARREIRAS
+                                    DS_BARREIRAS     ,
+																		DS_PROBLEMA
                                     )
                               values(pCD_ANTI_PATTERN  ,
                                      pDS_SINTOMAS      , 
                                      pDS_RECOMENDACOES ,
                                      pDS_CONSEQUENCIAS ,
-                                     pDS_BARREIRAS
+                                     pDS_BARREIRAS     ,
+																		 pDS_PROBLEMA
                                     );
   
    vResult := 1; -- OK
