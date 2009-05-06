@@ -52,6 +52,8 @@ spool /SiGEPAPP/Arquivos/ScriptsBanco/LogCriacaoBanco.log
 
 @ /SiGEPAPP/Arquivos/ScriptsBanco/APPP_TB_ATRIB_ESTRUTURA.SQL 
 
+@ /SiGEPAPP/Arquivos/ScriptsBanco/APPP_TB_AVAL_OBJ_USER.sql
+
 SPOOL OFF
 
 /

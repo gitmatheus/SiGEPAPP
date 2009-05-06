@@ -5,12 +5,14 @@
 * Author                 : WeeDo 
 * History                : 24/03/2009 - Matheus Gonçalves
 ******************************************************************************************************/
-create or replace procedure APPP_DEL_QUEST_PREENCH(pCD_QUEST_PREENCH         IN NUMBER   ,
-                                                  pDT_APLICACAOINI  IN DATE     ,
-                                                  pDT_APLICACAOFIM  IN DATE     ,
-                                                  pVL_AVALIACAOINI  IN NUMBER   ,
-                                                  pVL_AVALIACAOFIM  IN NUMBER   ,
-                                                  pDS_PROJ_APLIC    IN VARCHAR2 ,
+create or replace procedure APPP_DEL_QUEST_PREENCH(pCD_QUEST_PREENCH IN NUMBER   ,
+                                                  pDT_APLICACAOINI   IN DATE     ,
+                                                  pDT_APLICACAOFIM   IN DATE     ,
+                                                  pVL_AVALIACAOINI   IN NUMBER   ,
+                                                  pVL_AVALIACAOFIM   IN NUMBER   ,
+                                                  pDS_PROJ_APLIC     IN VARCHAR2 ,
+																									pCD_USER           IN NUMBER   ,
+																									pCD_OBJETO         IN NUMBER   ,
                                                   vResult           out number) is
                                                   
   CURSOR C IS 
@@ -20,6 +22,8 @@ create or replace procedure APPP_DEL_QUEST_PREENCH(pCD_QUEST_PREENCH         IN 
        AND   (DT_APLICACAO <= pDT_APLICACAOFIM or pDT_APLICACAOFIM IS NULL)
        AND   (VL_AVALIACAO >= pVL_AVALIACAOINI OR pVL_AVALIACAOINI IS NULL)
        AND   (VL_AVALIACAO <= pVL_AVALIACAOFIM OR pVL_AVALIACAOFIM IS NULL)
+			 AND   (CD_USER       = pCD_USER         OR pCD_USER         IS NULL)
+			 AND   (CD_OBJETO     = pCD_OBJETO       OR pCD_OBJETO       IS NULL)
        AND   (DS_PROJ_APLIC like ('%'|| pDS_PROJ_APLIC || '%') OR pDS_PROJ_APLIC  IS NULL);
        
        

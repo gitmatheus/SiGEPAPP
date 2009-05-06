@@ -1,8 +1,8 @@
 /**********************************************************************************************************************
 * Project Name     : SiGEPAPP
-* APPP_TB_TIPO.SQL : Script para criação da tabela APPP_TB_TIPO
+* APPP_TB_TIPO.SQL : Script para criacao da tabela APPP_TB_TIPO
 * Author           : WeeDo 
-* History          : 16/02/2009 - Matheus Gonçalves
+* History          : 16/02/2009 - Matheus Goncalves
 ***********************************************************************************************************************/
 
 -- Create table

@@ -111,6 +111,10 @@ spool /SiGEPAPP/Arquivos/Procedures/LogProcedures.log
 @ /SiGEPAPP/Arquivos/Procedures/APPP_PKG_VETORES.sql
 @ /SiGEPAPP/Arquivos/Procedures/APPP_EXEC_MANIP_GENERICA.sql
 @ /SiGEPAPP/Arquivos/Procedures/APPP_SEL_OBJ_SIMILARES.sql
+@ /SiGEPAPP/Arquivos/Procedures/APPP_INS_AVAL_OBJ_USER.sql
+@ /SiGEPAPP/Arquivos/Procedures/APPP_SEL_AVAL_OBJ_USER.sql
+@ /SiGEPAPP/Arquivos/Procedures/APPP_UPD_AVAL_OBJ_USER.sql
+@ /SiGEPAPP/Arquivos/Procedures/APPP_DEL_AVAL_OBJ_USER.sql
 
 SPOOL OFF
 
