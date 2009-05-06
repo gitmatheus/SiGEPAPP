@@ -13,6 +13,7 @@ import br.edu.fei.sigepapp.bancodedados.model.Login;
 import br.edu.fei.sigepapp.bancodedados.model.Telefone;
 import br.edu.fei.sigepapp.bancodedados.model.Usuario;
 import br.edu.fei.sigepapp.log.GravarLog;
+import com.sun.net.ssl.internal.ssl.Debug;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Date;
@@ -139,6 +140,7 @@ public class CadUsuarioServlet extends HttpServlet {
                            if (c == 1){
                                erro = false;
                                loginDao.fechaConexao();
+                               inserido = true;
                            }else{
                                erro = true;
                                loginDao.fechaConexao();

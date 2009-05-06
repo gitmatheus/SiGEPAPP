@@ -87,7 +87,7 @@ public class EmailDAO {
 
     public boolean deleta(Email email){
         try{
-            CallableStatement cstmt = this.conn.prepareCall("begin APPP_DEL_EMAIL_USER(?,?,?,?); end;");
+            CallableStatement cstmt = this.conn.prepareCall("begin APPP_DEL_USER_EMAIL(?,?,?,?); end;");
 
             cstmt.setLong(1, email.getCd_user());
             cstmt.setString(2, email.getNm_email());

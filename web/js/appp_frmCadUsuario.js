@@ -142,7 +142,7 @@ function EnviaCadUsuario(){
     var login = $("#frmCadUserLogin").val();
     var senha = $("#frmCadUserSenha").val();
     var email = $("#frmCadUserEmail").val();
-    var tipoemail = $("#frmCadUserTipoEmail").val();
+    var tipoemail = "P";
     var cpf = new String($("#frmCadUserCPF").val());
     cpf = apenasNumeros(cpf);
     var nome = $("#frmCadUserNome").val();
@@ -151,14 +151,14 @@ function EnviaCadUsuario(){
     var endereco = $("#frmCadUserEndereco").val();
     var nroendereco = $("#frmCadUserNumEnd").val();
     var endcomplemento = $("#frmCadUserEndComplemento").val();
-    var tipoendereco = $("#frmCadUserTipoEnd").val();
+    var tipoendereco = "R";
     var cep = new String($("#frmCadUserCEP").val());
     cep = apenasNumeros(cep);
     var bairro = $("#frmCadUserBairro").val();
     var cidade = $("#frmCadUserCidade").val();
     var telefone = new String($("#frmCadUserTelefone").val());
     telefone =  apenasNumeros(telefone);
-    var tipotelefone = $("#frmCadUserTipoTel").val();
+    var tipotelefone = "R";
     var msn = $("#frmCadUserMsn").val();
     var skype = $("#frmCadUserSkype").val();
     var areainteresse = $("#frmCadUserAreaInt").val();
@@ -245,7 +245,7 @@ $(function(){
     $("#alertaErro").dialog({
         autoOpen: false,
         width: 'auto',
-        height: 100,
+        height: 200,
         buttons:{
             "Ok": function(){
                 $(this).dialog("close");
