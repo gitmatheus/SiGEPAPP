@@ -10,7 +10,7 @@ SELECT 'Criando a tabela APPP_TB_RESPOSTA' FROM DUAL;
 create table APPP_TB_RESPOSTA
 (
   CD_RESPOSTA      number(10)    NOT NULL,
-  DS_RESPOSTA      VARCHAR2(50)  NOT NULL 
+  DS_RESPOSTA      VARCHAR2(150)  NOT NULL 
 )
 tablespace SYSTEM
   storage

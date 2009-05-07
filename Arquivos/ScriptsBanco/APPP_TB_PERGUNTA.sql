@@ -10,7 +10,7 @@ SELECT 'Criando a tabela APPP_TB_PERGUNTA' FROM DUAL;
 create table APPP_TB_PERGUNTA
 (
   CD_PERGUNTA number(10)    NOT NULL,
-  DS_PERGUNTA VARCHAR2(50)  NOT NULL)
+  DS_PERGUNTA VARCHAR2(150)  NOT NULL)
 tablespace SYSTEM
   storage
   (

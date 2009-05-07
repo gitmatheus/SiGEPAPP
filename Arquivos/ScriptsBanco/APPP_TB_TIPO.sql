@@ -11,7 +11,7 @@ create table APPP_TB_TIPO
 (
   CD_TIPO           number(10) NOT NULL,
   NM_TIPO           VARCHAR2(30)  NOT NULL ,
-  DS_EXP_REGULAR    VARCHAR2(60)  NOT NULL
+  DS_EXP_REGULAR    VARCHAR2(160)  NOT NULL
 )
 tablespace SYSTEM
   storage

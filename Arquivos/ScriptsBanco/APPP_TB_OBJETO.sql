@@ -14,7 +14,7 @@ create table APPP_TB_OBJETO
   CD_OBJETO         number(10)     NOT NULL,
   NM_OBJETO         VARCHAR2(40)   NOT NULL ,
   CD_ESTRUTURA      number(10)     NOT NULL,
-  DS_OBJETO         VARCHAR2(1000) NOT NULL, 
+  DS_OBJETO         VARCHAR2(2000) NOT NULL, 
   DT_CRIACAO        DATE           DEFAULT  SYSDATE NOT NULL,
   CD_USER_CRIADOR   NUMBER(15)     not null,
 	FL_ATIVO          NUMBER(1)      DEFAULT 1 NOT NULL
