@@ -13,7 +13,6 @@ begin
        
        open p_cursor FOR
        SELECT CD_PERSONA , 
-              NM_PERSONA ,
               URL_FOTO  
        FROM APPP_TB_PERSONA
        WHERE CD_PERSONA = pCD_PERSONA;    
@@ -22,7 +21,6 @@ begin
     
        open p_cursor FOR
        SELECT CD_PERSONA , 
-              NM_PERSONA ,
               URL_FOTO     
        FROM APPP_TB_PERSONA AP
        WHERE (URL_FOTO   like ('%'|| pURL_FOTO || '%')   OR pURL_FOTO   IS NULL);     

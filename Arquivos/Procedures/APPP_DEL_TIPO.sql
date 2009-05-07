@@ -32,13 +32,7 @@ begin
       
       if vResult > 0 then
 
-         DELETE FROM APPP_TB_RELAC_ATRIB RA
-         WHERE RA.CD_ATRIBUTO IN (SELECT AO.CD_ATRIBUTO_OBJ
-                                  FROM APPP_TB_ATRIBUTO_OBJ AO
-                                  WHERE AO.CD_TIPO = pCD_TIPO
-                                 );
-      
-         DELETE FROM APPP_TB_ATRIBUTO_OBJ AO
+        DELETE FROM APPP_TB_ATRIBUTO_OBJ AO
          WHERE AO.CD_TIPO = pCD_TIPO;
          
          DELETE FROM APPP_TB_TIPO T
@@ -60,13 +54,7 @@ begin
           EXIT WHEN C%NOTFOUND;
           vResult := vResult + 1;
 
-         DELETE FROM APPP_TB_RELAC_ATRIB RA
-         WHERE RA.CD_ATRIBUTO IN (SELECT AO.CD_ATRIBUTO_OBJ
-                                  FROM APPP_TB_ATRIBUTO_OBJ AO
-                                  WHERE AO.CD_TIPO = vCD_TEMP
-                                 );
-      
-         DELETE FROM APPP_TB_ATRIBUTO_OBJ AO
+        DELETE FROM APPP_TB_ATRIBUTO_OBJ AO
          WHERE AO.CD_TIPO = vCD_TEMP;
          
          DELETE FROM APPP_TB_TIPO T

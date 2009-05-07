@@ -9,8 +9,8 @@ create or replace FUNCTION APPP_FN_SIMILAR_PALAV( TextoProcurado IN VARCHAR2
                                                 , TextoBase      IN VARCHAR2
                                                 ) RETURN NUMBER IS
                                                 
- vTextoProcurado  APPP_TB_OBJETO.DS_OBJETO%TYPE;
- vTextoBase       APPP_TB_OBJETO.DS_OBJETO%TYPE;
+ vTextoProcurado  varchar2(32000);
+ vTextoBase       varchar2(32000);
  
  vPalavra                  varchar2(100);
  vQntPalavrasEncontradas   number(10) := 0;

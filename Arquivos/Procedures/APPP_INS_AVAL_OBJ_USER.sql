@@ -14,8 +14,8 @@ begin
    insert into APPP_TB_AVAL_OBJ_USER(CD_USER    ,
                                      CD_OBJETO
                                      )
-                              values( pUSER    ,
-                                      pOBJETO 
+                              values( pCD_USER    ,
+                                      pCD_OBJETO 
                                     );  
    vResult := 1; -- OK
    commit;

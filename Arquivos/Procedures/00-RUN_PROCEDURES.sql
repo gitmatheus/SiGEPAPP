@@ -4,6 +4,7 @@ set linesize 132
 
 spool /SiGEPAPP/Arquivos/Procedures/LogProcedures.log
 
+@ /SiGEPAPP/Arquivos/Procedures/APPP_PKG_VETORES.sql
 @ /SiGEPAPP/Arquivos/Procedures/APPP_CRIA_TABELA_ESTRUT.sql
 @ /SiGEPAPP/Arquivos/Procedures/APPP_DEL_ANTI_PATTERN.sql
 @ /SiGEPAPP/Arquivos/Procedures/APPP_DEL_ATRIBUTO_OBJ.sql
@@ -115,6 +116,8 @@ spool /SiGEPAPP/Arquivos/Procedures/LogProcedures.log
 @ /SiGEPAPP/Arquivos/Procedures/APPP_SEL_AVAL_OBJ_USER.sql
 @ /SiGEPAPP/Arquivos/Procedures/APPP_UPD_AVAL_OBJ_USER.sql
 @ /SiGEPAPP/Arquivos/Procedures/APPP_DEL_AVAL_OBJ_USER.sql
+@ /SiGEPAPP/Arquivos/Procedures/APPP_CREATE_PATTERN.sql
+@ /SiGEPAPP/Arquivos/Procedures/09-APPP_INS_PATTERNS.sql
 
 SPOOL OFF
 

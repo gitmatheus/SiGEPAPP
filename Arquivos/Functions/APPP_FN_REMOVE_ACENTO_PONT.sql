@@ -20,7 +20,7 @@ begin
         vStringReturn := replace( vStringReturn,'  ',' ');
   end loop;
   
-  return vStringReturn;
+  return ltrim(rtrim(vStringReturn));
   --
 end APPP_FN_REMOVE_ACENTO_PONT; 
 

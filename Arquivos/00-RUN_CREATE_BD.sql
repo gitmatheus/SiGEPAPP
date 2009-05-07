@@ -17,6 +17,7 @@ spool /SiGEPAPP/Arquivos/LogCREATEBD.log
 
 @ /SiGEPAPP/Arquivos/01-RUN_Recompile.sql
 
+
 SPOOL OFF
 
 
