@@ -67,6 +67,7 @@
 <script type="text/javascript" language="javascript" src="js/jquery.tinysort.js"></script>
 <script type="text/javascript" language="javascript" src="js/jquery-ui-1.7.js"></script>
 <script type="text/javascript" language="javascript" src="js/fckeditor/fckeditor.js"></script>
+<script type="text/javascript" language="javascript" src="js/appp_frmCadEstrutura.js"></script>
 
 <script type="text/javascript" language="javascript">
     var arrayEscondidos = new Array();
@@ -241,7 +242,9 @@
     }
 
     $(document).ready(function(){
-
+    
+        $("#linkAbreCadastroAtributo").click(function(){show_CadastraAtributo()});
+        
         $.ajaxSetup({async: false});
 
         arrayVisiveis=$.makeArray($("#frmCadEstrutCmbSelAtributo option"));
@@ -355,6 +358,16 @@
                             </td>
                         </tr>
                         <tr>
+                            <td colspan="2" align="center" style="padding-top:20px;">
+                                <a class="navProximo ui-widget-header" id="linkAbreCadastroAtributo" href="#">
+                                    <span>
+                                        <span class="ui-icon ui-icon-document" style="display:inline-block;vertical-align:middle"></span>
+                                        Criar novo atributo...
+                                    </span>
+                                </a>
+                            </td>
+                        </tr>
+                        <tr>
                             <td colspan="2"></td>
                         </tr>
                     </table>
@@ -399,5 +412,92 @@
 <div style="display:block;" id="frmAlert">
 
 </div>
+
+
+<!--Janela para cadastro de ATRIBUTOS -->
+<div id="divfrmCadAtributo" title="Cadastro de Atributo">
+    <form id="frmCadAtributo">
+        <table width="500">
+            <tr>
+                <td align="right">
+                    <font class="texto">Nome do atributo:</font>
+                </td>
+                <td align="center">
+                    <input id="frmCadAtributoTxtNome" class="edit" type="text" size="35">
+                </td>
+            </tr>
+            <tr>
+                <td align="right"  valign="top">
+                    <font class="texto">Descri&ccedil;&atilde;o do atributo:</font>
+                </td>
+                <td align="center">
+                    <textarea id="frmCadAtributoTxtDesc" class="edit" cols="35" ></textarea>
+                </td>
+            </tr>
+            <tr>
+                <td align="right">
+                    <font class="texto">Tipo do atributo:</font>
+                </td>
+                <td align="center">
+                    <select id="frmCadAtributoSelTipo" class="edit" style="width:200px;" >
+
+
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td align="right">
+                    <font class="texto">Relacion&aacute;vel:</font>
+                </td>
+                <td align="center">
+                    <input id="frmCadAtributoChkRel" type="checkbox">
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2" align="center">
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>
+
+
+
+<!--Janela para cadastro de TIPOS -->
+<div id="divfrmCadTipo" title="Cadastro de Tipos" >
+    <form id="frmCadTipo">
+        <table width="500">
+            <tr>
+                <td align="right">
+                    <font class="texto">Nome do Tipo:</font>
+                </td>
+                <td align="center">
+                    <input id="frmCadTipoTxtNome" class="edit" type="text" size="35">
+                </td>
+            </tr>
+            <tr>
+                <td align="right"  valign="top">
+                    <font class="texto">Expressão Regular:</font>
+                </td>
+                <td align="center">
+                    <textarea id="frmCadTipoTxtExpReg" class="edit" cols="35" ></textarea>
+                </td>
+            </tr>
+            <tr>
+                <td align="center">
+                    Teste sua Expressão Regular:
+                </td>
+                <td align="center">
+                    <input type="text" id="frmCadTipoTxtTesteExpReg" class="edit" cols="35">
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2" align="center">
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>
+
 
 <%@include file="rodape.jsp"%>

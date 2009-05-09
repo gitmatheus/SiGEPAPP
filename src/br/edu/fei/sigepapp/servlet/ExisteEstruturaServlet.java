@@ -4,13 +4,12 @@
  */
 package br.edu.fei.sigepapp.servlet;
 
-import br.edu.fei.sigepapp.bancodedados.dao.PerguntaDAO;
-import br.edu.fei.sigepapp.bancodedados.model.Pergunta;
+import br.edu.fei.sigepapp.bancodedados.dao.Estrutura_ObjDAO;
+import br.edu.fei.sigepapp.bancodedados.model.Estrutura;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.List;
-import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -20,9 +19,9 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  *
- * @author Windows XP
+ * @author lopespt
  */
-public class GetPerguntaServlet extends HttpServlet {
+public class ExisteEstruturaServlet extends HttpServlet {
 
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -33,36 +32,35 @@ public class GetPerguntaServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/xml");
+        response.setContentType("text/xml;charset=ISO-8859-1");
         PrintWriter out = response.getWriter();
-
+        List<Estrutura> listEstrutura;
+        String retorno;
         try {
-            PerguntaDAO pergDAO = new PerguntaDAO();
-           List<Pergunta> listPerguntas = pergDAO.APPP_SEL_PERGUNTA(new Pergunta());
+            Estrutura_ObjDAO estrutDao = new Estrutura_ObjDAO();
+            String nome = request.getParameter("nome");
 
-           out.println("<?xml version='1.0' encoding='ISO-8859-1'?>");
+            listEstrutura = estrutDao.APPP_SEL_Estrutura_OBJ(new Estrutura(0, nome, null, null, 0, null), null);
+            estrutDao.fechaConexao();
+
+            out.println("<?xml version='1.0' encoding='ISO-8859-1'?>");
             out.println("<xml>");
-
-            for (Pergunta pergunta : listPerguntas) {
-                out.println("<Pergunta>");
-                out.println("<Cod>");
-                out.println(pergunta.getCd_pergunta());
-                out.println("</Cod>");
-                out.println("<DescPergunta>");
-                out.println(pergunta.getDs_pergunta());
-                out.println("</DescPergunta>");
-                out.println("</Pergunta>");
+            out.println("<existente>");
+            retorno = "nao";
+            for (Estrutura estrutura : listEstrutura) {
+                if (estrutura.getNm_estrutura().toUpperCase().equals(nome.toUpperCase())) {
+                    retorno = "sim";
+                }
             }
 
-            out.println("</xml>");
-
-            out.flush();
-            pergDAO.fechaConexao();
-
+            out.println(retorno);
+            out.println("</existente>");
         } catch (SQLException ex) {
-            Logger.getLogger(GetPerguntaServlet.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
+            Logger.getLogger(ExisteEstruturaServlet.class.getName()).log(Level.SEVERE, null, ex);
 
+        } finally {
+            out.println("</xml>");
+            out.flush();
             out.close();
         }
     }

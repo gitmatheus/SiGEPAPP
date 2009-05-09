@@ -5,35 +5,52 @@
 <script type="text/javascript" language="javascript" src="js/jquery.tinysort.js"></script>
 <script type="text/javascript" language="javascript" src="js/jquery-ui-1.7.js"></script>
 <script type="text/javascript" language="javascript" src="js/fckeditor/fckeditor.js"></script>
-
+<script type="text/javascript" language="javascript" src="js/appp_frmCadEstrutura.js"></script>
 
 <script type="text/javascript" language="javascript">
 
 
-    function valida_campos_step1(){
-        var nome_estrut=$.trim($("#frmCadEstrutNome").val());
+    function valida_desc(){
         //Verifica se o nome da estrutura é vazio
-        if(nome_estrut==""){
-            $("#frmCadEstrutNome").parent("td").html(
-                "Nome:"+
-                "<input class='edit' type='text' size='30' id='frmCadEstrutNome' value='"+nome_estrut+"' "+
-                "style='border-color: #822007; background-color: #ee957f; color: #822007;'>"+
-                "<img src='images/uncheck.png'/>"+
-                "<font size='small' color='#822007'>&nbsp;O&nbsp;nome&nbsp;deve&nbsp;ser&nbsp;preenchido</font>"
-        );
-            $("#frmCadEstrutNome").focus();
-            return false;
-        }else{
-            
-            //Verifica se já existe um documento com esse nome
-           // if($("#frmCadEstrutNome"))
+var descricao=FCKeditorAPI.GetInstance('frmCadEstrutDesc').GetXHTML();
+        if($.trim(descricao)!=""){
+
+            $("#divMsgCadEstrutDesc").hide();
 
             return true;
+        }else{
+            $("#tagDescricao").attr("style", "color: #822007;display:inline-block");
+            $("#divMsgCadEstrutDesc").html("<img src='images/uncheck.png'>&nbsp;Preencha a Descri&ccedil;&atilde;o da estrutura.");
+            $("#divMsgCadEstrutDesc").show();
+            return false;
         }
 
     }
-
+    function valida_nome(){
+        var msg=validaNome();
+        if(msg!=null){
+            $("#frmCadEstrutNome").attr("style", "border-color: #822007; background-color: #ee957f;color: #822007;display:inline-block");
+            $("#divMsgCadEstrutNome").html("<img src='images/uncheck.png'>"+msg);
+            $("#divMsgCadEstrutNome").show();
+            $("#frmCadEstrutNome").select();
+            return false;
+        }else{
+            $("#frmCadEstrutNome").removeAttr("style");
+            $("#divMsgCadEstrutNome").hide();
+            return true;
+        }
+    }
     $(document).ready(function(){
+
+        $("#divMsgCadEstrutNome").hide();
+        $("#divMsgCadEstrutDesc").hide();
+        //Valida Nome da Estrutura
+        $("#frmCadEstrutNome").blur(function(){
+            valida_nome();
+        });
+        //Valida Descrição da Estrutura
+
+        //Fim das validações
 
         $.ajaxSetup({async: false});
 
@@ -52,11 +69,12 @@
         oFCKeditor.Height=300;
         oFCKeditor.ReplaceTextarea() ;
 
+
         //Quando clicar no link "Proximo"
         $("#linkProximo").click(function(){
             //Grava dados no servidor
             //alert(escape(FCKeditorAPI.GetInstance('frmCadEstrutDesc').GetXHTML()));
-            if(valida_campos_step1()==true){
+            if(valida_nome()==true && valida_desc()==true) {
                 $.post("writeSessionServlet", {nomeEstrutura: $("#frmCadEstrutNome").val(), descricaoEstrutura: escape(FCKeditorAPI.GetInstance('frmCadEstrutDesc').GetXHTML()) }, null);
                 return true;
             }else{
@@ -87,11 +105,12 @@
                             <td align="left" valign="middle">
                                 Nome:
                                 <input class="edit" type="text" size="30" id="frmCadEstrutNome">
+                                <div id="divMsgCadEstrutNome" style="display:inline-block;vertical-align:middle;"></div>
                             </td>
                         </tr>
                         <tr>
-                            <td align="left" style="padding-top:15px;">
-                                Descri&ccedil;&atilde;o:
+                            <td align="left" style="padding-top:15px;" id="tagDescricao">
+                                Descri&ccedil;&atilde;o:<div id="divMsgCadEstrutDesc" style="display:inline-block;vertical-align:middle;"></div>
                             </td>
                         </tr>
                         <tr>

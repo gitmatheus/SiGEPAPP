@@ -68,15 +68,29 @@
 
     var carregandoXML=false;
 
+    function valida_selecao(){
+        
+        if($("input[name='codEstrutura']:checked").val()>0){
+            return true;
+        }else{
+            $("#divMsgSelecao").attr("style", "color: #822007;display:inline-block;background-color: #ee957f;width:100%;");
+            $("#divMsgSelecao").html("Erro:<br><h3><img src='images/uncheck.png'>Selecione um estrutura como base</h3>");
+            return false;
+        }
+    }
+
     function clickFieldSet(objetoClicado){
-        $(objetoClicado).children("legend").andSelf().children("input").attr("checked","checked")
+        $(objetoClicado).children("legend").andSelf().children("input").attr("checked","checked")        
+
         if($(objetoClicado).attr("id")=="fieldSet1"){
             $("#fieldSet2").fadeTo('slow', 0.5);
             $("#fieldSet1").fadeTo('slow', 1);
-
+            $("#fieldSet2 input[name='codEstrutura']:checked").removeAttr("checked");
+            
         }else{
             $("#fieldSet1").fadeTo('slow', 0.5);
             $("#fieldSet2").fadeTo('slow', 1);
+            $("#fieldSet1 input[name='codEstrutura']:checked").removeAttr("checked");
         }
     }
 
@@ -98,7 +112,7 @@
                         $(elemento).find("Nome").text()+
                         "</td>"+
                         "<td>"+
-                        
+
                         "<div class='ui-icon ui-icon-circlesmall-plus' />"+
                         "</td>"+
                         "</tr>");
@@ -142,24 +156,24 @@
     }
 
     function mostraEstrutura(codEstr){
-            $("#frmAlert").html("<table></table>");
-            $.post("GetAtribDeEstrutServlet", {codestr: codEstr}, function(texto, estado){
-                if(estado=="success"){
+        $("#frmAlert").html("<table></table>");
+        $.post("GetAtribDeEstrutServlet", {codestr: codEstr}, function(texto, estado){
+            if(estado=="success"){
 
-                    $(texto).find("atributo").each(function(indice, elemento){
-                        $("#frmAlert table:first").append("<tr>"+
-                            "<td>"+
-                            $(elemento).find("nome").text()+
-                            "</td>"+
-                            "</tr>"
-                    );
-                    });
-                }
-            }, "xml");
-            $("#frmAlert").dialog();
-            $("#frmAlert").dialog('open');
-            $("#frmAlert").dialog('option','position',[600 ,'center']);
-            $("#frmAlert").dialog('option','title',"Estrututura de: <i>"+$("#frmPesqEstruturasTabResult td:has(input[value="+codEstr+"])").text()+"</i>");
+                $(texto).find("atributo").each(function(indice, elemento){
+                    $("#frmAlert table:first").append("<tr>"+
+                        "<td>"+
+                        $(elemento).find("nome").text()+
+                        "</td>"+
+                        "</tr>"
+                );
+                });
+            }
+        }, "xml");
+        $("#frmAlert").dialog();
+        $("#frmAlert").dialog('open');
+        $("#frmAlert").dialog('option','position',[600 ,'center']);
+        $("#frmAlert").dialog('option','title',"Estrututura de: <i>"+$("#frmPesqEstruturasTabResult td:has(input[value="+codEstr+"])").text()+"</i>");
 
     }
 
@@ -168,13 +182,13 @@
     }
 
     $(document).ready(function(){
-/*
+        /*
         $("#divfrmPesqEstrutura input:checkbox[value='PA']").attr("checked","checked");
         $("#divfrmPesqEstrutura input:checkbox[value='AP']").attr("checked","checked");
         $("#divfrmPesqEstrutura input:checkbox[value='PE']").attr("checked","checked");
-*/
+         */
 
-         $("#frmCadEstrutFormulario fieldset").click(function(){
+        $("#frmCadEstrutFormulario fieldset").click(function(){
             clickFieldSet(this);
         });
 
@@ -182,11 +196,13 @@
 
         $.post("readSessionServlet", {nome: "inicioEstrutura"}, function(dados){
 
-            $("input[value='"+dados+"']").attr("checked","checked");
+            //$("input[value='"+dados+"']").attr("checked","checked");
+            $("input[name='frmCadEstOptInicio'][value='"+dados+"']").click();
+            
         },"text");
 
         $.post("readSessionServlet", {nome: "codEstrutura"}, function(dados){
-            if(dados=="<%= patternID %>" || dados==" <%= antiPatternID %>" || dados=="<%= personaID %>"){
+            if(dados=="<%= patternID%>" || dados==" <%= antiPatternID%>" || dados=="<%= personaID%>"){
                 $("input[value='"+dados+"']").attr("checked","checked");
 
             }else{
@@ -197,22 +213,27 @@
             }
         },"text");
 
-        //$("#fieldSet2").fadeTo('slow', 0.5);
-        //$("#fieldSet1").fadeTo('slow', 1);
 
         $("#linkProximo").click(function(){
-            $.post("writeSessionServlet", {inicioEstrutura: $("input[name='frmCadEstOptInicio']:checked").val(), codEstrutura: $("input[name='codEstrutura']:checked").val() }, null);
+            if(valida_selecao()){
+                $.post("writeSessionServlet", {inicioEstrutura: $("input[name='frmCadEstOptInicio']:checked").val(), codEstrutura: $("input[name='codEstrutura']:checked").val() }, null);
+                return true;
+            }else{
+                return false;
+            }
         });
 
         $("#frmPesqEstruturasButOk").click(function(){
             pesqEstruturas();
-           
         });
-
 
         $("#divfrmPesqEstrutura input:checkbox").click(function(){
             clickFiltro();
-        })
+        });
+
+    $("input[name='codEstrutura']").click(function(){
+        valida_selecao();
+    });
 
 
     });
@@ -233,6 +254,10 @@
     <!--Fim do menu do Wizard-->
 
     <tr>
+        <td align="center" style="padding-top:20px;"><div id="divMsgSelecao"></div></td>
+    </tr>
+
+    <tr>
         <td align="center" style="padding-top:20px;">
             <fieldset id="fieldSet1" style="background-color:#eeeeee;width:90%">
                 <legend class="legends"><input name="frmCadEstOptInicio" type="radio" value="primitiva">Estrutura primitiva:</legend>
@@ -245,19 +270,19 @@
                                         Selecione o tipo de estrutura:
                                     </td>
                                     <td>
-                                        <input type="radio" name="codEstrutura" value="<%= patternID %>">Pattern
+                                        <input type="radio" name="codEstrutura" value="<%= patternID%>">Pattern
                                     </td>
                                 </tr>
                                 <tr>
                                     <td></td>
                                     <td>
-                                        <input type="radio" name="codEstrutura" value=" <%= antiPatternID %>">Anti-Pattern
+                                        <input type="radio" name="codEstrutura" value=" <%= antiPatternID%>">Anti-Pattern
                                     </td>
                                 </tr>
                                 <tr>
                                     <td></td>
                                     <td>
-                                        <input type="radio" name="codEstrutura" value="<%= personaID %>">Persona
+                                        <input type="radio" name="codEstrutura" value="<%= personaID%>">Persona
                                     </td>
                                 </tr>
                             </table>
