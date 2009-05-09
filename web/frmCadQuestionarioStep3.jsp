@@ -59,7 +59,8 @@ a<%@page import="br.edu.fei.sigepapp.bancodedados.dao.*,br.edu.fei.sigepapp.banc
                             <td colspan="3" align="center">
                                 <table border="0" width="100%">
                                     <% for (Pergunta p : listPerguntas) {
-            i++;%>
+            i++;
+                                    %>
                                     <tr>
                                         <td colspan="5" style="padding-top:10px;padding-bottom:8px" class="pergunta" align="left">
                                             <%=i%>) <%=p.getDs_pergunta()%>
@@ -72,8 +73,20 @@ a<%@page import="br.edu.fei.sigepapp.bancodedados.dao.*,br.edu.fei.sigepapp.banc
                                         <td>
                                             <select name="CDResp" size="1" style="width:100%" class="edit">
                                                 <option value="0">
-                                                <% for (Resposta r : listRespostas) {%>
-                                                <option value="<%=r.getCd_resposta()%>"><%=r.getDs_resposta()%>
+                                                <% for (Resposta r : listRespostas) {
+        RelacPergRespDAO relacPRDAO = new RelacPergRespDAO();
+
+        Relac_Perg_Resp buscaRelac = new Relac_Perg_Resp();
+        buscaRelac.setCd_pergunta(p.getCd_pergunta());
+        buscaRelac.setCd_resposta(r.getCd_resposta());
+        List<Relac_Perg_Resp> listRelac = relacPRDAO.APPP_SEL_RELAC_PERG_RESP(new Relac_Perg_Resp(p.getCd_pergunta(), r.getCd_resposta(), 0));
+
+        relacPRDAO.fechaConexao();
+        
+            String txtSel = "";
+        
+                                                %>
+                                               <option value="<%=r.getCd_resposta()%>"  <%= txtSel %> ><%=r.getDs_resposta()%> Tamanho: <%= listRelac.size()%>
                                                 <%}%>
                                             </select>
                                             <div  align="center" >Peso <%=j%></div>

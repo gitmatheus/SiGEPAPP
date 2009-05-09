@@ -40,6 +40,7 @@ public class GetRespostaServlet extends HttpServlet {
             RespostaDAO respDAO = new RespostaDAO();
             List<Resposta> listRespostas = respDAO.APPP_SEL_RESPOSTA(new Resposta());
             respDAO.fechaConexao();
+            out.println("<?xml version='1.0' encoding='ISO-8859-1'?>");
             out.println("<xml>");
 
             for (Resposta resposta : listRespostas) {
