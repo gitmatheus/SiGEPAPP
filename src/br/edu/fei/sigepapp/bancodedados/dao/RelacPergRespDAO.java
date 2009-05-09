@@ -142,7 +142,7 @@ public class RelacPergRespDAO {
             cstmt.registerOutParameter(4, OracleTypes.CURSOR);
             cstmt.execute();
 
-            rs = (ResultSet) cstmt.getObject(3);
+            rs = (ResultSet) cstmt.getObject(4);
 
             while (rs.next()) {
                 listaRelacPergResp.add(new Relac_Perg_Resp(rs.getLong(1), rs.getLong(2), rs.getLong(3)));
