@@ -106,6 +106,45 @@ public class BuscaEstrutCadAPPPServlet extends HttpServlet {
                         }
                     }
                     break;
+                case 5:
+                    for (Estrutura e : estruturas) {
+                        if (e.getTp_estrutura().equals("PA")) {
+                            writer.println("<estrutura>");
+                            writer.println("<cod_est>" + e.getCd_estrutura() + "</cod_est>");
+                            writer.println("<nm_est>" + e.getNm_estrutura() + "</nm_est>");
+                            writer.println("<tp_est></tp_est>");
+                            writer.println("<tp_est>Pattern</tp_est>");
+                            writer.println("</estrutura>");
+                            qtdAPPP++;
+                        }
+                    }
+                    break;
+                case 6:
+                    for (Estrutura e : estruturas) {
+                        if (e.getTp_estrutura().equals("AP")) {
+                            writer.println("<estrutura>");
+                            writer.println("<cod_est>" + e.getCd_estrutura() + "</cod_est>");
+                            writer.println("<nm_est>" + e.getNm_estrutura() + "</nm_est>");
+                            writer.println("<tp_est></tp_est>");
+                            writer.println("<tp_est>Anti-Pattern</tp_est>");
+                            writer.println("</estrutura>");
+                            qtdAPPP++;
+                        }
+                    }
+                    break;
+                case 7:
+                    for (Estrutura e : estruturas) {
+                        if (e.getTp_estrutura().equals("PE")) {
+                            writer.println("<estrutura>");
+                            writer.println("<cod_est>" + e.getCd_estrutura() + "</cod_est>");
+                            writer.println("<nm_est>" + e.getNm_estrutura() + "</nm_est>");
+                            writer.println("<tp_est></tp_est>");
+                            writer.println("<tp_est>Persona</tp_est>");
+                            writer.println("</estrutura>");
+                            qtdAPPP++;
+                        }
+                    }
+                    break;
             }
 
             writer.println("<qtd>" + qtdAPPP + "</qtd>");

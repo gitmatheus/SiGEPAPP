@@ -8,42 +8,115 @@
 <script type="text/javascript" language="javascript" src="js/fckeditor/fckeditor.js"></script>
 <script type="text/javascript" language="javascript">
     $(document).ready(function(){
+        $("#frmCadAPPPEstrutura").change(function(){
+            var cd = $("#frmCadAPPPEstrutura").val();
+            alert(cd);
+            if (cd != ""){
+                buscaAtributos(cd);
+            }
+        });
+
+        var frm = document.frmCadAPPP;
         selecionaTpEstrutura(1);
+
+        $("#frmCadAPPPChkPattern").click(function(){
+            var req = verificaChkBox();
+            selecionaTpEstrutura(req);
+        });
+        $("#frmCadAPPPChkAntiPattern").click(function(){
+            var req = verificaChkBox();
+            selecionaTpEstrutura(req);
+        });
+        $("#frmCadAPPPChkPersona").click(function(){
+            var req = verificaChkBox();
+            selecionaTpEstrutura(req);
+        });
+        
+        frm.frmCadAPPPChkPattern.checked = true;
+        frm.frmCadAPPPChkAntiPattern.checked = true;
+        frm.frmCadAPPPChkPersona.checked = true;
+
     });
+
+    function verificaChkBox(){
+        frm = document.frmCadAPPP;
+        if (frm.frmCadAPPPChkPattern.checked == true && frm.frmCadAPPPChkAntiPattern.checked == true && frm.frmCadAPPPChkPersona.checked == true){
+            return 1;
+        }else if(frm.frmCadAPPPChkPattern.checked == false && frm.frmCadAPPPChkAntiPattern.checked == true && frm.frmCadAPPPChkPersona.checked == true){
+            return 2;
+        }else if(frm.frmCadAPPPChkPattern.checked == true && frm.frmCadAPPPChkAntiPattern.checked == false && frm.frmCadAPPPChkPersona.checked == true){
+            return 3;
+        }else if(frm.frmCadAPPPChkPattern.checked == true && frm.frmCadAPPPChkAntiPattern.checked == true && frm.frmCadAPPPChkPersona.checked == false){
+            return 4;
+        }else if(frm.frmCadAPPPChkPattern.checked == true && frm.frmCadAPPPChkAntiPattern.checked == false && frm.frmCadAPPPChkPersona.checked == false){
+            return 5;
+        }else if(frm.frmCadAPPPChkPattern.checked == false && frm.frmCadAPPPChkAntiPattern.checked == true && frm.frmCadAPPPChkPersona.checked == false){
+            return 6;
+        }else if(frm.frmCadAPPPChkPattern.checked == false && frm.frmCadAPPPChkAntiPattern.checked == false && frm.frmCadAPPPChkPersona.checked == true){
+            return 7;
+        }else{
+            return 0;
+        }
+    }
 
     function selecionaTpEstrutura(requisicao){
         $("#SelectEstrutura").html(
-            "<select id='frmCadAPPPEstrutura' name='frmCadAPPPEstrutura' class='edit' style='width: auto;'></select>" +
+        "<select id='frmCadAPPPEstrutura' name='frmCadAPPPEstrutura' class='edit' style='width: auto;'></select>" +
             "&nbsp;&nbsp;<img src='images/aguardep.gif'/>&nbsp;<font size='x-small'>por favor, aguarde...</font>"
-        );
+    );
+
         $.get("BuscaEstrutCadAPPPServlet",{
             tipos_requisitados:requisicao
         },function(xml){
-           $(xml).find("estrutura").each(function(indice, elemento){
-               $(elemento).find("cd_estr").text();
-               $(elemento).find("nm_estr").text();
-               $(elemento).find("dc_estr").text();
-           });
-
             var qtd = parseInt($("qtd",xml).text());
             var strCombo = "";
-            if (qtd != 0){
+            if (qtd > 0){
                 strCombo += "<select id='frmCadAPPPEstrutura' name='frmCadAPPPEstrutura' class='edit' style='width: auto;'>";
-               /* for (i = 0; i < qtd; i++){
-                    strCombo += "<option value='" + $(xml).find("cd_est").each(text()) + "'>[" + $("tp_est",xml).text() + "]\t" + $("nm_est",xml).text() + "</option>";
-                }*/
-                $(xml).find("estrutura").each(function(indice, elemento){
-                     strCombo += "<option value='" + $(elemento).find("cd_est").text()+ "'>[" +
-                     $(elemento).find("tp_est").text() + "]\t" +
-                     $(elemento).find("dc_estr").text() + "</option>";
+                strCombo += "<option value=''>Escolha a estrutura desejada...</option>";
+                $(xml).find("estrutura").each(function(indice /* indice de interacao utilizado pelo each() */,
+                elemento /* a estrutura atual do each */){
+                    strCombo += "<option value='" + $(elemento).find("cd_est").text()+ "'>[" +
+                        $(elemento).find("tp_est").text() + "]\t" +
+                        $(elemento).find("nm_est").text() + "</option>";
                 });
                 strCombo +="</select>";
             }else{
-                alert("Ocorreu um erro!");
+                $("#alertaSelectEstrut").dialog('open');
+                strCombo += "<select id='frmCadAPPPEstrutura' name='frmCadAPPPEstrutura' class='edit' style='width: auto;'>";
+                strCombo += "<option value=''>Escolha a estrutura desejada...</option>";
+                strCombo +="</select>";
             }
             $("#SelectEstrutura").html(strCombo);
         });
     }
+
+    function buscaAtributos(codigo){
+
+        $.post("GetAtribDeEstrutServlet", {codigo:codigo}, function(xml){
+            var strHtml = "";
+            $(xml).find("atributo").each(function(indice,elemento){
+                strHtml = indice + $(elemento).find("nome").text() + $(elemento).find("nmtipo").text() +
+                    $(elemento).find("oracletype").text();
+                alert(strHtml);
+            });
+        });
+
+    }
+
+    $(function(){
+        
+
+        $("#alertaSelectEstrut").dialog({
+            autoOpen: false,
+            width: 'auto',
+            height: 100,
+            buttons: {
+                "Ok": function(){
+                    $(this).dialog("close");
+                }
+            }
+        });
+    });
 </script>
 <form name="frmCadAPPP" method="post">
     <table border="0" cellpadding="0" cellspacing="0" width="100%" align="right">
@@ -66,6 +139,20 @@
                                     <option value="">Escolha a estrutura desejada...</option>
                                 </select>
                             </div>
+                            <div id="alertaSelectEstrut" title="Estruturas não encontradas">
+                                Por favor, selecione um tipo de estrutura.
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" align="center">
+                            <br />
+                            <input id="frmCadAPPPChkPattern" name="frmCadAPPPChkPattern" type="checkbox" class="edit" value="PA" checked>
+                            <font class="texto"> Patterns </font> &nbsp;&nbsp;
+                            <input id="frmCadAPPPChkAntiPattern" name="frmCadAPPPChkAntiPattern" type="checkbox" class="edit" value="AP" checked>
+                            <font class="texto"> Anti-Patterns </font> &nbsp;&nbsp;
+                            <input id="frmCadAPPPChkPersona" name="frmCadAPPPChkPersona" type="checkbox" class="edit" value="PE" checked>
+                            <font class="texto"> Personas </font>
                         </td>
                     </tr>
                 </table>
