@@ -83,7 +83,7 @@
             <%if (sucesso) {%>
             <td align="center" style="padding-top:30px;">
                 <h1>Cadastro de estrutura concluído com sucesso</h1>
-                <h2><a href="/">Página principal</a></h2>
+                <h2><a href="/sigepapp">P&aacute;gina principal</a></h2>
             </td>
             <%} else {%>
             <td align="center" style="padding-top:30px;">

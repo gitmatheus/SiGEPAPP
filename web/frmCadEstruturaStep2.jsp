@@ -69,7 +69,7 @@
     var carregandoXML=false;
 
     function valida_selecao(){
-        
+
         if($("input[name='codEstrutura']:checked").val()>0){
             return true;
         }else{
@@ -80,13 +80,13 @@
     }
 
     function clickFieldSet(objetoClicado){
-        $(objetoClicado).children("legend").andSelf().children("input").attr("checked","checked")        
+        $(objetoClicado).children("legend").andSelf().children("input").attr("checked","checked")
 
         if($(objetoClicado).attr("id")=="fieldSet1"){
             $("#fieldSet2").fadeTo('slow', 0.5);
             $("#fieldSet1").fadeTo('slow', 1);
             $("#fieldSet2 input[name='codEstrutura']:checked").removeAttr("checked");
-            
+
         }else{
             $("#fieldSet1").fadeTo('slow', 0.5);
             $("#fieldSet2").fadeTo('slow', 1);
@@ -195,21 +195,26 @@
         $.ajaxSetup({async: false});
 
         $.post("readSessionServlet", {nome: "inicioEstrutura"}, function(dados){
-
-            //$("input[value='"+dados+"']").attr("checked","checked");
-            $("input[name='frmCadEstOptInicio'][value='"+dados+"']").click();
-            
+            if ($.trim(dados)!=""){
+                $("input[name='frmCadEstOptInicio'][value='"+dados+"']").click();
+            }else{
+                $("#fieldSet1").click();
+            }
         },"text");
 
         $.post("readSessionServlet", {nome: "codEstrutura"}, function(dados){
-            if(dados=="<%= patternID%>" || dados==" <%= antiPatternID%>" || dados=="<%= personaID%>"){
-                $("input[value='"+dados+"']").attr("checked","checked");
-
+            if($.trim(dados)==""){
+                
             }else{
+                if(dados=="<%= patternID%>" || dados==" <%= antiPatternID%>" || dados=="<%= personaID%>"){
+                    $("input[value='"+dados+"']").attr("checked","checked");
 
-                pesqEstruturas(dados);
+                }else{
 
-                $("input[value='"+dados+"']").click();
+                    pesqEstruturas(dados);
+
+                    $("input[value='"+dados+"']").click();
+                }
             }
         },"text");
 
@@ -231,9 +236,9 @@
             clickFiltro();
         });
 
-    $("input[name='codEstrutura']").click(function(){
-        valida_selecao();
-    });
+        $("input[name='codEstrutura']").click(function(){
+            valida_selecao();
+        });
 
 
     });
@@ -260,7 +265,7 @@
     <tr>
         <td align="center" style="padding-top:20px;">
             <fieldset id="fieldSet1" style="background-color:#eeeeee;width:90%">
-                <legend class="legends"><input name="frmCadEstOptInicio" type="radio" value="primitiva">Estrutura primitiva:</legend>
+                <legend class="legends"><input name="frmCadEstOptInicio" type="radio" value="minima">Estrutura minima:</legend>
                 <table width="100%">
                     <tr>
                         <td>

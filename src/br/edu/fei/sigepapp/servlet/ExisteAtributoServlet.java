@@ -4,8 +4,10 @@
  */
 package br.edu.fei.sigepapp.servlet;
 
-import br.edu.fei.sigepapp.bancodedados.dao.Estrutura_ObjDAO;
-import br.edu.fei.sigepapp.bancodedados.model.Estrutura;
+import br.edu.fei.sigepapp.bancodedados.dao.AtributoDAO;
+import br.edu.fei.sigepapp.bancodedados.dao.TipoDAO;
+import br.edu.fei.sigepapp.bancodedados.model.Atributo;
+import br.edu.fei.sigepapp.bancodedados.model.Tipo;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -21,7 +23,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author lopespt
  */
-public class ExisteEstruturaServlet extends HttpServlet {
+public class ExisteAtributoServlet extends HttpServlet {
 
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -34,33 +36,34 @@ public class ExisteEstruturaServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/xml;charset=ISO-8859-1");
         PrintWriter out = response.getWriter();
-        List<Estrutura> listEstrutura;
+        List<Atributo> listaAtributos;
         String retorno;
         try {
-            Estrutura_ObjDAO estrutDao = new Estrutura_ObjDAO();
+            
             String nome = request.getParameter("nome");
+            AtributoDAO atributoDao = new AtributoDAO();
 
-            listEstrutura = estrutDao.APPP_SEL_Estrutura_OBJ(new Estrutura(0, nome, null, null, 0, null), null);
-            estrutDao.fechaConexao();
+            listaAtributos = atributoDao.APPP_SEL_ATRIBUTO_OBJ(new Atributo(0, nome, null, 0, null));
 
-            out.println("<?xml version='1.0' encoding='ISO-8859-1'?>");
-            out.println("<xml>");
-            out.println("<existente>");
+            atributoDao.fechaConexao();
             retorno = "nao";
-            for (Estrutura estrutura : listEstrutura) {
-                if (estrutura.getNm_estrutura().toUpperCase().equals(nome.toUpperCase())) {
+            for (Atributo atributo : listaAtributos) {
+                if (atributo.getNm_atributo_obj().trim().equalsIgnoreCase(nome.trim())) {
                     retorno = "sim";
                     break;
                 }
             }
 
+            out.println("<?xml version='1.0' encoding='ISO-8859-1'?>");
+            out.println("<xml>");
+            out.println("<existente>");
             out.println(retorno);
             out.println("</existente>");
-        } catch (SQLException ex) {
-            Logger.getLogger(ExisteEstruturaServlet.class.getName()).log(Level.SEVERE, null, ex);
-
-        } finally {
             out.println("</xml>");
+        } catch (SQLException ex) {
+            out.println("<erro>" + ex.getMessage() + "</erro>");
+        } finally {
+            
             out.flush();
             out.close();
         }
