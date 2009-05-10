@@ -74,8 +74,6 @@ $(document).ready(function(){
         }
     });
 
-
-
     $("#linkAbreCadastroAtributo").click(function(){
         show_CadastraAtributo();
     });
@@ -102,7 +100,7 @@ $(document).ready(function(){
                 }
 
                 if($("#frmCadAtributoTxtNome").val()==""){
-                    informa("Nome não preenchido", "Erro");
+                    informa("Nome do atributo n&atilde;o preenchido", "Erro");
                     $("#frmCadAtributoTxtNome").focus();
                 }else if($("#frmCadAtributoTxtDesc").val()==""){
                     informa("Descrição não preenchida", "Erro");
@@ -110,22 +108,34 @@ $(document).ready(function(){
                 }else if($("#frmCadAtributoSelTipo").val()=="" || $("#frmCadAtributoSelTipo").val()=="-1"){
                     informa("Tipo de atributo não selecionado", "Erro");
                 }else{
-                    var nome=$("#frmCadAtributoTxtNome").val();
-                    var desc=$("#frmCadAtributoTxtDesc").val();
-                    var cod_atrib;
-
-                    $.post("CadAtributoServlet",{
-                        nome:   $("#frmCadAtributoTxtNome").val(),
-                        descricao: $("#frmCadAtributoTxtDesc").val(),
-                        codTipo: $("#frmCadAtributoSelTipo").val(),
-                        relac: relacionavel
-                    } , function(dados, msgstatus){
-                        if(msgstatus=="success"){
-                            cod_atrib=$(dados).find("codAtrib").text();
-                            funcIncluiAtributoDisponivel(nome, desc, cod_atrib);
-                            $("#divfrmCadAtributo").dialog("close");
+                    $.post("ExisteAtributoServlet", {
+                        nome: $.trim($("#frmCadAtributoTxtNome").val())
+                    }, function(dados){
+                        //Caso o atributo exista....
+                        if($.trim($(dados).find("existente").text())=="sim"){
+                            informa("Nome do atributo j&aacute; existe", "Erro");
                         }
-                    });
+                        //Caso não exista...Cadastra
+                        else{
+                            var nome=$("#frmCadAtributoTxtNome").val();
+                            var desc=$("#frmCadAtributoTxtDesc").val();
+                            var cod_atrib;
+
+                            $.post("CadAtributoServlet",{
+                                nome:   $("#frmCadAtributoTxtNome").val(),
+                                descricao: $("#frmCadAtributoTxtDesc").val(),
+                                codTipo: $("#frmCadAtributoSelTipo").val(),
+                                relac: relacionavel
+                            } , function(dados, msgstatus){
+                                if(msgstatus=="success"){
+                                    cod_atrib=$(dados).find("codAtrib").text();
+                                    funcIncluiAtributoDisponivel(nome, desc, cod_atrib);
+                                    $("#divfrmCadAtributo").dialog("close");
+                                    informa("Atributo cadastrado com sucesso", "Cadastro de atributo");
+                                }
+                            });
+                        }
+                    }, "xml");
                 }
             }
         },
@@ -151,18 +161,29 @@ $(document).ready(function(){
             },
             Cadastrar: function() {
                 if($("#frmCadTipoTxtNome").val()==""){
-                    informa("Nome não preenchido", "Erro")
+                    informa("Nome do tipo n&atilde;o preenchido", "Erro");
+                }else if($("#frmCadTipoTxtExpReg").val()==""){
+                    informa("Express&atilde;o n&atilde;o preenchido", "Erro");
                 }else{
-                    $.post("CadTipoServlet",{
-                        nome:   $("#frmCadTipoTxtNome").val(),
-                        expreg: $("#frmCadTipoTxtExpReg").val()
-                    } , function(dados, msgstatus){
-                        if(msgstatus=="success"){
-                            getTipos();
-                            informa(dados, "Cadastro");
-                            $("#divfrmCadTipo").dialog('close');
+                    $.post("ExisteTipoServlet",{
+                        nome: $("#frmCadTipoTxtNome").val()
+                    },function(dados){
+                        if($.trim($(dados).find("existente").text())=="sim"){
+                            informa("Nome do tipo j&aacute; existe", "Erro");
+                        }else{
+                            $.post("CadTipoServlet",{
+                                nome:   $("#frmCadTipoTxtNome").val(),
+                                expreg: $("#frmCadTipoTxtExpReg").val()
+                            } , function(dados, msgstatus){
+                                if(msgstatus=="success"){
+                                    getTipos();
+                                    informa(dados, "Cadastro");
+                                    $("#divfrmCadTipo").dialog('close');
+                                }
+                            });
+                        
                         }
-                    });
+                    },"xml");
                 }
             }
         },
@@ -170,6 +191,7 @@ $(document).ready(function(){
             $("#frmCadTipoTxtNome").val("");
             $("#frmCadTipoTxtExpReg").val("");
         }
+
     });
     $("#frmCadTipoTxtExpReg").keyup(function(){
         //$("#frmCadTipoTxtTesteExpReg").filter(function(){

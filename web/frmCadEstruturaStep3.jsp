@@ -304,8 +304,6 @@
                 <input type="hidden" name="ds_estrutura" value="<%= request.getSession().getAttribute("descricaoEstrutura")%>">
                 <input type="hidden" name="cod_estrutura" value="<%= request.getSession().getAttribute("codEstrutura").toString().trim()%>">
 
-
-
                 <!--Conteudo-->
                 <fieldset style="background-color:#eeeeee;width:90%">
                     <legend class="legends">Escolha dos atributos:</legend>
@@ -409,7 +407,7 @@
 </table>
 <!--Fim do formulário-->
 
-<div style="display:block;" id="frmAlert">
+<div style="display:block;" id="alertPadrao">
 
 </div>
 
