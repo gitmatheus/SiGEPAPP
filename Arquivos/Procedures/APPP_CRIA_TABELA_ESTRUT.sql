@@ -24,6 +24,7 @@ create or replace procedure APPP_CRIA_TABELA_ESTRUT(pCD_ESTRUTURA IN NUMBER,
          AO.NM_COLUNA,
          AO.NM_ATRIBUTO_OBJ,
          AO.DS_ATRIBUTO_OBJ,
+         AE.CD_ATRIBUTO_OBJ,
          DECODE(T.FL_EXP_REG,'S','VARCHAR2',
                               'N',upper(T.DS_TIPO)) T_TYPE            
   from appp_tb_estrut_obj EO,
@@ -64,6 +65,7 @@ create or replace procedure APPP_CRIA_TABELA_ESTRUT(pCD_ESTRUTURA IN NUMBER,
   vSQL_UPD_WHE VARCHAR2(2000); -- SQL DA CONDICAO WHERE 
   
   vNOME_TABELA VARCHAR2(60);
+  vNOME_COLUNA APPP_TB_ATRIBUTO_OBJ.NM_COLUNA%TYPE;
   vMAXTAM      VARCHAR2(15);
   vTEMP        VARCHAR2(2);
   
@@ -127,24 +129,32 @@ begin
             vMAXTAM := '';
       END IF;
       
+     if vCURSOR.NM_COLUNA is null then
+        SELECT appp_fn_nm_col_atrib(vCURSOR.NM_ATRIBUTO_OBJ) INTO vNOME_COLUNA FROM DUAL;
+        update APPP_TB_ATRIBUTO_OBJ AO
+        SET AO.NM_COLUNA = vNOME_COLUNA
+        where AO.CD_ATRIBUTO_OBJ = vCURSOR.CD_ATRIBUTO_OBJ;
+        COMMIT;
+     end if; 
+      
      -- INSERE O ATRIBUTO NO COMANDO DINAMICO.
-      vSQL := vSQL || ', ' ||vCURSOR.NM_COLUNA|| ' '||vCURSOR.T_TYPE||vMAXTAM || ' NOT NULL ';   
+      vSQL := vSQL || ', ' ||NVL(vCURSOR.NM_COLUNA,vNOME_COLUNA)|| ' '||vCURSOR.T_TYPE||vMAXTAM || ' NOT NULL ';   
 
       -- CRIA LINHAS DA PROCEDURE DE INSERCAO
-      vSQL_INS_CAB := vSQL_INS_CAB || RPAD(' ',56,' ') || ',p' || vCURSOR.NM_COLUNA || ' IN '|| vCURSOR.T_TYPE || chr(10);
-      vSQL_INS_ATR := vSQL_INS_ATR || RPAD(' ',40,' ') ||', '  || vCURSOR.NM_COLUNA  || chr(10);    
-      vSQL_INS_VAL := vSQL_INS_VAL || RPAD(' ',40,' ') ||', p' || vCURSOR.NM_COLUNA  || chr(10); 
+      vSQL_INS_CAB := vSQL_INS_CAB || RPAD(' ',56,' ') || ',p' || NVL(vCURSOR.NM_COLUNA,vNOME_COLUNA) || ' IN '|| vCURSOR.T_TYPE || chr(10);
+      vSQL_INS_ATR := vSQL_INS_ATR || RPAD(' ',40,' ') ||', '  || NVL(vCURSOR.NM_COLUNA,vNOME_COLUNA)  || chr(10);    
+      vSQL_INS_VAL := vSQL_INS_VAL || RPAD(' ',40,' ') ||', p' || NVL(vCURSOR.NM_COLUNA,vNOME_COLUNA)  || chr(10); 
       
       -- CRIA LINHAS DA PROCEDURE DE SELECAO
-      vSQL_SEL_CAB := vSQL_SEL_CAB || RPAD(' ',56,' ') || ',p' || vCURSOR.NM_COLUNA || ' IN '|| vCURSOR.T_TYPE || chr(10);
-      vSQL_SEL_ATR := vSQL_SEL_ATR || RPAD(' ',11,' ') ||', '  || vCURSOR.NM_COLUNA  || chr(10);
-      vSQL_SEL_WHE := vSQL_SEL_WHE || chr(10) || '      AND (' || vCURSOR.NM_COLUNA || ' = ' || 'p' || vCURSOR.NM_COLUNA ||' OR '|| 'p' || vCURSOR.NM_COLUNA ||' IS NULL )';
+      vSQL_SEL_CAB := vSQL_SEL_CAB || RPAD(' ',56,' ') || ',p' || NVL(vCURSOR.NM_COLUNA,vNOME_COLUNA) || ' IN '|| vCURSOR.T_TYPE || chr(10);
+      vSQL_SEL_ATR := vSQL_SEL_ATR || RPAD(' ',11,' ') ||', '  || NVL(vCURSOR.NM_COLUNA,vNOME_COLUNA)  || chr(10);
+      vSQL_SEL_WHE := vSQL_SEL_WHE || chr(10) || '      AND (' || NVL(vCURSOR.NM_COLUNA,vNOME_COLUNA) || ' = ' || 'p' ||  NVL(vCURSOR.NM_COLUNA,vNOME_COLUNA)  ||' OR '|| 'p' || NVL(vCURSOR.NM_COLUNA,vNOME_COLUNA) ||' IS NULL )';
                                      
       -- CRIA LINHAS DA PROCEDURE DE UPDATE
-      vSQL_UPD_CAB := vSQL_UPD_CAB || RPAD(' ',56,' ') || ',p' || vCURSOR.NM_COLUNA || ' IN '|| vCURSOR.T_TYPE || chr(10);
-      vSQL_UPD_ATR := vSQL_UPD_ATR || ' IF p' || vCURSOR.NM_COLUNA ||' IS NOT NULL THEN '           || chr(10);
+      vSQL_UPD_CAB := vSQL_UPD_CAB || RPAD(' ',56,' ') || ',p' || NVL(vCURSOR.NM_COLUNA,vNOME_COLUNA) || ' IN '|| vCURSOR.T_TYPE || chr(10);
+      vSQL_UPD_ATR := vSQL_UPD_ATR || ' IF p' || NVL(vCURSOR.NM_COLUNA,vNOME_COLUNA) ||' IS NOT NULL THEN '           || chr(10);
       vSQL_UPD_ATR := vSQL_UPD_ATR || '    UPDATE ' || vNOME_TABELA                                 || chr(10);    
-      vSQL_UPD_ATR := vSQL_UPD_ATR || '    SET ' || vCURSOR.NM_COLUNA || ' = p' ||vCURSOR.NM_COLUNA || chr(10);
+      vSQL_UPD_ATR := vSQL_UPD_ATR || '    SET ' || NVL(vCURSOR.NM_COLUNA,vNOME_COLUNA) || ' = p' || NVL(vCURSOR.NM_COLUNA,vNOME_COLUNA) || chr(10);
       vSQL_UPD_ATR := vSQL_UPD_ATR || '' ||  vSQL_UPD_WHE      || ';'                        || chr(10);
       vSQL_UPD_ATR := vSQL_UPD_ATR || ' END IF; '|| chr(10)|| chr(10);
       
@@ -170,7 +180,7 @@ begin
      vSQL_INS := vSQL_INS || '  WHEN OTHERS THEN '                            || chr(10) ;
      vSQL_INS := vSQL_INS || '     rollback;     '                            || chr(10) ;  
      vSQL_INS := vSQL_INS || '      vResult := SQLCODE; -- Erro generico.'    || chr(10) ;  
-     vSQL_INS := vSQL_INS || 'END '|| 'APPP_INS' || SUBSTR(vNOME_TABELA,8,18) ||';'      ;  
+     vSQL_INS := vSQL_INS || 'END '|| 'APPP_INS' || SUBSTR(vNOME_TABELA,8,LENGTH(vNOME_TABELA)) ||';'      ;  
      
      
   /********************************************************************************************************************************
@@ -185,7 +195,7 @@ begin
      vSQL_SEL := vSQL_SEL_CAB || vSQL_SEL_ATR || vSQL_SEL_WHE || chr(10) ;
      
      -- FECHA A PROCEDURE DE SELECAO
-     vSQL_SEL := vSQL_SEL || 'END '|| 'APPP_SEL' || SUBSTR(vNOME_TABELA,8,18) ||';'; 
+     vSQL_SEL := vSQL_SEL || 'END '|| 'APPP_SEL' || SUBSTR(vNOME_TABELA,8,LENGTH(vNOME_TABELA)) ||';'; 
      
   /********************************************************************************************************************************
                         C O N C L U I   P R O C E D U R E    D E   D E L E T E
@@ -211,7 +221,7 @@ begin
      vSQL_DEL := vSQL_DEL         || '  END IF;'                            || chr(10);
     
     -- FECHA A PROCEDURE DE DELETE
-     vSQL_DEL := vSQL_DEL || 'END '|| 'APPP_DEL' || SUBSTR(vNOME_TABELA,8,18) ||';';    
+     vSQL_DEL := vSQL_DEL || 'END '|| 'APPP_DEL' || SUBSTR(vNOME_TABELA,8,LENGTH(vNOME_TABELA)) ||';';    
      
   /********************************************************************************************************************************
                        C O N C L U I   P R O C E D U R E   D E   U P D A T E
@@ -228,7 +238,7 @@ begin
      vSQL_UPD := vSQL_UPD || '  WHEN OTHERS THEN '                            || chr(10) ;
      vSQL_UPD := vSQL_UPD || '     rollback;     '                            || chr(10) ;  
      vSQL_UPD := vSQL_UPD || '     vResult := SQLCODE; -- Erro generico.'     || chr(10) ;  
-     vSQL_UPD := vSQL_UPD || 'END '|| 'APPP_UPD' || SUBSTR(vNOME_TABELA,8,18) ||';'      ; 
+     vSQL_UPD := vSQL_UPD || 'END '|| 'APPP_UPD' || SUBSTR(vNOME_TABELA,8,LENGTH(vNOME_TABELA)) ||';'      ; 
   
   
   /********************************************************************************************************************************
@@ -239,11 +249,11 @@ begin
      EXECUTE IMMEDIATE vSQL;
      vResult := 1; -- Tabela Criada
      
-     vSQL := 'ALTER TABLE ' || vNOME_TABELA || ' ADD CONSTRAINT PK_'|| vNOME_TABELA || ' primary key (CD_OBJETO)';
+     vSQL := 'ALTER TABLE ' || vNOME_TABELA || ' ADD CONSTRAINT PK_'|| SUBSTR(vNOME_TABELA,8,LENGTH(vNOME_TABELA)) || ' primary key (CD_OBJETO)';
      EXECUTE IMMEDIATE vSQL;
      vResult := 2; -- PK Criada
      
-     vSQL := 'ALTER TABLE ' || vNOME_TABELA || ' ADD CONSTRAINT FK_'|| vNOME_TABELA || ' foreign key (CD_OBJETO) references APPP_TB_OBJETO (CD_OBJETO)';
+     vSQL := 'ALTER TABLE ' || vNOME_TABELA || ' ADD CONSTRAINT FK_'|| SUBSTR(vNOME_TABELA,8,LENGTH(vNOME_TABELA)) || ' foreign key (CD_OBJETO) references APPP_TB_OBJETO (CD_OBJETO)';
      EXECUTE IMMEDIATE vSQL;  
      vResult := 3; -- FK Criada
      
