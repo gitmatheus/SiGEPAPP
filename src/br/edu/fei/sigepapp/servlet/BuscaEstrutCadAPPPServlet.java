@@ -56,6 +56,7 @@ public class BuscaEstrutCadAPPPServlet extends HttpServlet {
                 case 2:
                     for (Estrutura e : estruturas) {
                         if (!e.getTp_estrutura().equals("PA")) {
+                            writer.println("<estrutura>");
                             writer.println("<cod_est>" + e.getCd_estrutura() + "</cod_est>");
                             writer.println("<nm_est>" + e.getNm_estrutura() + "</nm_est>");
                             writer.println("<tp_est></tp_est>");
@@ -64,6 +65,7 @@ public class BuscaEstrutCadAPPPServlet extends HttpServlet {
                             } else if (e.getTp_estrutura().equals("PE")) {
                                 writer.println("<tp_est>Persona</tp_est>");
                             }
+                            writer.println("</estruturas>");
                             qtdAPPP++;
                         }
                     }
@@ -71,6 +73,7 @@ public class BuscaEstrutCadAPPPServlet extends HttpServlet {
                 case 3:
                     for (Estrutura e : estruturas) {
                         if (!e.getTp_estrutura().equals("AP")) {
+                            writer.println("<estrutura>");
                             writer.println("<cod_est>" + e.getCd_estrutura() + "</cod_est>");
                             writer.println("<nm_est>" + e.getNm_estrutura() + "</nm_est>");
                             writer.println("<tp_est></tp_est>");
@@ -79,6 +82,7 @@ public class BuscaEstrutCadAPPPServlet extends HttpServlet {
                             } else if (e.getTp_estrutura().equals("PE")) {
                                 writer.println("<tp_est>Persona</tp_est>");
                             }
+                            writer.println("</estrutura>");
                             qtdAPPP++;
                         }
                     }
@@ -86,6 +90,7 @@ public class BuscaEstrutCadAPPPServlet extends HttpServlet {
                 case 4:
                     for (Estrutura e : estruturas) {
                         if (!e.getTp_estrutura().equals("PE")) {
+                            writer.println("<estrutura>");
                             writer.println("<cod_est>" + e.getCd_estrutura() + "</cod_est>");
                             writer.println("<nm_est>" + e.getNm_estrutura() + "</nm_est>");
                             writer.println("<tp_est></tp_est>");
@@ -94,6 +99,7 @@ public class BuscaEstrutCadAPPPServlet extends HttpServlet {
                             } else if (e.getTp_estrutura().equals("PA")) {
                                 writer.println("<tp_est>Pattern</tp_est>");
                             }
+                            writer.println("</estrutura>");
                             qtdAPPP++;
                         }
                     }

@@ -19,27 +19,29 @@
         $.get("BuscaEstrutCadAPPPServlet",{
             tipos_requisitados:requisicao
         },function(xml){
-            
            $(xml).find("estrutura").each(function(indice, elemento){
                $(elemento).find("cd_estr").text();
                $(elemento).find("nm_estr").text();
                $(elemento).find("dc_estr").text();
            });
 
-            /*
             var qtd = parseInt($("qtd",xml).text());
             var strCombo = "";
             if (qtd != 0){
                 strCombo += "<select id='frmCadAPPPEstrutura' name='frmCadAPPPEstrutura' class='edit' style='width: auto;'>";
-                for (i = 0; i < qtd; i++){
+               /* for (i = 0; i < qtd; i++){
                     strCombo += "<option value='" + $(xml).find("cd_est").each(text()) + "'>[" + $("tp_est",xml).text() + "]\t" + $("nm_est",xml).text() + "</option>";
-                }
+                }*/
+                $(xml).find("estrutura").each(function(indice, elemento){
+                     strCombo += "<option value='" + $(elemento).find("cd_est").text()+ "'>[" +
+                     $(elemento).find("tp_est").text() + "]\t" +
+                     $(elemento).find("dc_estr").text() + "</option>";
+                });
                 strCombo +="</select>";
             }else{
                 alert("Ocorreu um erro!");
             }
             $("#SelectEstrutura").html(strCombo);
-            */
         });
     }
 </script>
