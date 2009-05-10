@@ -40,6 +40,7 @@ public class BuscaEstrutCadAPPPServlet extends HttpServlet {
             switch (Integer.parseInt(request.getParameter("tipos_requisitados"))) {
                 case 1:
                     for (Estrutura e : estruturas) {
+                        writer.println("<estrutura>");
                         writer.println("<cod_est>" + e.getCd_estrutura() + "</cod_est>");
                         writer.println("<nm_est>" + e.getNm_estrutura() + "</nm_est>");
                         writer.println("<tp_est></tp_est>");
@@ -50,6 +51,7 @@ public class BuscaEstrutCadAPPPServlet extends HttpServlet {
                         } else if (e.getTp_estrutura().equals("PE")) {
                             writer.println("<tp_est>Persona</tp_est>");
                         }
+                        writer.println("</estrutura>");
                         qtdAPPP++;
                     }
                     break;
