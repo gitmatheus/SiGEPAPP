@@ -19,6 +19,14 @@
         $.get("BuscaEstrutCadAPPPServlet",{
             tipos_requisitados:requisicao
         },function(xml){
+            
+           $(xml).find("estrutura").each(function(indice, elemento){
+               $(elemento).find("cd_estr").text();
+               $(elemento).find("nm_estr").text();
+               $(elemento).find("dc_estr").text();
+           });
+
+            /*
             var qtd = parseInt($("qtd",xml).text());
             var strCombo = "";
             if (qtd != 0){
@@ -31,6 +39,7 @@
                 alert("Ocorreu um erro!");
             }
             $("#SelectEstrutura").html(strCombo);
+            */
         });
     }
 </script>
