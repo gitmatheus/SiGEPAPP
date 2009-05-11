@@ -127,6 +127,7 @@ public List<AtributoCompleto> PreencheListAtribCompleta(ResultSet rs) throws SQL
         camposDaTabela.add("NM_ATRIBUTO_OBJ");
         camposDaTabela.add("NM_TIPO");
         camposDaTabela.add("T_TYPE");
+        camposDaTabela.add("NM_COLUNA");
         
         while (rs.next()) {
             // Cria um objeto do tipo Atributo
@@ -163,7 +164,10 @@ public List<AtributoCompleto> PreencheListAtribCompleta(ResultSet rs) throws SQL
                         break;
                     case 7:
                         atributoNovo.setT_type(rs.getString(i));
-                        break;    
+                        break;
+                    case 8:
+                        atributoNovo.setNm_coluna(rs.getString(i));
+                        break;
                 }
             }
             //Adiciona o objeto a lista.

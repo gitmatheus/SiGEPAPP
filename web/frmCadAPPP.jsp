@@ -88,6 +88,8 @@
             var cd = $("#frmCadAPPPEstrutura").val();
             if (cd != "" && cd != null){
                 buscaAtributos(cd);
+            }else{
+                $("#corpo").html("");
             }
         });
     }
@@ -96,28 +98,48 @@
 
         $.post("GetAtribDeEstrutServlet", {codestr:codigo}, function(xml){
             $("#corpo").html("<img src='images/aguardep.gif'/>&nbsp;<font size='x-small'>carregando...</font>");
-           /* var strHtml = "";
+            var strHtml = "";
+            var nome = "";
             strHtml += "<table border='0' cellpadding='0' cellspacing='0' width='100%;'>";
             $(xml).find("atributo").each(function(indice,elemento){
                 strHtml += "<tr><td width='30%' align='right'>";
-                strHtml += "<font class='texto'>" + $(elemento).find("nome").text() + ":</font>";
+                strHtml += "<font class='texto'>" + $(elemento).find("nome").text() + ":&nbsp;&nbsp;</font>";
                 switch($(elemento).find("oracletype").text()){
+                    case "VARCHAR":
                     case "VARCHAR2":
+                        if($(elemento).find("coluna").text() != "" && $(elemento).find("coluna").text() != "null"){
+                            nome = $(elemento).find("coluna").text();
+                        }else{
+                            nome = $(elemento).find("nome").text();
+                        }
                         strHtml += "</td><td width='70%' align='left' valign='middle'>";
-                        strHtml += "<textarea name='" + $(elemento).find("nome").text() +
-                                   "' id='" + $(elemento).find("nome").text() + "' class='edit'></textarea>";
+                        strHtml += "<textarea name='" + nome +
+                            "' id='" + nome + "' class='edit' cols='60'></textarea>";
                         break;
                     case "NUMBER":
-                        strHtml += "<br>numero";
+                        if($(elemento).find("coluna").text() != "" && $(elemento).find("coluna").text() != "null"){
+                            nome = $(elemento).find("coluna").text();
+                        }else{
+                            nome = $(elemento).find("nome").text();
+                        }
+                        strHtml += "</td><td width='70%' align='left' valign='middle'>";
+                        strHtml += "<input id='" + nome + "' name='" + nome + "' type='text' class='edit' />";
                         break;
                     case "DATE":
-                        strHtml += "<br>data";
+                        if($(elemento).find("coluna").text() != "" && $(elemento).find("coluna").text() != "null"){
+                            nome = $(elemento).find("coluna").text();
+                        }else{
+                            nome = $(elemento).find("nome").text();
+                        }
+                        strHtml += "</td><td width='70%' align='left' valign='middle'>";
+                        strHtml += "<input id='" + nome + "' name='" + nome + "' type='text' class='edit' />";
                         break;
                 }
                 strHtml += "</td></tr>";
+
             });
             strHtml += "</table>";
-            $("#corpo").html(strHtml);*/
+            $("#corpo").html(strHtml);
         });
 
     }
@@ -180,6 +202,7 @@
         </tr>
         <tr>
             <td align="center" colspan="2">
+                <br />
                 <div id="corpo"></div>
             </td>
         </tr>

@@ -13,6 +13,15 @@ public class AtributoCompleto extends Atributo {
     private String t_type;
     private String exp_reg;
     private String fl_exp_reg;
+    private String nm_coluna;
+
+    public String getNm_coluna() {
+        return nm_coluna;
+    }
+
+    public void setNm_coluna(String nm_coluna) {
+        this.nm_coluna = nm_coluna;
+    }
 
     @Override
     public long getCd_atributo_obj() {
