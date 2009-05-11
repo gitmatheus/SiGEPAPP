@@ -270,8 +270,6 @@
 
         },"text");
 
-
-
         $("a").click(function(){
             $.post("writeSessionServlet", {tabAtributos: $("#tabAtributos").html() }, null);
             //alert($("#tabAtributos").parent().html());

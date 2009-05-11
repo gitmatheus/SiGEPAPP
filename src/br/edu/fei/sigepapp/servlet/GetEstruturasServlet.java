@@ -33,7 +33,6 @@ public class GetEstruturasServlet extends HttpServlet {
         PrintWriter out = response.getWriter();
 
         response.setContentType("text/xml;charset=ISO-8859-1");
-        response.setHeader("charset", "ISO-8859-1");
 
         try {
 

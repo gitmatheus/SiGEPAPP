@@ -12,7 +12,7 @@
 
     function valida_desc(){
         //Verifica se o nome da estrutura é vazio
-var descricao=FCKeditorAPI.GetInstance('frmCadEstrutDesc').GetXHTML();
+        var descricao=FCKeditorAPI.GetInstance('frmCadEstrutDesc').GetXHTML();
         if($.trim(descricao)!=""){
 
             $("#divMsgCadEstrutDesc").hide();
@@ -89,6 +89,9 @@ var descricao=FCKeditorAPI.GetInstance('frmCadEstrutDesc').GetXHTML();
 <!--Inicio do formulário-->
 <form action="#">
     <table border="0" cellpadding="0" cellspacing="0" width="100%" align="right" class="formulario">
+        <tr>
+            <td align="center" class="titulo" style="height: 25px; vertical-align: middle;"> <font class="titulo">..:: Cadastro&nbsp;de&nbsp;Estruturas APPP ::..</font> </td>
+        </tr>
         <!--Menu do Wizard-->
         <tr>
             <td id="titulo" style="padding-left:10px">

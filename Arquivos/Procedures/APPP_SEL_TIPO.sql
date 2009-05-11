@@ -30,8 +30,8 @@ begin
               DS_TIPO    , 
               FL_EXP_REG     
        FROM APPP_TB_TIPO T
-       WHERE (T.NM_TIPO LIKE ('%'|| pNM_TIPO || '%') OR pNM_TIPO    IS NULL)
-       AND   (T.DS_TIPO LIKE ('%'|| pDS_TIPO || '%') OR pDS_TIPO    IS NULL)
+       WHERE (lower(T.NM_TIPO) LIKE ('%'|| lower(pNM_TIPO) || '%') OR pNM_TIPO    IS NULL)
+       AND   (lower(T.DS_TIPO) LIKE ('%'|| lower(pDS_TIPO) || '%') OR pDS_TIPO    IS NULL)
        AND   (T.FL_EXP_REG = pFL_EXP_REG             OR pFL_EXP_REG IS NULL);
        
    END IF;                

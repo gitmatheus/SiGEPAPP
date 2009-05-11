@@ -147,7 +147,7 @@ public class Atrib_EstruturaDAO {
     public boolean APPP_INS_ATRIB_ESTRUTURA(Atrib_Estrutura atrib_EstruturaInserir) {
         CallableStatement cstmt = null;
         ResultSet rs = null;
-        long vResult=0;
+        long vResult = 0;
 
         try {
             if (atrib_EstruturaInserir.getCd_atributo_obj() == 0 || atrib_EstruturaInserir.getCd_estrutura() == 0) {
@@ -162,11 +162,11 @@ public class Atrib_EstruturaDAO {
 
                 cstmt.execute();
 
-                vResult=cstmt.getLong(3);
+                vResult = cstmt.getLong(3);
 
-                if (vResult==1){
+                if (vResult == 1) {
                     return true;
-                }else{
+                } else {
                     return false;
                 }
 
@@ -177,6 +177,27 @@ public class Atrib_EstruturaDAO {
 
             return false;
 
+        }
+    }
+
+    public long APPP_CRIA_TABELA_ESTRUT(long CodEstrut) {
+
+        CallableStatement cstmt = null;
+        ResultSet rs = null;
+        long vResult = 0;
+
+        try {
+                cstmt = conn.prepareCall("begin APPP_CRIA_TABELA_ESTRUT(?,?); end;");
+                cstmt.setLong(1, CodEstrut);
+                cstmt.registerOutParameter(2, OracleTypes.NUMBER);
+                cstmt.execute();
+                vResult = cstmt.getLong(2);
+
+                return vResult;
+        } catch (SQLException ex) {
+            //Grava log com o erro que ocorreu durante a execução do comando SQL
+            GravarLog.gravaErro(Atributo.class.getName() + ": erro na criação da tabela de estrutura no banco: " + ex.getSQLState());
+                return vResult;
         }
     }
 
