@@ -67,7 +67,7 @@ public class GetAtribDeEstrutServlet extends HttpServlet {
                 out.println("<oracletype>" + atributo.getT_type().trim() + "</oracletype>");
                 out.println("<flagexpreg>" + atributo.getFl_exp_reg().trim() + "</flagexpreg>");
                 out.println("<expreg>" + atributo.getFl_exp_reg() + "</expreg>");
-                out.println("<coluna>");
+                out.println("<coluna></coluna>");
                 out.println("</atributo>");
             }
 
