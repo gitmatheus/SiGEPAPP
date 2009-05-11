@@ -8,12 +8,8 @@
 <script type="text/javascript" language="javascript" src="js/fckeditor/fckeditor.js"></script>
 <script type="text/javascript" language="javascript">
     $(document).ready(function(){
-        $("#frmCadAPPPEstrutura").change(function(){
-            var cd = $("#frmCadAPPPEstrutura").val();
-            alert(cd);
-            if (cd != ""){
-                buscaAtributos(cd);
-            }
+        $.ajaxSetup({
+            async: false
         });
 
         var frm = document.frmCadAPPP;
@@ -31,11 +27,10 @@
             var req = verificaChkBox();
             selecionaTpEstrutura(req);
         });
-        
+
         frm.frmCadAPPPChkPattern.checked = true;
         frm.frmCadAPPPChkAntiPattern.checked = true;
         frm.frmCadAPPPChkPersona.checked = true;
-
     });
 
     function verificaChkBox(){
@@ -75,7 +70,7 @@
                 strCombo += "<option value=''>Escolha a estrutura desejada...</option>";
                 $(xml).find("estrutura").each(function(indice /* indice de interacao utilizado pelo each() */,
                 elemento /* a estrutura atual do each */){
-                    strCombo += "<option value='" + $(elemento).find("cd_est").text()+ "'>[" +
+                    strCombo += "<option value='" + $(elemento).find("cod_est").text()+ "'>[" +
                         $(elemento).find("tp_est").text() + "]\t" +
                         $(elemento).find("nm_est").text() + "</option>";
                 });
@@ -88,24 +83,46 @@
             }
             $("#SelectEstrutura").html(strCombo);
         });
+
+        $("#frmCadAPPPEstrutura").change(function(){
+            var cd = $("#frmCadAPPPEstrutura").val();
+            if (cd != "" && cd != null){
+                buscaAtributos(cd);
+            }
+        });
     }
 
     function buscaAtributos(codigo){
 
-        $.post("GetAtribDeEstrutServlet", {codigo:codigo}, function(xml){
-            var strHtml = "";
+        $.post("GetAtribDeEstrutServlet", {codestr:codigo}, function(xml){
+            $("#corpo").html("<img src='images/aguardep.gif'/>&nbsp;<font size='x-small'>carregando...</font>");
+           /* var strHtml = "";
+            strHtml += "<table border='0' cellpadding='0' cellspacing='0' width='100%;'>";
             $(xml).find("atributo").each(function(indice,elemento){
-                strHtml = indice + $(elemento).find("nome").text() + $(elemento).find("nmtipo").text() +
-                    $(elemento).find("oracletype").text();
-                alert(strHtml);
+                strHtml += "<tr><td width='30%' align='right'>";
+                strHtml += "<font class='texto'>" + $(elemento).find("nome").text() + ":</font>";
+                switch($(elemento).find("oracletype").text()){
+                    case "VARCHAR2":
+                        strHtml += "</td><td width='70%' align='left' valign='middle'>";
+                        strHtml += "<textarea name='" + $(elemento).find("nome").text() +
+                                   "' id='" + $(elemento).find("nome").text() + "' class='edit'></textarea>";
+                        break;
+                    case "NUMBER":
+                        strHtml += "<br>numero";
+                        break;
+                    case "DATE":
+                        strHtml += "<br>data";
+                        break;
+                }
+                strHtml += "</td></tr>";
             });
+            strHtml += "</table>";
+            $("#corpo").html(strHtml);*/
         });
 
     }
 
     $(function(){
-        
-
         $("#alertaSelectEstrut").dialog({
             autoOpen: false,
             width: 'auto',
@@ -116,6 +133,9 @@
                 }
             }
         });
+
+
+
     });
 </script>
 <form name="frmCadAPPP" method="post">
@@ -156,6 +176,11 @@
                         </td>
                     </tr>
                 </table>
+            </td>
+        </tr>
+        <tr>
+            <td align="center" colspan="2">
+                <div id="corpo"></div>
             </td>
         </tr>
     </table>
