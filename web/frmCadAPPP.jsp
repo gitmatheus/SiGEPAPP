@@ -7,6 +7,11 @@
 <script type="text/javascript" language="javascript" src="js/i18n/ui.datepicker-pt-BR.js"></script>
 <script type="text/javascript" language="javascript" src="js/fckeditor/fckeditor.js"></script>
 <script type="text/javascript" language="javascript">
+    var cod_estrutura, pos, tam;
+    var valores = new Array();
+    var atribtemp = new Array();
+    var atributos = new Array();
+
     $(document).ready(function(){
         $.ajaxSetup({
             async: false
@@ -18,16 +23,50 @@
         $("#frmCadAPPPChkPattern").click(function(){
             var req = verificaChkBox();
             selecionaTpEstrutura(req);
+            $("#corpo").html("");
+            $("#botoes").hide();
+            atributos = new Array();
+            valores = new Array();
+            atribtemp = new Array();
         });
         $("#frmCadAPPPChkAntiPattern").click(function(){
             var req = verificaChkBox();
             selecionaTpEstrutura(req);
+            $("#corpo").html("");
+            $("#botoes").hide();
+            atributos = new Array();
+            valores = new Array();
+            atribtemp = new Array();
         });
         $("#frmCadAPPPChkPersona").click(function(){
             var req = verificaChkBox();
             selecionaTpEstrutura(req);
+            $("#corpo").html("");
+            $("#botoes").hide();
+            atributos = new Array();
+            valores = new Array();
+            atribtemp = new Array();
         });
 
+        $("#botoes").hide();
+
+        $("#frmCadAPPPBtnCadastrar").click(function(){
+            switch(parseInt(cod_estrutura)){
+                case 1:
+                    cadastraPattern();
+                    break;
+                case 2:
+                    cadastraAntiPattern();
+                    break;
+                case 3:
+                    cadastraPersona();
+                    break;
+                default:
+                    cadastraObjeto();
+                    break;
+            }
+        });
+        
         frm.frmCadAPPPChkPattern.checked = true;
         frm.frmCadAPPPChkAntiPattern.checked = true;
         frm.frmCadAPPPChkPersona.checked = true;
@@ -86,10 +125,16 @@
 
         $("#frmCadAPPPEstrutura").change(function(){
             var cd = $("#frmCadAPPPEstrutura").val();
+            cod_estrutura = $("#frmCadAPPPEstrutura").val();
+            atributos = new Array();
+            valores = new Array();
+            atribtemp = new Array();
+            
             if (cd != "" && cd != null){
                 buscaAtributos(cd);
             }else{
                 $("#corpo").html("");
+                $("#botoes").hide();
             }
         });
     }
@@ -102,35 +147,27 @@
             var nome = "";
             strHtml += "<table border='0' cellpadding='0' cellspacing='0' width='100%;'>";
             $(xml).find("atributo").each(function(indice,elemento){
+                atributos[indice] = $(elemento).find("oracletype").text();
                 strHtml += "<tr><td width='30%' align='right'>";
                 strHtml += "<font class='texto'>" + $(elemento).find("nome").text() + ":&nbsp;&nbsp;</font>";
+                if($(elemento).find("coluna").text() != "" && $(elemento).find("coluna").text() != "null"){
+                    nome = $(elemento).find("coluna").text();
+                }else{
+                    nome = $(elemento).find("nome").text();
+                }
+                atribtemp[indice] = nome;
                 switch($(elemento).find("oracletype").text()){
                     case "VARCHAR":
                     case "VARCHAR2":
-                        if($(elemento).find("coluna").text() != "" && $(elemento).find("coluna").text() != "null"){
-                            nome = $(elemento).find("coluna").text();
-                        }else{
-                            nome = $(elemento).find("nome").text();
-                        }
                         strHtml += "</td><td width='70%' align='left' valign='middle'>";
                         strHtml += "<textarea name='" + nome +
                             "' id='" + nome + "' class='edit' cols='60'></textarea>";
                         break;
                     case "NUMBER":
-                        if($(elemento).find("coluna").text() != "" && $(elemento).find("coluna").text() != "null"){
-                            nome = $(elemento).find("coluna").text();
-                        }else{
-                            nome = $(elemento).find("nome").text();
-                        }
                         strHtml += "</td><td width='70%' align='left' valign='middle'>";
                         strHtml += "<input id='" + nome + "' name='" + nome + "' type='text' class='edit' />";
                         break;
                     case "DATE":
-                        if($(elemento).find("coluna").text() != "" && $(elemento).find("coluna").text() != "null"){
-                            nome = $(elemento).find("coluna").text();
-                        }else{
-                            nome = $(elemento).find("nome").text();
-                        }
                         strHtml += "</td><td width='70%' align='left' valign='middle'>";
                         strHtml += "<input id='" + nome + "' name='" + nome + "' type='text' class='edit' />";
                         break;
@@ -140,6 +177,48 @@
             });
             strHtml += "</table>";
             $("#corpo").html(strHtml);
+            $("#botoes").show();
+        });
+
+    }
+
+    function cadastraPattern(){
+        for(i = 0; i < atribtemp.length; i++){
+            valores[i] = $("#" + atribtemp[i]).val();
+        }
+        $.post("CadPatternServlet", {valores:valores, estrutura:cod_estrutura}, function(xml){
+            if($("sucesso",xml).text() == "1")
+                alert("funcionou");
+        });
+
+    }
+
+    function cadastraAntiPattern(){
+        for(i = 0; i < atribtemp.length; i++){
+            valores[i] = $("#" + atribtemp[i]).val();
+        }
+        $.post("CadPatternServlet", {valores:valores}, function(xml){
+
+        });
+
+    }
+
+    function cadastraPersonas(){
+        for(i = 0; i < atribtemp.length; i++){
+            valores[i] = $("#" + atribtemp[i]).val();
+        }
+        $.post("CadPatternServlet", {valores:valores}, function(xml){
+
+        });
+
+    }
+
+    function cadastraObjeto(){
+        for(i = 0; i < atribtemp.length; i++){
+            valores[i] = $("#" + atribtemp[i]).val();
+        }
+        $.post("CadPatternServlet", {valores:valores}, function(xml){
+
         });
 
     }
@@ -204,6 +283,16 @@
             <td align="center" colspan="2">
                 <br />
                 <div id="corpo"></div>
+            </td>
+        </tr>
+        <tr>
+            <td align="center" colspan="2">
+                <br />
+                <div id="botoes">
+                    <input type="button" name="frmCadAPPPBtnCadastrar" id="frmCadAPPPBtnCadastrar" value="&nbsp;Cadastrar&nbsp;" class="botao" title="Enviar cadastro de APPP"/>
+                    &nbsp;&nbsp;
+                    <input type="button" name="frmCadAPPPBtnCancelar" id="frmCadAPPPBtnCancelar" value="&nbsp;Cancelar&nbsp;" class="botao" title="Cancelar cadastro de APPP"/>
+                </div>
             </td>
         </tr>
     </table>
