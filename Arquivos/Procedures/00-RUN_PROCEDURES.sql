@@ -118,6 +118,7 @@ spool /SiGEPAPP/Arquivos/Procedures/LogProcedures.log
 @ /SiGEPAPP/Arquivos/Procedures/APPP_DEL_AVAL_OBJ_USER.sql
 @ /SiGEPAPP/Arquivos/Procedures/APPP_CREATE_PATTERN.sql
 @ /SiGEPAPP/Arquivos/Procedures/09-APPP_INS_PATTERNS.sql
+@ /SiGEPAPP/Arquivos/Procedures/APPP_SEL_APPP_GEN.sql
 
 SPOOL OFF
 

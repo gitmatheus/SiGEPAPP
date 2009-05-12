@@ -2,7 +2,7 @@
 * Project Name       : SiGEPAPP
 * APPP_SEL_APPP_GEN  : Procedure para SELECIONAR dados de PATTERNS OU ANTI-PATTERNS OU PERSONAS GENERICAS
 * Author             : WeeDo 
-* History            : 11/05/2009 - Matheus Gonçalves
+* History            : 11/05/2009 - Matheus Goncalves
 ***********************************************************************************************************************/
 create or replace procedure APPP_SEL_APPP_GEN(pCD_OBJETO   IN NUMBER  , 
                                               p_cursor OUT SYS_REFCURSOR   ) is
