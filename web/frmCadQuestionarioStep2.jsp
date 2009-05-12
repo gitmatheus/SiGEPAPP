@@ -34,7 +34,6 @@
                             </td>
                         </tr>
                         <tr>
-                        <tr>
                             <td width="35%" align="left">
                                 <div class="labels">Cadastrar nova pergunta</div>
                             </td>
@@ -65,17 +64,6 @@
         <td>
             <table align="center" border="0" width="92%" style="background-color:#ffffff;">
                 <tr>
-                    <!--Botao Retornar Passo-->
-                    <td align="left" style="padding-top:10px;padding-bottom:10px">
-                        <div align="left" style="width:100%">
-                            <a id="linkRetorna" class="navProximo ui-widget-header" href="frmCadQuestionarioStep1.jsp">
-                                <span>
-                                    <span class="ui-icon ui-icon-circle-arrow-w" style="display:inline-block;vertical-align:middle"></span>
-                                    Retornar
-                                </span>
-                            </a>
-                        </div>
-                    </td>
                     <!--Botao Avançar Passo-->
                     <td align="right" style="padding-top:10px;padding-bottom:10px">
                         <div align="right" style="width:100%">

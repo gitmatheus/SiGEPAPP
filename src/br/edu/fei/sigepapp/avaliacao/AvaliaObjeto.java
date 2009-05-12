@@ -141,7 +141,7 @@ public class AvaliaObjeto {
      * @param nomeUsuario
      * @param emailUsuario
      */
-    public void enviaEmail(String nomeUsuario, String emailUsuario, String nomeObj) throws EmailException{
+     public void enviaEmail(String nomeUsuario, String emailUsuario, String nomeObj) throws EmailException{
         try{
             SimpleEmail email = new SimpleEmail();
             email.setHostName("smtp.gmail.com"); // o servidor SMTP para envio do e-mail

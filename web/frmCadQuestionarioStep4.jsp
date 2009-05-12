@@ -26,21 +26,18 @@
             <fieldset title="Perguntas" style="width:90%">
                 <legend class="legend">Confirma&ccedil;&atilde;o</legend>
                     Cadastro do Question&aacute;rio realizado com sucesso !!!
-                <table width="100%">
-                </table>
-
             </fieldset>
         </td>
     </tr>
 
     <!--Botao de Proximo-->
     <tr>
-        <td align="center" style="padding-top:10px;">
-            <div align="left" style="width:93%">
-                <a id="linkRetorna" class="navProximo ui-widget-header" href="frmCadQuestionarioStep3.jsp">
+        <td align="center" style="padding-top:20px;">
+            <div align="center" style="width:93%">
+                <a id="linkRetorna" class="navProximo ui-widget-header" href="index.jsp">
                     <span>
-                        <span class="ui-icon ui-icon-circle-arrow-w" style="display:inline-block;vertical-align:middle"></span>
-                        Retornar
+                        <span style="display:inline-block;vertical-align:middle"></span>
+                        Retornar a Página Inicial
                     </span>
                 </a>
             </div>
