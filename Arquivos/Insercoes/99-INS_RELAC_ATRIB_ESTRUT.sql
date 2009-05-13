@@ -29,31 +29,31 @@ COMMIT;
 
 -- RECRIA DADOS DE ATRIBUTOS
 Insert into APPP_TB_ATRIBUTO_OBJ (CD_TIPO,DS_ATRIBUTO_OBJ,FL_ATRIB_RELAC,NM_ATRIBUTO_OBJ,NM_COLUNA) 
-      values (1,'Nome do documento','N','Nome',null);
+      values (1,'Nome do documento','N','Nome','NM_NOME');
 
 Insert into APPP_TB_ATRIBUTO_OBJ (CD_TIPO,DS_ATRIBUTO_OBJ,FL_ATRIB_RELAC,NM_ATRIBUTO_OBJ,NM_COLUNA) 
-      values (1,'Onde o problema é encontrado','N','Contexto',null);
+      values (1,'Onde o problema é encontrado','N','Contexto','DS_CONTEXTO');
 
 Insert into APPP_TB_ATRIBUTO_OBJ (CD_TIPO,DS_ATRIBUTO_OBJ,FL_ATRIB_RELAC,NM_ATRIBUTO_OBJ,NM_COLUNA) 
-      values (1,'Descrição do problema','N','Problema',null);
+      values (1,'Descrição do problema','N','Problema','DS_PROBLEMA');
 
 Insert into APPP_TB_ATRIBUTO_OBJ (CD_TIPO,DS_ATRIBUTO_OBJ,FL_ATRIB_RELAC,NM_ATRIBUTO_OBJ,NM_COLUNA) 
-      values (1,'Descrição da solução','S','Solução',null);
+      values (1,'Descrição da solução','S','Solução','DS_SOLUCAO');
 
 Insert into APPP_TB_ATRIBUTO_OBJ (CD_TIPO,DS_ATRIBUTO_OBJ,FL_ATRIB_RELAC,NM_ATRIBUTO_OBJ,NM_COLUNA) 
-      values (1,'Descrição de Barreiras','S','Barreiras',null);
+      values (1,'Descrição de Barreiras','S','Barreiras','DS_BARREIRAS');
 
 Insert into APPP_TB_ATRIBUTO_OBJ (CD_TIPO,DS_ATRIBUTO_OBJ,FL_ATRIB_RELAC,NM_ATRIBUTO_OBJ,NM_COLUNA) 
-      values (1,'Sintomas para o problema','N','Sintomas',null);
+      values (1,'Sintomas para o problema','N','Sintomas','DS_SINTOMAS');
 
 Insert into APPP_TB_ATRIBUTO_OBJ (CD_TIPO,DS_ATRIBUTO_OBJ,FL_ATRIB_RELAC,NM_ATRIBUTO_OBJ,NM_COLUNA) 
-      values (1,'Consequencias do problema','S','Consequencias',null);
+      values (1,'Consequencias do problema','S','Consequencias','DS_CONSEQUENCIAS');
 
 Insert into APPP_TB_ATRIBUTO_OBJ (CD_TIPO,DS_ATRIBUTO_OBJ,FL_ATRIB_RELAC,NM_ATRIBUTO_OBJ,NM_COLUNA) 
-      values (1,'Recomendações para o problema','S','Recomendações',null);
+      values (1,'Recomendações para o problema','S','Recomendações','DS_RECOMENDACOES');
 
 Insert into APPP_TB_ATRIBUTO_OBJ (CD_TIPO,DS_ATRIBUTO_OBJ,FL_ATRIB_RELAC,NM_ATRIBUTO_OBJ,NM_COLUNA) 
-      values (1,'Descrição da Persona','S','Descrição',null);
+      values (1,'Descrição da Persona','S','Descrição','DS_DESCRICAO');
 
 insert into APPP_TB_ATRIBUTO_OBJ(NM_ATRIBUTO_OBJ,DS_ATRIBUTO_OBJ                      ,CD_TIPO,FL_ATRIB_RELAC) 
                           VALUES('Nome Usuário' ,'Nome completo do usuário do Pattern',1      ,'S'); 

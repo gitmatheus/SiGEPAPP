@@ -1,9 +1,9 @@
 /**********************************************************************************************************************
 * Project Name                  : SiGEPAPP
-* 08-INS_TB_ATRIB_ESTRUTURA.SQL : Script para criação da tabela APPP_TB_ATRIB_ESTRUTURA
+* 08-INS_TB_ATRIB_ESTRUTURA.SQL : Script para criacao da tabela APPP_TB_ATRIB_ESTRUTURA
 * Author                        : WeeDo 
 * Dependencias                  : Depende que os inserts de Estrutura e Atributo tenha sido executados
-* History                       : 24/03/2009 - Matheus Gonçalves - Versão Inicial
+* History                       : 24/03/2009 - Matheus Goncalves - Versao Inicial
 ***********************************************************************************************************************/
 
 INSERT INTO APPP_TB_ATRIB_ESTRUTURA VALUES (1,1); -- PATTERN X NOME
@@ -25,3 +25,4 @@ INSERT INTO APPP_TB_ATRIB_ESTRUTURA VALUES (3,10); -- PERSONA X FOTO
 
 commit;
 
+/
