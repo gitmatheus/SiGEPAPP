@@ -34,11 +34,9 @@ a<%@page import="br.edu.fei.sigepapp.bancodedados.dao.*,br.edu.fei.sigepapp.banc
     <!--Menu de Navegacao do Wizard-->
     <tr>
         <td id="titulo" style="padding-left:10px">
-            <b>Passos:</b>
-            <a href="frmCadQuestionarioStep1.jsp">Dados do Question&aacute;rio</a>&nbsp;>&nbsp;
-            <a href="frmCadQuestionarioStep2.jsp">Cadastro de Perguntas</a>&nbsp;>&nbsp;
-            <a href="#">Cadastro de Respostas</a>&nbsp;>&nbsp;
-            Confirma&ccedil;&atilde;o
+            <a href="frmCadQuestionarioStep2.jsp">Passo 1: Cadastro de Perguntas</a>&nbsp;>&nbsp;
+            <a href="#">Passo 2: Cadastro de Respostas</a>&nbsp;>&nbsp;
+            Passo 3: Confirma&ccedil;&atilde;o
         </td>
     </tr>
 

@@ -36,8 +36,7 @@
     <tr>
         <td id="titulo" style="padding-left:10px">
             <b>Passos:</b>
-            <a href="#">Dados do Question&aacute;rio</a>&nbsp;>&nbsp;
-            Cadastro de Perguntas&nbsp;>&nbsp;
+            <a href="#">Cadastro de Perguntas</a>&nbsp;>&nbsp;
             Cadastro de Respostas&nbsp;>&nbsp;
             Confirma&ccedil;&atilde;o
         </td>

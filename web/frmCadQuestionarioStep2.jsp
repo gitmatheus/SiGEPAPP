@@ -17,11 +17,9 @@
     <!--Menu de Navegacao do Wizard-->
     <tr>
         <td id="titulo" style="padding-left:10px">
-            <b>Passos:</b>
-            <a href="frmCadQuestionarioStep1.jsp">Dados do Question&aacute;rio</a>&nbsp;>&nbsp;
-            <a href="#">Cadastro de Perguntas</a>&nbsp;>&nbsp;
-            Cadastro de Respostas&nbsp;>&nbsp;
-            Confirma&ccedil;&atilde;o
+            <a href="#">Passo 1: Cadastro de Perguntas</a>&nbsp;>&nbsp;
+            Passo 2: Cadastro de Respostas&nbsp;>&nbsp;
+            Passo 3: Confirma&ccedil;&atilde;o
         </td>
     </tr>
 

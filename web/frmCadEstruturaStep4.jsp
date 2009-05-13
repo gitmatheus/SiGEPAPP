@@ -40,7 +40,7 @@
 
             atrib_estrut.fechaConexao();
             sucesso = true;
-            
+
             session.setAttribute("nomeEstrutura", null);
             session.setAttribute("inicioEstrutura", null);
             session.setAttribute("codEstrutura", null);
@@ -74,18 +74,33 @@
 <!--Inicio do formulário-->
 <form action="#">
     <table border="0" cellpadding="0" cellspacing="0" width="100%" align="right" class="formulario">
+
+        <tr>
+            <td align="center" class="titulo" style="height: 25px; vertical-align: middle;"> <font class="titulo">..:: Cadastro&nbsp;de&nbsp;Estruturas APPP ::..</font> </td>
+        </tr>
+
         <!--Menu do Wizard-->
         <tr>
             <td id="titulo" style="padding-left:10px">
-                <a href="#">Passo 1: Dados da estrutura</a> &nbsp;>&nbsp;Passo 2: Tipo de estrutura&nbsp;>&nbsp;Passo 3: Definição dos Atributos
+                <a href="frmCadEstruturaStep1.jsp">Passo 1: Dados da estrutura</a>&nbsp;>&nbsp;
+                <a href="frmCadEstruturaStep1.jsp">Passo 2: Tipo de estrutura</a>&nbsp;>&nbsp;
+                <a href="#">Passo 3: Definição dos Atributos</a>
             </td>
         </tr>
         <!--Fim do menu do Wizard-->
+
         <tr>
             <%if (sucesso) {%>
             <td align="center" style="padding-top:30px;">
                 <h1>Cadastro de estrutura concluído com sucesso</h1>
-                <h2><a href="/sigepapp">P&aacute;gina principal</a></h2>
+                <div align="center" style="width:93%">
+                    <a id="linkRetorna" class="navProximo ui-widget-header" href="index.jsp">
+                        <span>
+                            <span style="display:inline-block;vertical-align:middle"></span>
+                            Retornar a Página Inicial
+                        </span>
+                    </a>
+                </div>
             </td>
             <%} else {%>
             <td align="center" style="padding-top:30px;">

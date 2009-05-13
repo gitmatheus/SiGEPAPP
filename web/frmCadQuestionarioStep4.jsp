@@ -16,25 +16,20 @@
     <!--Menu de Navegacao do Wizard-->
     <tr>
         <td id="titulo" style="padding-left:10px">
-            <b>Passos:</b>
-            <a href="frmCadQuestionarioStep1.jsp">Dados do Question&aacute;rio</a>&nbsp;>&nbsp;
-            <a href="frmCadQuestionarioStep2.jsp">Cadastro de Perguntas</a>&nbsp;>&nbsp;
-            <a href="frmCadQuestionarioStep3.jsp">Cadastro de Respostas</a>&nbsp;>&nbsp;
-            <a href="#">Confirma&ccedil;&atilde;o</a>
+            <a href="frmCadQuestionarioStep2.jsp">Passo 1: Cadastro de Perguntas</a>&nbsp;>&nbsp;
+            <a href="frmCadQuestionarioStep3.jsp">Passo 2: Cadastro de Respostas</a>&nbsp;>&nbsp;
+            <a href="#">Passo 3: Confirma&ccedil;&atilde;o</a>
         </td>
     </tr>
 
     <!--Conteudo da Pagina-->
     <tr>
-        <td align="center" style="padding-top:20px;">
-            <fieldset title="Perguntas" style="width:90%">
-                <legend class="legend">Confirma&ccedil;&atilde;o</legend>
-                Cadastro do Question&aacute;rio realizado com sucesso !!!
-            </fieldset>
+        <td align="center" style="padding-top:30px;">
+            <h1>Cadastro de estrutura concluído com sucesso</h1>
         </td>
     </tr>
 
-    <!--Botao de Proximo-->
+    <!--Botao de Pagina Principal-->
     <tr>
         <td align="center" style="padding-top:20px;">
             <div align="center" style="width:93%">

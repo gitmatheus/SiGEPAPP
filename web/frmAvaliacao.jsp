@@ -43,10 +43,10 @@ a<%@page import="br.edu.fei.sigepapp.bancodedados.dao.*,br.edu.fei.sigepapp.banc
                             <td colspan="3" align="center">
                                 <table border="0" width="100%">
                                     <%
-                                        Relac_Perg_Resp buscaListaRelac = new Relac_Perg_Resp();
+        Relac_Perg_Resp buscaListaRelac = new Relac_Perg_Resp();
 
-                                        for (Pergunta p : listPerguntas) {
-                                            i++;
+        for (Pergunta p : listPerguntas) {
+            i++;
                                     %>
                                     <tr>
                                         <td colspan="5" style="padding-top:10px;padding-bottom:8px" class="pergunta" align="left">
@@ -55,13 +55,8 @@ a<%@page import="br.edu.fei.sigepapp.bancodedados.dao.*,br.edu.fei.sigepapp.banc
                                     </tr>
                                     <tr>
                                         <%for (j = 1; j <= 5; j++) {%>
-
                                         <input type="hidden" name="CDPerg" value="<%=p.getCd_pergunta()%>">
                                         <input type="hidden" name="PesoResp" value="<%=j%>" >
-                                        <td>
-                                        <%
-                                        
-                                        %>
                                         <input name="radio" type="radio" value=""/>
                                         <%}%>
                                     </tr>

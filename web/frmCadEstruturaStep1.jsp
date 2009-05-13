@@ -92,13 +92,17 @@
         <tr>
             <td align="center" class="titulo" style="height: 25px; vertical-align: middle;"> <font class="titulo">..:: Cadastro&nbsp;de&nbsp;Estruturas APPP ::..</font> </td>
         </tr>
-        <!--Menu do Wizard-->
-        <tr>
-            <td id="titulo" style="padding-left:10px">
-                <a href="#">Passo 1: Dados da estrutura</a> &nbsp;>&nbsp;Passo 2: Tipo de estrutura&nbsp;>&nbsp;Passo 3: Definição dos Atributos
-            </td>
-        </tr>
-        <!--Fim do menu do Wizard-->
+
+    <!--Menu do Wizard-->
+    <tr>
+        <td id="titulo" style="padding-left:10px">
+            <a href="#">Passo 1: Dados da estrutura</a>&nbsp;>&nbsp;
+            Passo 2: Tipo de estrutura&nbsp;>&nbsp;
+            Passo 3: Definição dos Atributos
+        </td>
+    </tr>
+    <!--Fim do menu do Wizard-->
+
         <tr>
             <td align="center" style="padding-top:20px;">
                 <fieldset style="width:90%">

@@ -204,7 +204,7 @@
 
         $.post("readSessionServlet", {nome: "codEstrutura"}, function(dados){
             if($.trim(dados)==""){
-                
+
             }else{
                 if(dados=="<%= patternID%>" || dados==" <%= antiPatternID%>" || dados=="<%= personaID%>"){
                     $("input[value='"+dados+"']").attr("checked","checked");
@@ -247,13 +247,16 @@
 <!--Inicio do formulário-->
 <table id="frmCadEstrutFormulario" border="0" cellpadding="0" cellspacing="0" width="100%" align="right" class="formulario">
 
+    <tr>
+        <td align="center" class="titulo" style="height: 25px; vertical-align: middle;"> <font class="titulo">..:: Cadastro&nbsp;de&nbsp;Estruturas APPP ::..</font> </td>
+    </tr>
+
     <!--Menu do Wizard-->
     <tr>
         <td id="titulo" style="padding-left:10px">
-            <b>Passos:</b>&nbsp;
-            <a href="frmCadEstruturaStep1.jsp">Dados da estrutura</a>&nbsp;>&nbsp;
-            <a href="#">Tipo de estrutura</a>&nbsp;>&nbsp;
-            Definição dos Atributos
+            <a href="frmCadEstruturaStep1.jsp">Passo 1: Dados da estrutura</a>&nbsp;>&nbsp;
+            <a href="#">Passo 2: Tipo de estrutura</a>&nbsp;>&nbsp;
+            Passo 3: Definição dos Atributos
         </td>
     </tr>
     <!--Fim do menu do Wizard-->
