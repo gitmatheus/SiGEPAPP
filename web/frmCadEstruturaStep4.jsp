@@ -12,7 +12,7 @@
 
             Estrutura estrutura = new Estrutura();
 
-            estrutura.setCod_user(35140189879l);
+            estrutura.setCod_user(Long.parseLong(request.getSession().getAttribute("codigo_usuario").toString()));
             estrutura.setDs_estrutura(request.getParameter("ds_estrutura"));
             estrutura.setDt_criacao(new Date(Calendar.getInstance().getTimeInMillis()));
             estrutura.setNm_estrutura(request.getParameter("nm_estrutura"));
@@ -36,6 +36,8 @@
 
                 atrib_estrut.APPP_INS_ATRIB_ESTRUTURA(new Atrib_Estrutura(cod_estrut, Long.parseLong(codAtrib.trim())));
             }
+            atrib_estrut.APPP_CRIA_TABELA_ESTRUT(cod_estrut);
+
             atrib_estrut.fechaConexao();
             sucesso = true;
             

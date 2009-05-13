@@ -87,6 +87,10 @@ Tom Mix Petreca</description>
         <servlet-name>CadPersonaServlet</servlet-name>
         <servlet-class>br.edu.fei.sigepapp.servlet.CadPersonaServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>GetApppServlet</servlet-name>
+        <servlet-class>br.edu.fei.sigepapp.servlet.GetApppServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
         <url-pattern>/LoginServlet</url-pattern>
@@ -186,6 +190,10 @@ Tom Mix Petreca</description>
         <servlet-name>CadPersonaServlet</servlet-name>
         <url-pattern>/CadPersonaServlet</url-pattern>
     </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>GetApppServlet</servlet-name>
+        <url-pattern>/GetApppServlet</url-pattern>
+    </servlet-mapping>
     <session-config>
         <session-timeout>
             30
@@ -194,11 +202,4 @@ Tom Mix Petreca</description>
 
     <welcome-file-list>
         <welcome-file>index.jsp</welcome-file>
-    </welcome-file-list>
-
-    <resource-ref>
-        <description>Oracle Datasource</description>
-        <res-ref-name>jdbc/sigepapp</res-ref-name>
-        <res-type>javax.sql.DataSource</res-type>
-        <res-auth>Container</res-auth>
-    </resource-ref></web-app>
+    </welcome-file-list></web-app>
