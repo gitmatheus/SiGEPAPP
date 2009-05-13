@@ -25,7 +25,7 @@
     <!--Conteudo da Pagina-->
     <tr>
         <td align="center" style="padding-top:30px;">
-            <h1>Cadastro de estrutura concluído com sucesso</h1>
+            <h1>Questionário cadastrado com sucesso</h1>
         </td>
     </tr>
 
