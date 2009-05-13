@@ -34,6 +34,8 @@ Insert into APPP_TB_ATRIBUTO_OBJ (CD_TIPO,DS_ATRIBUTO_OBJ,FL_ATRIB_RELAC,NM_ATRI
 Insert into APPP_TB_ATRIBUTO_OBJ (CD_TIPO,DS_ATRIBUTO_OBJ,FL_ATRIB_RELAC,NM_ATRIBUTO_OBJ,NM_COLUNA) 
       values (1,'Descrição da Persona','S','Descrição',APPP_FN_NM_COL_ATRIB('Descrição'),'DS_DESCRICAO');
 
+insert into APPP_TB_ATRIBUTO_OBJ(NM_ATRIBUTO_OBJ,DS_ATRIBUTO_OBJ                      ,CD_TIPO,FL_ATRIB_RELAC,NM_COLUNA) 
+                          VALUES('Foto' ,'URL para localização da foto da Persona',1      ,'N',APPP_FN_NM_COL_ATRIB('Foto') ); 
 
 insert into APPP_TB_ATRIBUTO_OBJ(NM_ATRIBUTO_OBJ,DS_ATRIBUTO_OBJ                      ,CD_TIPO,FL_ATRIB_RELAC,NM_COLUNA) 
                           VALUES('Nome Usuário' ,'Nome completo do usuário do Pattern',1      ,'S',APPP_FN_NM_COL_ATRIB('Nome Usuário') ); 
