@@ -57,18 +57,17 @@ public class GetApppServlet extends HttpServlet {
 
             out.println("<xml>");
             while (rs.next()) {
-                for (int i = 0; i < TotalCols; i++) {
+                for (int i = 1; i <= TotalCols; i++) {
                     out.println("<Atributo>");
                     out.println("<Nome>");
                     out.println(rs.getMetaData().getColumnName(i));
                     out.println("</Nome>");
                     out.println("<Tipo>");
-                    //out.println(rs.getMetaData().getColumnType(i));
+                    out.println(rs.getMetaData().getColumnName(i));
                     out.println("</Tipo>");
                     out.println("<Valor>");
-                    //out.println(rs.getString(i));
+                    out.println(rs.getObject(i).toString());
                     out.println("</Valor>");
-
                     out.println("</Atributo>");
                 }
             }
