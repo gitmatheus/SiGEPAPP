@@ -13,8 +13,6 @@ import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -36,7 +34,7 @@ public class GetApppServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/plain;charset=ISO-8859-1");
+        response.setContentType("text/xml;charset=ISO-8859-1");
         PrintWriter out = response.getWriter();
         Connection conn;
         ResultSet rs = null;
@@ -46,7 +44,7 @@ public class GetApppServlet extends HttpServlet {
             conn = ConnectionFactory.getConnection();
 
             cstmt = conn.prepareCall("begin APPP_SEL_APPP_GEN(?,?); end;");
-            cstmt.setLong(1, 1);
+            cstmt.setLong(1, 44);
             cstmt.registerOutParameter(2, OracleTypes.CURSOR);
 
             cstmt.execute();
@@ -63,7 +61,7 @@ public class GetApppServlet extends HttpServlet {
                     out.println(rs.getMetaData().getColumnName(i));
                     out.println("</Nome>");
                     out.println("<Tipo>");
-                    out.println(rs.getMetaData().getColumnName(i));
+                    out.println(rs.getMetaData().getColumnTypeName(i));
                     out.println("</Tipo>");
                     out.println("<Valor>");
                     out.println(rs.getObject(i).toString());

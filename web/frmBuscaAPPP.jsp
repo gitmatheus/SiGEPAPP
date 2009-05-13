@@ -17,7 +17,9 @@
          **/
 %>
 <%@include file="cabecalho.jsp" %>
+<style type="text/css">
 
+</style>
 <script type="text/javascript" language="javascript" src="js/jquery-ui-1.7.js"></script>
 <script type="text/javascript" language="javascript">
     $(document).ready(function(){
@@ -27,7 +29,12 @@
 
         $("#btnBuscaSimples").click(function(){
             //Abre tab de resultado
-            $('#tabs_menu').tabs('add' , 'frmCadEstrutura.jsp' , 'Primeira Pagina');
+            //$('#tabs_menu').tabs('add' , 'frmCadEstrutura.jsp' , 'Primeira Pagina');
+            //$("#tabs_menu ul").append("<li><a href='#tab_resultado'><span>Resultados</span></a></li>");
+            $("#tabs_menu").append("<div id='tab_resultado'>Result<div>");
+            $("#tabs_menu").tabs('add','#tab_resultado','Resultados');
+            $("#tabs_menu li a[href='#tab_resultado']").attr("style", "background-color:#000000;color:#FFFFFF");
+            $("#tabs_menu").tabs('select',2);
 
         });
 
