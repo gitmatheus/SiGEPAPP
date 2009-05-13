@@ -83,6 +83,10 @@ Tom Mix Petreca</description>
         <servlet-name>CadAntiPatternServlet</servlet-name>
         <servlet-class>br.edu.fei.sigepapp.servlet.CadAntiPatternServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>CadPersonaServlet</servlet-name>
+        <servlet-class>br.edu.fei.sigepapp.servlet.CadPersonaServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
         <url-pattern>/LoginServlet</url-pattern>
@@ -177,6 +181,10 @@ Tom Mix Petreca</description>
     <servlet-mapping>
         <servlet-name>CadAntiPatternServlet</servlet-name>
         <url-pattern>/CadAntiPatternServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CadPersonaServlet</servlet-name>
+        <url-pattern>/CadPersonaServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
