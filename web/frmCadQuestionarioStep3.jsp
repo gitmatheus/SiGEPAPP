@@ -69,10 +69,10 @@ a<%@page import="br.edu.fei.sigepapp.bancodedados.dao.*,br.edu.fei.sigepapp.banc
                             <td colspan="3" align="center">
                                 <table border="0" width="100%">
                                     <%
-        Relac_Perg_Resp buscaListaRelac = new Relac_Perg_Resp();
+                                        Relac_Perg_Resp buscaListaRelac = new Relac_Perg_Resp();
 
-        for (Pergunta p : listPerguntas) {
-            i++;
+                                        for (Pergunta p : listPerguntas) {
+                                            i++;
                                     %>
                                     <tr>
                                         <td colspan="5" style="padding-top:10px;padding-bottom:8px" class="pergunta" align="left">
@@ -88,22 +88,19 @@ a<%@page import="br.edu.fei.sigepapp.bancodedados.dao.*,br.edu.fei.sigepapp.banc
                                                 <option value="0">
                                                 <% for (Resposta r : listRespostas) {
 
-        buscaListaRelac.setCd_pergunta(p.getCd_pergunta());
-        buscaListaRelac.setCd_resposta(r.getCd_resposta());
-        buscaListaRelac.setNro_valor_resp(j);
+                                                    buscaListaRelac.setCd_pergunta(p.getCd_pergunta());
+                                                    buscaListaRelac.setCd_resposta(r.getCd_resposta());
+                                                    buscaListaRelac.setNro_valor_resp(j);
 
-        String txtSel = "";
+                                                    String txtSel = "";
 
-        for (Relac_Perg_Resp relacAtual : listRelac) {
-            if (relacAtual.getCd_pergunta() == buscaListaRelac.getCd_pergunta() &&
-                    relacAtual.getCd_resposta() == buscaListaRelac.getCd_resposta() &&
-                    relacAtual.getNro_valor_resp() == buscaListaRelac.getNro_valor_resp()) {
-                txtSel = "selected";
-            }
-        }
-
-
-
+                                                    for (Relac_Perg_Resp relacAtual : listRelac) {
+                                                        if (relacAtual.getCd_pergunta() == buscaListaRelac.getCd_pergunta() &&
+                                                                relacAtual.getCd_resposta() == buscaListaRelac.getCd_resposta() &&
+                                                                relacAtual.getNro_valor_resp() == buscaListaRelac.getNro_valor_resp()) {
+                                                            txtSel = "selected";
+                                                        }
+                                                    }
                                                 %>
                                                 <option value="<%=r.getCd_resposta()%>"  <%= txtSel%> ><%=r.getDs_resposta()%>
                                                 <%}%>

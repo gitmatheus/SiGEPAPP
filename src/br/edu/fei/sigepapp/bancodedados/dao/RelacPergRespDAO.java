@@ -119,7 +119,7 @@ public class RelacPergRespDAO {
         long nro_valor_resp = pesquisarRelacPergResp.getNro_valor_resp();
 
         try {
-            cstmt = conn.prepareCall("begin APPP_SEL_RELAC_PERG_RESP(?,?,?, ?); end;");
+            cstmt = conn.prepareCall("begin APPP_SEL_RELAC_PERG_RESP(?, ?, ?, ?); end;");
 
             if (cd_pergunta == 0) {
                 cstmt.setNull(1, OracleTypes.NUMBER);
@@ -158,6 +158,39 @@ public class RelacPergRespDAO {
         }
 
         return listaRelacPergResp;
+    }
+
+        public boolean APPP_UPD_RELAC_PERG_RESP(Relac_Perg_Resp alteraRelacPergResp) {
+
+        CallableStatement cstmt = null;
+        long resultado = 0;
+
+        try {
+            cstmt = conn.prepareCall("begin  APPP_UPD_RELAC_PERG_RESP(?, ?, ?, ?); end;");
+
+            cstmt.setLong(1, alteraRelacPergResp.getCd_pergunta());
+            cstmt.setLong(2, alteraRelacPergResp.getCd_resposta());
+            cstmt.setLong(3, alteraRelacPergResp.getNro_valor_resp());
+
+            cstmt.registerOutParameter(4, OracleTypes.NUMBER);
+            cstmt.execute();
+
+            resultado = cstmt.getLong(4);
+
+            cstmt.close();
+
+            if (resultado == 1) {
+                GravarLog.gravaInformacao(Relac_Perg_Resp.class.getName() + ": atualizacao do relacPergResp no banco realizada com sucesso");
+                return true;
+            } else {
+                GravarLog.gravaErro(Relac_Perg_Resp.class.getName() + ": erro na atualizacao do relacPergResp no banco: Erro generico.");
+                return false;
+            }
+        } catch (SQLException ex) {
+            GravarLog.gravaErro(Relac_Perg_Resp.class.getName() + ": erro na atualizacao no banco de dados: " + ex.getSQLState());
+            return false;
+        }
+
     }
 
     /**
