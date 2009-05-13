@@ -22,6 +22,8 @@ spool /SiGEPAPP/Arquivos/Insercoes/LogInsertInicial.log
 
 @ /SiGEPAPP/Arquivos/Insercoes/99-INS_RELAC_ATRIB_ESTRUT.sql
 
+@ /SiGEPAPP/Arquivos/Procedures/09-APPP_INS_PATTERNS.sql
+
 
 SPOOL OFF
 
