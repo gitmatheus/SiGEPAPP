@@ -58,10 +58,6 @@ Tom Mix Petreca</description>
         <servlet-class>br.edu.fei.sigepapp.servlet.CadRelacPergRespServlet</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>GetRelacPergResp</servlet-name>
-        <servlet-class>br.edu.fei.sigepapp.servlet.GetRelacPergRespServlet</servlet-class>
-    </servlet>
-    <servlet>
         <servlet-name>readSessionServlet</servlet-name>
         <servlet-class>br.edu.fei.sigepapp.servlet.readSessionServlet</servlet-class>
     </servlet>
@@ -80,16 +76,20 @@ Tom Mix Petreca</description>
     </servlet>
     <servlet><servlet-name>CadPatternServlet</servlet-name><servlet-class>br.edu.fei.sigepapp.servlet.CadPatternServlet</servlet-class></servlet>
     <servlet>
-        <servlet-name>CadAntiPatternServlet</servlet-name>
-        <servlet-class>br.edu.fei.sigepapp.servlet.CadAntiPatternServlet</servlet-class>
+        <servlet-name>CadQuestPreench</servlet-name>
+        <servlet-class>br.edu.fei.sigepapp.servlet.CadQuestPreench</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>CadPersonaServlet</servlet-name>
-        <servlet-class>br.edu.fei.sigepapp.servlet.CadPersonaServlet</servlet-class>
+        <servlet-name>QuestPreench</servlet-name>
+        <servlet-class>br.edu.fei.sigepapp.bancodedados.model.QuestPreench</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>GetApppServlet</servlet-name>
-        <servlet-class>br.edu.fei.sigepapp.servlet.GetApppServlet</servlet-class>
+        <servlet-name>GetQuestPreench</servlet-name>
+        <servlet-class>br.edu.fei.sigepapp.servlet.GetQuestPreench</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>CadQuestPreenchServlet</servlet-name>
+        <servlet-class>br.edu.fei.sigepapp.servlet.CadQuestPreenchServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
@@ -158,10 +158,6 @@ Tom Mix Petreca</description>
         <url-pattern>/CadRelacPergRespServlet</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>GetRelacPergResp</servlet-name>
-        <url-pattern>/GetRelacPergResp</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
         <servlet-name>readSessionServlet</servlet-name>
         <url-pattern>/readSessionServlet</url-pattern>
     </servlet-mapping>
@@ -183,16 +179,20 @@ Tom Mix Petreca</description>
     </servlet-mapping>
     <servlet-mapping><servlet-name>CadPatternServlet</servlet-name><url-pattern>/CadPatternServlet</url-pattern></servlet-mapping>
     <servlet-mapping>
-        <servlet-name>CadAntiPatternServlet</servlet-name>
-        <url-pattern>/CadAntiPatternServlet</url-pattern>
+        <servlet-name>CadQuestPreench</servlet-name>
+        <url-pattern>/CadQuestPreench</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>CadPersonaServlet</servlet-name>
-        <url-pattern>/CadPersonaServlet</url-pattern>
+        <servlet-name>QuestPreench</servlet-name>
+        <url-pattern>/QuestPreench</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>GetApppServlet</servlet-name>
-        <url-pattern>/GetApppServlet</url-pattern>
+        <servlet-name>GetQuestPreench</servlet-name>
+        <url-pattern>/GetQuestPreench</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CadQuestPreenchServlet</servlet-name>
+        <url-pattern>/CadQuestPreenchServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

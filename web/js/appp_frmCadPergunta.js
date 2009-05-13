@@ -36,13 +36,7 @@ function EnviaCadPergunta(){
     }, function(xml){
         var confirma = $("sucesso",xml).text();
         
-        /*
-        if(confirma == "nao" && ds_pergunta!=''){
-            alert("Digite sua pergunta no campo !");
-        }else
-        */
-
-        if (confirma == "sim"){ //Esse NÃO é para ser SIM porque ??? Tom Mix 01/04/2008
+        if (confirma == "sim"){
             alert("Pergunta cadastrada com sucesso!");
         }else{
             alert("Pergunta nao cadastrada devido a um erro!\nTente novamente mais tarde.");

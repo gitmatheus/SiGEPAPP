@@ -37,7 +37,7 @@ function EnviaCadResposta(){
     }, function(xml){
         var confirma = $("sucesso",xml).text();
 
-        if (confirma == "sim"){ //Esse NÃO é para ser SIM porque ??? Tom Mix 01/04/2008
+        if (confirma == "sim"){
             alert("Resposta cadastrada com sucesso!");
         }else{
             alert("Resposta nao cadastrada devido a um erro!\nTente novamente mais tarde.");

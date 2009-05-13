@@ -21,7 +21,7 @@ public class CadRelacPergRespServlet extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/plain;charset=UTF-8");
+        response.setContentType("text/plain;charset=ISO-8859-1");
         PrintWriter out = response.getWriter();
         try {
 
