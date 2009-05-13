@@ -213,11 +213,11 @@
 
     }
 
-    function cadastraPersonas(){
+    function cadastraPersona(){
         for(i = 0; i < atribtemp.length; i++){
             valores[i] = $("#" + atribtemp[i]).val();
         }
-        $.post("CadPatternServlet", {valores:valores, estrutura:cod_estrutura}, function(xml){
+        $.post("CadPersonaServlet", {valores:valores, estrutura:cod_estrutura}, function(xml){
             if($("sucesso",xml).text() == "1"){
                 $("#cadastrado").dialog('open');
             }else{
