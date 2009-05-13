@@ -59,15 +59,17 @@ BEGIN
        OPEN AOB;
        FETCH AOB INTO vNM_COLUNA;
        WHILE AOB%FOUND LOOP  
-			 
+			    
+			    vNM_ATRIBUTO := null;
+					
 			    OPEN A;
 					FETCH A INTO vNM_ATRIBUTO;
 					CLOSE A;
 					
-					vNM_ATRIBUTO := NVL(vNM_ATRIBUTO,' ');
+					vNM_ATRIBUTO := ' "'||NVL(vNM_ATRIBUTO,vNM_COLUNA)||'" ';
 					
  			    -- INCREMENTA O SQL DINÂMICO COM A COLUNA.
-				  vSQL := vSQL ||'        ,G.' ||trim(vNM_COLUNA)||' '||vNM_ATRIBUTO||  chr(10);
+				  vSQL := vSQL ||'        ,G.' ||trim(vNM_COLUNA)||vNM_ATRIBUTO||  chr(10);
 						 
 					FETCH AOB INTO vNM_COLUNA;
 						 

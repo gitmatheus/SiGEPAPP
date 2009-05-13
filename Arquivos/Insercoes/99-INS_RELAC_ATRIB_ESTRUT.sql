@@ -56,7 +56,16 @@ Insert into APPP_TB_ATRIBUTO_OBJ (CD_TIPO,DS_ATRIBUTO_OBJ,FL_ATRIB_RELAC,NM_ATRI
       values (1,'Url para a foto utilizada na Persona','N','Foto','URL_FOTO');
 
 Insert into APPP_TB_ATRIBUTO_OBJ (CD_TIPO,DS_ATRIBUTO_OBJ,FL_ATRIB_RELAC,NM_ATRIBUTO_OBJ,NM_COLUNA)
-      values (1,'Descrição da Persona','S','Descrição','DS_DESCRICAO_P');
+      values (1,'Descrição da Persona','S','Descrição','DS_DESCRICAO_P'); 
+
+Insert into APPP_TB_ATRIBUTO_OBJ (CD_TIPO,DS_ATRIBUTO_OBJ,FL_ATRIB_RELAC,NM_ATRIBUTO_OBJ,NM_COLUNA)
+      values (1,'Problema do Pattern','S','Problema Pattern','DS_PAT_PROBLEMA');  
+			
+Insert into APPP_TB_ATRIBUTO_OBJ (CD_TIPO,DS_ATRIBUTO_OBJ,FL_ATRIB_RELAC,NM_ATRIBUTO_OBJ,NM_COLUNA)
+      values (1,'Solução do Pattern','S','Solução Pattern','DS_PAT_SOLUCAO');			 
+
+Insert into APPP_TB_ATRIBUTO_OBJ (CD_TIPO,DS_ATRIBUTO_OBJ,FL_ATRIB_RELAC,NM_ATRIBUTO_OBJ,NM_COLUNA)
+      values (1,'Solução do Anti-Pattern','S','Solução Anti-Pattern','DS_CONSEQUENCIAS');					
 
 insert into APPP_TB_ATRIBUTO_OBJ(NM_ATRIBUTO_OBJ,DS_ATRIBUTO_OBJ                      ,CD_TIPO,FL_ATRIB_RELAC)
                           VALUES('Nome Usuário' ,'Nome completo do usuário do Pattern',1      ,'S');

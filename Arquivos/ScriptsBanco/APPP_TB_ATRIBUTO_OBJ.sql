@@ -18,7 +18,7 @@ create table APPP_TB_ATRIBUTO_OBJ
   DS_ATRIBUTO_OBJ VARCHAR2(2000)          , 
   CD_TIPO         NUMBER(10)    NOT NULL ,
   FL_ATRIB_RELAC  VARCHAR2(1)   DEFAULT 'S' NOT NULL,
-  NM_COLUNA       VARCHAR2(15)
+  NM_COLUNA       VARCHAR2(20)
 )
 tablespace SYSTEM
   storage
