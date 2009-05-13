@@ -2,10 +2,11 @@ package br.edu.fei.sigepapp.servlet;
 
 import br.edu.fei.sigepapp.bancodedados.model.Pattern;
 import br.edu.fei.sigepapp.bancodedados.dao.PatternDAO;
+import br.edu.fei.sigepapp.bancodedados.model.Objeto;
 import br.edu.fei.sigepapp.log.GravarLog;
-import com.sun.net.ssl.internal.ssl.Debug;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -25,11 +26,34 @@ public class CadPatternServlet extends HttpServlet {
         PrintWriter writer = response.getWriter();
 
         String[] valores = request.getParameterValues("valores");
+        long cod_estrutura = Long.parseLong(request.getParameter("estrutura"));
 
-        for(String i : valores){
-            Debug.println("Saida: ", i);
+        Objeto objeto = new Objeto();
+        Pattern pattern = new Pattern();
+
+        objeto.setCd_estrutura(cod_estrutura);
+        objeto.setNm_objeto(valores[0]);
+        objeto.setDs_objeto(valores[1]);
+        objeto.setCd_user_criacao(Long.parseLong(request.getSession().getAttribute("codigo_usuario").toString()));
+        pattern.setDs_Pat_problema(valores[2]);
+        pattern.setDs_Pat_solucao(valores[3]);
+
+        try{
+            PatternDAO dao = new PatternDAO();
+            int cResult = (int) dao.APPP_CREATE_PATTERN(pattern, objeto);
+            dao.fechaConexao();
+
+            if(cResult != 1){
+                writer.println("<xml><sucesso>0</sucesso></xml>");
+            }else{
+                writer.println("<xml><sucesso>"+cResult+"</sucesso></xml>");
+            }
+
+        }catch(SQLException e){
+            GravarLog.gravaErro(CadPatternServlet.class.getName() + ": erro na operação da DAO: " + e.getSQLState() + " : " + e.getMessage());
+            writer.println("<xml><sucesso>0</sucesso></xml>");
         }
-        writer.println("<xml><sucesso>1</sucesso></xml>");
+
         writer.flush();
         writer.close();
     }

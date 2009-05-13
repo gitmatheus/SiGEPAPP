@@ -57,7 +57,6 @@ public class PersonaDAO {
         //Cria e preenche uma lista contendo os nomes das colunas da tabela
         Vector<String> camposDaTabela = new Vector<String>();
         camposDaTabela.add("CD_PERSONA");
-        camposDaTabela.add("NM_PERSONA");
         camposDaTabela.add("URL_FOTO");
        
         while (rs.next()) {
@@ -76,9 +75,6 @@ public class PersonaDAO {
                         PersonaNovo.setCd_Persona(rs.getLong(i));
                         break;
                     case 1:
-                        PersonaNovo.setNm_Persona(rs.getString(i));
-                        break;
-                    case 2:
                         PersonaNovo.setUrl_Foto(rs.getString(i));
                         break;
                 }
@@ -95,17 +91,15 @@ public class PersonaDAO {
         ResultSet rs = null;
 
         long pCD_Persona = 0;
-        String pNM_PERSONA = "";
         String pURL_FOTO = "";
         
         try {
             //Instancia um objeto da classe PreparedStatement com o comando para pesquisar registros no banco
             //PreparedStatement stmt = this.conn.prepareStatement(query);
 
-            cstmt = conn.prepareCall("begin APPP_SEL_PERSONA(?, ?, ?, ?); end;");
+            cstmt = conn.prepareCall("begin APPP_SEL_PERSONA(?, ?, ?); end;");
 
             pCD_Persona = PersonaPesquisa.getCd_Persona();
-            pNM_PERSONA = PersonaPesquisa.getNm_Persona();
             pURL_FOTO = PersonaPesquisa.getUrl_Foto();
 
             if (pCD_Persona > 0) {
@@ -113,12 +107,11 @@ public class PersonaDAO {
             } else {
                 cstmt.setNull(1, OracleTypes.NUMBER);
             }
-            cstmt.setString(2, pNM_PERSONA);
-            cstmt.setString(3, pURL_FOTO);
+            cstmt.setString(2, pURL_FOTO);
 
-            cstmt.registerOutParameter(4, OracleTypes.CURSOR);
+            cstmt.registerOutParameter(3, OracleTypes.CURSOR);
             cstmt.execute();
-            rs = (ResultSet) cstmt.getObject(4);
+            rs = (ResultSet) cstmt.getObject(3);
 
             //Cria um array do tipo Persona
             List<Persona> Personas = PreencheList(rs);
@@ -151,15 +144,14 @@ public class PersonaDAO {
              //Instancia um objeto da classe PreparedStatement com o comando para pesquisar registros no banco
             //PreparedStatement stmt = this.conn.prepareStatement(query);
 
-            cstmt = conn.prepareCall("begin APPP_INS_PERSONA(?, ?, ?, ?); end;");
+            cstmt = conn.prepareCall("begin APPP_INS_PERSONA(?, ?, ?); end;");
             
             cstmt.setLong(1, PersonaAdicionar.getCd_Persona());
-            cstmt.setString(2, PersonaAdicionar.getNm_Persona());
-            cstmt.setString(3, PersonaAdicionar.getUrl_Foto());
-            cstmt.registerOutParameter(4, OracleTypes.NUMBER);
+            cstmt.setString(2, PersonaAdicionar.getUrl_Foto());
+            cstmt.registerOutParameter(3, OracleTypes.NUMBER);
 
             cstmt.execute();
-            result = cstmt.getLong(4);
+            result = cstmt.getLong(3);
 
             //fecha a instancia dos objetos
             cstmt.close();

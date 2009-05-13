@@ -1,7 +1,6 @@
 <%@page import="br.edu.fei.sigepapp.bancodedados.dao.*,br.edu.fei.sigepapp.bancodedados.model.*,java.util.*" %>
 <%@include file="cabecalho.jsp"%>
 <link type="text/css" href="css/ui.all.css" rel="Stylesheet" />
-<link type="text/css" rel="stylesheet" href="css/jquery-ui-1.7.css">
 <script type="text/javascript" language="javascript" src="js/jquery.tinysort.js"></script>
 <script type="text/javascript" src="js/jquery-ui-1.5.3.js" ></script>
 <script type="text/javascript" language="javascript" src="js/i18n/ui.datepicker-pt-BR.js"></script>
@@ -65,6 +64,10 @@
                     cadastraObjeto();
                     break;
             }
+        });
+
+        $("#frmCadAPPPBtnCancelar").click(function(){
+             window.location = "/sigepapp";
         });
         
         frm.frmCadAPPPChkPattern.checked = true;
@@ -187,8 +190,11 @@
             valores[i] = $("#" + atribtemp[i]).val();
         }
         $.post("CadPatternServlet", {valores:valores, estrutura:cod_estrutura}, function(xml){
-            if($("sucesso",xml).text() == "1")
-                alert("funcionou");
+            if($("sucesso",xml).text() == "1"){
+                $("#cadastrado").dialog('open');
+            }else{
+                $("#erroCadastro").dialog('open');
+            }
         });
 
     }
@@ -197,8 +203,12 @@
         for(i = 0; i < atribtemp.length; i++){
             valores[i] = $("#" + atribtemp[i]).val();
         }
-        $.post("CadPatternServlet", {valores:valores}, function(xml){
-
+        $.post("CadAntiPatternServlet", {valores:valores, estrutura:cod_estrutura}, function(xml){
+            if($("sucesso",xml).text() == "1"){
+                $("#cadastrado").dialog('open');
+            }else{
+                $("#erroCadastro").dialog('open');
+            }
         });
 
     }
@@ -207,8 +217,12 @@
         for(i = 0; i < atribtemp.length; i++){
             valores[i] = $("#" + atribtemp[i]).val();
         }
-        $.post("CadPatternServlet", {valores:valores}, function(xml){
-
+        $.post("CadPatternServlet", {valores:valores, estrutura:cod_estrutura}, function(xml){
+            if($("sucesso",xml).text() == "1"){
+                $("#cadastrado").dialog('open');
+            }else{
+                $("#erroCadastro").dialog('open');
+            }
         });
 
     }
@@ -228,6 +242,29 @@
             autoOpen: false,
             width: 'auto',
             height: 100,
+            buttons: {
+                "Ok": function(){
+                    $(this).dialog("close");
+                }
+            }
+        });
+
+        $("#cadastrado").dialog({
+            autoOpen: false,
+            width: 'auto',
+            height: 100,
+            buttons: {
+                "Ok": function(){
+                    $(this).dialog("close");
+                    window.location = "/sigepapp/frmCadAPPP.jsp";
+                }
+            }
+        });
+
+        $("#erroCadastro").dialog({
+            autoOpen: false,
+            width: 'auto',
+            height: 'auto',
             buttons: {
                 "Ok": function(){
                     $(this).dialog("close");
@@ -261,7 +298,15 @@
                                 </select>
                             </div>
                             <div id="alertaSelectEstrut" title="Estruturas não encontradas">
-                                Por favor, selecione um tipo de estrutura.
+                                Por favor, selecione um tipo de estrutura.<br />
+                            </div>
+                            <div id="cadastrado" title="Parab&eacute;ns">
+                                Objeto cadastrado com sucesso.<br />
+                            </div>
+                            <div id="erroCadastro" title="Aviso">
+                                Desculpe-nos, ocorreu um erro durante o cadastro do objeto.<br />
+                                Verifique os campos preenchidos e tente novamente.<br />
+                                Obrigado, Equipe SiGePAPP.<br />
                             </div>
                         </td>
                     </tr>

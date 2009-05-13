@@ -1,8 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package br.edu.fei.sigepapp.bancodedados.model;
 
 public class AntiPattern {
@@ -25,7 +20,16 @@ public class AntiPattern {
     private String ds_Recomendacoes;
     private String ds_Consequencias;
     private String ds_Barreiras;
-    
+    private String ds_Problema;
+
+    public String getDs_Problema() {
+        return ds_Problema;
+    }
+
+    public void setDs_Problema(String ds_Problema) {
+        this.ds_Problema = ds_Problema;
+    }
+
     public void setCd_AntiPattern(long cd_AntiPattern) {
         this.cd_AntiPattern = cd_AntiPattern;
     }

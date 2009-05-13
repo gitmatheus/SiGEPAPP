@@ -78,7 +78,12 @@ Tom Mix Petreca</description>
         <servlet-name>BuscaEstrutCadAPPPServlet</servlet-name>
         <servlet-class>br.edu.fei.sigepapp.servlet.BuscaEstrutCadAPPPServlet</servlet-class>
     </servlet>
-    <servlet><servlet-name>CadPatternServlet</servlet-name><servlet-class>br.edu.fei.sigepapp.servlet.CadPatternServlet</servlet-class></servlet><servlet-mapping>
+    <servlet><servlet-name>CadPatternServlet</servlet-name><servlet-class>br.edu.fei.sigepapp.servlet.CadPatternServlet</servlet-class></servlet>
+    <servlet>
+        <servlet-name>CadAntiPatternServlet</servlet-name>
+        <servlet-class>br.edu.fei.sigepapp.servlet.CadAntiPatternServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
         <url-pattern>/LoginServlet</url-pattern>
     </servlet-mapping>
@@ -168,7 +173,12 @@ Tom Mix Petreca</description>
         <servlet-name>BuscaEstrutCadAPPPServlet</servlet-name>
         <url-pattern>/BuscaEstrutCadAPPPServlet</url-pattern>
     </servlet-mapping>
-    <servlet-mapping><servlet-name>CadPatternServlet</servlet-name><url-pattern>/CadPatternServlet</url-pattern></servlet-mapping><session-config>
+    <servlet-mapping><servlet-name>CadPatternServlet</servlet-name><url-pattern>/CadPatternServlet</url-pattern></servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CadAntiPatternServlet</servlet-name>
+        <url-pattern>/CadAntiPatternServlet</url-pattern>
+    </servlet-mapping>
+    <session-config>
         <session-timeout>
             30
         </session-timeout>

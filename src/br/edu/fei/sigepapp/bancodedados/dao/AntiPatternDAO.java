@@ -62,6 +62,7 @@ public class AntiPatternDAO {
         camposDaTabela.add("DS_RECOMENDACOES");
         camposDaTabela.add("DS_CONSEQUENCIAS");
         camposDaTabela.add("DS_BARREIRAS");
+        camposDaTabela.add("DS_PROBLEMA");
        
         while (rs.next()) {
             // Cria um objeto do tipo Estrutura
@@ -89,7 +90,10 @@ public class AntiPatternDAO {
                         break;    
                     case 4:
                         AntiPatternNovo.setDs_Barreiras(rs.getString(i));
-                        break;    
+                        break;
+                    case 5:
+                        AntiPatternNovo.setDs_Problema(rs.getString(i));
+                        break;
                 }
             }
             //Adiciona o objeto a lista.
@@ -99,7 +103,7 @@ public class AntiPatternDAO {
         return AntiPatterns;
     }
 
-    public List<AntiPattern> APPP_SEL_AntiPattern(AntiPattern AntiPatternPesquisa) {
+    public List<AntiPattern> APPP_SEL_ANTI_PATTERN(AntiPattern AntiPatternPesquisa) {
         CallableStatement cstmt = null;
         ResultSet rs = null;
 
@@ -108,18 +112,20 @@ public class AntiPatternDAO {
         String pDS_RECOMENDACOES = "";
         String pDS_CONSEQUENCIAS = "";
         String pDS_BARREIRAS = "";
+        String pDS_PROBLEMA = "";
         
         try {
             //Instancia um objeto da classe PreparedStatement com o comando para pesquisar registros no banco
             //PreparedStatement stmt = this.conn.prepareStatement(query);
 
-            cstmt = conn.prepareCall("begin APPP_SEL_AntiPattern(?, ?, ?, ?, ?, ?); end;");
+            cstmt = conn.prepareCall("begin APPP_SEL_ANTI_PATTERN(?, ?, ?, ?, ?, ?, ?); end;");
 
             pCD_AntiPattern = AntiPatternPesquisa.getCd_AntiPattern();
             pDS_SINTOMAS = AntiPatternPesquisa.getDs_Sintomas();
             pDS_RECOMENDACOES = AntiPatternPesquisa.getDs_Recomendacoes();
             pDS_CONSEQUENCIAS = AntiPatternPesquisa.getDs_Consequencias();
             pDS_BARREIRAS = AntiPatternPesquisa.getDs_Barreiras();
+            pDS_PROBLEMA = AntiPatternPesquisa.getDs_Problema();
 
             if (pCD_AntiPattern > 0) {
                 cstmt.setLong(1, pCD_AntiPattern);
@@ -128,12 +134,15 @@ public class AntiPatternDAO {
             }
             cstmt.setString(2, pDS_SINTOMAS);
             cstmt.setString(3, pDS_RECOMENDACOES);
-            cstmt.setString(4, pDS_RECOMENDACOES);
-            cstmt.setString(5, pDS_RECOMENDACOES);
+            cstmt.setString(4, pDS_CONSEQUENCIAS);
+            cstmt.setString(5, pDS_BARREIRAS);
+            cstmt.setString(6, pDS_PROBLEMA);
            
-            cstmt.registerOutParameter(6, OracleTypes.CURSOR);
+            cstmt.registerOutParameter(7, OracleTypes.CURSOR);
+
             cstmt.execute();
-            rs = (ResultSet) cstmt.getObject(6);
+            
+            rs = (ResultSet) cstmt.getObject(7);
 
             //Cria um array do tipo AntiPattern
             List<AntiPattern> AntiPatterns = PreencheList(rs);
@@ -158,7 +167,7 @@ public class AntiPatternDAO {
         }
     }
 
-    public long APPP_INS_AntiPattern(AntiPattern AntiPatternAdicionar) {
+    public long APPP_INS_ANTI_PATTERN(AntiPattern AntiPatternAdicionar) {
         CallableStatement cstmt = null;
 
         try {
@@ -166,17 +175,18 @@ public class AntiPatternDAO {
              //Instancia um objeto da classe PreparedStatement com o comando para pesquisar registros no banco
             //PreparedStatement stmt = this.conn.prepareStatement(query);
 
-            cstmt = conn.prepareCall("begin APPP_INS_ESTRUT_OBJ(?, ?, ?, ?); end;");
+            cstmt = conn.prepareCall("begin APPP_INS_ANTI_PATTERN(?, ?, ?, ?, ?, ?, ?); end;");
             
             cstmt.setLong(1, AntiPatternAdicionar.getCd_AntiPattern());
             cstmt.setString(2, AntiPatternAdicionar.getDs_Sintomas());
             cstmt.setString(3, AntiPatternAdicionar.getDs_Recomendacoes());
             cstmt.setString(4, AntiPatternAdicionar.getDs_Consequencias());
             cstmt.setString(5, AntiPatternAdicionar.getDs_Barreiras());
-            cstmt.registerOutParameter(6, OracleTypes.NUMBER);
+            cstmt.setString(6, AntiPatternAdicionar.getDs_Problema());
+            cstmt.registerOutParameter(7, OracleTypes.NUMBER);
 
             cstmt.execute();
-            result = cstmt.getLong(6);
+            result = cstmt.getLong(7);
 
             //fecha a instancia dos objetos
             cstmt.close();
