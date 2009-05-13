@@ -21,8 +21,6 @@ spool /SiGEPAPP/Arquivos/Procedures/LogProcedures.log
 @ /SiGEPAPP/Arquivos/Procedures/APPP_DEL_RESP_QUEST_PREENCH.sql
 @ /SiGEPAPP/Arquivos/Procedures/APPP_DEL_PERSONA.sql
 @ /SiGEPAPP/Arquivos/Procedures/APPP_DEL_QUEST_PREENCH.sql
-@ /SiGEPAPP/Arquivos/Procedures/APPP_DEL_RELAC_ATRIB.sql
-@ /SiGEPAPP/Arquivos/Procedures/APPP_DEL_RELAC_QUEST_OBJ.sql
 @ /SiGEPAPP/Arquivos/Procedures/APPP_DEL_ESTRUT_QUEST.sql
 @ /SiGEPAPP/Arquivos/Procedures/APPP_DEL_RESPOSTA.sql
 @ /SiGEPAPP/Arquivos/Procedures/APPP_DEL_RELAC_PERG_RESP.sql
@@ -46,10 +44,8 @@ spool /SiGEPAPP/Arquivos/Procedures/LogProcedures.log
 @ /SiGEPAPP/Arquivos/Procedures/APPP_INS_RESP_QUEST_PREENCH.sql
 @ /SiGEPAPP/Arquivos/Procedures/APPP_INS_PERSONA.sql
 @ /SiGEPAPP/Arquivos/Procedures/APPP_INS_QUEST_PREENCH.sql
-@ /SiGEPAPP/Arquivos/Procedures/APPP_INS_RELAC_ATRIB.sql
 @ /SiGEPAPP/Arquivos/Procedures/APPP_INS_RESPOSTA.sql
 @ /SiGEPAPP/Arquivos/Procedures/APPP_INS_RELAC_PERG_RESP.sql
-@ /SiGEPAPP/Arquivos/Procedures/APPP_INS_RELAC_QUEST_OBJ.sql
 @ /SiGEPAPP/Arquivos/Procedures/APPP_INS_ESTRUT_QUEST.sql
 @ /SiGEPAPP/Arquivos/Procedures/APPP_INS_TB_LOGIN.sql
 @ /SiGEPAPP/Arquivos/Procedures/APPP_INS_TIPO.sql
@@ -74,10 +70,8 @@ spool /SiGEPAPP/Arquivos/Procedures/LogProcedures.log
 @ /SiGEPAPP/Arquivos/Procedures/APPP_SEL_RESP_QUEST_PREENCH.sql
 @ /SiGEPAPP/Arquivos/Procedures/APPP_SEL_PERSONA.sql
 @ /SiGEPAPP/Arquivos/Procedures/APPP_SEL_QUEST_PREENCH.sql
-@ /SiGEPAPP/Arquivos/Procedures/APPP_SEL_RELAC_ATRIB.sql
 @ /SiGEPAPP/Arquivos/Procedures/APPP_SEL_RESPOSTA.sql
 @ /SiGEPAPP/Arquivos/Procedures/APPP_SEL_RELAC_PERG_RESP.sql
-@ /SiGEPAPP/Arquivos/Procedures/APPP_SEL_RELAC_QUEST_OBJ.sql
 @ /SiGEPAPP/Arquivos/Procedures/APPP_SEL_ESTRUT_QUEST.sql
 @ /SiGEPAPP/Arquivos/Procedures/APPP_SEL_TIPO.sql
 @ /SiGEPAPP/Arquivos/Procedures/APPP_SEL_USERS.sql
@@ -98,10 +92,8 @@ spool /SiGEPAPP/Arquivos/Procedures/LogProcedures.log
 @ /SiGEPAPP/Arquivos/Procedures/APPP_UPD_RESP_QUEST_PREENCH.sql
 @ /SiGEPAPP/Arquivos/Procedures/APPP_UPD_PERSONA.sql
 @ /SiGEPAPP/Arquivos/Procedures/APPP_UPD_QUEST_PREENCH.sql
-@ /SiGEPAPP/Arquivos/Procedures/APPP_UPD_RELAC_ATRIB.sql
 @ /SiGEPAPP/Arquivos/Procedures/APPP_UPD_RESPOSTA.sql
 @ /SiGEPAPP/Arquivos/Procedures/APPP_UPD_RELAC_PERG_RESP.sql
-@ /SiGEPAPP/Arquivos/Procedures/APPP_UPD_RELAC_QUEST_OBJ.sql
 @ /SiGEPAPP/Arquivos/Procedures/APPP_UPD_ESTRUT_QUEST.sql
 @ /SiGEPAPP/Arquivos/Procedures/APPP_UPD_TIPO.sql
 @ /SiGEPAPP/Arquivos/Procedures/APPP_UPD_USER.sql

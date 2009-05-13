@@ -2,7 +2,8 @@
 * Project Name       : SiGEPAPP
 * APPP_SEL_APPP_GEN  : Procedure para SELECIONAR dados de PATTERNS OU ANTI-PATTERNS OU PERSONAS GENERICAS
 * Author             : WeeDo 
-* History            : 11/05/2009 - Matheus Goncalves
+* History            : 11/05/2009 - Matheus Goncalves - Versao Inicial
+*                    : 13/05/2009 - Matheus Goncalves - Adicao de alias
 ***********************************************************************************************************************/
 create or replace procedure APPP_SEL_APPP_GEN(pCD_OBJETO   IN NUMBER  , 
                                               p_cursor OUT SYS_REFCURSOR   ) is
@@ -29,7 +30,11 @@ create or replace procedure APPP_SEL_APPP_GEN(pCD_OBJETO   IN NUMBER  ,
 	 SELECT EO.NM_TB_ESTRUT 
 	 FROM APPP_TB_ESTRUT_OBJ EO
 	 WHERE EO.CD_ESTRUTURA = vCD_ESTRUTURA;
-	 
+	
+	CURSOR A IS 
+	  SELECT AO.NM_ATRIBUTO_OBJ
+		FROM APPP_TB_ATRIBUTO_OBJ AO
+		WHERE TRIM(AO.NM_COLUNA) = trim(vNM_COLUNA);
      
 BEGIN
    
@@ -55,8 +60,14 @@ BEGIN
        FETCH AOB INTO vNM_COLUNA;
        WHILE AOB%FOUND LOOP  
 			 
+			    OPEN A;
+					FETCH A INTO vNM_ATRIBUTO;
+					CLOSE A;
+					
+					vNM_ATRIBUTO := NVL(vNM_ATRIBUTO,' ');
+					
  			    -- INCREMENTA O SQL DINÂMICO COM A COLUNA.
-				  vSQL := vSQL ||'        ,G.' ||trim(vNM_COLUNA)||  chr(10);
+				  vSQL := vSQL ||'        ,G.' ||trim(vNM_COLUNA)||' '||vNM_ATRIBUTO||  chr(10);
 						 
 					FETCH AOB INTO vNM_COLUNA;
 						 
