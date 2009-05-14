@@ -18,15 +18,19 @@
         <td align="center" class="titulo" style="height: 25px; vertical-align: middle;"> <font class="titulo">..:: APPP ::..</font> </td>
     </tr>
     <!--Fim do titulo-->
+    <tr><td style="padding:10px;"></td></tr>
     <tr>
         <td>
             <!--Exibição APPP-->
-            <table id="tbl_APPP" border="0" cellspacing="0" cellpadding="0" width="80%" align="center" style="border-width:1px;border-color:black;" >
-                <tr >
-                    <td style="border-bottom-style:solid;border-bottom-width:1px;">
+            <table id="tbl_APPP" border="0" cellspacing="0" cellpadding="0" width="80%" align="center" style="" >
+                <tr>
+                    <td colspan="2" style="border-bottom-color:red;border-bottom-width:2px;border-bottom-style:solid;"><font style="background-color:#ffaaaa;font-size:medium;">ANTI-PATTERN</font></td>
+                </tr>
+                <tr>
+                    <td style="border-bottom-style:solid;border-bottom-width:1px;background-color:#eeeeee;padding-bottom:40px;" >
                         Nome:
                     </td>
-                    <td style="border-bottom-style:solid;border-bottom-width:1px;">
+                    <td style="border-bottom-style:solid;border-bottom-width:1px;padding-bottom:40px;">
                         Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
                     </td>
                 </tr>

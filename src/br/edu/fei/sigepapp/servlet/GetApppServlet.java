@@ -50,7 +50,7 @@ public class GetApppServlet extends HttpServlet {
             cstmt.execute();
 
             rs = (ResultSet) cstmt.getObject(2);
-            //cstmt.close();
+
             int TotalCols = rs.getMetaData().getColumnCount();
 
             out.println("<xml>");

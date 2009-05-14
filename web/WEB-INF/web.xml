@@ -92,7 +92,7 @@ Tom Mix Petreca</description>
         <servlet-class>br.edu.fei.sigepapp.servlet.CadQuestPreenchServlet</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>GetDadosAPPP</servlet-name>
+        <servlet-name>GetAPPPServlet</servlet-name>
         <servlet-class>br.edu.fei.sigepapp.servlet.GetApppServlet</servlet-class>
     </servlet>
     <servlet>
@@ -203,7 +203,7 @@ Tom Mix Petreca</description>
         <url-pattern>/CadQuestPreenchServlet</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>GetDadosAPPP</servlet-name>
+        <servlet-name>GetAPPPServlet</servlet-name>
         <url-pattern>/GetDadosAPPP</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
