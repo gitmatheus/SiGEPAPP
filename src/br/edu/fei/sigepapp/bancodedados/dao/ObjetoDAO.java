@@ -54,6 +54,38 @@ public class ObjetoDAO {
         }
     }
 
+    public void apagaObjeto(long cd_objeto){
+        try{
+            CallableStatement cstmt = this.conn.prepareCall("begin APPP_DEL_OBJETO(?,?,?,?,?,?,?,?,?); end;");
+
+            cstmt.setLong(1, cd_objeto);
+            cstmt.setNull(2, OracleTypes.VARCHAR);
+            cstmt.setNull(3, OracleTypes.NUMBER);
+            cstmt.setNull(4, OracleTypes.VARCHAR);
+            cstmt.setNull(5, OracleTypes.DATE);
+            cstmt.setNull(6, OracleTypes.DATE);
+            cstmt.setNull(7, OracleTypes.NUMBER);
+            cstmt.setNull(8, OracleTypes.NUMBER);
+
+            cstmt.registerOutParameter(9, OracleTypes.NUMBER);
+
+            cstmt.execute();
+
+            int cResult = (int) cstmt.getLong(7);
+
+            cstmt.close();
+
+            if(cResult != 1){
+                GravarLog.gravaErro(ObjetoDAO.class.getName() + ": ocorreu um erro durante a remoção no banco: " + cResult);
+            }else{
+                GravarLog.gravaInformacao(ObjetoDAO.class.getName() + ": removido com sucesso");
+            }
+
+        }catch(SQLException e){
+            GravarLog.gravaErro(ObjetoDAO.class.getName() + ": ocorreu um erro durante a execução: " + e.getSQLState() + " : " + e.getMessage());
+        }
+    }
+
     /**
      * Metodo para fechar o banco de dados da classe
      */

@@ -231,8 +231,12 @@
         for(i = 0; i < atribtemp.length; i++){
             valores[i] = $("#" + atribtemp[i]).val();
         }
-        $.post("CadPatternServlet", {valores:valores, estrutura:cod_estrutura}, function(xml){
-
+        $.post("CadAPPPServlet", {valores:valores, estrutura:cod_estrutura, atributos: atributos}, function(xml){
+            if($("sucesso",xml).text() == "1"){
+                $("#cadastrado").dialog('open');
+            }else{
+                $("#erroCadastro").dialog('open');
+            }
         });
 
     }
