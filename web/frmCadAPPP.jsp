@@ -231,7 +231,7 @@
         for(i = 0; i < atribtemp.length; i++){
             valores[i] = $("#" + atribtemp[i]).val();
         }
-        $.post("CadPatternServlet", {valores:valores}, function(xml){
+        $.post("CadPatternServlet", {valores:valores, estrutura:cod_estrutura}, function(xml){
 
         });
 
