@@ -50,19 +50,19 @@ public class RelacPergRespDAO {
     public long APPP_INS_RELAC_PERG_RESP(Relac_Perg_Resp relac_perg_resp) {
         try {
             //Instancia um objeto da classe PreparedStatement com o comando para inserção do registro no banco
-            CallableStatement cstmt = this.conn.prepareCall("begin APPP_INS_RELAC_PERG_RESP(?, ?, ?, ?); end;");
+            CallableStatement cstmt = this.conn.prepareCall("begin APPP_INS_RELAC_PERG_RESP(?, ?, ?, ? ,?); end;");
 
             //Seta os valores para os pontos de interrogação indexados pela ordem deles na string
             cstmt.setLong(1, relac_perg_resp.getCd_pergunta());
             cstmt.setLong(2, relac_perg_resp.getCd_resposta());
             cstmt.setLong(3, relac_perg_resp.getNro_valor_resp());
-
-            cstmt.setNull(4, OracleTypes.NUMBER);
-            cstmt.registerOutParameter(4, OracleTypes.NUMBER);
+            cstmt.setString(4, "S");
+            cstmt.setNull(5, OracleTypes.NUMBER);
+            cstmt.registerOutParameter(5, OracleTypes.NUMBER);
 
             cstmt.execute();
 
-            long cResult = cstmt.getLong(4);
+            long cResult = cstmt.getLong(5);
 
             //Grava log com a informação de sucesso
             if (cResult == 1) {
@@ -160,7 +160,7 @@ public class RelacPergRespDAO {
         return listaRelacPergResp;
     }
 
-        public boolean APPP_UPD_RELAC_PERG_RESP(Relac_Perg_Resp alteraRelacPergResp) {
+    public boolean APPP_UPD_RELAC_PERG_RESP(Relac_Perg_Resp alteraRelacPergResp) {
 
         CallableStatement cstmt = null;
         long resultado = 0;

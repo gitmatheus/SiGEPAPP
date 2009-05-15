@@ -25,43 +25,61 @@ public class GetRelacPergRespServlet extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/xml;charset=UTF-8");
+        response.setContentType("text/xml;charset=ISO-8859-1");
         PrintWriter out = response.getWriter();
         Boolean erro = false;
         String xml = new String();
+        long ultimoCodigo = 0l;
 
         try {
             RelacPergRespDAO relacPergRespDAO = new RelacPergRespDAO();
             List<Relac_Perg_Resp> listRelacPergResp = relacPergRespDAO.APPP_SEL_RELAC_PERG_RESP(new Relac_Perg_Resp());
             relacPergRespDAO.fechaConexao();
+            Relac_Perg_Resp relacPergResp;
 
             Pergunta p = new Pergunta();
             Resposta r = new Resposta();
 
+           out.println("<?xml version='1.0' encoding='ISO-8859-1'?>");
             out.println("<xml>");
-            xml += "<RelacPergResp>";
 
-            for (Relac_Perg_Resp relacPergResp : listRelacPergResp) {
-                xml += "<CDPerg>";
-                xml += relacPergResp.getCd_pergunta();
-                xml += "</CDPerg>";
-                p.setCd_pergunta(relacPergResp.getCd_pergunta());
-                PerguntaDAO pDAO = new PerguntaDAO();
-                List<Pergunta> listP = pDAO.APPP_SEL_PERGUNTA(p);
-                pDAO.fechaConexao();
-                if (listP.size() > 1) {
-                    out.println("<erro>1</erro>");
-                    erro = true;
-                } else {
-                    for (Pergunta x : listP) {
-                        xml += "<DSPerg>";
-                        xml += x.getDs_pergunta();
-                        xml += "</DSPerg>";
+            for (int i = 0; i < listRelacPergResp.size(); i++) {
+                relacPergResp = listRelacPergResp.get(i);
+                if (ultimoCodigo != relacPergResp.getCd_pergunta() || ultimoCodigo == 0) {
+
+                    out.println("<PerguntaResposta>");
+                    out.println("<Pergunta>");
+                    ultimoCodigo = relacPergResp.getCd_pergunta();
+                    out.println("<CDPerg>");
+                    out.println(relacPergResp.getCd_pergunta());
+                    out.println("</CDPerg>");
+
+
+                    p.setCd_pergunta(relacPergResp.getCd_pergunta());
+                    PerguntaDAO pDAO = new PerguntaDAO();
+                    List<Pergunta> listP = pDAO.APPP_SEL_PERGUNTA(p);
+                    pDAO.fechaConexao();
+                    if (listP.size() > 1) {
+                        out.println("<erro>1</erro>");
+                        erro = true;
+                    } else {
+                        for (Pergunta x : listP) {
+                            out.println("<DSPerg>");
+                            out.println(x.getDs_pergunta());
+                            out.println("</DSPerg>");
+                        }
                     }
+                    out.println("</Pergunta>");
+                    out.println("<ListaRespostas>");
+
                 }
-                xml += "<CDResp>";
-                xml += relacPergResp.getCd_resposta();
-                xml += "</CDResp>";
+
+                out.println("<Resposta>");
+                out.println("<CDResp>");
+                out.println(relacPergResp.getCd_resposta());
+                out.println("</CDResp>");
+
+
                 RespostaDAO rDAO = new RespostaDAO();
                 r.setCd_resposta(relacPergResp.getCd_resposta());
                 List<Resposta> listR = rDAO.APPP_SEL_RESPOSTA(r);
@@ -71,16 +89,27 @@ public class GetRelacPergRespServlet extends HttpServlet {
                     erro = true;
                 } else {
                     for (Resposta x : listR) {
-                        xml += "<DSResp>";
-                        xml += x.getDs_resposta();
-                        xml += "</DSResp>";
+                        out.println("<DSResp>");
+                        out.println(x.getDs_resposta());
+                        out.println("</DSResp>");
+                    }
+                }
+
+                out.println("</Resposta>");
+
+                if ( i+1==listRelacPergResp.size()) {
+                    out.println("</ListaRespostas>");
+                    out.println("</PerguntaResposta>");
+
+                }else{
+                    if(listRelacPergResp.get(i).getCd_pergunta() != listRelacPergResp.get(i + 1).getCd_pergunta()){
+                        out.println("</ListaRespostas>");
+                        out.println("</PerguntaResposta>");
                     }
                 }
 
             }
 
-            xml += "</RelacPergResp>";
-            out.println(xml);
             out.println("</xml>");
             out.flush();
 
