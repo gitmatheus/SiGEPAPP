@@ -206,14 +206,15 @@ public class GenericDAO {
 
             ResultSet rs = (ResultSet) cstmt.getObject(1);
 
-            if (cstmt.getLong(1)!=1){
+            if (cstmt.getLong(10)!=1){
                 throw new SQLException("Retorno da procedure de similaridade diferente de 1 valor: "+cstmt.getLong(1));
             }
 
             AtributosBuscaSimilaridade regSimilaridade=new AtributosBuscaSimilaridade();
 
             while(rs.next()){
-                regSimilaridade.setSimilaridade(rs.getLong(1));
+                regSimilaridade.setSimilaridade(rs.getDouble(1));
+                System.out.println(rs.getDouble(1));
                 regSimilaridade.setCd_objeto(rs.getLong(2));
                 regSimilaridade.setTp_estrutura(rs.getString(3));
                 regSimilaridade.setNm_objeto(rs.getString(4));

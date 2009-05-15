@@ -9,6 +9,8 @@ import br.edu.fei.sigepapp.bancodedados.model.AtributosBuscaSimilaridade;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -32,7 +34,7 @@ public class BuscaSimilaridadeServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=ISO-8859-1");
+        response.setContentType("text/plain;charset=ISO-8859-1");
         PrintWriter out = response.getWriter();
         try {
 
@@ -45,6 +47,7 @@ public class BuscaSimilaridadeServlet extends HttpServlet {
 
             out.println("<xml>");
 
+            NumberFormat nf=new DecimalFormat();
 
 
             for (AtributosBuscaSimilaridade registro : buscaSimilaridade) {
@@ -56,6 +59,7 @@ public class BuscaSimilaridadeServlet extends HttpServlet {
                 out.println(registro.getTp_estrutura());
                 out.println("</tipo>");
                 out.println("<similaridade>");
+                System.out.println("sim:"+registro.getSimilaridade());
                 out.println(registro.getSimilaridade());
                 out.println("</similaridade>");
                 out.println("<nome>");
@@ -70,7 +74,7 @@ public class BuscaSimilaridadeServlet extends HttpServlet {
                 out.println("<solucao>");
                 out.println(registro.getSolucao());
                 out.println("</solucao>");
-                out.println("<documento>");
+                out.println("</documento>");
             }
 
             out.println("</xml>");
