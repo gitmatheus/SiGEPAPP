@@ -30,7 +30,6 @@ import br.edu.fei.sigepapp.bancodedados.model.AtributosBuscaSimilaridade;
 import br.edu.fei.sigepapp.bancodedados.model.Objeto;
 import br.edu.fei.sigepapp.log.GravarLog;
 import br.edu.fei.sigepapp.servlet.CadUsuarioServlet;
-import com.sun.net.ssl.internal.ssl.Debug;
 import java.sql.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -213,8 +212,7 @@ public class GenericDAO {
             AtributosBuscaSimilaridade regSimilaridade=new AtributosBuscaSimilaridade();
 
             while(rs.next()){
-                regSimilaridade.setSimilaridade(rs.getDouble(1));
-                System.out.println(rs.getDouble(1));
+                regSimilaridade.setSimilaridade(rs.getBigDecimal(1));
                 regSimilaridade.setCd_objeto(rs.getLong(2));
                 regSimilaridade.setTp_estrutura(rs.getString(3));
                 regSimilaridade.setNm_objeto(rs.getString(4));

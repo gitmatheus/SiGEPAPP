@@ -4,6 +4,9 @@
  */
 package br.edu.fei.sigepapp.bancodedados.model;
 
+import java.io.Serializable;
+import java.math.BigDecimal;
+
 /**
  *
  * @author lopespt
@@ -11,7 +14,7 @@ package br.edu.fei.sigepapp.bancodedados.model;
 public class AtributosBuscaSimilaridade {
 
     long cd_objeto;
-    double similaridade;
+    BigDecimal similaridade;
     String tp_estrutura;
     String nm_objeto;
     String contexto;
@@ -22,7 +25,7 @@ public class AtributosBuscaSimilaridade {
     public AtributosBuscaSimilaridade() {
     }
 
-    public AtributosBuscaSimilaridade(long cd_objeto, double similaridade,String tp_estrutura, String nm_objeto, String contexto, String problema, String solucao) {
+    public AtributosBuscaSimilaridade(long cd_objeto, BigDecimal similaridade,String tp_estrutura, String nm_objeto, String contexto, String problema, String solucao) {
         this.cd_objeto = cd_objeto;
         this.similaridade = similaridade;
         this.tp_estrutura=tp_estrutura;
@@ -64,11 +67,11 @@ public class AtributosBuscaSimilaridade {
         this.problema = problema;
     }
 
-    public double getSimilaridade() {
+    public BigDecimal getSimilaridade() {
         return similaridade;
     }
 
-    public void setSimilaridade(double similaridade) {
+    public void setSimilaridade(BigDecimal similaridade) {
         this.similaridade = similaridade;
     }
 

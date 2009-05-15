@@ -47,7 +47,7 @@ public class BuscaSimilaridadeServlet extends HttpServlet {
 
             out.println("<xml>");
 
-            NumberFormat nf=new DecimalFormat();
+            NumberFormat nf=new DecimalFormat("0.00000000");
 
 
             for (AtributosBuscaSimilaridade registro : buscaSimilaridade) {
@@ -59,7 +59,7 @@ public class BuscaSimilaridadeServlet extends HttpServlet {
                 out.println(registro.getTp_estrutura());
                 out.println("</tipo>");
                 out.println("<similaridade>");
-                System.out.println("sim:"+registro.getSimilaridade());
+                //System.out.println("sim:"+ registro.getSimilaridade());
                 out.println(registro.getSimilaridade());
                 out.println("</similaridade>");
                 out.println("<nome>");
