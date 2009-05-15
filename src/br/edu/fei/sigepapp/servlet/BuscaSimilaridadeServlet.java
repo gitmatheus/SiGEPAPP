@@ -34,7 +34,7 @@ public class BuscaSimilaridadeServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/plain;charset=ISO-8859-1");
+        response.setContentType("text/xml;charset=ISO-8859-1");
         PrintWriter out = response.getWriter();
         try {
 
@@ -47,36 +47,37 @@ public class BuscaSimilaridadeServlet extends HttpServlet {
 
             out.println("<xml>");
 
-            NumberFormat nf=new DecimalFormat("0.00000000");
+            NumberFormat nf = new DecimalFormat("0.000");
 
 
             for (AtributosBuscaSimilaridade registro : buscaSimilaridade) {
-                out.println("<documento>");
-                out.println("<codigo>");
-                out.println(registro.getCd_objeto());
-                out.println("</codigo>");
-                out.println("<tipo>");
-                out.println(registro.getTp_estrutura());
-                out.println("</tipo>");
-                out.println("<similaridade>");
-                //System.out.println("sim:"+ registro.getSimilaridade());
-                out.println(registro.getSimilaridade());
-                out.println("</similaridade>");
-                out.println("<nome>");
-                out.println(registro.getNm_objeto());
-                out.println("</nome>");
-                out.println("<contexto>");
-                out.println(registro.getContexto());
-                out.println("</contexto>");
-                out.println("<problema>");
-                out.println(registro.getProblema());
-                out.println("</problema>");
-                out.println("<solucao>");
-                out.println(registro.getSolucao());
-                out.println("</solucao>");
-                out.println("</documento>");
+                if (registro.getSimilaridade()!=0) {
+                    out.println("<documento>");
+                    out.println("<codigo>");
+                    out.println(registro.getCd_objeto());
+                    out.println("</codigo>");
+                    out.println("<tipo>");
+                    out.println(registro.getTp_estrutura());
+                    out.println("</tipo>");
+                    out.println("<similaridade>");
+                    //System.out.println("sim:"+ registro.getSimilaridade());
+                    out.println(nf.format(registro.getSimilaridade() * 100));
+                    out.println("</similaridade>");
+                    out.println("<nome>");
+                    out.println(registro.getNm_objeto());
+                    out.println("</nome>");
+                    out.println("<contexto>");
+                    out.println(registro.getContexto());
+                    out.println("</contexto>");
+                    out.println("<problema>");
+                    out.println(registro.getProblema());
+                    out.println("</problema>");
+                    out.println("<solucao>");
+                    out.println(registro.getSolucao());
+                    out.println("</solucao>");
+                    out.println("</documento>");
+                }
             }
-
             out.println("</xml>");
 
         } catch (SQLException ex) {

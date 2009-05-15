@@ -180,9 +180,8 @@ public class GenericDAO {
      * Método que retorna objetos do tipo Pattern e Anti-Pattern que são similares ao parâmetros fornecidos.
      *
      */
-    
     public List<AtributosBuscaSimilaridade> buscaSimilaridade(String nome_procurado, String contexto_procurado, String problema_procurado, String solucao_procurado) {
-        List<AtributosBuscaSimilaridade> retorno=new Vector<AtributosBuscaSimilaridade>();
+        List<AtributosBuscaSimilaridade> retorno = new Vector<AtributosBuscaSimilaridade>();
 
         try {
 
@@ -205,14 +204,15 @@ public class GenericDAO {
 
             ResultSet rs = (ResultSet) cstmt.getObject(1);
 
-            if (cstmt.getLong(10)!=1){
-                throw new SQLException("Retorno da procedure de similaridade diferente de 1 valor: "+cstmt.getLong(1));
+            if (cstmt.getLong(10) != 1) {
+                throw new SQLException("Retorno da procedure de similaridade diferente de 1 valor: " + cstmt.getLong(1));
             }
 
-            AtributosBuscaSimilaridade regSimilaridade=new AtributosBuscaSimilaridade();
 
-            while(rs.next()){
-                regSimilaridade.setSimilaridade(rs.getBigDecimal(1));
+            AtributosBuscaSimilaridade regSimilaridade;
+            while (rs.next()) {
+                regSimilaridade = new AtributosBuscaSimilaridade();
+                regSimilaridade.setSimilaridade(rs.getDouble(1));
                 regSimilaridade.setCd_objeto(rs.getLong(2));
                 regSimilaridade.setTp_estrutura(rs.getString(3));
                 regSimilaridade.setNm_objeto(rs.getString(4));
@@ -226,15 +226,14 @@ public class GenericDAO {
 
             cstmt.close();
             rs.close();
-                        
+
             return retorno;
-            
+
         } catch (SQLException e) {
             GravarLog.gravaErro(GenericDAO.class.getName() + ": erro ao pesquisar o nome da tabela: " + e.getMessage() + " : " + e.getSQLState() + " : " + e.getLocalizedMessage());
             return null;
         }
     }
-
 
     /**
      * Metodo para fechar o banco de dados da classe

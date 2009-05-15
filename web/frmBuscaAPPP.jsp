@@ -18,29 +18,115 @@
 %>
 <%@include file="cabecalho.jsp" %>
 <style type="text/css">
+    .app_nome{
+        font-size:medium;
+        font-weight:bold;
+    }
+    .app_similaridade{
+        font-style:italic;
+    }
+    .app_contexto{
+
+    }
+    .app_problema_titulo, .app_solucao_titulo{
+        font-size:medium;
+
+    }
+    .app_problema{
+
+    }
+    .app_solucao{
+
+    }
 
 </style>
 <script type="text/javascript" language="javascript" src="js/jquery-ui-1.7.js"></script>
 <script type="text/javascript" language="javascript">
-    $(document).ready(function(){
-        $("#tabs_menu").tabs();
-        $("#tabs_menu").tabs('select',0);
-        $('#tabs_menu').tabs('option', 'fx', { opacity: 'toggle' });
+    var tab_adicionada=false;
 
-        $("#btnBuscaPersona").click(function(){
-            //Abre tab de resultado
-            //$('#tabs_menu').tabs('add' , 'frmCadEstrutura.jsp' , 'Primeira Pagina');
-            //$("#tabs_menu ul").append("<li><a href='#tab_resultado'><span>Resultados</span></a></li>");
-            $("#tabs_menu").append("<div id='tab_resultado'>Result<div>");
-            $("#tabs_menu").tabs('add','#tab_resultado','Resultados');
-            $("#tabs_menu li a[href='#tab_resultado']").attr("style", "background-color:#000000;color:#FFFFFF");
-            $("#tabs_menu").tabs('select',2);
+    function BuscaAPP(){
 
-        });
+        var HtmlResultado="";
+
+        $.post("BuscaSimilaridadeServlet", {nome: $("#frmBuscaAPPNome").val() ,contexto: $("#frmBuscaAPPContexto").val(), problema: $("#frmBuscaProblema").val(), solucao: $("#frmBuscaAPPSolucao").val()}, function(retorno, msgstatus){
+            $(retorno).find("documento").each(function(indice,documento){
+
+                HtmlResultado+="<a href='viewAPPP.jsp?CD_OBJ="+$(documento).find("codigo").text()+"'><div><table>";
+                HtmlResultado+="<tr class='ui-widget-header ui-corner-all app_nome' style='border-width:1px;'><td class='app_nome'>";
+                HtmlResultado+=indice+1+".";
+                HtmlResultado+=$(documento).find("nome").text();
+
+                if($.trim($(documento).find("tipo").text())=='PA'){
+                    HtmlResultado+="&nbsp;<font style='font-size:small;'>[Pattern]</font>";
+                }else{
+                    HtmlResultado+="&nbsp;<font style='font-size:small;'>[Anti-Pattern]</font>";
+                }
+                HtmlResultado+="</td><td align='right' class='app_similaridade'>";
+
+                HtmlResultado+=$(documento).find("similaridade").text()+"%";
+                HtmlResultado+="</td></tr>";
+                HtmlResultado+="<tr><td colspan=2 class='app_contexto'>";
+                HtmlResultado+=$(documento).find("contexto").text();
+                HtmlResultado+="</td></tr>";
+                HtmlResultado+="<tr><td colspan=2 class='app_problema_titulo'>";
+                HtmlResultado+="Problema:";
+                HtmlResultado+="</td></tr>";
+                HtmlResultado+="<tr><td colspan=2 class='app_problema'>";
+                HtmlResultado+=$(documento).find("problema").text();
+                HtmlResultado+="</td></tr>";
+                HtmlResultado+="<tr><td colspan=2 class='app_solucao_titulo'>";
+                HtmlResultado+="Solu&ccedil;&atilde;o:";
+                HtmlResultado+="</td></tr>";
+                HtmlResultado+="<tr><td colspan=2 class='app_solucao'>";
+                HtmlResultado+=$(documento).find("solucao").text();
+                HtmlResultado+="</td></tr>";
+                HtmlResultado+="</table></div></a>";
 
 
 
-    });
+            });
+        }, "xml");
+    $("#tab_resultado").html("<table id='tbl_resultado'><tr><td>"+HtmlResultado+"</td></tr></table>");
+}
+
+
+$(document).ready(function(){
+$.ajaxSetup({async: false});
+$("#tabs_menu").tabs();
+$("#tabs_menu").tabs('select',0);
+$('#tabs_menu').tabs('option', 'fx', { opacity: 'toggle' });
+
+
+
+$("#btnBuscaAPP").click(function(){
+    if(!tab_adicionada){
+        $("#tabs_menu").append("<div id='tab_resultado'>Result<div>");
+        $("#tabs_menu").tabs('add','#tab_resultado','Resultados');
+        $("#tabs_menu li a[href='#tab_resultado']").attr("style", "background-color:#000000;color:#FFFFFF");
+        tab_adicionada=true;
+    }
+    $("#tabs_menu").tabs('select',2);
+
+    BuscaAPP();
+});
+
+$("#btnBuscaPersona").click(function(){
+    //Abre tab de resultado
+    //$('#tabs_menu').tabs('add' , 'frmCadEstrutura.jsp' , 'Primeira Pagina');
+    //$("#tabs_menu ul").append("<li><a href='#tab_resultado'><span>Resultados</span></a></li>");
+    if(!tab_adicionada){
+        $("#tabs_menu").append("<div id='tab_resultado'>Result<div>");
+        $("#tabs_menu").tabs('add','#tab_resultado','Resultados');
+        $("#tabs_menu li a[href='#tab_resultado']").attr("style", "background-color:#000000;color:#FFFFFF");
+        tab_adicionada=true;
+    }
+
+    $("#tabs_menu").tabs('select',2);
+});
+
+
+
+});
 
 
 </script>
@@ -73,7 +159,7 @@
                                         <font class="texto">Nome:</font>
                                     </td>
                                     <td>
-                                        <textarea class="edit" cols="60" rows="3"></textarea>
+                                        <textarea id="frmBuscaAPPNome" class="edit" cols="60" rows="3"></textarea>
                                     </td>
                                 </tr>
                                 <tr>
@@ -81,7 +167,7 @@
                                         <font>Contexto:</font>
                                     </td>
                                     <td>
-                                        <textarea class="edit" cols="60" rows="3"></textarea>
+                                        <textarea id="frmBuscaAPPContexto" class="edit" cols="60" rows="3"></textarea>
                                     </td>
                                 </tr>
                                 <tr>
@@ -89,7 +175,7 @@
                                         <font>Problema:</font>
                                     </td>
                                     <td>
-                                        <textarea class="edit" cols="60" rows="3"></textarea>
+                                        <textarea id="frmBuscaProblema" class="edit" cols="60" rows="3"></textarea>
                                     </td>
                                 </tr>
                                 <tr>
@@ -97,7 +183,7 @@
                                         <font>Solu&ccedil;&atilde;o:</font>
                                     </td>
                                     <td>
-                                        <textarea class="edit" cols="60" rows="3"></textarea>
+                                        <textarea id="frmBuscaAPPSolucao" class="edit" cols="60" rows="3"></textarea>
                                     </td>
                                 </tr>
                                 <tr>
@@ -127,23 +213,7 @@
                                 </tr>
                                 <tr>
                                     <td>
-                                        <font>Contexto:</font>
-                                    </td>
-                                    <td>
-                                        <textarea class="edit" cols="60" rows="3"></textarea>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <font>Problema:</font>
-                                    </td>
-                                    <td>
-                                        <textarea class="edit" cols="60" rows="3"></textarea>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <font>Solu&ccedil;&atilde;o:</font>
+                                        <font>Descri&ccedil;&atilde;o</font>
                                     </td>
                                     <td>
                                         <textarea class="edit" cols="60" rows="3"></textarea>
