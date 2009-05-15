@@ -40,7 +40,7 @@ public class GetRelacPergRespServlet extends HttpServlet {
             Pergunta p = new Pergunta();
             Resposta r = new Resposta();
 
-           out.println("<?xml version='1.0' encoding='ISO-8859-1'?>");
+            out.println("<?xml version='1.0' encoding='ISO-8859-1'?>");
             out.println("<xml>");
 
             for (int i = 0; i < listRelacPergResp.size(); i++) {
@@ -97,12 +97,12 @@ public class GetRelacPergRespServlet extends HttpServlet {
 
                 out.println("</Resposta>");
 
-                if ( i+1==listRelacPergResp.size()) {
+                if (i + 1 == listRelacPergResp.size()) {
                     out.println("</ListaRespostas>");
                     out.println("</PerguntaResposta>");
 
-                }else{
-                    if(listRelacPergResp.get(i).getCd_pergunta() != listRelacPergResp.get(i + 1).getCd_pergunta()){
+                } else {
+                    if (listRelacPergResp.get(i).getCd_pergunta() != listRelacPergResp.get(i + 1).getCd_pergunta()) {
                         out.println("</ListaRespostas>");
                         out.println("</PerguntaResposta>");
                     }

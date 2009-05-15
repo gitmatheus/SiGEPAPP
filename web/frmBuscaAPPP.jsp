@@ -27,7 +27,7 @@
         $("#tabs_menu").tabs('select',0);
         $('#tabs_menu').tabs('option', 'fx', { opacity: 'toggle' });
 
-        $("#btnBuscaSimples").click(function(){
+        $("#btnBuscaPersona").click(function(){
             //Abre tab de resultado
             //$('#tabs_menu').tabs('add' , 'frmCadEstrutura.jsp' , 'Primeira Pagina');
             //$("#tabs_menu ul").append("<li><a href='#tab_resultado'><span>Resultados</span></a></li>");
@@ -57,58 +57,16 @@
         <td>
             <div id="tabs_menu">
                 <ul>
-                    <li><a href="#busca_simples"><span>Busca Simples</span></a></li>
-                    <li><a href="#busca_similaridade"><span>Busca Avan&ccedil;ada por similaridade</span></a></li>
+                    <li><a href="#busca_PatAntPat"><span>Busca de Patterns e Anti-Patterns</span></a></li>
+                    <li><a href="#busca_Personas"><span>Busca Personas</span></a></li>
                 </ul>
 
-                <DIV id="busca_simples">
-                    <p>A busca simples ir&aacute; selecionar um APPP se forem encontradas todas as palavras digitadas em uma ou mais caixas de texto abaixo.</p>
-                    <p>
-                        <form>
-                            <table align="center">
-                                <tr>
-                                    <td>
-                                        <font class="texto">Nome:</font>
-                                    </td>
-                                    <td>
-                                        <textarea class="edit" cols="60" rows="3"></textarea>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <font>Contexto:</font>
-                                    </td>
-                                    <td>
-                                        <textarea class="edit" cols="60" rows="3"></textarea>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <font>Problema:</font>
-                                    </td>
-                                    <td>
-                                        <textarea class="edit" cols="60" rows="3"></textarea>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <font>Solu&ccedil;&atilde;o:</font>
-                                    </td>
-                                    <td>
-                                        <textarea class="edit" cols="60" rows="3"></textarea>
-                                    </td>
-                                </tr>
-                                <tr><td colspan="2" align="center" style="padding-top:20px"><input id="btnBuscaSimples" class="botao" type="button" value="Buscar" name="BtnBuscar">&nbsp;<input class="botao" type="reset" value="Limpar" name="Limpar"></td></tr>
-                            </table>
-                        </form>
-                    </p>
-                </DIV>
-
-                <DIV id="busca_similaridade">
+                <!--Tab de Busca de Pattern e Anti-Patterns-->
+                <DIV id="busca_PatAntPat">
                     <p>A busca por similaridade trar&aacute; APPP de acordo com a similaridade do texto inserido em uma ou mais caixas de texto abaixo.
                     Os resultados apresentados estar&atilde;o ordenados de forma decrescente com a similaridade.</p>
                     <p>
-                        <form>
+                        <form id="frmBuscaAPP" action="frmBuscaAPPP.jsp" method="post">
                             <table align="center">
                                 <tr>
                                     <td>
@@ -142,11 +100,66 @@
                                         <textarea class="edit" cols="60" rows="3"></textarea>
                                     </td>
                                 </tr>
-                                <tr><td colspan="2" align="center" style="padding-top:20px"><input id="btnBuscaSimilaridade" class="botao" type="button" value="Buscar" name="BtnBuscar">&nbsp;<input class="botao" type="reset" value="Limpar" name="Limpar"></td></tr>
+                                <tr>
+                                    <td colspan="2" align="center" style="padding-top:20px">
+                                        <input id="btnBuscaAPP" class="botao" type="button" value="Buscar" name="BtnBuscar">&nbsp;
+                                        <input class="botao" type="reset" value="Limpar" name="Limpar">
+                                    </td>
+                                </tr>
                             </table>
                         </form>
                     </p>
                 </DIV>
+                <!--Fim Tab de Busca de Pattern e Anti-Patterns-->
+                <!--Tab de Busca de Personas-->
+                <DIV id="busca_Personas">
+                    <p>A busca simples ir&aacute; selecionar um APPP se forem encontradas todas as palavras digitadas em uma ou mais caixas de texto abaixo.</p>
+                    <p>
+                        <form id="frmBuscaPE" action="frmBuscaAPPP.jsp" method="post">
+                            <table align="center">
+                                <tr>
+                                    <td>
+                                        <font class="texto">Nome:</font>
+                                    </td>
+                                    <td>
+                                        <textarea class="edit" cols="60" rows="3"></textarea>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <font>Contexto:</font>
+                                    </td>
+                                    <td>
+                                        <textarea class="edit" cols="60" rows="3"></textarea>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <font>Problema:</font>
+                                    </td>
+                                    <td>
+                                        <textarea class="edit" cols="60" rows="3"></textarea>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <font>Solu&ccedil;&atilde;o:</font>
+                                    </td>
+                                    <td>
+                                        <textarea class="edit" cols="60" rows="3"></textarea>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2" align="center" style="padding-top:20px">
+                                        <input id="btnBuscaPersona" class="botao" type="button" value="Buscar" name="BtnBuscar">&nbsp;
+                                        <input class="botao" type="reset" value="Limpar" name="Limpar">
+                                    </td>
+                                </tr>
+                            </table>
+                        </form>
+                    </p>
+                </DIV>
+                <!--Fim Tab de Busca de Personas-->
             </div>
         </td>
     </tr>

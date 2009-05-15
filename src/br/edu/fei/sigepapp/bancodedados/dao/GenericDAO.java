@@ -13,6 +13,7 @@ package br.edu.fei.sigepapp.bancodedados.dao;
  * |   Autor     |   Data      |   Descrição                          |
  * |------------------------------------------------------------------|
  * | Andrey      | 20/02/09    | Criação e elaboração inicial         |
+ * | Guilherme   | 14/05/09    | Adicao de Busca por Similaridade     |
  * |------------------------------------------------------------------|
  *
  */
@@ -25,6 +26,7 @@ import java.sql.ResultSet;
 
 import oracle.jdbc.OracleTypes;
 import br.edu.fei.sigepapp.bancodedados.ConnectionFactory;
+import br.edu.fei.sigepapp.bancodedados.model.AtributosBuscaSimilaridade;
 import br.edu.fei.sigepapp.bancodedados.model.Objeto;
 import br.edu.fei.sigepapp.log.GravarLog;
 import br.edu.fei.sigepapp.servlet.CadUsuarioServlet;
@@ -32,6 +34,8 @@ import com.sun.net.ssl.internal.ssl.Debug;
 import java.sql.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.List;
+import java.util.Vector;
 
 /**
  *
@@ -171,6 +175,67 @@ public class GenericDAO {
             return "";
         }
     }
+
+    /*
+     *
+     * Método que retorna objetos do tipo Pattern e Anti-Pattern que são similares ao parâmetros fornecidos.
+     *
+     */
+    
+    public List<AtributosBuscaSimilaridade> buscaSimilaridade(String nome_procurado, String contexto_procurado, String problema_procurado, String solucao_procurado) {
+        List<AtributosBuscaSimilaridade> retorno=new Vector<AtributosBuscaSimilaridade>();
+
+        try {
+
+            CallableStatement cstmt = this.conn.prepareCall("begin APPP_SEL_APP_SIMILARIDADE(?,?,?,?,?,?,?,?,?,?); end;");
+            cstmt.registerOutParameter(1, OracleTypes.CURSOR);
+            //Atributos
+            cstmt.setString(2, nome_procurado);
+            cstmt.setString(3, contexto_procurado);
+            cstmt.setString(4, problema_procurado);
+            cstmt.setString(5, solucao_procurado);
+            //Pesos
+            cstmt.setString(6, "0.25");
+            cstmt.setString(7, "0.25");
+            cstmt.setString(8, "0.25");
+            cstmt.setString(9, "0.25");
+            //Retorno
+            cstmt.registerOutParameter(10, OracleTypes.NUMBER);
+
+            cstmt.execute();
+
+            ResultSet rs = (ResultSet) cstmt.getObject(1);
+
+            if (cstmt.getLong(1)!=1){
+                throw new SQLException("Retorno da procedure de similaridade diferente de 1 valor: "+cstmt.getLong(1));
+            }
+
+            AtributosBuscaSimilaridade regSimilaridade=new AtributosBuscaSimilaridade();
+
+            while(rs.next()){
+                regSimilaridade.setSimilaridade(rs.getLong(1));
+                regSimilaridade.setCd_objeto(rs.getLong(2));
+                regSimilaridade.setTp_estrutura(rs.getString(3));
+                regSimilaridade.setNm_objeto(rs.getString(4));
+                regSimilaridade.setContexto(rs.getString(5));
+                regSimilaridade.setProblema(rs.getString(6));
+                regSimilaridade.setSolucao(rs.getString(7));
+
+                retorno.add(regSimilaridade);
+            }
+
+
+            cstmt.close();
+            rs.close();
+                        
+            return retorno;
+            
+        } catch (SQLException e) {
+            GravarLog.gravaErro(GenericDAO.class.getName() + ": erro ao pesquisar o nome da tabela: " + e.getMessage() + " : " + e.getSQLState() + " : " + e.getLocalizedMessage());
+            return null;
+        }
+    }
+
 
     /**
      * Metodo para fechar o banco de dados da classe
