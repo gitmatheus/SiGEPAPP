@@ -14,7 +14,8 @@ begin
               T.FL_EXP_REG,
               DECODE(T.FL_EXP_REG,'S',T.DS_TIPO,
                                   'N',null) EXP_REG,
-              AO.NM_COLUNA
+              AO.NM_COLUNA,
+              AO.FL_ATRIB_RELAC
        from appp_tb_estrut_obj EO,
             appp_tb_atrib_estrutura AE,
             appp_tb_atributo_obj AO,

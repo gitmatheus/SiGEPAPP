@@ -68,6 +68,7 @@ public class GetAtribDeEstrutServlet extends HttpServlet {
                 out.println("<flagexpreg>" + atributo.getFl_exp_reg().trim() + "</flagexpreg>");
                 out.println("<expreg>" + atributo.getFl_exp_reg() + "</expreg>");
                 out.println("<coluna>" + atributo.getNm_coluna() + "</coluna>");
+                out.println("<flag_relaciona>" + atributo.getFl_atrib_relac() + "</flag_relaciona>");
                 out.println("</atributo>");
             }
 
