@@ -32,12 +32,20 @@ public class CadAPPPServlet extends HttpServlet {
 
         String[] valores = request.getParameterValues("valores");
         String[] atributos = request.getParameterValues("atributos");
-        long cod_estrutura = Long.parseLong(request.getParameter("estrutura"));
-        long cod_usuario = Long.parseLong(request.getSession().getAttribute("codigo_usuario").toString());
+        String[] colunas = request.getParameterValues("colunas");
+        long cod_estrutura = 0;
+        long cod_usuario = 0;
+
+        try {
+            cod_estrutura = Long.parseLong(request.getParameter("estrutura"));
+            cod_usuario = Long.parseLong(request.getSession().getAttribute("codigo_usuario").toString());
+        } catch (Exception e) {
+            GravarLog.gravaErro(CadPatternServlet.class.getName() + ": erro de parse: " + e.getMessage());
+        }
 
         try {
             GenericDAO dao = new GenericDAO();
-            int cResult = (int) dao.insertData(cod_estrutura, cod_usuario, valores, atributos);
+            int cResult = (int) dao.insertData(cod_estrutura, cod_usuario, valores, colunas, atributos);
             dao.fechaConexao();
 
             if (cResult != 1) {
@@ -49,6 +57,7 @@ public class CadAPPPServlet extends HttpServlet {
         } catch (SQLException e) {
             GravarLog.gravaErro(CadPatternServlet.class.getName() + ": erro na operação da DAO: " + e.getSQLState() + " : " + e.getMessage());
             writer.println("<xml><sucesso>0</sucesso></xml>");
+
         } finally {
             writer.flush();
             writer.close();

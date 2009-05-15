@@ -27,6 +27,13 @@ public class CadPatternServlet extends HttpServlet {
 
         String[] valores = request.getParameterValues("valores");
         long cod_estrutura = Long.parseLong(request.getParameter("estrutura"));
+        long cod_usuario = 0;
+        try{
+            cod_usuario = Long.parseLong(request.getSession().getAttribute("codigo_usuario").toString());
+        }catch(Exception e){
+            GravarLog.gravaErro(CadPatternServlet.class.getName() + ": usuário não logado");
+            writer.println("<xml><sucesso>2</sucesso></xml>");
+        }
 
         Objeto objeto = new Objeto();
         Pattern pattern = new Pattern();
@@ -34,7 +41,7 @@ public class CadPatternServlet extends HttpServlet {
         objeto.setCd_estrutura(cod_estrutura);
         objeto.setNm_objeto(valores[0]);
         objeto.setDs_objeto(valores[1]);
-        objeto.setCd_user_criacao(Long.parseLong(request.getSession().getAttribute("codigo_usuario").toString()));
+        objeto.setCd_user_criacao(cod_usuario);
         pattern.setDs_Pat_problema(valores[2]);
         pattern.setDs_Pat_solucao(valores[3]);
 

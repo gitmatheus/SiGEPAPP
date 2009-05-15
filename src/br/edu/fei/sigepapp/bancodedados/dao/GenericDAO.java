@@ -27,6 +27,9 @@ import oracle.jdbc.OracleTypes;
 import br.edu.fei.sigepapp.bancodedados.ConnectionFactory;
 import br.edu.fei.sigepapp.bancodedados.model.Objeto;
 import br.edu.fei.sigepapp.log.GravarLog;
+import br.edu.fei.sigepapp.servlet.CadUsuarioServlet;
+import com.sun.net.ssl.internal.ssl.Debug;
+import java.sql.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
@@ -38,6 +41,7 @@ import java.text.SimpleDateFormat;
 public class GenericDAO {
 
     private Connection conn;
+
     /**
      * Contrutor da classe:- cria uma conexão com o banco de dados
      *
@@ -55,11 +59,10 @@ public class GenericDAO {
      * @param strAtributos
      * @return
      */
-    public long insertData(Long codigo_est, Long codigo_user, String strValores[], String strAtributos[]) {
+    public long insertData(Long codigo_est, Long codigo_user, String strValores[], String strColuna[], String strAtributos[]) {
         try {
             String nm_tabela = new String();
-            String[] atributos = new String[strAtributos.length - 2];
-            String[] valores = new String[strValores.length - 2];
+            String sql = new String();
 
             Objeto objeto = new Objeto();
             objeto.setCd_estrutura(codigo_est);
@@ -72,51 +75,50 @@ public class GenericDAO {
             long codigo_obj = dao.insereObjeto(objeto);
             dao.fechaConexao();
 
-            if (codigo_obj > 0) {
-                atributos[0] = "NUMBER";
-                valores[0] = Long.toString(codigo_obj);
-            }else{
+            if (codigo_obj < 1) {
                 GravarLog.gravaAlerta(GenericDAO.class.getName() + ": erro na criação do objeto.");
                 return 3;
-            }
-
-
-            CallableStatement cstmt = this.conn.prepareCall("begin APPP_EXEC_MANIP_GENERICA(?,?,?,?,?,?); end;");
-
-            if (atributos.length != valores.length) {
-                GravarLog.gravaAlerta(GenericDAO.class.getName() + ": vetores de tamanhos diferentes.");
-                return 4; //Problemas no tamanho dos vetores
             }
 
             nm_tabela = buscaNomeTabela(codigo_est);
 
             if (nm_tabela.equals("")) {
                 GravarLog.gravaAlerta(GenericDAO.class.getName() + ": nome da tabela nao encontrado.");
-                return 5; //Tabela não encontrada
-            } else {
-                cstmt.setString(1, nm_tabela);
-            }
-            cstmt.setString(2, "INS"); //Parametro fixo para que a proccedure possa saber que é uma operação de inserção no BD
-
-            // Constroi o vetor com o tipo dos atributos
-            //for (int j = 2; j < strAtributos.length; j++) { // <-- oficial tirar comentario apos correcao da proc
-            for (int j = 0; j < strAtributos.length; j++) {
-                int i = 1;
-                atributos[i] = strAtributos[j];
-                valores[i] = strValores[j];
-                i++;
+                return 4; //Tabela não encontrada
             }
 
-            cstmt.setObject(3, valores);
-            cstmt.setObject(4, atributos);
-            cstmt.registerOutParameter(5, OracleTypes.NUMBER);
-            cstmt.registerOutParameter(6, OracleTypes.CURSOR);
+            sql = "begin APPP_INS_" + nm_tabela.substring(8, nm_tabela.length()) + "(";
+            for (int i = 0; i < (strAtributos.length + 2); i++) {
+                if (i == (strAtributos.length + 1)) {
+                    sql += "?";
+                } else {
+                    sql += "?, ";
+                }
+            }
+            sql += "); end;";
+
+            CallableStatement cstmt = this.conn.prepareCall(sql);
+            cstmt.setLong("pCD_OBJETO", codigo_obj);
+            for (int i = 0; i < strAtributos.length; i++) {
+                if (strAtributos[i].equals("NUMBER")) {
+                    cstmt.setLong("p" + strColuna[i], Long.parseLong(strValores[i]));
+                } else if (strAtributos[i].equals("DATE")) {
+                    SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+                    try {
+                        Date dt = new Date(df.parse(strValores[i]).getTime());
+                        cstmt.setDate("p" + strColuna[i], dt);
+                    } catch (ParseException e) {
+                        GravarLog.gravaErro(CadUsuarioServlet.class.getName() + ": erro no parse da data: " + e.getMessage());
+                    }
+                } else if (strAtributos[i].equals("VARCHAR") || strAtributos[i].equals("VARCHAR2")) {
+                    cstmt.setString("p" + strColuna[i], strValores[i]);
+                }
+            }
+            cstmt.registerOutParameter("vResult", OracleTypes.NUMBER);
 
             cstmt.execute();
 
-            int cResult = (int) cstmt.getInt(5);
-
-            cstmt.close();
+            int cResult = (int) cstmt.getLong("vResult");
 
             if (cResult == 1) {
                 GravarLog.gravaInformacao(GenericDAO.class.getName() + ": inserção efetuada com sucesso");
@@ -131,7 +133,6 @@ public class GenericDAO {
             return 0;
         }
     }
-
 
     public String buscaNomeTabela(long cod_estr) {
         try {
@@ -156,13 +157,13 @@ public class GenericDAO {
                 s = rs.getString("NM_TB_ESTRUT");
             }
 
+            rs.close();
             cstmt.close();
 
             if (tamResultSet != 1) {
                 GravarLog.gravaAlerta(GenericDAO.class.getName() + ": numero de linhas encontradas não esperadas : Nro: " + tamResultSet);
                 return "";
             } else {
-                rs.close();
                 return s;
             }
         } catch (SQLException e) {

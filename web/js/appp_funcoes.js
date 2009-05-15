@@ -159,7 +159,7 @@ function Data(){
         theYear=theYear-1900;
     document.write(theWeekDay);
     document.write(",&nbsp;");
-    document.write(theDate.getDate() + " de " + theMonth)
+    document.write(theDate.getDate() + " de " + theMonth);
     document.write(" de " +theYear);
 }
 

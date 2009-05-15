@@ -231,7 +231,7 @@
         for(i = 0; i < atribtemp.length; i++){
             valores[i] = $("#" + atribtemp[i]).val();
         }
-        $.post("CadAPPPServlet", {valores:valores, estrutura:cod_estrutura, atributos: atributos}, function(xml){
+        $.post("CadAPPPServlet", {valores:valores, estrutura:cod_estrutura, atributos: atributos, colunas: atribtemp}, function(xml){
             if($("sucesso",xml).text() == "1"){
                 $("#cadastrado").dialog('open');
             }else{
@@ -268,7 +268,7 @@
         $("#erroCadastro").dialog({
             autoOpen: false,
             width: 'auto',
-            height: 'auto',
+            height: 130,
             buttons: {
                 "Ok": function(){
                     $(this).dialog("close");
@@ -276,8 +276,16 @@
             }
         });
 
-
-
+        $("#naoLogado").dialog({
+            autoOpen: false,
+            width: 'auto',
+            height: 100,
+            buttons: {
+                "Ok": function(){
+                    $(this).dialog("close");
+                }
+            }
+        });
     });
 </script>
 <form name="frmCadAPPP" method="post">
@@ -306,6 +314,9 @@
                             </div>
                             <div id="cadastrado" title="Parab&eacute;ns">
                                 Objeto cadastrado com sucesso.<br />
+                            </div>
+                            <div id="naoLogado" title="Aviso">
+                                Por favor, efetue o login antes e cadastrar um APPP.<br />
                             </div>
                             <div id="erroCadastro" title="Aviso">
                                 Desculpe-nos, ocorreu um erro durante o cadastro do objeto.<br />
