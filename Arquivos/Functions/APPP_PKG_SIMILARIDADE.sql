@@ -228,6 +228,9 @@ END PROCURA_PALAVRA;
         --Testa semelhança direta do texto ou se os parâmetros são nulos
         if (TEXT1=TEXT2 or (text1 is null and text2 is null)) then
         return 1;
+		
+		elsif(TEXT1='' or TEXT2='' or TEXT1 is null or TEXT2 is null) then
+        return 0;
         
         else
         
