@@ -7,7 +7,7 @@
 * History              : 28/04/2009 - Andrey Araujo Masiero
 ***************************************************************************************************/
 CREATE OR REPLACE FUNCTION APPP_FN_AVALIA_QUEST
-(pCD_OBJ in NUMBER) RETURN LONG IS
+(pCD_OBJ in NUMBER, pCD_USER in NUMBER) RETURN LONG IS
   Result LONG;
   pQTDE_AVALIACOES number := 0;
   pMEDIA number := 0;
@@ -15,24 +15,33 @@ BEGIN
   
   SELECT COUNT(*)
   INTO pQTDE_AVALIACOES
-  FROM APPP_TB_RELAC_QUEST_OBJ
-  WHERE CD_OBJETO = pCD_OBJ
+  FROM APPP_TB_QUEST_PREENCH
+  WHERE CD_OBJETO = pCD_OBJ;
   
-  IF pQTDE_AVALIACOES < 10
+  IF pQTDE_AVALIACOES < 10 THEN
      Result := 2; -- Sem quantidade para avaliação
-  ELSIF
+  ELSE
      SELECT AVG(VL_AVALIACAO)
      INTO pMEDIA
      FROM APPP_TB_QUEST_PREENCH
-     WHERE CD_QUEST_PREENCH IN (SELECT CD_QUEST_PREENCH
-                                FROM APPP_TB_RELAC_QUEST_OBJ
-                                WHERE CD_OBJETO = pCD_OBJ)
-     IF pMEDIA < 5
+     WHERE CD_OBJETO = pCD_OBJ;
+     
+     IF pMEDIA < 5 THEN
         Result := 3; -- Bloqueia
+        
+        UPDATE APPP_TB_OBJETO 
+        SET FL_ATIVO = 0 
+        WHERE CD_OBJETO = pCD_OBJ;
+        
      ELSE
         Result := 1; -- Permanece
      END IF;
   END IF;
+
+  DELETE 
+  FROM APPP_TB_AVAL_OBJ_USER 
+  WHERE CD_OBJETO = pCD_OBJ  AND
+        CD_USER   = pCD_USER;
 
   RETURN(Result);
 END APPP_FN_AVALIA_QUEST;
