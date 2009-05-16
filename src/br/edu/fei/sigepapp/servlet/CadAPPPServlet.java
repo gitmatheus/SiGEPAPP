@@ -35,33 +35,37 @@ public class CadAPPPServlet extends HttpServlet {
         String[] colunas = request.getParameterValues("colunas");
         long cod_estrutura = 0;
         long cod_usuario = 0;
-
+        boolean erro = false;
         try {
             cod_estrutura = Long.parseLong(request.getParameter("estrutura"));
             cod_usuario = Long.parseLong(request.getSession().getAttribute("codigo_usuario").toString());
         } catch (Exception e) {
             GravarLog.gravaErro(CadPatternServlet.class.getName() + ": erro de parse: " + e.getMessage());
+            writer.println("<xml><sucesso>2</sucesso></xml>");
         }
 
-        try {
-            GenericDAO dao = new GenericDAO();
-            int cResult = (int) dao.insertData(cod_estrutura, cod_usuario, valores, colunas, atributos);
-            dao.fechaConexao();
+        if (!erro) {
+            try {
+                GenericDAO dao = new GenericDAO();
+                int cResult = (int) dao.insertData(cod_estrutura, cod_usuario, valores, colunas, atributos);
+                dao.fechaConexao();
 
-            if (cResult != 1) {
-                writer.println("<xml><sucesso>" + cResult + "</sucesso></xml>");
-            } else {
-                writer.println("<xml><sucesso>" + cResult + "</sucesso></xml>");
+                if (cResult != 1) {
+                    writer.println("<xml><sucesso>" + cResult + "</sucesso></xml>");
+                } else {
+                    writer.println("<xml><sucesso>" + cResult + "</sucesso></xml>");
+                }
+
+            } catch (SQLException e) {
+                GravarLog.gravaErro(CadPatternServlet.class.getName() + ": erro na operação da DAO: " + e.getSQLState() + " : " + e.getMessage());
+                writer.println("<xml><sucesso>0</sucesso></xml>");
+
             }
-
-        } catch (SQLException e) {
-            GravarLog.gravaErro(CadPatternServlet.class.getName() + ": erro na operação da DAO: " + e.getSQLState() + " : " + e.getMessage());
-            writer.println("<xml><sucesso>0</sucesso></xml>");
-
-        } finally {
-            writer.flush();
-            writer.close();
         }
+        
+        writer.flush();
+        writer.close();
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

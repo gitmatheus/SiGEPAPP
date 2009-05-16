@@ -37,7 +37,6 @@ import br.edu.fei.sigepapp.bancodedados.ConnectionFactory;
 import br.edu.fei.sigepapp.bancodedados.model.Atributo;
 import br.edu.fei.sigepapp.bancodedados.model.AtributoCompleto;
 import br.edu.fei.sigepapp.log.GravarLog;
-import com.sun.net.ssl.internal.ssl.Debug;
 import java.sql.CallableStatement;
 import oracle.jdbc.OracleTypes;
 
@@ -142,8 +141,6 @@ public List<AtributoCompleto> PreencheListAtribCompleta(ResultSet rs) throws SQL
                 //retorna o indice que esta coluna se encontra na lista
                 int selecao = camposDaTabela.indexOf(nomeColuna);
                 //seleciona cada caso de acordo com o indice e atribui ao objeto
-                Debug.println("Selecao", Integer.toString(selecao));
-                Debug.println("Coluna", nomeColuna);
                 switch (selecao) {
                     case 0:
                         atributoNovo.setCd_atributo_obj(rs.getLong(i));

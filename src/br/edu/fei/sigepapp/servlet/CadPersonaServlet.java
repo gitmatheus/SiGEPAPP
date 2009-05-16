@@ -36,49 +36,53 @@ public class CadPersonaServlet extends HttpServlet {
         String[] valores = request.getParameterValues("valores");
         long cod_estrutura = Long.parseLong(request.getParameter("estrutura"));
         long cod_usuario = 0;
-        try{
+        boolean erro = false;
+        try {
             cod_usuario = Long.parseLong(request.getSession().getAttribute("codigo_usuario").toString());
-        }catch(Exception e){
+        } catch (Exception e) {
             GravarLog.gravaErro(CadPatternServlet.class.getName() + ": usuário não logado");
             writer.println("<xml><sucesso>2</sucesso></xml>");
+            erro = true;
         }
 
-        try {
-            Objeto objeto = new Objeto();
-            Persona persona = new Persona();
+        if (!erro) {
+            try {
+                Objeto objeto = new Objeto();
+                Persona persona = new Persona();
 
-            objeto.setCd_estrutura(cod_estrutura);
-            objeto.setNm_objeto(valores[0]);
-            objeto.setDs_objeto(valores[1]);
-            objeto.setCd_user_criacao(cod_usuario);
-            persona.setUrl_Foto(valores[2]);
+                objeto.setCd_estrutura(cod_estrutura);
+                objeto.setNm_objeto(valores[0]);
+                objeto.setDs_objeto(valores[1]);
+                objeto.setCd_user_criacao(cod_usuario);
+                persona.setUrl_Foto(valores[2]);
 
-            ObjetoDAO objDao = new ObjetoDAO();
-            long codigo = objDao.insereObjeto(objeto);
-            objDao.fechaConexao();
+                ObjetoDAO objDao = new ObjetoDAO();
+                long codigo = objDao.insereObjeto(objeto);
+                objDao.fechaConexao();
 
-            if ((int) codigo > 0) {
-                persona.setCd_Persona(codigo);
-                PersonaDAO dao = new PersonaDAO();
-                int cResult = (int) dao.APPP_INS_PERSONA(persona);
-                dao.fechaConexao();
+                if ((int) codigo > 0) {
+                    persona.setCd_Persona(codigo);
+                    PersonaDAO dao = new PersonaDAO();
+                    int cResult = (int) dao.APPP_INS_PERSONA(persona);
+                    dao.fechaConexao();
 
-                if (cResult != 1) {
-                    writer.println("<xml><sucesso>0</sucesso></xml>");
+                    if (cResult != 1) {
+                        writer.println("<xml><sucesso>0</sucesso></xml>");
+                    } else {
+                        writer.println("<xml><sucesso>" + cResult + "</sucesso></xml>");
+                    }
                 } else {
-                    writer.println("<xml><sucesso>" + cResult + "</sucesso></xml>");
+                    writer.println("<xml><sucesso>0</sucesso></xml>");
                 }
-            } else {
+
+            } catch (SQLException e) {
+                GravarLog.gravaErro(CadPatternServlet.class.getName() + ": erro na operação da DAO: " + e.getSQLState() + " : " + e.getMessage());
                 writer.println("<xml><sucesso>0</sucesso></xml>");
             }
-
-        } catch (SQLException e) {
-            GravarLog.gravaErro(CadPatternServlet.class.getName() + ": erro na operação da DAO: " + e.getSQLState() + " : " + e.getMessage());
-            writer.println("<xml><sucesso>0</sucesso></xml>");
-        } finally {
-            writer.flush();
-            writer.close();
         }
+        writer.flush();
+        writer.close();
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
