@@ -51,22 +51,22 @@ public class QuestPreenchDAO {
     public long APPP_INS_QUEST_PREENCH(QuestPreench questPreench) {
         try {
             //Instancia um objeto da classe PreparedStatement com o comando para inserção do registro no banco
-            CallableStatement cstmt = this.conn.prepareCall("begin APPP_INS_QUEST_PREENCH(?, ?, ?, ?, ?, ?, ?); end;");
+            CallableStatement cstmt = this.conn.prepareCall("begin APPP_INS_QUEST_PREENCH(?, ?, ?, ?, ?, ?); end;");
 
             //Seta os valores para os pontos de interrogação indexados pela ordem deles na string
             cstmt.setLong(1, questPreench.getCd_quest_preench());
-            cstmt.setDate(2, questPreench.getDt_aplicacao());
-            cstmt.setLong(3, questPreench.getVl_avaliacao());
-            cstmt.setString(4, questPreench.getDs_proj_aplic());
-            cstmt.setLong(5, questPreench.getCd_user());
-            cstmt.setLong(6, questPreench.getCd_objeto());
+            
+            cstmt.setLong(2, questPreench.getVl_avaliacao());
+            cstmt.setString(3, questPreench.getDs_proj_aplic());
+            cstmt.setLong(4, questPreench.getCd_user());
+            cstmt.setLong(5, questPreench.getCd_objeto());
 
-            cstmt.setNull(7, OracleTypes.NUMBER);
-            cstmt.registerOutParameter(7, OracleTypes.NUMBER);
+            cstmt.setNull(6, OracleTypes.NUMBER);
+            cstmt.registerOutParameter(6, OracleTypes.NUMBER);
 
             cstmt.execute();
 
-            long cResult = cstmt.getLong(7);
+            long cResult = cstmt.getLong(6);
 
             //Grava log com a informação de sucesso
             if (cResult == 1) {

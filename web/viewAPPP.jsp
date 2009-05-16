@@ -99,10 +99,10 @@
                     <td colspan="2">
                         <font>
                             <%
-        if (rs.getString("TP_ESTRUTURA").trim().equalsIgnoreCase("PA")) {
+        if (rs.getString("NM_ESTRUTURA").trim().equalsIgnoreCase("PATTERN")) {
             rs.getString("PROBLEMA PATTERN").trim();
-        } else if (rs.getString("TP_ESTRUTURA").trim().equalsIgnoreCase("AP")) {
-                rs.getString("PROBLEMA ANTI-PATTERN").trim();
+        } else if (rs.getString("NM_ESTRUTURA").trim().equalsIgnoreCase("ANTI_PATTERN")) {
+            rs.getString("PROBLEMA ANTI-PATTERN").trim();
         } else {
         }
 

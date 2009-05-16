@@ -7,19 +7,30 @@ a<%@page import="br.edu.fei.sigepapp.bancodedados.dao.*,br.edu.fei.sigepapp.banc
         int i = 0;
 
         RespostaDAO respDAO = new RespostaDAO();
-        List<Resposta> listRespostas = respDAO.APPP_SEL_RESPOSTA(new Resposta());
-        respDAO.fechaConexao();
+        List<Resposta> listRespostas;
+
         int j = 0;
 
         RelacPergRespDAO relacPRDAO = new RelacPergRespDAO();
-        Relac_Perg_Resp buscaRelac = new Relac_Perg_Resp();
-        List<Relac_Perg_Resp> listRelacPergResp = relacPRDAO.APPP_SEL_RELAC_PERG_RESP(new Relac_Perg_Resp(0, 0, 0));
-        relacPRDAO.fechaConexao();
+
+        List<Relac_Perg_Resp> listRelacPergResp;
+
 %>
 
 <%@include file="cabecalho.jsp"%>
 
 <script type="text/javascript" language="javascript" src="js/appp_frmCadResposta.js"></script>
+<script type="text/javascript">
+    $(document).ready(function(){
+
+        $("#cadQuest").click(function(){
+            $.post("cadQuestPreenchServlet", {CD_OBJ: <%= request.getParameter("CD_OBJ") %> }, callback, type)
+
+        });
+
+    });
+
+</script>
 
 <!--Inicio do formulário-->
 <table border="0" cellpadding="0" cellspacing="0" width="100%" align="center" class="formulario">
@@ -43,7 +54,6 @@ a<%@page import="br.edu.fei.sigepapp.bancodedados.dao.*,br.edu.fei.sigepapp.banc
                             <td colspan="3" align="center">
                                 <table border="0" width="100%">
                                     <%
-        Relac_Perg_Resp buscaListaRelac = new Relac_Perg_Resp();
 
         for (Pergunta p : listPerguntas) {
             i++;
@@ -54,14 +64,34 @@ a<%@page import="br.edu.fei.sigepapp.bancodedados.dao.*,br.edu.fei.sigepapp.banc
                                         </td>
                                     </tr>
                                     <tr>
-                                        <%for (j = 1; j <= 5; j++) {%>
-                                        <input type="hidden" name="CDPerg" value="<%=p.getCd_pergunta()%>">
-                                        <input type="hidden" name="PesoResp" value="<%=j%>" >
-                                        <input name="radio" type="radio" value=""/>
-                                        <%}%>
+                                        <td>
+                                            <table>
+                                                <tr>
+                                                    <%
+
+                                                listRelacPergResp = relacPRDAO.APPP_SEL_RELAC_PERG_RESP(new Relac_Perg_Resp(p.getCd_pergunta(), 0, 0));
+
+
+                                                for (Relac_Perg_Resp rel : listRelacPergResp) {
+                                                    listRespostas = respDAO.APPP_SEL_RESPOSTA(new Resposta(rel.getCd_resposta(), null));
+                                                    %>
+                                                    <td style="padding-left:20px;">
+                                                        <input name="<%= p.getCd_pergunta()%>" type="radio" value="<%= listRespostas.get(0).getNro_peso_resposta()%>" >
+                                                        <%= listRespostas.get(0).getDs_resposta()%>
+                                                    </td>
+                                                    <%}%>
+                                                </tr>
+                                            </table>
+                                        </td>
                                     </tr>
                                     <%}%>
                                 </table>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <input type="button" name="CadastraQuest" value="Enviar" onclick="return false;" id="cadQuest">
+                                <input type="reset" name="ResetQuest" value="Limpar" id="resQuest">
                             </td>
                         </tr>
                     </table>
@@ -70,6 +100,11 @@ a<%@page import="br.edu.fei.sigepapp.bancodedados.dao.*,br.edu.fei.sigepapp.banc
         </td>
     </tr>
 </table>
+<%
 
+        respDAO.fechaConexao();
+        relacPRDAO.fechaConexao();
+
+%>
 <!--Fim do formulário-->
 <%@include file="rodape.jsp"%>
