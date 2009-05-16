@@ -34,11 +34,16 @@
     <!--Fim do titulo-->
     <!--Inicio do Conteudo-->
     <tr>
+        <td style="font-size:medium">
+            A lista abaixo apresenta o(s) APPP(s) que est&atilde;o na sua lista de utiliza&ccedil;&atilde;o e ainda n&atilde;o foram avaliados:
+        </td>
+    </tr>
+    <tr>
         <td>
-            teste
+            
         </td>
     </tr>
     <!--Fim do Conteudo-->
-</table>
 
+</table>
 <%@include file="rodape.jsp" %>

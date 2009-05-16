@@ -114,8 +114,8 @@
         <a id="menubv" href="/sigepapp/frmCadEstruturaStep1.jsp" title="Cadastro das Estruturas disponiveis no sistema" >Cadastro de Estruturas</a></tr>
         <tr class="menubv"><td>
         <a id="menubv" href="/sigepapp/frmCadAPPP.jsp" title="Cadastro de Patterns, Anti-Patterns e Personas" >Cadastro dos APPP</a></tr>
-        <tr class="menubv"><td>
-        <a id="menubv" href="/sigepapp/frmCadUsuario.jsp" title="Cadastro das Estruturas disponiveis no sistema" >Cadastro de Usuário</a></tr>
+        <!--<tr class="menubv"><td>
+        <a id="menubv" href="/sigepapp/frmCadUsuario.jsp" title="Cadastro das Estruturas disponiveis no sistema" >Cadastro de Usuário</a></tr>-->
         <tr class="menubv"><td>
         <a id="menubv" href="/sigepapp/frmBuscaAPPP.jsp" title="Sistema de busca de Patterns, Anti-Patterns e Personas" >Busca de APPP</a></tr>
         <tr class="menubv"><td>
