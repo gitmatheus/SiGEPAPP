@@ -51,7 +51,7 @@
         $.post("BuscaSimilaridadeServlet", {nome: $("#frmBuscaAPPNome").val() ,contexto: $("#frmBuscaAPPContexto").val(), problema: $("#frmBuscaProblema").val(), solucao: $("#frmBuscaAPPSolucao").val()}, function(retorno, msgstatus){
             $(retorno).find("documento").each(function(indice,documento){
 
-                HtmlResultado+="<a href='viewAPPP.jsp?CD_OBJ="+$(documento).find("codigo").text()+"'><div><table>";
+                HtmlResultado+="<a href='viewAPPP.jsp?CD_OBJ="+$(documento).find("codigo").text()+"'><div><table width='100%'>";
                 HtmlResultado+="<tr class='ui-widget-header ui-corner-all app_nome' style='border-width:1px;'><td class='app_nome'>";
                 HtmlResultado+=indice+1+".";
                 HtmlResultado+=$(documento).find("nome").text();
@@ -86,7 +86,7 @@
 
             });
         }, "xml");
-    $("#tab_resultado").html("<table id='tbl_resultado'><tr><td>"+HtmlResultado+"</td></tr></table>");
+    $("#tab_resultado").html("<table width='100%' id='tbl_resultado'><tr><td>"+HtmlResultado+"</td></tr></table>");
 }
 
 
