@@ -143,3 +143,4 @@ vSQL:=vSQL || ') o ORDER BY SIMILARIDADE DESC';
         vERRO   := SUBSTR(SQLERRM,300) || 'Tabela: ' || vNM_TABELA || '; Coluna: ' || vNM_COLUNA ;
         
 end APPP_SEL_APP_SIMILARIDADE;
+/
