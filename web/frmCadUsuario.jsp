@@ -162,7 +162,7 @@
                                     </td>
                                     <td width="70%" align="left">
                                         <div  style="margin-left: 5px;">
-                                            <input id="frmCadUserEndComplemento" type="text" name="frmCadUserEndComplemento" class="edit" style="width: 150px;" maxlength="80" title="Digite o complemento de seu endere&ccedil;o" />
+                                            <input id="frmCadUserEndComplemento" value=" " type="text" name="frmCadUserEndComplemento" class="edit" style="width: 150px;" maxlength="80" title="Digite o complemento de seu endere&ccedil;o" />
                                            <!-- <font class="texto"> Tipo: </font>
                                             <select id="frmCadUserTipoEnd" name="frmCadUserTipoEnd" class="edit" style="width: auto;">
                                                 <option value="R">Residencial</option>
