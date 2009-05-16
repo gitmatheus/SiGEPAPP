@@ -5,13 +5,13 @@
 * Author                 : WeeDo 
 * History                : 06/03/2009 - Matheus Goncalves
 *                        : 06/05/2009 - Matheus Goncalves - Adicao de Campos CD_USER e CD_OBJETO
+*			             : 15/05/2009 - Guilherme Lopes	  - SYSTDATE na inclusao de Questionario
 ***********************************************************************************************************************/
 create or replace procedure APPP_INS_QUEST_PREENCH(pCD_QUEST_PREENCH  IN NUMBER   ,
-                                                   pDT_APLICACAO      IN DATE     ,
                                                    pVL_AVALIACAO      IN NUMBER   ,
                                                    pDS_PROJ_APLIC     IN VARCHAR2 ,
-																									 pCD_USER           IN NUMBER   ,
-																									 pCD_OBJETO         IN NUMBER   ,
+						   pCD_USER           IN NUMBER   ,
+						   pCD_OBJETO         IN NUMBER   ,				 
                                                    vResult            out number) is
 vERRO        VARCHAR2(600);
 begin
@@ -24,7 +24,7 @@ begin
 																			CD_OBJETO 
                                     )
                              values( pCD_QUEST_PREENCH ,
-                                     pDT_APLICACAO     ,
+                                     SYSDATE           ,
                                      pVL_AVALIACAO     ,
                                      pDS_PROJ_APLIC    ,
 																		 pCD_USER          ,
