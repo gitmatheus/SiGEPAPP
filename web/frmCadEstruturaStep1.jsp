@@ -1,4 +1,5 @@
 <%@include file="cabecalho.jsp"%>
+<% if (request.getSession().getAttribute("codigo_usuario") != null && request.getSession().getAttribute("codigo_usuario") != "0") {%>
 <link type="text/css" rel="stylesheet" href="css/jquery-ui-1.7.css">
 <link type="text/css" rel="stylesheet" href="css/appp_css.css">
 
@@ -144,4 +145,11 @@
     </table>
 </form>
 <!--Fim do formulário-->
+<% } else {%>
+<center>
+    <h2>Cadastro de Estrutura</h2>
+    <font class="texto">Este m&oacute;dulo cadastra estruturas do tipo Pattern, Anti-Pattern ou Personas para, posteriormente, serem utilizadas no módulo cadastro de APPP.</font>
+    <p><small><font class="texto">Por favor, efetue o login no canto superior direito da p&aacute;gina</font></small></p>
+</center>
+<%}%>
 <%@include file="rodape.jsp"%>

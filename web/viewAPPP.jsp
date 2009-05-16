@@ -1,4 +1,7 @@
 <%@page import="br.edu.fei.sigepapp.log.*,br.edu.fei.sigepapp.bancodedados.*,java.sql.*,oracle.jdbc.*,java.text.*"%>
+<%@include file="cabecalho.jsp" %>
+<% if (request.getSession().getAttribute("codigo_usuario") != null && request.getSession().getAttribute("codigo_usuario") != "0") {%>
+
 <%
         Connection conn;
         ResultSet rs = null;
@@ -21,7 +24,7 @@
 
 
 %>
-<%@include file="cabecalho.jsp" %>
+
 <style type="text/css">
     .nome{
         font-size:medium;
@@ -207,4 +210,13 @@
             cstmt.close();
         }
 %>
+
+<%} else {%>
+<center>
+    <h2>Visualiza&ccedil;&atilde;o de Objetos</h2>
+    <font class="texto">Este m&oacute;dulo exibe detalhes de um objeto e permite o aviso de utiliza&ccedil;&aacute;o.</font>
+    <p><small><font class="texto">Por favor, efetue o login no canto superior direito da p&aacute;gina</font></small></p>
+</center>
+<%}%>
+
 <%@include file="rodape.jsp" %>

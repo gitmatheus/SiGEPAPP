@@ -48,8 +48,8 @@
 </table>
 <%} else { %>
 <h2>Seja bemvindo,<br /> <% out.print(request.getSession().getAttribute("usuario"));%></h2>
-<div align='right' style='margin-right: 10px;'>|
-    <a id='envia_avaliacoes' href='frmAvaliacoesPendentes.jsp' class='painelcontrole' title='Avaliar APPP pendentes'>Avalia&ccedil;&otilde;es</a>&nbsp;|
+<div align='right' style='margin-right: 10px;'>
+   <!-- |<a id='envia_avaliacoes' href='frmAvaliacoesPendentes.jsp' class='painelcontrole' title='Avaliar APPP pendentes'>Avalia&ccedil;&otilde;es</a>&nbsp;-->|
  	<a id='envia_logoff' href='#' class='painelcontrole' title='Sair do sistema' onclick='javascript:LogoffSigepapp();' >Sair</a> 
 </div> 
 <input type='hidden' id='status' value='logoff' />

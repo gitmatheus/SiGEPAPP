@@ -1,3 +1,44 @@
+function valida(){
+    var retorno=false;
+    //Validações do cadastro
+    if ($.trim($("#frmCadUserLogin").val())==""){
+        alert("Campo obrigatório não preenchido: Login");
+    }else if($.trim($("#frmCadUserSenha").val())=="")  {
+        alert("Campo obrigatório não preenchido: Senha");
+    }else if($.trim($("#frmCadUserCSenha").val())=="") {
+        alert("Campo obrigatório não preenchido: Confirmação de Senha");
+    }else if ($.trim($("#frmCadUserEmail").val())=="") {
+        alert("Campo obrigatório não preenchido: Email");
+    }else if($.trim($("#frmCadUserCPF").val())=="") {
+        alert("Campo obrigatório não preenchido: CPF");
+    }else if($.trim($("#frmCadUserNome").val())==""){
+        alert("Campo obrigatório não preenchido: Nome Usuário");
+    }else if ($.trim($("#frmCadUserSobrenome").val())=="") {
+        alert("Campo obrigatório não preenchido: Sobrenome Usuário");
+    }else if($.trim($("#frmCadUserDataNasc").val())=="")  {
+        alert("Campo obrigatório não preenchido: Data de Nascimento");
+    }else if($.trim($("#frmCadUserEndereco").val())=="")  {
+        alert("Campo obrigatório não preenchido: Endereço");
+    }else if($.trim($("#frmCadUserNumEnd").val())==""){
+        alert("Campo obrigatório não preenchido: Número do endereço");
+    }else if($.trim($("#frmCadUserCEP").val())=="") {
+        alert("Campo obrigatório não preenchido: Cep");
+    }else if($.trim($("#frmCadUserBairro").val())==""){
+        alert("Campo obrigatório não preenchido: Bairro");
+    }else if($.trim($("#frmCadUserEstado").val())=="") {
+        alert("Campo obrigatório não preenchido: Estado");
+    }else if($.trim($("#frmCadUserCidade").val())=="") {
+        alert("Campo obrigatório não preenchido: Cidade");
+    }else if($.trim($("#frmCadUserTelefone").val())==""){
+        alert("Campo obrigatório não preenchido: Telefone");
+    }else{
+        retorno=true;
+    }
+    return retorno;
+//Fim das validações do cadastro
+
+}
+
 $(document).ready(function(){
     $("#frmCadUserLogin").blur(function(){
         if($("#frmCadUserLogin").val() != ""){
@@ -139,63 +180,65 @@ function getCidade(){
 }
 
 function EnviaCadUsuario(){
-    var login = $("#frmCadUserLogin").val();
-    var senha = $("#frmCadUserSenha").val();
-    var email = $("#frmCadUserEmail").val();
-    var tipoemail = "P";
-    var cpf = new String($("#frmCadUserCPF").val());
-    cpf = apenasNumeros(cpf);
-    var nome = $("#frmCadUserNome").val();
-    var sobrenome = $("#frmCadUserSobrenome").val();
-    var datanasc = $("#frmCadUserDataNasc").val();
-    var endereco = $("#frmCadUserEndereco").val();
-    var nroendereco = $("#frmCadUserNumEnd").val();
-    var endcomplemento = $("#frmCadUserEndComplemento").val();
-    var tipoendereco = "R";
-    var cep = new String($("#frmCadUserCEP").val());
-    cep = apenasNumeros(cep);
-    var bairro = $("#frmCadUserBairro").val();
-    var cidade = $("#frmCadUserCidade").val();
-    var telefone = new String($("#frmCadUserTelefone").val());
-    telefone =  apenasNumeros(telefone);
-    var tipotelefone = "R";
-    var msn = $("#frmCadUserMsn").val();
-    var skype = $("#frmCadUserSkype").val();
-    var areainteresse = $("#frmCadUserAreaInt").val();
+    if (valida()){
 
-    $.post("CadUsuarioServlet", {
-        login: login,
-        senha: senha,
-        email :email,
-        tipoemail: tipoemail,
-        cpf: cpf,
-        nome: nome,
-        sobrenome: sobrenome,
-        datanasc: datanasc,
-        endereco: endereco,
-        nroendereco: nroendereco,
-        endcomplemento: endcomplemento,
-        tipoendereco: tipoendereco,
-        cep: cep,
-        bairro: bairro,
-        cidade: cidade,
-        telefone: telefone,
-        tipotelefone: tipotelefone,
-        msn: msn,
-        skype: skype,
-        areainteresse: areainteresse
-    }, function(xml){
-        var confirma = $("sucesso",xml).text();
-        if (confirma == "inserido"){
-            $("#alertaCadastrado").dialog('open');
-        }else{
-            if (confirma == "existente")
-                $("#alertaExistente").dialog('open');
-            else
-                $("#alertaErro").dialog('open');
-        }
-    });
+        var login = $("#frmCadUserLogin").val();
+        var senha = $("#frmCadUserSenha").val();
+        var email = $("#frmCadUserEmail").val();
+        var tipoemail = "P";
+        var cpf = new String($("#frmCadUserCPF").val());
+        cpf = apenasNumeros(cpf);
+        var nome = $("#frmCadUserNome").val();
+        var sobrenome = $("#frmCadUserSobrenome").val();
+        var datanasc = $("#frmCadUserDataNasc").val();
+        var endereco = $("#frmCadUserEndereco").val();
+        var nroendereco = $("#frmCadUserNumEnd").val();
+        var endcomplemento = $("#frmCadUserEndComplemento").val();
+        var tipoendereco = "R";
+        var cep = new String($("#frmCadUserCEP").val());
+        cep = apenasNumeros(cep);
+        var bairro = $("#frmCadUserBairro").val();
+        var cidade = $("#frmCadUserCidade").val();
+        var telefone = new String($("#frmCadUserTelefone").val());
+        telefone =  apenasNumeros(telefone);
+        var tipotelefone = "R";
+        var msn = $("#frmCadUserMsn").val();
+        var skype = $("#frmCadUserSkype").val();
+        var areainteresse = $("#frmCadUserAreaInt").val();
 
+        $.post("CadUsuarioServlet", {
+            login: login,
+            senha: senha,
+            email :email,
+            tipoemail: tipoemail,
+            cpf: cpf,
+            nome: nome,
+            sobrenome: sobrenome,
+            datanasc: datanasc,
+            endereco: endereco,
+            nroendereco: nroendereco,
+            endcomplemento: endcomplemento,
+            tipoendereco: tipoendereco,
+            cep: cep,
+            bairro: bairro,
+            cidade: cidade,
+            telefone: telefone,
+            tipotelefone: tipotelefone,
+            msn: msn,
+            skype: skype,
+            areainteresse: areainteresse
+        }, function(xml){
+            var confirma = $("sucesso",xml).text();
+            if (confirma == "inserido"){
+                $("#alertaCadastrado").dialog('open');
+            }else{
+                if (confirma == "existente")
+                    $("#alertaExistente").dialog('open');
+                else
+                    $("#alertaErro").dialog('open');
+            }
+        });
+    }
 }
 
 function inverterData(str){

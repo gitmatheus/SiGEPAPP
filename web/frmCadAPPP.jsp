@@ -1,6 +1,6 @@
 <%@page import="br.edu.fei.sigepapp.bancodedados.dao.*,br.edu.fei.sigepapp.bancodedados.model.*,java.util.*" %>
 <%@include file="cabecalho.jsp"%>
-
+<% if (request.getSession().getAttribute("codigo_usuario") != null && request.getSession().getAttribute("codigo_usuario") != "0") {%>
 <script type="text/javascript" language="javascript" src="js/jquery.tinysort.js"></script>
 <script type="text/javascript" src="js/jquery-ui-1.7.js" ></script>
 <script type="text/javascript" language="javascript" src="js/i18n/ui.datepicker-pt-BR.js"></script>
@@ -368,5 +368,11 @@
         </tr>
     </table>
 </form>
-
+<%} else{ %>
+<center>
+    <h2>Cadastro de APPP</h2>
+    <font class="texto">Neste m&oacute;dulo &eacute; poss&iacute;vel efetuar cadastro de Patterns, Anti-Patterns e Personas.</font>
+    <p><small><font class="texto">Por favor, efetue o login no canto superior direito da p&aacute;gina</font></small></p>
+</center>
+<%}%>
 <%@include file="rodape.jsp"%>

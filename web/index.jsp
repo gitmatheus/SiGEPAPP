@@ -47,14 +47,14 @@
         <td width="50%" style="border-right: 1px dotted #3d414c;">
         	<div style=" margin-left: 10px; margin-right: 10px; margin-top: 5px; margin-bottom: 15px; text-align:justify;">
             	<font class="texto">
-                	Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+                	Os patterns são utilizados para documentar boas práticas.A vantagem na utilização dos patterns está em localizar as soluções para problemas recorrentes sem muito despreender muito tempo.
                 </font>
             </div>
 		</td>
         <td width="50%">
         	<div style=" margin-left: 10px; margin-right: 10px; margin-top: 5px; margin-bottom: 15px; text-align:justify;">
             	<font class="texto">
-                	Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+                    Os anti-patterns são utilizados para documentar más práticas e recomendações na tentativa de informar o caminho para se encontrar uma solução.
                 </font>
             </div>
 		</td>
@@ -75,7 +75,7 @@
         <td width="50%" style="border-right: 1px dotted #3d414c;">
         	<div style=" margin-left: 10px; margin-right: 10px; margin-top: 5px; margin-bottom: 15px; text-align:justify;">
             	<font class="texto">
-                	Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+                    São perfis de usuários utilizados para compreender as características de um determinado grupo de usuários.Isso é importante para manter o foco do projetista no usuário final.
                 </font>
 			</div>
 		</td>
