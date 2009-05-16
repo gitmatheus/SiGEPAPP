@@ -1,23 +1,27 @@
 <%@page import="br.edu.fei.sigepapp.bancodedados.dao.*,br.edu.fei.sigepapp.bancodedados.model.*,java.util.*" %>
 <%@include file="cabecalho.jsp"%>
-<link type="text/css" href="css/ui.all.css" rel="Stylesheet" />
+
 <script type="text/javascript" language="javascript" src="js/jquery.tinysort.js"></script>
-<script type="text/javascript" src="js/jquery-ui-1.5.3.js" ></script>
+<script type="text/javascript" src="js/jquery-ui-1.7.js" ></script>
 <script type="text/javascript" language="javascript" src="js/i18n/ui.datepicker-pt-BR.js"></script>
 <script type="text/javascript" language="javascript" src="js/fckeditor/fckeditor.js"></script>
 <script type="text/javascript" language="javascript">
     var cod_estrutura, pos, tam;
+    var codigos_atrib = new Array();
     var valores = new Array();
     var atribtemp = new Array();
     var atributos = new Array();
+    var relacoes = new Array();
+    var linha_relacoes = new Array();
 
     $(document).ready(function(){
         $.ajaxSetup({
             async: false
         });
-
+        
         var frm = document.frmCadAPPP;
         selecionaTpEstrutura(1);
+        $("#erroCadastro").show();
 
         $("#frmCadAPPPChkPattern").click(function(){
             var req = verificaChkBox();
@@ -28,6 +32,7 @@
             valores = new Array();
             atribtemp = new Array();
         });
+        
         $("#frmCadAPPPChkAntiPattern").click(function(){
             var req = verificaChkBox();
             selecionaTpEstrutura(req);
@@ -37,6 +42,7 @@
             valores = new Array();
             atribtemp = new Array();
         });
+
         $("#frmCadAPPPChkPersona").click(function(){
             var req = verificaChkBox();
             selecionaTpEstrutura(req);
@@ -67,9 +73,9 @@
         });
 
         $("#frmCadAPPPBtnCancelar").click(function(){
-             window.location = "/sigepapp";
+            window.location = "/sigepapp";
         });
-        
+
         frm.frmCadAPPPChkPattern.checked = true;
         frm.frmCadAPPPChkAntiPattern.checked = true;
         frm.frmCadAPPPChkPersona.checked = true;
@@ -132,7 +138,7 @@
             atributos = new Array();
             valores = new Array();
             atribtemp = new Array();
-            
+
             if (cd != "" && cd != null){
                 buscaAtributos(cd);
             }else{
@@ -167,7 +173,7 @@
                             "' id='" + nome + "' class='edit' cols='60'></textarea>";
                         break;
                     case "NUMBER":
-                        strHtml += "</td><td width='70%' align='left' valign='middle'>";
+                        strHtml += "</td><td width='70%' align='left' valign='middle' nowrap>";
                         strHtml += "<input id='" + nome + "' name='" + nome + "' type='text' class='edit' />";
                         break;
                     case "DATE":
@@ -175,6 +181,7 @@
                         strHtml += "<input id='" + nome + "' name='" + nome + "' type='text' class='edit' />";
                         break;
                 }
+                
                 strHtml += "</td></tr>";
 
             });
@@ -312,17 +319,21 @@
                             <div id="alertaSelectEstrut" title="Estruturas não encontradas">
                                 Por favor, selecione um tipo de estrutura.<br />
                             </div>
+                            <script type="text/javascript">$("#alertaSelectEstrut").hide();</script>
                             <div id="cadastrado" title="Parab&eacute;ns">
                                 Objeto cadastrado com sucesso.<br />
                             </div>
+                            <script type="text/javascript">$("#cadastrado").hide();</script>
                             <div id="naoLogado" title="Aviso">
                                 Por favor, efetue o login antes e cadastrar um APPP.<br />
                             </div>
+                            <script type="text/javascript">$("#naoLogado").hide();</script>
                             <div id="erroCadastro" title="Aviso">
                                 Desculpe-nos, ocorreu um erro durante o cadastro do objeto.<br />
                                 Verifique os campos preenchidos e tente novamente.<br />
                                 Obrigado, Equipe SiGePAPP.<br />
                             </div>
+                            <script type="text/javascript">$("#erroCadastro").hide();</script>
                         </td>
                     </tr>
                     <tr>
