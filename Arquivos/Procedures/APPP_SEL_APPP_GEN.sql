@@ -4,6 +4,7 @@
 * Author             : WeeDo 
 * History            : 11/05/2009 - Matheus Goncalves - Versao Inicial
 *                    : 13/05/2009 - Matheus Goncalves - Adicao de alias
+*                    : 17/05/2009 - Guilherme Lopes - Adição das colunas TP_ESTRUTURA e NM_ESTRUTURA
 ***********************************************************************************************************************/
 create or replace procedure APPP_SEL_APPP_GEN(pCD_OBJETO   IN NUMBER  , 
                                               p_cursor OUT SYS_REFCURSOR   ) is
@@ -54,7 +55,9 @@ BEGIN
        vSQL := vSQL ||'       O.DS_OBJETO, ' || chr(10);
        vSQL := vSQL ||'       O.DT_CRIACAO, ' || chr(10);
        vSQL := vSQL ||'       O.CD_USER_CRIADOR, ' || chr(10);
-       vSQL := vSQL ||'       O.FL_ATIVO  ' || chr(10);
+       vSQL := vSQL ||'       O.FL_ATIVO,  ' || chr(10);
+       vSQL := vSQL ||'       E.NM_ESTRUTURA,  ' || chr(10);
+       vSQL := vSQL ||'       E.TP_ESTRUTURA  ' || chr(10);
   
        OPEN AOB;
        FETCH AOB INTO vNM_COLUNA;
@@ -77,7 +80,8 @@ BEGIN
 			 
 			 CLOSE AOB; 
        vSQL := vSQL ||'FROM   APPP_TB_OBJETO O,' || chr(10);
-
+	   vSQL := vSQL ||'   APPP_TB_ESTRUT_OBJ E, ' || chr(10);
+	   
 		   vSQL := vSQL ||'       '||TRIM(vNM_TABELA)|| ' G '   || chr(10);	 
 			 
 			 IF vCD_ESTRUTURA = 1     THEN
@@ -91,7 +95,7 @@ BEGIN
  			 END IF;
 			 					    		 
 			 vSQL := vSQL ||'AND    O.CD_OBJETO = ' || pCD_OBJETO || chr(10); 
-			 
+			 vSQL := vSQL ||' AND    E.CD_ESTRUTURA = O.CD_ESTRUTURA' || chr(10);
 			 OPEN p_cursor FOR vSQL;
 			 
    END IF; 
