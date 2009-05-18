@@ -53,10 +53,18 @@ $(document).ready(function(){
 
     $("#frmCadUserDataNasc").datepicker({
         language: 'pt-BR',
-        yearRange: '1950:2050',
+        yearRange: '1920:2050',
         dateFormat: 'dd/mm/yy',
-        inline: true
+        inline: true,
+        changeMonth: true,
+        changeYear: true,
+        showOn: 'button',
+        buttonImageOnly: true,
+        buttonText: 'Clique para escolher uma data',
+        buttonImage: 'images/smallcalendar.png'
     });
+    
+    $("#frmCadUserDataNasc").val("");
 
     $("#frmCadUserEstado").change(function(){
         if($("#frmCadUserEstado").val() != ""){

@@ -6,8 +6,8 @@
         dao.fechaConexao();
 %>
 <%@include file="cabecalho.jsp"%>
-<link rel="stylesheet" type="text/css" href="css/ui.all.css"/>
-<script type="text/javascript" src="js/jquery-ui-1.5.3.js" ></script>
+
+<script type="text/javascript" src="js/jquery-ui-1.7.js" ></script>
 <script type="text/javascript" src="js/jquery.maskedinput-1.2.1.js"></script>
 <script type="text/javascript" language="javascript" src="js/i18n/ui.datepicker-pt-BR.js"></script>
 <script type="text/javascript" language="javascript" src="js/appp_frmCadUsuario.js"></script>
@@ -129,9 +129,9 @@
                                 <font class="texto" style=" vertical-align: top;"> Data de Nascimento: </font>
                             </div>
                         </td>
-                        <td width="70%" align="left">
-                            <div  style="margin-left: 5px;">
-                                <input id="frmCadUserDataNasc" type="text" name="frmCadUserDataNasc" class="edit" style="width: 70px; vertical-align: middle;" maxlength="10" title="Digite ou escolha sua data de nascimento" />&nbsp;&nbsp;
+                        <td width="70%" align="left" valign="middle">
+                            <div  style="margin-left: 5px; vertical-align: top;">
+                                <input id="frmCadUserDataNasc" type="text" name="frmCadUserDataNasc" class="edit" style="width: 70px; vertical-align: top;" maxlength="10" title="Digite ou escolha sua data de nascimento" />&nbsp;&nbsp;
                             </div>
                         </td>
                     </tr>
