@@ -3,24 +3,24 @@
 <% if (request.getSession().getAttribute("codigo_usuario") != null && request.getSession().getAttribute("codigo_usuario") != "0") {%>
 
 <%
-        Connection conn;
-        ResultSet rs = null;
-        CallableStatement cstmt = null;
+     Connection conn;
+     ResultSet rs = null;
+     CallableStatement cstmt = null;
 
-        conn = ConnectionFactory.getConnection();
-        try {
-            cstmt = conn.prepareCall("begin APPP_SEL_APPP_GEN(?,?); end;");
-            cstmt.setLong(1, Long.parseLong(request.getParameter("CD_OBJ")));
-            cstmt.registerOutParameter(2, OracleTypes.CURSOR);
+     conn = ConnectionFactory.getConnection();
+     try {
+         cstmt = conn.prepareCall("begin APPP_SEL_APPP_GEN(?,?); end;");
+         cstmt.setLong(1, Long.parseLong(request.getParameter("CD_OBJ")));
+         cstmt.registerOutParameter(2, OracleTypes.CURSOR);
 
-            cstmt.execute();
+         cstmt.execute();
 
-            rs = (ResultSet) cstmt.getObject(2);
+         rs = (ResultSet) cstmt.getObject(2);
 
-            int TotalCols = rs.getMetaData().getColumnCount();
+         int TotalCols = rs.getMetaData().getColumnCount();
 
 
-            while (rs.next()) {
+         while (rs.next()) {
 
 
 %>
@@ -32,7 +32,7 @@
 
     .contexto font, .problema font, .solucao font{
         line-height:1.4em;
-        
+
     }
 
     .titulo_contexto, .titulo_problema, .titulo_solucao{
@@ -152,9 +152,9 @@
         if (rs.getString("NM_ESTRUTURA").trim().equalsIgnoreCase("PATTERN")) {
             out.println(rs.getString("Solução Pattern").trim());
             TabelaSolucao = "Solução Pattern";
-        } else if (rs.getString("NM_ESTRUTURA").trim().equalsIgnoreCase("ANTI_PATTERN")) {
-            out.println(rs.getString("Solução Anti-Pattern").trim());
-            TabelaSolucao = "Solução Anti-Pattern";
+        } else if (rs.getString("NM_ESTRUTURA").trim().equalsIgnoreCase("ANTI-PATTERN")) {
+            out.println(rs.getString("DS_RECOMENDACOES").trim());
+            TabelaSolucao = "DS_RECOMENDACOES";
         } else {
             out.println(rs.getString("Solução").trim());
             TabelaSolucao = "Solução";
@@ -198,17 +198,17 @@
     </tr>
 </table>
 <%
-            }
-            rs.close();
-            cstmt.close();
-            conn.close();
-        } catch (SQLException e) {
-            GravarLog.gravaErro("viewAPPP.jsp: erro ao pesquisar o Objeto APPP: " + e.getMessage() + " : " + e.getSQLState());
+         }
+         rs.close();
+         cstmt.close();
+         conn.close();
+     } catch (SQLException e) {
+         GravarLog.gravaErro("viewAPPP.jsp: erro ao pesquisar o Objeto APPP: " + e.getMessage() + " : " + e.getSQLState());
 
-        } finally {
-            rs.close();
-            cstmt.close();
-        }
+     } finally {
+         rs.close();
+         cstmt.close();
+     }
 %>
 
 <%} else {%>

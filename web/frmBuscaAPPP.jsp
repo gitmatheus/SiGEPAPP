@@ -28,7 +28,7 @@
     .app_contexto{
 
     }
-    .app_problema_titulo, .app_solucao_titulo{
+    .app_problema_titulo, .app_solucao_titulo,.app_contexto_titulo{
         font-size:medium;
 
     }
@@ -65,6 +65,9 @@
 
                 HtmlResultado+=$(documento).find("similaridade").text()+"%";
                 HtmlResultado+="</td></tr>";
+                HtmlResultado+="<tr><td colspan=2 class='app_contexto_titulo'>";
+                HtmlResultado+="Contexto:";
+                HtmlResultado+="</td></tr>";
                 HtmlResultado+="<tr><td colspan=2 class='app_contexto'>";
                 HtmlResultado+=$(documento).find("contexto").text();
                 HtmlResultado+="</td></tr>";
@@ -75,7 +78,11 @@
                 HtmlResultado+=$(documento).find("problema").text();
                 HtmlResultado+="</td></tr>";
                 HtmlResultado+="<tr><td colspan=2 class='app_solucao_titulo'>";
+                if($.trim($(documento).find("tipo").text())=='PA'){
                 HtmlResultado+="Solu&ccedil;&atilde;o:";
+                }else{
+                HtmlResultado+="Recomenda&ccedil;&atilde;o:";
+                }
                 HtmlResultado+="</td></tr>";
                 HtmlResultado+="<tr><td colspan=2 class='app_solucao'>";
                 HtmlResultado+=$(documento).find("solucao").text();
