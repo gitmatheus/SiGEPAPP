@@ -1,46 +1,52 @@
 <%@page import="br.edu.fei.sigepapp.bancodedados.dao.*,br.edu.fei.sigepapp.bancodedados.model.*,java.util.*" %>
 <%@include file="cabecalho.jsp"%>
-<% if (request.getSession().getAttribute("codigo_usuario") != null && request.getSession().getAttribute("codigo_usuario") != "0") {%>
+<% if(request.getSession().getAttribute("codigo_usuario") != null && request.getSession().getAttribute("codigo_usuario") != "0") { %>
 <script type="text/javascript" language="javascript" src="js/jquery.tinysort.js"></script>
 <script type="text/javascript" src="js/jquery-ui-1.7.js" ></script>
 <script type="text/javascript" language="javascript" src="js/i18n/ui.datepicker-pt-BR.js"></script>
 <script type="text/javascript" language="javascript" src="js/fckeditor/fckeditor.js"></script>
 <script type="text/javascript" language="javascript">
-    var cod_estrutura, pos, tam;
+    var cod_estrutura, pos, tam = 0;
     var codigos_atrib = new Array();
     var valores = new Array();
     var atribtemp = new Array();
     var atributos = new Array();
-    var relacoes = new Array();
-    var linha_relacoes = new Array();
+    var cod_atrib_relac = new Array();
+    var cod_appp_relac = new Array();
+    var vlr_relacao = new Array();
+    var arrayVisiveis = new Array();
+    var flag_relacionado = new Array();
 
     $(document).ready(function(){
         $.ajaxSetup({
             async: false
         });
-        
+
         var frm = document.frmCadAPPP;
+        //arrayVisiveis=$.makeArray($("#frmRelacionaSelAPPP option"));
         selecionaTpEstrutura(1);
+
+        $("#cadastrado").show();
+        $("#alertaSelectEstrut").show();
+        $("#naoLogado").show();
         $("#erroCadastro").show();
+        $("#divfrmRelaciona").show();
+        $("#botoes").show();
 
         $("#frmCadAPPPChkPattern").click(function(){
             var req = verificaChkBox();
             selecionaTpEstrutura(req);
             $("#corpo").html("");
             $("#botoes").hide();
-            atributos = new Array();
-            valores = new Array();
-            atribtemp = new Array();
+            inicializaArrays();
         });
-        
+
         $("#frmCadAPPPChkAntiPattern").click(function(){
             var req = verificaChkBox();
             selecionaTpEstrutura(req);
             $("#corpo").html("");
             $("#botoes").hide();
-            atributos = new Array();
-            valores = new Array();
-            atribtemp = new Array();
+            inicializaArrays();
         });
 
         $("#frmCadAPPPChkPersona").click(function(){
@@ -48,9 +54,7 @@
             selecionaTpEstrutura(req);
             $("#corpo").html("");
             $("#botoes").hide();
-            atributos = new Array();
-            valores = new Array();
-            atribtemp = new Array();
+            inicializaArrays();
         });
 
         $("#botoes").hide();
@@ -79,7 +83,78 @@
         frm.frmCadAPPPChkPattern.checked = true;
         frm.frmCadAPPPChkAntiPattern.checked = true;
         frm.frmCadAPPPChkPersona.checked = true;
+
+        $("#divfrmRelaciona").dialog({
+            width: 550,
+            modal: true,
+            autoOpen: false,
+            buttons: {
+                Cancelar: function() {
+                    $(this).dialog('close');
+                },
+                Relacionar: function() {
+                    cod_atrib_relac[tam] = codigos_atrib[pos];
+                    cod_appp_relac[tam] = $("#frmRelacionaSelAPPP").val();
+                    vlr_relacao[tam] = $("#frmRelacionaTxtValor").val();
+                    tam++;
+                    alert("Objeto relacionado com sucesso!");
+                    $(this).dialog('close');
+                }
+            },
+            close: function(){
+                $("#frmRelacionaTxtBusca").val("");
+                $("#frmRelacionaTxtValor").val("");
+                $("#frmRelacionaSelAPPP:selected").removeAttr("selected");
+                $("#frmRelacionaSelAPPP:first").attr("selected","selected");
+                $("frmCadAtributoSelTipo").removeAttr("checked");
+            },
+            open: function(){
+                getObjetos();
+            }
+        });
+
+
     });
+
+    function filtraCombo(combo, txtbusca){
+        $(combo + " option").remove();
+        $(arrayVisiveis).each(function(indice, elemento){
+            if($(elemento).text().toUpperCase().indexOf($(txtbusca).val().toUpperCase(), 0)>=0){
+                $(combo).append(elemento);
+            }
+        });
+        ordenarCombo();
+    }
+
+    function ordenarCombo(combo){
+        //Ordena as tags "option" dentro do combo seleciona atributo.
+        $(combo + ">option").tsort();
+
+    }
+
+    function getObjetos(){
+        $("#frmRelacionaSelAPPP option").remove();
+        $.post('GetObjetoServlet',null,function(xml){
+            $(xml).find("Objeto").each(function(indice, item){
+                $("#frmRelacionaSelAPPP").append("<option value='"+
+                    $(item).find("Codigo_Objeto").text()+"'>"+
+                    $(item).find("Nome_Objeto").text()+
+                    "</option>");
+            });
+            arrayVisiveis=$.makeArray($("#frmRelacionaSelAPPP option"));
+        });
+    }
+
+    function inicializaArrays(){
+        codigos_atrib = new Array();
+        valores = new Array();
+        atribtemp = new Array();
+        atributos = new Array();
+        cod_atrib_relac = new Array();
+        cod_appp_relac = new Array();
+        vlr_relacao = new Array();
+        tam = 0;
+    }
 
     function verificaChkBox(){
         frm = document.frmCadAPPP;
@@ -105,8 +180,7 @@
     function selecionaTpEstrutura(requisicao){
         $("#SelectEstrutura").html(
         "<select id='frmCadAPPPEstrutura' name='frmCadAPPPEstrutura' class='edit' style='width: auto;'></select>" +
-            "&nbsp;&nbsp;<img src='images/aguardep.gif'/>&nbsp;<font size='x-small'>por favor, aguarde...</font>"
-    );
+            "&nbsp;&nbsp;<img src='images/aguardep.gif'/>&nbsp;<font size='x-small'>por favor, aguarde...</font>");
 
         $.get("BuscaEstrutCadAPPPServlet",{
             tipos_requisitados:requisicao
@@ -115,7 +189,7 @@
             var strCombo = "";
             if (qtd > 0){
                 strCombo += "<select id='frmCadAPPPEstrutura' name='frmCadAPPPEstrutura' class='edit' style='width: auto;'>";
-                strCombo += "<option value=''>Escolha a estrutura desejada...</option>";
+                strCombo += "<option value=''>Escolha a estrutura do documento...</option>";
                 $(xml).find("estrutura").each(function(indice /* indice de interacao utilizado pelo each() */,
                 elemento /* a estrutura atual do each */){
                     strCombo += "<option value='" + $(elemento).find("cod_est").text()+ "'>[" +
@@ -126,7 +200,7 @@
             }else{
                 $("#alertaSelectEstrut").dialog('open');
                 strCombo += "<select id='frmCadAPPPEstrutura' name='frmCadAPPPEstrutura' class='edit' style='width: auto;'>";
-                strCombo += "<option value=''>Escolha a estrutura desejada...</option>";
+                strCombo += "<option value=''>Escolha a estrutura do documento...</option>";
                 strCombo +="</select>";
             }
             $("#SelectEstrutura").html(strCombo);
@@ -135,9 +209,8 @@
         $("#frmCadAPPPEstrutura").change(function(){
             var cd = $("#frmCadAPPPEstrutura").val();
             cod_estrutura = $("#frmCadAPPPEstrutura").val();
-            atributos = new Array();
-            valores = new Array();
-            atribtemp = new Array();
+            inicializaArrays();
+            arrayVisiveis=$.makeArray($("#frmCadAPPPEstrutura option"));
 
             if (cd != "" && cd != null){
                 buscaAtributos(cd);
@@ -146,6 +219,12 @@
                 $("#botoes").hide();
             }
         });
+    }
+
+    function relacionaAPPP(posicao){
+        pos = posicao;
+        $(document).scrollTop(0);
+        $("#divfrmRelaciona").dialog('open');
     }
 
     function buscaAtributos(codigo){
@@ -157,6 +236,7 @@
             strHtml += "<table border='0' cellpadding='0' cellspacing='0' width='100%;'>";
             $(xml).find("atributo").each(function(indice,elemento){
                 atributos[indice] = $(elemento).find("oracletype").text();
+                codigos_atrib[indice] = $(elemento).find("id").text();
                 strHtml += "<tr><td width='30%' align='right'>";
                 strHtml += "<font class='texto'>" + $(elemento).find("nome").text() + ":&nbsp;&nbsp;</font>";
                 if($(elemento).find("coluna").text() != "" && $(elemento).find("coluna").text() != "null"){
@@ -164,24 +244,37 @@
                 }else{
                     nome = $(elemento).find("nome").text();
                 }
-                atribtemp[indice] = nome;
+                atribtemp[indice] = nome
+                relacionavel = "</td><td width='20%' align='center' valign='middle'><a class='navProximo ui-widget-header' href='javascript:relacionaAPPP(" + indice +
+                    ")'><div class='ui-icon ui-icon-document' style='display:inline-block;vertical-align:middle'>" +
+                    "</div>Relacionar</a>";
+
                 switch($(elemento).find("oracletype").text()){
                     case "VARCHAR":
                     case "VARCHAR2":
-                        strHtml += "</td><td width='70%' align='left' valign='middle'>";
+                        strHtml += "</td><td width='50%' align='left' valign='middle'>";
                         strHtml += "<textarea name='" + nome +
-                            "' id='" + nome + "' class='edit' cols='60'></textarea>";
+                            "' id='" + nome + "' class='edit' cols='55'></textarea>";
+                        if($(elemento).find("flag_relaciona").text() == "S"){
+                            strHtml += relacionavel;
+                        }else{
+                            strHtml += "</td><td width='20%' align='center' valign='middle'>";
+                        }
                         break;
                     case "NUMBER":
-                        strHtml += "</td><td width='70%' align='left' valign='middle' nowrap>";
+                        strHtml += "</td><td width='50%' align='left' valign='middle'>";
                         strHtml += "<input id='" + nome + "' name='" + nome + "' type='text' class='edit' />";
+                        strHtml += "</td><td width='20%' align='center' valign='middle'>";
                         break;
                     case "DATE":
-                        strHtml += "</td><td width='70%' align='left' valign='middle'>";
+                        strHtml += "</td><td width='50%' align='left' valign='middle'>";
                         strHtml += "<input id='" + nome + "' name='" + nome + "' type='text' class='edit' />";
+                        strHtml += "</td><td width='20%' align='center' valign='middle'>";
                         break;
                 }
-                
+
+
+
                 strHtml += "</td></tr>";
 
             });
@@ -313,7 +406,7 @@
                         <td width="70%" align="left" valign="middle">
                             <div id="SelectEstrutura" style="margin-left: 5px;">
                                 <select id="frmCadAPPPEstrutura" name="frmCadAPPPEstrutura" class="edit" style="width: auto;">
-                                    <option value="">Escolha a estrutura desejada...</option>
+                                    <option value="">Escolha a estrutura do documento...</option>
                                 </select>
                             </div>
                             <div id="alertaSelectEstrut" title="Estruturas não encontradas">
@@ -321,11 +414,11 @@
                             </div>
                             <script type="text/javascript">$("#alertaSelectEstrut").hide();</script>
                             <div id="cadastrado" title="Parab&eacute;ns">
-                                Objeto cadastrado com sucesso.<br />
+                                Documento cadastrado com sucesso.<br />
                             </div>
                             <script type="text/javascript">$("#cadastrado").hide();</script>
                             <div id="naoLogado" title="Aviso">
-                                Por favor, efetue o login antes e cadastrar um APPP.<br />
+                                Por favor, efetue o login antes e cadastrar um Documento.<br />
                             </div>
                             <script type="text/javascript">$("#naoLogado").hide();</script>
                             <div id="erroCadastro" title="Aviso">
@@ -364,15 +457,55 @@
                     &nbsp;&nbsp;
                     <input type="button" name="frmCadAPPPBtnCancelar" id="frmCadAPPPBtnCancelar" value="&nbsp;Cancelar&nbsp;" class="botao" title="Cancelar cadastro de APPP"/>
                 </div>
+                <script type="text/javascript">$("#botoes").hide();</script>
             </td>
         </tr>
     </table>
 </form>
-<%} else{ %>
+
+<!-- Janela para relacionamento de APPP -->
+<div id="divfrmRelaciona" title="Relacionar outro Documento">
+    <form id="frmRelaciona">
+        <table width="500">
+            <tr>
+                <td align="right">
+                    Buscar APPP:
+                </td>
+                <td>
+                    <input id="frmRelacionaTxtBusca" type="text" class="edit" style="width: 250px" onkeyup="filtraCombo('#frmRelacionaSelAPPP','#frmRelacionaTxtBusca');"></input>
+                </td>
+            </tr>
+            <tr>
+                <td align="right">
+                    Selecione o APPP:
+                </td>
+                <td>
+                    <select class="select_varias_linhas" size="8" style="width: 250px" id="frmRelacionaSelAPPP">
+                        <option value=""></option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td align="right">
+                    <font class="texto">Descrição para o relacionado:</font>
+                </td>
+                <td>
+                    <textarea id="frmRelacionaTxtValor" class="edit" cols="35"></textarea>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2" align="center">
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>
+<script type="text/javascript">$("#divfrmRelaciona").hide();</script>
+<% } else { %>
 <center>
-    <h2>Cadastro de APPP</h2>
-    <font class="texto">Neste m&oacute;dulo &eacute; poss&iacute;vel efetuar cadastro de Patterns, Anti-Patterns e Personas.</font>
-    <p><small><font class="texto">Por favor, efetue o login no canto superior direito da p&aacute;gina</font></small></p>
+<h2>Cadastro de APPP</h2>
+<font class="texto">Neste m&oacute;dulo &eacute; poss&iacute;vel efetuar o cadastro de Patterns, Anti-Patterns e Personas.</font>
+<p><small><font class="texto">Por favor, efetue o login no canto superior direito da p&aacute;gina</font></small></p>
 </center>
 <%}%>
 <%@include file="rodape.jsp"%>
