@@ -22,7 +22,15 @@ spool /SiGEPAPP/Arquivos/Insercoes/LogInsertInicial.log
 
 @ /SiGEPAPP/Arquivos/Procedures/09-APPP_INS_PATTERNS.sql
 
+@ /SiGEPAPP/Arquivos/Insercoes/09-INS_APPP_TB_CODIGO_POSTAL.sql
 
+@ /SiGEPAPP/Arquivos/Insercoes/10-INS_APPP_TB_USER_EMAIL.sql
+
+@ /SiGEPAPP/Arquivos/Insercoes/11-INS_APPP_TB_USER_ENDERECO.sql
+
+@ /SiGEPAPP/Arquivos/Insercoes/12-INS_APPP_TB_USER_TELEFONE.sql
+
+	
 SPOOL OFF
 
 /
