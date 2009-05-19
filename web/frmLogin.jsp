@@ -1,4 +1,4 @@
-<% if(request.getSession().getAttribute("codigo_usuario") == null || request.getSession().getAttribute("codigo_usuario") == "0") { %>
+<% if (request.getSession().getAttribute("codigo_usuario") == null || request.getSession().getAttribute("codigo_usuario") == "0") {%>
 <fieldset style="background:#FFFFFF;">
     <legend style="font-weight:bold">
         Efetuar login:
@@ -7,7 +7,7 @@
     <table align="right">
         <tr>
             <td align="right">
-                Usu&aacute;rio:
+                Login:
             </td>
             <td>
                 <input id="usuario" type="text" name="usuario" class="edit" width="150px" title="Digite seu usu&aacute;rio" />
@@ -35,22 +35,23 @@
                 </table>
             </td>
         </tr>
+        <tr>
+            <td align="right" colspan="2">
+                <div style="margin-right: 5px;">
+                    Você não possui registro? <br /> <a href="/sigepapp/frmCadUsuario.jsp" style="color: #CC0000;"> Clique aqui</a> para registrar-se.
+                </div>
+            </td>
+        </tr>
     </table>
 </fieldset>
 <table align="right">
-<tr>
-	<td align="right">
-		<div style="margin-right: 5px;">
-			Você não possui registro? <br /> <a href="/sigepapp/frmCadUsuario.jsp" style="color: #CC0000;"> Clique aqui</a> para registrar-se.
-		</div>
-	</td>
-</tr>
+
 </table>
-<%} else { %>
+<%} else {%>
 <h2>Seja bemvindo,<br /> <% out.print(request.getSession().getAttribute("usuario"));%></h2>
 <div align='right' style='margin-right: 10px;'>
-   <!-- |<a id='envia_avaliacoes' href='frmAvaliacoesPendentes.jsp' class='painelcontrole' title='Avaliar APPP pendentes'>Avalia&ccedil;&otilde;es</a>&nbsp;-->|
- 	<a id='envia_logoff' href='#' class='painelcontrole' title='Sair do sistema' onclick='javascript:LogoffSigepapp();' >Sair</a> 
+    <!-- |<a id='envia_avaliacoes' href='frmAvaliacoesPendentes.jsp' class='painelcontrole' title='Avaliar APPP pendentes'>Avalia&ccedil;&otilde;es</a>&nbsp;-->|
+    <a id='envia_logoff' href='#' class='painelcontrole' title='Sair do sistema' onclick='javascript:LogoffSigepapp();' >Sair</a>
 </div> 
 <input type='hidden' id='status' value='logoff' />
-<%} %> 
+<%}%> 

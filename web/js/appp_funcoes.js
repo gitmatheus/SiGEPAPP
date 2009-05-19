@@ -44,6 +44,20 @@
 /** As funcoes contidas dentro do metodo ready, sao poderam ser executadas apos o carregamento da pagina */
 $(document).ready(function(){
     /** Funcao que da o efeito de fadein e fadeout no elemento li do menubv e tambem da classe botao */
+
+    $("#divSubMenu").css("top", $("#menubv2").position().top);
+    $("#divSubMenu").hide();
+
+    $("#menubv2, #divSubMenu").hover(function(){
+        $("#divSubMenu").show();
+    });
+
+    $("#tableSubMenu, .menubv:not(#tableSubMenu *)").hover(function(){},
+        function(){
+            $("#divSubMenu").hide();
+        });
+
+
     $(".menubv td, .botao").hover(function () {
         $(this).fadeTo("slow", 0.4) // Quando o mouse for posicionado sobre o elemento
     },function () {

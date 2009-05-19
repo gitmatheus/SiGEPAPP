@@ -18,8 +18,7 @@
          rs = (ResultSet) cstmt.getObject(2);
 
          int TotalCols = rs.getMetaData().getColumnCount();
-
-
+         
          while (rs.next()) {
 
 
