@@ -97,8 +97,8 @@
                     cod_appp_relac[tam] = $("#frmRelacionaSelAPPP").val();
                     vlr_relacao[tam] = $("#frmRelacionaTxtValor").val();
                     tam++;
-                    alert("Objeto relacionado com sucesso!");
                     $(this).dialog('close');
+                    $("#" + atribtemp[pos]).val($("#" + atribtemp[pos]).val() + $("#frmRelacionaSelAPPP>option:selected").text() + ";");
                 }
             },
             close: function(){
@@ -254,7 +254,7 @@
                     case "VARCHAR2":
                         strHtml += "</td><td width='50%' align='left' valign='middle'>";
                         strHtml += "<textarea name='" + nome +
-                            "' id='" + nome + "' class='edit' cols='55'></textarea>";
+                            "' id='" + nome + "' class='edit' cols='55' title='" + $(elemento).find("descricao").text() + "'></textarea>";
                         if($(elemento).find("flag_relaciona").text() == "S"){
                             strHtml += relacionavel;
                         }else{
@@ -263,12 +263,12 @@
                         break;
                     case "NUMBER":
                         strHtml += "</td><td width='50%' align='left' valign='middle'>";
-                        strHtml += "<input id='" + nome + "' name='" + nome + "' type='text' class='edit' />";
+                        strHtml += "<input id='" + nome + "' name='" + nome + "' type='text' class='edit' title='" + $(elemento).find("descricao").text() + "'/>";
                         strHtml += "</td><td width='20%' align='center' valign='middle'>";
                         break;
                     case "DATE":
                         strHtml += "</td><td width='50%' align='left' valign='middle'>";
-                        strHtml += "<input id='" + nome + "' name='" + nome + "' type='text' class='edit' />";
+                        strHtml += "<input id='" + nome + "' name='" + nome + "' type='text' class='edit' title='" + $(elemento).find("descricao").text() + "'/>";
                         strHtml += "</td><td width='20%' align='center' valign='middle'>";
                         break;
                 }
@@ -405,7 +405,7 @@
                         </td>
                         <td width="70%" align="left" valign="middle">
                             <div id="SelectEstrutura" style="margin-left: 5px;">
-                                <select id="frmCadAPPPEstrutura" name="frmCadAPPPEstrutura" class="edit" style="width: auto;">
+                                <select id="frmCadAPPPEstrutura" name="frmCadAPPPEstrutura" class="select_varias_linhas" size="8" style="width: 250px;">
                                     <option value="">Escolha a estrutura do documento...</option>
                                 </select>
                             </div>
@@ -469,7 +469,7 @@
         <table width="500">
             <tr>
                 <td align="right">
-                    Buscar APPP:
+                    Buscar documento:
                 </td>
                 <td>
                     <input id="frmRelacionaTxtBusca" type="text" class="edit" style="width: 250px" onkeyup="filtraCombo('#frmRelacionaSelAPPP','#frmRelacionaTxtBusca');"></input>
@@ -477,7 +477,7 @@
             </tr>
             <tr>
                 <td align="right">
-                    Selecione o APPP:
+                    Selecione o documento:
                 </td>
                 <td>
                     <select class="select_varias_linhas" size="8" style="width: 250px" id="frmRelacionaSelAPPP">
