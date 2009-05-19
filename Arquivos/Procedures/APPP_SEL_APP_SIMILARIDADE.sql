@@ -114,7 +114,7 @@ vSQL:=vSQL ||' FROM (';
 
                       FETCH AOB INTO vNM_COLUNA;
                    END LOOP;
-
+				   CLOSE AOB;
                    vSQL := vSQL ||'FROM   APPP_TB_OBJETO O,' || chr(10);
                    vSQL := vSQL ||'       '||TRIM(vNM_TABELA)|| ' G '   || chr(10);
                    vSQL := vSQL ||'WHERE  G.CD_OBJETO = O.CD_OBJETO' || chr(10);
@@ -126,9 +126,9 @@ vSQL:=vSQL ||' FROM (';
           IF E%FOUND THEN
              vSQL := vSQL ||' UNION '||  chr(10);
           END IF;
-
+		  
      END LOOP;
-
+	 CLOSE E;
 --Fim da selecao de todas os APP(Pattern, Anti-Pattern e outras estruturas que utilizam Pattern ou Anti-Pattern como estrutura minima)
 vSQL:=vSQL || ') o ORDER BY SIMILARIDADE DESC';
 
