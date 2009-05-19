@@ -79,16 +79,16 @@ insert into APPP_TB_ATRIBUTO_OBJ(NM_ATRIBUTO_OBJ,DS_ATRIBUTO_OBJ                
 
 
 insert into APPP_TB_ATRIBUTO_OBJ(NM_ATRIBUTO_OBJ,DS_ATRIBUTO_OBJ ,CD_TIPO,FL_ATRIB_RELAC)
-                          VALUES('CPF' ,'CPF do Usuário'         ,6      ,'S');
+                          VALUES('CPF' ,'CPF do Usuário'         ,8      ,'S');
 
 insert into APPP_TB_ATRIBUTO_OBJ(NM_ATRIBUTO_OBJ        ,DS_ATRIBUTO_OBJ                  ,CD_TIPO,FL_ATRIB_RELAC)
                           VALUES('Número da Residência' ,'Número da Residência do Usuário',2      ,'S');
 
 insert into APPP_TB_ATRIBUTO_OBJ(NM_ATRIBUTO_OBJ,DS_ATRIBUTO_OBJ ,CD_TIPO,FL_ATRIB_RELAC)
-                          VALUES('E-mail' ,'E-mail do Usuário'         ,5      ,'S');
+                          VALUES('E-mail' ,'E-mail do Usuário'         ,7      ,'S');
 
 insert into APPP_TB_ATRIBUTO_OBJ(NM_ATRIBUTO_OBJ,DS_ATRIBUTO_OBJ ,CD_TIPO,FL_ATRIB_RELAC)
-                          VALUES('RG' ,'RG do Usuário'           ,9      ,'S');
+                          VALUES('RG' ,'RG do Usuário'           ,11      ,'S');
 
 COMMIT;
 
@@ -109,11 +109,11 @@ commit;
 
 -- RECRIA DADOS DAS ESTRUTURAS
 
-Insert into APPP_TB_ESTRUT_OBJ (CD_USER,DS_ESTRUTURA,DT_CRIACAO,NM_ESTRUTURA,NM_TB_ESTRUT,TP_ESTRUTURA) values (35140189879,'Pattern Default',SYSDATE,'Pattern','APPP_TB_PATTERN','PA');
+Insert into APPP_TB_ESTRUT_OBJ (CD_USER,DS_ESTRUTURA,DT_CRIACAO,NM_ESTRUTURA,NM_TB_ESTRUT,TP_ESTRUTURA) values (11111111111,'Pattern Default',SYSDATE,'Pattern','APPP_TB_PATTERN','PA');
 
-Insert into APPP_TB_ESTRUT_OBJ (CD_USER,DS_ESTRUTURA,DT_CRIACAO,NM_ESTRUTURA,NM_TB_ESTRUT,TP_ESTRUTURA) values (35140189879,'Anti-Pattern Default',SYSDATE,'Anti-Pattern','APPP_TB_ANTI_PATTERN','AP');
+Insert into APPP_TB_ESTRUT_OBJ (CD_USER,DS_ESTRUTURA,DT_CRIACAO,NM_ESTRUTURA,NM_TB_ESTRUT,TP_ESTRUTURA) values (11111111111,'Anti-Pattern Default',SYSDATE,'Anti-Pattern','APPP_TB_ANTI_PATTERN','AP');
 
-Insert into APPP_TB_ESTRUT_OBJ (CD_USER,DS_ESTRUTURA,DT_CRIACAO,NM_ESTRUTURA,NM_TB_ESTRUT,TP_ESTRUTURA) values (35140189879,'Persona Default',SYSDATE,'Persona','APPP_TB_PERSONA','PE');
+Insert into APPP_TB_ESTRUT_OBJ (CD_USER,DS_ESTRUTURA,DT_CRIACAO,NM_ESTRUTURA,NM_TB_ESTRUT,TP_ESTRUTURA) values (11111111111,'Persona Default',SYSDATE,'Persona','APPP_TB_PERSONA','PE');
 
 COMMIT;
 
