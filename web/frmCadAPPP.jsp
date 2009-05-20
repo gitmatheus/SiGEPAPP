@@ -1,12 +1,12 @@
 <%@page import="br.edu.fei.sigepapp.bancodedados.dao.*,br.edu.fei.sigepapp.bancodedados.model.*,java.util.*" %>
 <%@include file="cabecalho.jsp"%>
-<% if(request.getSession().getAttribute("codigo_usuario") != null && request.getSession().getAttribute("codigo_usuario") != "0") { %>
+<% if (request.getSession().getAttribute("codigo_usuario") != null && request.getSession().getAttribute("codigo_usuario") != "0") {%>
 <script type="text/javascript" language="javascript" src="js/jquery.tinysort.js"></script>
 <script type="text/javascript" src="js/jquery-ui-1.7.js" ></script>
 <script type="text/javascript" language="javascript" src="js/i18n/ui.datepicker-pt-BR.js"></script>
 <script type="text/javascript" language="javascript" src="js/fckeditor/fckeditor.js"></script>
 <script type="text/javascript" language="javascript">
-    var cod_estrutura, pos, tam = 0;
+    var cod_estrutura, pos, tam = 0, flag_relacionado = false;
     var codigos_atrib = new Array();
     var valores = new Array();
     var atribtemp = new Array();
@@ -15,7 +15,7 @@
     var cod_appp_relac = new Array();
     var vlr_relacao = new Array();
     var arrayVisiveis = new Array();
-    var flag_relacionado = new Array();
+    var relacionados = new Array();
 
     $(document).ready(function(){
         $.ajaxSetup({
@@ -52,6 +52,14 @@
         $("#frmCadAPPPChkPersona").click(function(){
             var req = verificaChkBox();
             selecionaTpEstrutura(req);
+            $("#corpo").html("");
+            $("#botoes").hide();
+            inicializaArrays();
+        });
+
+        $("#frmTxtBuscaEstrutura").focus(function(){
+            $("#frmTxtBuscaEstrutura").val("");
+            //selecionaTpEstrutura(1);
             $("#corpo").html("");
             $("#botoes").hide();
             inicializaArrays();
@@ -102,6 +110,7 @@
                 }
             },
             close: function(){
+                arrayVisiveis=$.makeArray($("#frmCadAPPPEstrutura option"));
                 $("#frmRelacionaTxtBusca").val("");
                 $("#frmRelacionaTxtValor").val("");
                 $("#frmRelacionaSelAPPP:selected").removeAttr("selected");
@@ -179,7 +188,7 @@
 
     function selecionaTpEstrutura(requisicao){
         $("#SelectEstrutura").html(
-        "<select id='frmCadAPPPEstrutura' name='frmCadAPPPEstrutura' class='edit' style='width: auto;'></select>" +
+        "<select id='frmCadAPPPEstrutura' name='frmCadAPPPEstrutura' class='select_varias_linhas' size='5' style='width: 300px;'></select>" +
             "&nbsp;&nbsp;<img src='images/aguardep.gif'/>&nbsp;<font size='x-small'>por favor, aguarde...</font>");
 
         $.get("BuscaEstrutCadAPPPServlet",{
@@ -188,7 +197,7 @@
             var qtd = parseInt($("qtd",xml).text());
             var strCombo = "";
             if (qtd > 0){
-                strCombo += "<select id='frmCadAPPPEstrutura' name='frmCadAPPPEstrutura' class='edit' style='width: auto;'>";
+                strCombo += "<select id='frmCadAPPPEstrutura' name='frmCadAPPPEstrutura' class='select_varias_linhas' size='5' style='width: 300px;'>";
                 strCombo += "<option value=''>Escolha a estrutura do documento...</option>";
                 $(xml).find("estrutura").each(function(indice /* indice de interacao utilizado pelo each() */,
                 elemento /* a estrutura atual do each */){
@@ -199,18 +208,19 @@
                 strCombo +="</select>";
             }else{
                 $("#alertaSelectEstrut").dialog('open');
-                strCombo += "<select id='frmCadAPPPEstrutura' name='frmCadAPPPEstrutura' class='edit' style='width: auto;'>";
+                strCombo += "<select id='frmCadAPPPEstrutura' name='frmCadAPPPEstrutura' class='select_varias_linhas' size='5' style='width: 300px;'>";
                 strCombo += "<option value=''>Escolha a estrutura do documento...</option>";
                 strCombo +="</select>";
             }
             $("#SelectEstrutura").html(strCombo);
         });
 
+        arrayVisiveis=$.makeArray($("#frmCadAPPPEstrutura option"));
+
         $("#frmCadAPPPEstrutura").change(function(){
             var cd = $("#frmCadAPPPEstrutura").val();
             cod_estrutura = $("#frmCadAPPPEstrutura").val();
             inicializaArrays();
-            arrayVisiveis=$.makeArray($("#frmCadAPPPEstrutura option"));
 
             if (cd != "" && cd != null){
                 buscaAtributos(cd);
@@ -398,14 +408,43 @@
                 <br />
                 <table border="0" cellpadding="0" cellspacing="0" width="100%">
                     <tr>
+                        <tr>
+                            <td colspan="2" align="center">
+                                <fieldset style="width:400px;">
+                                    <legend style="font-weight: bold;">Filtros de busca de estruturas:</legend>
+                                    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                                        <tr>
+                                            <td align="right">
+                                                <font class="texto">Por nome:&nbsp;&nbsp;</font>
+                                            </td>
+                                            <td>
+                                                <input id="frmTxtBuscaEstrutura" type="text" class="edit" style="width: 250px" onkeyup="filtraCombo('#frmCadAPPPEstrutura','#frmTxtBuscaEstrutura');"></input>
+                                            </td>
+                                        </tr>
+                                        <td colspan="2" align="center">
+                                            <br /><font class="texto">Por tipo:</font>&nbsp;&nbsp;
+                                            <input id="frmCadAPPPChkPattern" name="frmCadAPPPChkPattern" type="checkbox" class="edit" value="PA" checked>
+                                            <font class="texto"> Patterns </font> &nbsp;&nbsp;
+                                            <input id="frmCadAPPPChkAntiPattern" name="frmCadAPPPChkAntiPattern" type="checkbox" class="edit" value="AP" checked>
+                                            <font class="texto"> Anti-Patterns </font> &nbsp;&nbsp;
+                                            <input id="frmCadAPPPChkPersona" name="frmCadAPPPChkPersona" type="checkbox" class="edit" value="PE" checked>
+                                            <font class="texto"> Personas </font>
+                                        </td>
+                                    </table>
+                                </fieldset>
+                            </td>
+                        </tr>
+                    </tr>
+                    <tr>
                         <td width="30%" align="right">
                             <div style="margin-right: 10px;">
-                                <font class="texto"> Estruturas: </font>
+                                <font class="texto"> Estruturas de <br />documentos: </font>
                             </div>
                         </td>
                         <td width="70%" align="left" valign="middle">
+                            <br />
                             <div id="SelectEstrutura" style="margin-left: 5px;">
-                                <select id="frmCadAPPPEstrutura" name="frmCadAPPPEstrutura" class="select_varias_linhas" size="8" style="width: 250px;">
+                                <select id="frmCadAPPPEstrutura" name="frmCadAPPPEstrutura" class="select_varias_linhas" size="5" style="width: 300px;">
                                     <option value="">Escolha a estrutura do documento...</option>
                                 </select>
                             </div>
@@ -427,17 +466,6 @@
                                 Obrigado, Equipe SiGePAPP.<br />
                             </div>
                             <script type="text/javascript">$("#erroCadastro").hide();</script>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td colspan="2" align="center">
-                            <br />
-                            <input id="frmCadAPPPChkPattern" name="frmCadAPPPChkPattern" type="checkbox" class="edit" value="PA" checked>
-                            <font class="texto"> Patterns </font> &nbsp;&nbsp;
-                            <input id="frmCadAPPPChkAntiPattern" name="frmCadAPPPChkAntiPattern" type="checkbox" class="edit" value="AP" checked>
-                            <font class="texto"> Anti-Patterns </font> &nbsp;&nbsp;
-                            <input id="frmCadAPPPChkPersona" name="frmCadAPPPChkPersona" type="checkbox" class="edit" value="PE" checked>
-                            <font class="texto"> Personas </font>
                         </td>
                     </tr>
                 </table>
@@ -501,11 +529,11 @@
     </form>
 </div>
 <script type="text/javascript">$("#divfrmRelaciona").hide();</script>
-<% } else { %>
+<% } else {%>
 <center>
-<h2>Cadastro de APPP</h2>
-<font class="texto">Neste m&oacute;dulo &eacute; poss&iacute;vel efetuar o cadastro de Patterns, Anti-Patterns e Personas.</font>
-<p><small><font class="texto">Por favor, efetue o login no canto superior direito da p&aacute;gina</font></small></p>
+    <h2>Cadastro de APPP</h2>
+    <font class="texto">Neste m&oacute;dulo &eacute; poss&iacute;vel efetuar o cadastro de Patterns, Anti-Patterns e Personas.</font>
+    <p><small><font class="texto">Por favor, efetue o login no canto superior direito da p&aacute;gina</font></small></p>
 </center>
 <%}%>
 <%@include file="rodape.jsp"%>
