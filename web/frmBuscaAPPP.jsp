@@ -44,6 +44,13 @@
 <script type="text/javascript" language="javascript">
     var tab_adicionada=false;
 
+    $(document).keyup(function(event){
+        //Caso o usuário tecle enter, a busca é iniciada...
+        if(event.keyCode==13){
+            $("#btnBuscaAPP").click();
+        };
+    });
+
     function BuscaAPP(){
 
         var HtmlResultado="";

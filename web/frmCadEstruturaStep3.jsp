@@ -242,9 +242,26 @@
     }
 
     $(document).ready(function(){
-    
+
+        $("#alertConfirma").dialog({
+            width: 300,
+            modal: true,
+            autoOpen: false,
+            buttons: {
+                Nao: function(){
+                    $("#alertConfirma").dialog('close');
+                    
+                },
+                Sim: function(){
+                    $("#alertConfirma").dialog('close');
+                    //Cadastra Estrutura////////////////////
+                    $("#frmFormCadEstruturaStep4").submit();
+
+                }
+            }});
+
         $("#linkAbreCadastroAtributo").click(function(){show_CadastraAtributo()});
-        
+
         $.ajaxSetup({async: false});
 
         arrayVisiveis=$.makeArray($("#frmCadEstrutCmbSelAtributo option"));
@@ -275,7 +292,15 @@
             //alert($("#tabAtributos").parent().html());
         });
         $("#linkProximo").click(function(){
-            $("#frmFormCadEstruturaStep4").submit();
+            if($("td [class='atributoAdicional']").length>0){
+
+                $("#alertConfirma").dialog('open');
+
+                   // $("#frmFormCadEstruturaStep4").submit();
+
+            }else{
+                informa("N&atilde;o foi adicionado nenhum atributo para esta estrutura.", "Erro no cadastro");
+            }
         });
 
     });
@@ -410,6 +435,10 @@
 
 <div style="display:block;" id="alertPadrao">
 
+</div>
+
+<div style="display:block;" id="alertConfirma">
+    Confima cadastro de estrutura?
 </div>
 
 

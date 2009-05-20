@@ -83,13 +83,13 @@
         $(objetoClicado).children("legend").andSelf().children("input").attr("checked","checked")
 
         if($(objetoClicado).attr("id")=="fieldSet1"){
-            $("#fieldSet2").fadeTo('slow', 0.5);
-            $("#fieldSet1").fadeTo('slow', 1);
+            //$("#fieldSet2").fadeTo('slow', 0.5);
+            //$("#fieldSet1").fadeTo('slow', 1);
             $("#fieldSet2 input[name='codEstrutura']:checked").removeAttr("checked");
 
         }else{
-            $("#fieldSet1").fadeTo('slow', 0.5);
-            $("#fieldSet2").fadeTo('slow', 1);
+            //$("#fieldSet1").fadeTo('slow', 0.5);
+            //$("#fieldSet2").fadeTo('slow', 1);
             $("#fieldSet1 input[name='codEstrutura']:checked").removeAttr("checked");
         }
     }
@@ -239,6 +239,8 @@
         $("input[name='codEstrutura']").click(function(){
             valida_selecao();
         });
+        //Faz uma pesquisa de todas as estruturas cadastradas
+        pesqEstruturas();
 
 
     });
@@ -268,7 +270,7 @@
     <tr>
         <td align="center" style="padding-top:20px;">
             <fieldset id="fieldSet1" style="background-color:#eeeeee;width:90%">
-                <legend class="legends"><input name="frmCadEstOptInicio" type="radio" value="minima">Estrutura minima:</legend>
+                <legend class="legends"><input name="frmCadEstOptInicio" type="radio" value="minima"><b>Estrutura minima:</b></legend>
                 <table width="100%">
                     <tr>
                         <td>

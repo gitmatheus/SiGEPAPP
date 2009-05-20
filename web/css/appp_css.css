@@ -129,19 +129,23 @@ a {
     font-size: 11px;
 }
 
-/* Formatacao dos elementos <ul> que possuem este id #menubv */
+/* Formatacao dos elementos <td> que possuem este id #menubv */
 .menubv td {
     list-style: none;
     margin: 0;
     padding: 0;
 }
 
-/* Formatacao dos elementos <li> que possuem este id #menubv */
-.menubv tr {
-    background-color: #3d414c;
+/* Formatacao dos elementos <tr> que possuem este id #menubv */
+
+.menubv .submenu td a{
+    background-color: #bbbbbb;
+    border-left: 2px solid #aaaaaa;
+    border-bottom: 2px solid #aaaaaa;
 }
 
-/* Formatacao dos elementos <li> e dentro deles um elemnteo <a>link</a> que possuem
+
+/* Formatacao dos elementos <td> e dentro deles um elemnteo <a>link</a> que possuem
 * este id #menubv 
 */
 .menubv td a {
@@ -157,7 +161,7 @@ a {
     text-decoration: none;
 }
 
-/* Formatacao dos elementos <li> e dentro deles um elemnteo <a>link</a> com o mouse
+/* Formatacao dos elementos <td> e dentro deles um elemnteo <a>link</a> com o mouse
 * posicionado sobre ele, que possuem este id #menubv 
 */
 .menubv td a:hover {

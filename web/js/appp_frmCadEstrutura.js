@@ -35,6 +35,7 @@ function informa(Texto, Titulo){
 function funcIncluiAtributoDisponivel(Nome, Descricao, ID){
     $("#frmCadEstrutCmbSelAtributo:selected").removeAttr("selected");
     $("#frmCadEstrutCmbSelAtributo").append("<option selected value='"+ID+"' title='"+Descricao+"'>"+Nome+"</option>");
+    $("#frmCadEstrutCmbSelAtributo").dblclick();
 }
 
 //Funções de Validações
@@ -84,7 +85,7 @@ $(document).ready(function(){
         }
     });
     $("#divfrmCadAtributo").dialog({
-        width: 511,
+        width: 520,
         modal: true,
         autoOpen: false,
         buttons: {
@@ -152,7 +153,7 @@ $(document).ready(function(){
     });
 
     $("#divfrmCadTipo").dialog({
-        width: 511,
+        width: 520,
         modal: false,
         autoOpen: false,
         buttons: {

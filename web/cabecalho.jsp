@@ -115,10 +115,27 @@
         </tr>
         <tr class="menubv">
             <td>
-                <a id="menubv2" href="/sigepapp/frmCadEstruturaStep1.jsp" title="Cadastro das Estruturas disponiveis no sistema" >Cadastro</a>
+                <a id="menubv2" href="/sigepapp/" title="Cadastro disponiveis no sistema" >Cadastro</a>
             </td>
         </tr>
-
+        <tr>
+            <td>
+                <div style="z-index:1" id="divSubMenu">
+                    <table class="menubv submenu" border="0" bgcolor="#EEEEEE" cellpadding="0" cellspacing="0" width="90%" id="tableSubMenu" align="right">
+                        <tr class="menubv submenu">
+                            <td>
+                                <a id="menubv submenu" href="/sigepapp/frmCadEstruturaStep1.jsp" title="Cadastro das Estruturas disponiveis no sistema" >Estruturas</a>
+                            </td>
+                        </tr>
+                        <tr class="menubv submenu">
+                            <td>
+                                <a id="menubv submenu" href="/sigepapp/frmCadAPPP.jsp" title="Cadastro de Patterns, Anti-Patterns e Personas" >Documentos</a>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </td>
+        </tr>
         <!--<tr class="menubv"><td>
         <a id="menubv" href="/sigepapp/frmCadUsuario.jsp" title="Cadastro das Estruturas disponiveis no sistema" >Cadastro de Usuário</a></tr>-->
         <tr class="menubv">
@@ -132,18 +149,5 @@
     </table>
 </td>
 <td width="80%" valign="top" align="center">
-<div style="position:absolute;display:block;z-index:1" id="divSubMenu">
-    <table border="0" cellpadding="0" cellspacing="0" id="tableSubMenu">
-        <tr class="menubv">
-            <td>
-                <a id="menubv" href="/sigepapp/frmCadEstruturaStep1.jsp" title="Cadastro das Estruturas disponiveis no sistema" >Estruturas</a>
-            </td>
-        </tr>
-        <tr class="menubv">
-            <td>
-                <a id="menubv" href="/sigepapp/frmCadAPPP.jsp" title="Cadastro de Patterns, Anti-Patterns e Personas" >Documentos</a>
-            </td>
-        </tr>
-    </table>
-</div>
+
 <!--Fim da inclusao do cabecalho-->
