@@ -230,7 +230,8 @@ public class LoginDAO {
                 cstmt.setLong(1, login.getCd_user());
             }
             cstmt.setNull(2,OracleTypes.VARCHAR);
-            cstmt.setString(3,login.getPw_senha());
+            String EncryptPassword = Criptografia.escondeSenha(login.getPw_senha());
+            cstmt.setString(3, EncryptPassword);
 
             cstmt.registerOutParameter(4, OracleTypes.NUMBER);
 
