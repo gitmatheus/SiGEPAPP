@@ -45,7 +45,7 @@ begin
                                pDS_PAT_PROBLEMA,
                                pDS_PAT_SOLUCAO
                               );
-
+   pCD_OBJETO := vCD_OBJETO;
    vResult := 1;
    commit;
    
