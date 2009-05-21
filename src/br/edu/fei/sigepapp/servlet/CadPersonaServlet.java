@@ -66,8 +66,8 @@ public class CadPersonaServlet extends HttpServlet {
                     int cResult = (int) dao.APPP_INS_PERSONA(persona);
                     dao.fechaConexao();
 
-                    if (cResult != 1) {
-                        writer.println("<xml><sucesso>0</sucesso></xml>");
+                    if (cResult < 1) {
+                        writer.println("<xml><sucesso>-3</sucesso></xml>");
                     } else {
                         writer.println("<xml><sucesso>" + cResult + "</sucesso></xml>");
                     }

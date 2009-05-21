@@ -74,7 +74,7 @@ public class ObjetoDAO {
 
             cstmt.execute();
 
-            int cResult = (int) cstmt.getLong(7);
+            int cResult = (int) cstmt.getLong(9);
 
             cstmt.close();
 

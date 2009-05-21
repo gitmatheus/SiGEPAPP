@@ -105,8 +105,11 @@
                     cod_appp_relac[tam] = $("#frmRelacionaSelAPPP").val();
                     vlr_relacao[tam] = $("#frmRelacionaTxtValor").val();
                     tam++;
+                    flag_relacionado = true;
+                    if ($("#frmRelacionaSelAPPP>option:selected").text() != ""){
+                        $("#" + atribtemp[pos]).val($("#" + atribtemp[pos]).val() + $("#frmRelacionaSelAPPP>option:selected").text() + ";");
+                    }
                     $(this).dialog('close');
-                    $("#" + atribtemp[pos]).val($("#" + atribtemp[pos]).val() + $("#frmRelacionaSelAPPP>option:selected").text() + ";");
                 }
             },
             close: function(){
@@ -300,7 +303,7 @@
             valores[i] = $("#" + atribtemp[i]).val();
         }
         $.post("CadPatternServlet", {valores:valores, estrutura:cod_estrutura}, function(xml){
-            if($("sucesso",xml).text() == "1"){
+            if(parseInt($("sucesso",xml).text()) > 0){
                 $("#cadastrado").dialog('open');
             }else{
                 $("#erroCadastro").dialog('open');
@@ -314,7 +317,7 @@
             valores[i] = $("#" + atribtemp[i]).val();
         }
         $.post("CadAntiPatternServlet", {valores:valores, estrutura:cod_estrutura}, function(xml){
-            if($("sucesso",xml).text() == "1"){
+            if(parseInt($("sucesso",xml).text()) > 0){
                 $("#cadastrado").dialog('open');
             }else{
                 $("#erroCadastro").dialog('open');
@@ -328,7 +331,7 @@
             valores[i] = $("#" + atribtemp[i]).val();
         }
         $.post("CadPersonaServlet", {valores:valores, estrutura:cod_estrutura}, function(xml){
-            if($("sucesso",xml).text() == "1"){
+            if(parseInt($("sucesso",xml).text()) > 0){
                 $("#cadastrado").dialog('open');
             }else{
                 $("#erroCadastro").dialog('open');
@@ -342,13 +345,17 @@
             valores[i] = $("#" + atribtemp[i]).val();
         }
         $.post("CadAPPPServlet", {valores:valores, estrutura:cod_estrutura, atributos: atributos, colunas: atribtemp}, function(xml){
-            if($("sucesso",xml).text() == "1"){
+            if(parseInt($("sucesso",xml).text()) > 0){
                 $("#cadastrado").dialog('open');
             }else{
                 $("#erroCadastro").dialog('open');
             }
         });
 
+    }
+
+    function cadastraRelacionamento(){
+        $.post("CadRelacAPPPServlet")
     }
 
     $(function(){

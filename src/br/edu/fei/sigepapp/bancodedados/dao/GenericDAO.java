@@ -80,14 +80,17 @@ public class GenericDAO {
 
             if (codigo_obj < 1) {
                 GravarLog.gravaAlerta(GenericDAO.class.getName() + ": erro na criação do objeto.");
-                return 3;
+                return -3;
             }
 
             nm_tabela = buscaNomeTabela(codigo_est);
 
             if (nm_tabela.equals("")) {
                 GravarLog.gravaAlerta(GenericDAO.class.getName() + ": nome da tabela nao encontrado.");
-                return 4; //Tabela não encontrada
+                dao = new ObjetoDAO();
+                dao.apagaObjeto(codigo_obj);
+                dao.fechaConexao();
+                return -4; //Tabela não encontrada
             }
 
             sql = "begin APPP_INS_" + nm_tabela.substring(8, nm_tabela.length()) + "(";
@@ -125,10 +128,13 @@ public class GenericDAO {
 
             if (cResult == 1) {
                 GravarLog.gravaInformacao(GenericDAO.class.getName() + ": inserção efetuada com sucesso");
-                return 1;
+                return codigo_obj;
             } else {
                 GravarLog.gravaErro(GenericDAO.class.getName() + ": ocorreu um erro no banco de dados durante a operação de inserção : erro " + cResult);
-                return 2;
+                dao = new ObjetoDAO();
+                dao.apagaObjeto(codigo_obj);
+                dao.fechaConexao();
+                return -2;
             }
 
         } catch (SQLException e) {

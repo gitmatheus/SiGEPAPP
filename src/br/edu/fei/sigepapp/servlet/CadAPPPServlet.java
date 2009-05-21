@@ -41,7 +41,8 @@ public class CadAPPPServlet extends HttpServlet {
             cod_usuario = Long.parseLong(request.getSession().getAttribute("codigo_usuario").toString());
         } catch (Exception e) {
             GravarLog.gravaErro(CadPatternServlet.class.getName() + ": erro de parse: " + e.getMessage());
-            writer.println("<xml><sucesso>2</sucesso></xml>");
+            erro = true;
+            writer.println("<xml><sucesso>-2</sucesso></xml>");
         }
 
         if (!erro) {
@@ -50,8 +51,8 @@ public class CadAPPPServlet extends HttpServlet {
                 int cResult = (int) dao.insertData(cod_estrutura, cod_usuario, valores, colunas, atributos);
                 dao.fechaConexao();
 
-                if (cResult != 1) {
-                    writer.println("<xml><sucesso>" + cResult + "</sucesso></xml>");
+                if (cResult < 1) {
+                    writer.println("<xml><sucesso>-3</sucesso></xml>");
                 } else {
                     writer.println("<xml><sucesso>" + cResult + "</sucesso></xml>");
                 }

@@ -70,8 +70,8 @@ public class CadAntiPatternServlet extends HttpServlet {
                     int cResult = (int) dao.APPP_INS_ANTI_PATTERN(antipattern);
                     dao.fechaConexao();
 
-                    if (cResult != 1) {
-                        writer.println("<xml><sucesso>0</sucesso></xml>");
+                    if (cResult < 1) {
+                        writer.println("<xml><sucesso>-3</sucesso></xml>");
                     } else {
                         writer.println("<xml><sucesso>" + cResult + "</sucesso></xml>");
                     }
