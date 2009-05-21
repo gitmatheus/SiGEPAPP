@@ -1,6 +1,15 @@
 <%@page import="br.edu.fei.sigepapp.bancodedados.dao.*,br.edu.fei.sigepapp.bancodedados.model.*,java.util.*" %>
 <%@include file="cabecalho.jsp"%>
 <% if (request.getSession().getAttribute("codigo_usuario") != null && request.getSession().getAttribute("codigo_usuario") != "0") {%>
+<style type="text/css">
+    .erro{
+        background-color:#ee957f;
+        border: 2px solid #822007;
+        -moz-border-radius: 5px;
+        -webkit-border-radius: 5px;
+        color:#822007;
+    }
+</style>
 <script type="text/javascript" language="javascript" src="js/jquery.tinysort.js"></script>
 <script type="text/javascript" src="js/jquery-ui-1.7.js" ></script>
 <script type="text/javascript" language="javascript" src="js/i18n/ui.datepicker-pt-BR.js"></script>
@@ -271,7 +280,12 @@
                     case "VARCHAR2":
                         strHtml += "</td><td width='50%' align='left' valign='middle'>";
                         strHtml += "<textarea name='" + nome +
-                            "' id='" + nome + "' class='edit' cols='55' title='" + $(elemento).find("descricao").text() + "'></textarea>";
+                            "' id='" + nome + "' class='edit' cols='55' title='" + $(elemento).find("descricao").text() + "'";
+                        if($(elemento).find("flagexpreg").text() == "S"){
+                            strHtml += " onblur='javascript:validaCampo(#" + nome + "," + $(elemento).find("expreg").text() + ")'></textarea>"
+                        }else{
+                            strHtml += "></textarea>";
+                        }
                         if($(elemento).find("flag_relaciona").text() == "S"){
                             strHtml += relacionavel;
                         }else{
@@ -280,12 +294,22 @@
                         break;
                     case "NUMBER":
                         strHtml += "</td><td width='50%' align='left' valign='middle'>";
-                        strHtml += "<input id='" + nome + "' name='" + nome + "' type='text' class='edit' title='" + $(elemento).find("descricao").text() + "'/>";
+                        strHtml += "<input id='" + nome + "' name='" + nome + "' type='text' class='edit' title='" + $(elemento).find("descricao").text() + "'";
+                        if($(elemento).find("flagexpreg").text() == "S"){
+                            strHtml += " onblur='javascript:validaCampo(#" + nome + "," + $(elemento).find("expreg").text() + ")'/>"
+                        }else{
+                            strHtml += "/>";
+                        }
                         strHtml += "</td><td width='20%' align='center' valign='middle'>";
                         break;
                     case "DATE":
                         strHtml += "</td><td width='50%' align='left' valign='middle'>";
-                        strHtml += "<input id='" + nome + "' name='" + nome + "' type='text' class='edit' title='" + $(elemento).find("descricao").text() + "'/>";
+                        strHtml += "<input id='" + nome + "' name='" + nome + "' type='text' class='edit' title='" + $(elemento).find("descricao").text() + "'";
+                        if($(elemento).find("flagexpreg").text() == "S"){
+                            strHtml += " onblur='javascript:validaCampo(#" + nome + "," + $(elemento).find("expreg").text() + ")'/>"
+                        }else{
+                            strHtml += "/>";
+                        }
                         strHtml += "</td><td width='20%' align='center' valign='middle'>";
                         break;
                 }
@@ -300,6 +324,19 @@
             $("#botoes").show();
         });
 
+    }
+    function validaCampo(campo,exp){
+        try{
+            var txtExp = new RegExp(exp);
+            var txtTest=$(campo).val();
+            if(!txtTest.match(txtExp)){
+                $(campo).addClass("erro");
+            }else{
+                $(campo).removeClass("erro");
+            }
+        }catch(e){
+            $(campo).addClass("erro");
+        }
     }
 
     function cadastraPattern(){
@@ -380,7 +417,7 @@
             if($("sucesso",xml).text() == "1"){
                 $("#cadastrado").dialog('open');
             }else{
-                 $("#erroCadastro").dialog('open');
+                $("#erroCadastro").dialog('open');
             }
         });
     }

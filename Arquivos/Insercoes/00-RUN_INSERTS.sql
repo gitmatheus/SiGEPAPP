@@ -20,8 +20,6 @@ spool /SiGEPAPP/Arquivos/Insercoes/LogInsertInicial.log
 
 @ /SiGEPAPP/Arquivos/Insercoes/99-INS_RELAC_ATRIB_ESTRUT.sql
 
-@ /SiGEPAPP/Arquivos/Procedures/09-APPP_INS_PATTERNS.sql
-
 @ /SiGEPAPP/Arquivos/Insercoes/09-INS_APPP_TB_CODIGO_POSTAL.sql
 
 @ /SiGEPAPP/Arquivos/Insercoes/10-INS_APPP_TB_USER_EMAIL.sql
@@ -30,6 +28,7 @@ spool /SiGEPAPP/Arquivos/Insercoes/LogInsertInicial.log
 
 @ /SiGEPAPP/Arquivos/Insercoes/12-INS_APPP_TB_USER_TELEFONE.sql
 
+@ /SiGEPAPP/Arquivos/Procedures/09-APPP_INS_PATTERNS.sql
 	
 SPOOL OFF
 
