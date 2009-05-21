@@ -101,12 +101,16 @@
                     $(this).dialog('close');
                 },
                 Relacionar: function() {
-                    cod_atrib_relac[tam] = codigos_atrib[pos];
-                    cod_appp_relac[tam] = $("#frmRelacionaSelAPPP").val();
-                    vlr_relacao[tam] = $("#frmRelacionaTxtValor").val();
-                    tam++;
-                    flag_relacionado = true;
                     if ($("#frmRelacionaSelAPPP>option:selected").text() != ""){
+                        cod_atrib_relac[tam] = codigos_atrib[pos];
+                        cod_appp_relac[tam] = $("#frmRelacionaSelAPPP").val();
+                        if ($("#frmRelacionaTxtValor").val() != ""){
+                            vlr_relacao[tam] = $("#frmRelacionaTxtValor").val();
+                        }else{
+                            vlr_relacao[tam] = " ";
+                        }
+                        tam++;
+                        flag_relacionado = true;
                         $("#" + atribtemp[pos]).val($("#" + atribtemp[pos]).val() + $("#frmRelacionaSelAPPP>option:selected").text() + ";");
                     }
                     $(this).dialog('close');
@@ -304,7 +308,11 @@
         }
         $.post("CadPatternServlet", {valores:valores, estrutura:cod_estrutura}, function(xml){
             if(parseInt($("sucesso",xml).text()) > 0){
-                $("#cadastrado").dialog('open');
+                if(flag_relacionado){
+                    cadastraRelacionamento($("sucesso",xml).text());
+                }else{
+                    $("#cadastrado").dialog('open');
+                }
             }else{
                 $("#erroCadastro").dialog('open');
             }
@@ -318,7 +326,11 @@
         }
         $.post("CadAntiPatternServlet", {valores:valores, estrutura:cod_estrutura}, function(xml){
             if(parseInt($("sucesso",xml).text()) > 0){
-                $("#cadastrado").dialog('open');
+                if(flag_relacionado){
+                    cadastraRelacionamento($("sucesso",xml).text());
+                }else{
+                    $("#cadastrado").dialog('open');
+                }
             }else{
                 $("#erroCadastro").dialog('open');
             }
@@ -332,7 +344,11 @@
         }
         $.post("CadPersonaServlet", {valores:valores, estrutura:cod_estrutura}, function(xml){
             if(parseInt($("sucesso",xml).text()) > 0){
-                $("#cadastrado").dialog('open');
+                if(flag_relacionado){
+                    cadastraRelacionamento($("sucesso",xml).text());
+                }else{
+                    $("#cadastrado").dialog('open');
+                }
             }else{
                 $("#erroCadastro").dialog('open');
             }
@@ -346,7 +362,11 @@
         }
         $.post("CadAPPPServlet", {valores:valores, estrutura:cod_estrutura, atributos: atributos, colunas: atribtemp}, function(xml){
             if(parseInt($("sucesso",xml).text()) > 0){
-                $("#cadastrado").dialog('open');
+                if(flag_relacionado){
+                    cadastraRelacionamento($("sucesso",xml).text());
+                }else{
+                    $("#cadastrado").dialog('open');
+                }
             }else{
                 $("#erroCadastro").dialog('open');
             }
@@ -354,8 +374,15 @@
 
     }
 
-    function cadastraRelacionamento(){
-        $.post("CadRelacAPPPServlet")
+    function cadastraRelacionamento(cd_objeto){
+        $.post("CadRelacAPPPServlet",{cd_objeto: cd_objeto, cod_atrib_relac: cod_atrib_relac, cod_appp_relac: cod_appp_relac,vlr_relacao:vlr_relacao},
+        function(xml){
+            if($("sucesso",xml).text() == "1"){
+                $("#cadastrado").dialog('open');
+            }else{
+                 $("#erroCadastro").dialog('open');
+            }
+        });
     }
 
     $(function(){

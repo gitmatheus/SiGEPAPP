@@ -33,7 +33,7 @@ public class CadPatternServlet extends HttpServlet {
             cod_usuario = Long.parseLong(request.getSession().getAttribute("codigo_usuario").toString());
         } catch (Exception e) {
             GravarLog.gravaErro(CadPatternServlet.class.getName() + ": usuário não logado");
-            writer.println("<xml><sucesso>2</sucesso></xml>");
+            writer.println("<xml><sucesso>-2</sucesso></xml>");
             erro = true;
         }
 

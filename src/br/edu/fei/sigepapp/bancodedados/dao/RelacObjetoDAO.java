@@ -23,7 +23,7 @@ public class RelacObjetoDAO {
 
     public int insereRelacionamentos(RelacObjetos relacObj){
         try{
-            CallableStatement cstmt = this.conn.prepareCall("");
+            CallableStatement cstmt = this.conn.prepareCall("begin APPP_INS_OBJ_RELAC(?,?,?,?,?,?); end;");
 
             cstmt.registerOutParameter(1, OracleTypes.NUMBER);
             cstmt.setLong(2, relacObj.getCd_obj_relacionado());
@@ -48,6 +48,18 @@ public class RelacObjetoDAO {
             GravarLog.gravaErro(RelacObjetoDAO.class.getName() + ": erro durante a criação do relacionamento: " + e.getSQLState() + " : " + e.getMessage());
             return 0;
 
+        }
+    }
+     /**
+     * Metodo para fechar o banco de dados da classe
+     */
+    public void fechaConexao() {
+        try {
+            if (!this.conn.isClosed()) {
+                this.conn.close();
+            }
+        } catch (SQLException e) {
+            GravarLog.gravaErro(ObjetoDAO.class.getName() + ": erro ao finalizar connexao com o banco: " + e.getMessage());
         }
     }
 

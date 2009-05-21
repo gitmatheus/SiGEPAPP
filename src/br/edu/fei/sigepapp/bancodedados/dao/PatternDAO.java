@@ -27,10 +27,10 @@ import java.util.List;
 
 //~-- Sigepapp import ---------------------------------------------------------
 import br.edu.fei.sigepapp.bancodedados.ConnectionFactory;
-import br.edu.fei.sigepapp.bancodedados.model.Estrutura;
 import br.edu.fei.sigepapp.bancodedados.model.Objeto;
 import br.edu.fei.sigepapp.bancodedados.model.Pattern;
 import br.edu.fei.sigepapp.log.GravarLog;
+import com.sun.net.ssl.internal.ssl.Debug;
 import java.sql.CallableStatement;
 import java.util.Vector;
 import oracle.jdbc.OracleTypes;
@@ -190,6 +190,7 @@ public class PatternDAO {
 
         try {
             long result = 0;
+            long cObjeto = 0;
             cstmt = conn.prepareCall("begin APPP_CREATE_PATTERN(?, ?, ?, ?, ?, ?, ?, ?); end;");
             
             cstmt.registerOutParameter(1, OracleTypes.NUMBER);
@@ -204,16 +205,18 @@ public class PatternDAO {
             cstmt.registerOutParameter(8, OracleTypes.NUMBER);
 
             cstmt.execute();
+            cObjeto = cstmt.getLong(1);
             result = cstmt.getLong(8);
 
             //fecha a instancia dos objetos
             cstmt.close();
 
             //Grava log com a informação de sucesso
-            GravarLog.gravaInformacao(Pattern.class.getName() + ": Insercao no banco de dados realizada com sucesso");
+            GravarLog.gravaInformacao(PatternDAO.class.getName() + ": Insercao no banco de dados realizada com sucesso");
 
             //retorna uma lista com os usuarios selecionados
-            return result;
+            Debug.println("Codigo Obj", Long.toString(cObjeto));
+            return cObjeto;
 
         } catch (SQLException e) {
 

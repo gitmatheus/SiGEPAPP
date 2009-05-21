@@ -42,7 +42,8 @@ public class GetAtribDeEstrutServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/xml;charset=ISO-8859-1");
+        response.setContentType("text/xml; charset: ISO-8859-1");
+        response.setHeader("Cache-Control", "no-cache");
         PrintWriter out = response.getWriter();
         try {
             long codEstrutura=Long.parseLong(request.getParameter("codestr").trim());

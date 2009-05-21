@@ -69,7 +69,7 @@ public class CadPersonaServlet extends HttpServlet {
                     if (cResult < 1) {
                         writer.println("<xml><sucesso>-3</sucesso></xml>");
                     } else {
-                        writer.println("<xml><sucesso>" + cResult + "</sucesso></xml>");
+                        writer.println("<xml><sucesso>" + codigo + "</sucesso></xml>");
                     }
                 } else {
                     writer.println("<xml><sucesso>0</sucesso></xml>");

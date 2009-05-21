@@ -34,6 +34,7 @@ public class GetObjetoServlet extends HttpServlet {
         response.setContentType("text/xml; charset: ISO-8859-1");
         response.setHeader("Cache-Control", "no-cache");
         PrintWriter out = response.getWriter();
+        out.println("<?xml version='1.0' encoding='ISO-8859-1'?>");
         out.println("<xml>");
         try {
             ObjetoDAO dao = new ObjetoDAO();
