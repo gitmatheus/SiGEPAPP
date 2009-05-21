@@ -15,7 +15,7 @@
 <script type="text/javascript" language="javascript" src="js/i18n/ui.datepicker-pt-BR.js"></script>
 <script type="text/javascript" language="javascript" src="js/fckeditor/fckeditor.js"></script>
 <script type="text/javascript" language="javascript">
-    var cod_estrutura, pos, tam = 0, flag_relacionado = false;
+    var cod_estrutura, pos, tam = 0, flag_relacionado = false, erroCampoVazio = false;
     var codigos_atrib = new Array();
     var valores = new Array();
     var atribtemp = new Array();
@@ -41,6 +41,8 @@
         $("#erroCadastro").show();
         $("#divfrmRelaciona").show();
         $("#botoes").show();
+        $("#alertConfirma").show();
+        $("#alertVazio").show();
 
         $("#frmCadAPPPChkPattern").click(function(){
             var req = verificaChkBox();
@@ -77,22 +79,51 @@
         $("#botoes").hide();
 
         $("#frmCadAPPPBtnCadastrar").click(function(){
-            switch(parseInt(cod_estrutura)){
-                case 1:
-                    cadastraPattern();
-                    break;
-                case 2:
-                    cadastraAntiPattern();
-                    break;
-                case 3:
-                    cadastraPersona();
-                    break;
-                default:
-                    cadastraObjeto();
-                    break;
+            erroCampoVazio = false;
+            for(i = 0; i < atribtemp.length && !erroCampoVazio; i++){
+                if($("#" + atribtemp[i]).val() == ""){
+                    erroCampoVazio = true;
+                }
+            }
+            if(erroCampoVazio){
+                $("#alertVazio").dialog('open');
+            }else{
+                $("#alertConfirma").dialog('open');
             }
         });
 
+        $("#alertConfirma").dialog({
+            width: 300,
+            modal: true,
+            autoOpen: false,
+            show: 'slide',
+            hide: 'slide',
+            draggable: false,
+            buttons: {
+                Nao: function(){
+                    $("#alertConfirma").dialog('close');
+
+                },
+                Sim: function(){
+                    $("#alertConfirma").dialog('close');
+                    switch(parseInt(cod_estrutura)){
+                        case 1:
+                            cadastraPattern();
+                            break;
+                        case 2:
+                            cadastraAntiPattern();
+                            break;
+                        case 3:
+                            cadastraPersona();
+                            break;
+                        default:
+                            cadastraObjeto();
+                            break;
+                    }
+
+                }
+            }});
+        
         $("#frmCadAPPPBtnCancelar").click(function(){
             window.location = "/sigepapp";
         });
@@ -467,6 +498,20 @@
                 }
             }
         });
+
+        $("#alertVazio").dialog({
+            width: 300,
+            modal: true,
+            autoOpen: false,
+            show: 'slide',
+            hide: 'slide',
+            draggable: false,
+            buttons: {
+                "Ok": function(){
+                    $(this).dialog("close");
+                }
+            }
+        });
     });
 </script>
 <form name="frmCadAPPP" method="post">
@@ -507,6 +552,12 @@
                         </tr>
                     </tr>
                     <tr>
+                        <td colspan="2" align="center" valign="middle">
+                            <br />
+                            <font class="texto">O preenchimento de todos os campos &eacute; obrigat&oacute;rio.</font>
+                        </td>
+                    </tr>
+                    <tr>
                         <td width="30%" align="right">
                             <div style="margin-right: 10px;">
                                 <font class="texto"> Estruturas de <br />documentos: </font>
@@ -520,11 +571,11 @@
                                 </select>
                             </div>
                             <div id="alertaSelectEstrut" title="Estruturas não encontradas">
-                                Por favor, selecione um tipo de estrutura.<br />
+                               <img src="images/m2brerro.png" style="vertical-align:middle;"/> Por favor, selecione um tipo de estrutura.<br />
                             </div>
                             <script type="text/javascript">$("#alertaSelectEstrut").hide();</script>
                             <div id="cadastrado" title="Parab&eacute;ns">
-                                Documento cadastrado com sucesso.<br />
+                               <img src="images/m2brinfo.png" style="vertical-align:middle;"/> Documento cadastrado com sucesso.<br />
                             </div>
                             <script type="text/javascript">$("#cadastrado").hide();</script>
                             <div id="naoLogado" title="Aviso">
@@ -532,7 +583,7 @@
                             </div>
                             <script type="text/javascript">$("#naoLogado").hide();</script>
                             <div id="erroCadastro" title="Aviso">
-                                Desculpe-nos, ocorreu um erro durante o cadastro do objeto.<br />
+                                <img src="images/m2brerro.png" style="vertical-align:middle;"/>Desculpe-nos, ocorreu um erro durante o cadastro do objeto.<br />
                                 Verifique os campos preenchidos e tente novamente.<br />
                                 Obrigado, Equipe SiGePAPP.<br />
                             </div>
@@ -600,6 +651,14 @@
     </form>
 </div>
 <script type="text/javascript">$("#divfrmRelaciona").hide();</script>
+<div style="display:block;" id="alertConfirma" title="Cadastro de Documentos">
+    <img src="images/m2brpergunta.png" style="vertical-align:middle;"/> Confima cadastro do documento?
+</div>
+<script type="text/javascript">$("#alertConfirma").hide();</script>
+<div style="display:block;" id="alertVazio" title="Alerta">
+    <img src="images/m2bralerta.png" style="vertical-align:middle;"/> Por favor, preencher todos os campos.
+</div>
+<script type="text/javascript">$("#alertVazio").hide();</script>
 <% } else {%>
 <center>
     <h2>Cadastro de APPP</h2>

@@ -139,9 +139,10 @@ a {
 /* Formatacao dos elementos <tr> que possuem este id #menubv */
 
 .menubv .submenu td a{
-    background-color: #bbbbbb;
-    border-left: 2px solid #aaaaaa;
-    border-bottom: 2px solid #aaaaaa;
+    background-color: #cccccc;
+    border-left: 2px solid #3d414c;
+    border-bottom: 2px solid #3d414c;
+    color: #3d414c;
 }
 
 

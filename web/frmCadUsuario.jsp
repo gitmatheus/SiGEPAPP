@@ -22,8 +22,19 @@
                 <table border="0" cellpadding="0" cellspacing="0" width="100%">
                     <tr>
                         <td width="30%" align="right">
+                        </td>
+                        <td width="70%" align="right" valign="middle">
+                            <div style="margin-right: 15px;">
+                                <font class="texto" style="font-size:small;font-weight:bold;">
+                                    (*) Campos Obrigat&oacute;rios.
+                                </font>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td width="30%" align="right">
                             <div style="margin-right: 10px;">
-                                <font class="texto"> Login: </font>
+                                <font class="texto"> Login: (*)</font>
                             </div>
                         </td>
                         <td width="70%" align="left" valign="middle">
@@ -36,7 +47,7 @@
                     <tr>
                         <td width="30%" align="right">
                             <div style="margin-right: 10px;">
-                                <font class="texto"> Senha: </font>
+                                <font class="texto"> Senha: (*)</font>
                             </div>
                         </td>
                         <td width="70%" align="left">
@@ -49,7 +60,7 @@
                     <tr>
                         <td width="30%" align="right">
                             <div style="margin-right: 10px;">
-                                <font class="texto"> Confirmar senha: </font>
+                                <font class="texto"> Confirmar senha: (*)</font>
                             </div>
                         </td>
                         <td width="70%" align="left">
@@ -65,7 +76,7 @@
                                     <tr>
                                         <td width="30%" align="right">
                                             <div style="margin-right: 10px;">
-                                                <font class="texto"> E-mail: </font>
+                                                <font class="texto"> E-mail: (*)</font>
                                             </div>
                                         </td>
                                         <td width="70%" align="left">
@@ -87,7 +98,7 @@
                     <tr>
                         <td width="30%" align="right">
                             <div style="margin-right: 10px;">
-                                <font class="texto"> CPF: </font>
+                                <font class="texto"> CPF: (*)</font>
                             </div>
                         </td>
                         <td width="70%" align="left">
@@ -100,7 +111,7 @@
                     <tr>
                         <td width="30%" align="right">
                             <div style="margin-right: 10px;">
-                                <font class="texto"> Nome: </font>
+                                <font class="texto"> Nome: (*)</font>
                             </div>
                         </td>
                         <td width="70%" align="left">
@@ -113,7 +124,7 @@
                     <tr>
                         <td width="30%" align="right">
                             <div style="margin-right: 10px;">
-                                <font class="texto"> Sobrenome: </font>
+                                <font class="texto"> Sobrenome: (*)</font>
                             </div>
                         </td>
                         <td width="70%" align="left">
@@ -126,7 +137,7 @@
                     <tr style="height:25px;">
                         <td width="30%" align="right">
                             <div style="margin-right: 10px;">
-                                <font class="texto" style=" vertical-align: top;"> Data de Nascimento: </font>
+                                <font class="texto" style=" vertical-align: top;"> Data de Nascimento: (*)</font>
                             </div>
                         </td>
                         <td width="70%" align="left" valign="middle">
@@ -142,13 +153,13 @@
                                 <tr>
                                     <td width="30%" align="right">
                                         <div style="margin-right: 10px;">
-                                            <font class="texto"> Endere&ccedil;o: </font>
+                                            <font class="texto"> Endere&ccedil;o: (*)</font>
                                         </div>
                                     </td>
                                     <td width="70%" align="left">
                                         <div  style="margin-left: 5px;">
                                             <input id="frmCadUserEndereco" type="text" name="frmCadUserEndereco" class="edit" style="width: 300px;" maxlength="80" title="Digite seu endere&ccedil;o" />
-                                            <font class="texto"> n.º: </font>
+                                            <font class="texto"> n.º: (*)</font>
                                             <input id="frmCadUserNumEnd" type="text" name="frmCadUserNumEnd" class="edit" style="width: 40px;" maxlength="6" title="Digite o n&uacute;mero de sua resid&ecirc;ncia" />
                                         </div>
                                     </td>
@@ -176,7 +187,7 @@
                                 <tr>
                                     <td width="30%" align="right">
                                         <div style="margin-right: 10px;">
-                                            <font class="texto"> CEP: </font>
+                                            <font class="texto"> CEP: (*)</font>
                                         </div>
                                     </td>
                                     <td width="70%" align="left">
@@ -189,7 +200,7 @@
                                 <tr>
                                     <td width="30%" align="right">
                                         <div style="margin-right: 10px;">
-                                            <font class="texto"> Bairro: </font>
+                                            <font class="texto"> Bairro: (*)</font>
                                         </div>
                                     </td>
                                     <td width="70%" align="left">
@@ -202,7 +213,7 @@
                                 <tr>
                                     <td width="30%" align="right">
                                         <div style="margin-right: 10px;">
-                                            <font class="texto"> Estado: </font>
+                                            <font class="texto"> Estado: (*)</font>
                                         </div>
                                     </td>
                                     <td width="70%" align="left">
@@ -220,7 +231,7 @@
                                 <tr>
                                     <td width="30%" align="right">
                                         <div style="margin-right: 10px;">
-                                            <font class="texto"> Cidade: </font>
+                                            <font class="texto"> Cidade: (*)</font>
                                         </div>
                                     </td>
                                     <td width="70%" align="left">
@@ -253,7 +264,7 @@
                         <tr>
                             <td width="30%" align="right">
                                 <div style="margin-right: 10px;">
-                                    <font class="texto"> Telefone: </font>
+                                    <font class="texto"> Telefone: (*)</font>
                                 </div>
                             </td>
                             <td width="70%" align="left">
@@ -334,4 +345,6 @@
         </tr>
     </table>
 </form>
+<div style="display:block;" id="alert" title="Alerta">
+</div>
 <%@include file="rodape.jsp"%>

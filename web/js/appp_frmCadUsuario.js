@@ -1,36 +1,52 @@
+var msgAlerta = "";
 function valida(){
     var retorno=false;
     //Validações do cadastro
     if ($.trim($("#frmCadUserLogin").val())==""){
-        alert("Campo obrigatório não preenchido: Login");
+        msgAlerta = "<img src='images/m2bralerta.png' style='vertical-align:middle;'/> Por favor, preencha o campo de Login";
+        $("#alert").dialog('open');
     }else if($.trim($("#frmCadUserSenha").val())=="")  {
-        alert("Campo obrigatório não preenchido: Senha");
+        msgAlerta = "<img src='images/m2bralerta.png' style='vertical-align:middle;'/> Por favor, preencha o campo de Senha";
+        $("#alert").dialog('open');
     }else if($.trim($("#frmCadUserCSenha").val())=="") {
-        alert("Campo obrigatório não preenchido: Confirmação de Senha");
+        msgAlerta = "<img src='images/m2bralerta.png' style='vertical-align:middle;'/> Por favor, preencha o campo de Confirmação de Senha";
+        $("#alert").dialog('open');
     }else if ($.trim($("#frmCadUserEmail").val())=="") {
-        alert("Campo obrigatório não preenchido: Email");
+        msgAlerta = "<img src='images/m2bralerta.png' style='vertical-align:middle;'/> Por favor, preencha o campo de Email";
+        $("#alert").dialog('open');
     }else if($.trim($("#frmCadUserCPF").val())=="") {
-        alert("Campo obrigatório não preenchido: CPF");
+        msgAlerta = "<img src='images/m2bralerta.png' style='vertical-align:middle;'/> Por favor, preencha o campo de CPF";
+        $("#alert").dialog('open');
     }else if($.trim($("#frmCadUserNome").val())==""){
-        alert("Campo obrigatório não preenchido: Nome Usuário");
+        msgAlerta = "<img src='images/m2bralerta.png' style='vertical-align:middle;'/> Por favor, preencha o campo de Nome";
+        $("#alert").dialog('open');
     }else if ($.trim($("#frmCadUserSobrenome").val())=="") {
-        alert("Campo obrigatório não preenchido: Sobrenome Usuário");
+        msgAlerta = "<img src='images/m2bralerta.png' style='vertical-align:middle;'/> Por favor, preencha o campo de Sobrenome";
+        $("#alert").dialog('open');
     }else if($.trim($("#frmCadUserDataNasc").val())=="")  {
-        alert("Campo obrigatório não preenchido: Data de Nascimento");
+        msgAlerta = "<img src='images/m2bralerta.png' style='vertical-align:middle;'/> Por favor, preencha o campo de Data de Nascimento";
+        $("#alert").dialog('open');
     }else if($.trim($("#frmCadUserEndereco").val())=="")  {
-        alert("Campo obrigatório não preenchido: Endereço");
+        msgAlerta = "<img src='images/m2bralerta.png' style='vertical-align:middle;'/> Por favor, preencha o campo de Endereço";
+        $("#alert").dialog('open');
     }else if($.trim($("#frmCadUserNumEnd").val())==""){
-        alert("Campo obrigatório não preenchido: Número do endereço");
+        msgAlerta = "<img src='images/m2bralerta.png' style='vertical-align:middle;'/> Por favor, preencha o campo de Número de Endereço";
+        $("#alert").dialog('open');
     }else if($.trim($("#frmCadUserCEP").val())=="") {
-        alert("Campo obrigatório não preenchido: Cep");
+        msgAlerta = "<img src='images/m2bralerta.png' style='vertical-align:middle;'/> Por favor, preencha o campo de CEP";
+        $("#alert").dialog('open');
     }else if($.trim($("#frmCadUserBairro").val())==""){
-        alert("Campo obrigatório não preenchido: Bairro");
+        msgAlerta = "<img src='images/m2bralerta.png' style='vertical-align:middle;'/> Por favor, preencha o campo de Bairro";
+        $("#alert").dialog('open');
     }else if($.trim($("#frmCadUserEstado").val())=="") {
-        alert("Campo obrigatório não preenchido: Estado");
+        msgAlerta = "<img src='images/m2bralerta.png' style='vertical-align:middle;'/> Por favor, selecione um Estado";
+        $("#alert").dialog('open');
     }else if($.trim($("#frmCadUserCidade").val())=="") {
-        alert("Campo obrigatório não preenchido: Cidade");
+        msgAlerta = "<img src='images/m2bralerta.png' style='vertical-align:middle;'/> Por favor, selecione uma Cidade";
+        $("#alert").dialog('open');
     }else if($.trim($("#frmCadUserTelefone").val())==""){
-        alert("Campo obrigatório não preenchido: Telefone");
+        msgAlerta = "<img src='images/m2bralerta.png' style='vertical-align:middle;'/> Por favor, preencha o campo de Telefone";
+        $("#alert").dialog('open');
     }else{
         retorno=true;
     }
@@ -303,6 +319,27 @@ $(function(){
             }
         }
     });
+
+    $("#alert").dialog({
+            width: 300,
+            modal: true,
+            autoOpen: false,
+            show: 'slide',
+            hide: 'slide',
+            draggable: false,
+            buttons: {
+                "Ok": function(){
+                    $(this).dialog("close");
+                }
+            },
+            open: function(){
+                $(this).html(msgAlerta);
+            },
+            close: function(){
+                $("#alert").html("");
+                msgAlerta = "";
+            }
+        });
 
     $("#envia_cad_user").click(function(){
         EnviaCadUsuario();
