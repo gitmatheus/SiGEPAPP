@@ -120,6 +120,10 @@ Tom Mix Petreca</description>
         <servlet-name>CadRelacAPPPServlet</servlet-name>
         <servlet-class>br.edu.fei.sigepapp.servlet.CadRelacAPPPServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>AlteraSenhaServlet</servlet-name>
+        <servlet-class>br.edu.fei.sigepapp.servlet.AlteraSenhaServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
         <url-pattern>/LoginServlet</url-pattern>
@@ -254,6 +258,10 @@ Tom Mix Petreca</description>
     <servlet-mapping>
         <servlet-name>CadRelacAPPPServlet</servlet-name>
         <url-pattern>/CadRelacAPPPServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AlteraSenhaServlet</servlet-name>
+        <url-pattern>/AlteraSenhaServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

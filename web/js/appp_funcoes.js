@@ -105,10 +105,11 @@ function LogonSigepapp(){
         // verifica a valor do flag confirma
         if(confirma != 0){// se 1, exibe codigo html na posicao do elemento identificado como syslogin
             $("#syslogin").html(
-                "<h2>Seja bemvindo,<br /> " + $("usuario",xml).text() + "</h2>" +
-                "<div align='right' style='margin-right: 10px;'>| " +
+                "<h2>Seja bem-vindo(a),<br /> " + $("usuario",xml).text() + "</h2>" +
+                "<div align='right' style='margin-right: 10px;'>" +
                 //"<a id='envia_avaliacoes' href='frmAvaliacoesPendentes.jsp' class='painelcontrole' title='Avaliar APPP pendentes'>Avalia&ccedil;&otilde;es</a>&nbsp;|&nbsp;"+
-                "<a id='envia_logoff' href='#' class='painelcontrole' title='Sair do sistema'>Sair</a>" +
+                "<a id='aleracao_senha' href='frmAlteraSenha.jsp' class='painelcontrole' title='Altera&ccedil;&atilde;o de senha do usu&aacute;rio'>Alterar Senha</a>&nbsp;|" +
+                "<a id='envia_logoff' href='#' class='painelcontrole' title='Sair do sistema'>&nbsp;Sair</a>" +
                 //"<input id='envia_logoff' type='button' class='painelcontrole' title='Sair do sistema' value='Sair' /></div>" +
                 "</div>"+
                 "<input type='hidden' id='status' value='logoff' />"

@@ -50,7 +50,8 @@
 <%} else {%>
 <h2>Seja bem-vindo(a),<br /> <% out.print(request.getSession().getAttribute("usuario"));%></h2>
 <div align='right' style='margin-right: 10px;'>
-    <!-- |<a id='envia_avaliacoes' href='frmAvaliacoesPendentes.jsp' class='painelcontrole' title='Avaliar APPP pendentes'>Avalia&ccedil;&otilde;es</a>&nbsp;-->|
+    <!-- |<a id='envia_avaliacoes' href='frmAvaliacoesPendentes.jsp' class='painelcontrole' title='Avaliar APPP pendentes'>Avalia&ccedil;&otilde;es</a>&nbsp;|-->
+    <a id='aleracao_senha' href='frmAlteraSenha.jsp' class='painelcontrole' title='Altera&ccedil;&atilde;o de senha do usu&aacute;rio'>Alterar Senha</a>&nbsp;|
     <a id='envia_logoff' href='#' class='painelcontrole' title='Sair do sistema' onclick='javascript:LogoffSigepapp();' >Sair</a>
 </div> 
 <input type='hidden' id='status' value='logoff' />

@@ -220,6 +220,37 @@ public class LoginDAO {
         
     }
 
+    public int alteraSenha(Login login){
+        try{
+            CallableStatement cstmt = this.conn.prepareCall("begin APPP_UPD_LOGIN(?,?,?,?); end;");
+            if(login.getCd_user() < 1){
+                GravarLog.gravaErro(LoginDAO.class.getName() + ": usuario nulo.");
+                return 0;
+            }else{
+                cstmt.setLong(1, login.getCd_user());
+            }
+            cstmt.setNull(2,OracleTypes.VARCHAR);
+            cstmt.setString(3,login.getPw_senha());
+
+            cstmt.registerOutParameter(4, OracleTypes.NUMBER);
+
+            cstmt.execute();
+
+            int cResult = (int) cstmt.getLong(4);
+
+            if (cResult != 1){
+                GravarLog.gravaErro(LoginDAO.class.getName() + ": erro na atualizacoa do usuario");
+                return 0;
+            }else{
+                GravarLog.gravaErro(LoginDAO.class.getName() + ": atualizacao de usuario com sucesso");
+                return 1;
+            }
+        }catch(SQLException e){
+            GravarLog.gravaErro(LoginDAO.class.getName() + ": erro na atualizacao da senha: " + e.getSQLState() + " : " + e.getMessage());
+            return 0;
+        }
+    }
+
     /**
      * Metodo para fechar o banco de dados da classe
      */
