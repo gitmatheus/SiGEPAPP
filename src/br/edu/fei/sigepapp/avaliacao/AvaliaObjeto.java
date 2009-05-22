@@ -4,13 +4,17 @@ package br.edu.fei.sigepapp.avaliacao;
 import br.edu.fei.sigepapp.bancodedados.ConnectionFactory;
 import br.edu.fei.sigepapp.log.GravarLog;
 import java.lang.Exception;
+import java.net.URI;
+import java.net.URL;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import javax.swing.text.html.HTML;
 import oracle.jdbc.OracleTypes;
 
 import org.apache.commons.mail.EmailException;  
+import org.apache.commons.mail.HtmlEmail;
 import org.apache.commons.mail.SimpleEmail;
 
 /**
@@ -28,10 +32,11 @@ public class AvaliaObjeto {
 
     public void executaAcoes(long pCD_OBJ, long pCD_USER) throws Exception{
         try{
-            CallableStatement cstmt = this.conn.prepareCall("{? = call APPP_FN_AVALIA_QUEST(?)}");
+            CallableStatement cstmt = this.conn.prepareCall("{? = call APPP_FN_AVALIA_QUEST(?,?)}");
 
             cstmt.registerOutParameter(1, OracleTypes.NUMBER);
             cstmt.setLong(2, pCD_OBJ);
+            cstmt.setLong(3, pCD_USER);
 
             cstmt.execute();
 
@@ -58,15 +63,15 @@ public class AvaliaObjeto {
                     ResultSet rs = (ResultSet) cstmt.getObject(4);
                     int tamRS = 0;
 
+                    String emailUsuario = new String();
                     while(rs.next()){
                         tamRS++;
+                        emailUsuario = rs.getString("NM_EMAIL");
                     }
 
                     if (tamRS != 1){
                         throw new Exception();
                     }
-
-                    String emailUsuario = rs.getString("NM_EMAIL");
 
                     cstmt = this.conn.prepareCall("begin APPP_SEL_USERS(?,?,?,?,?,?,?,?,?,?,?,?,?); end;");
 
@@ -88,16 +93,16 @@ public class AvaliaObjeto {
 
                     rs = (ResultSet) cstmt.getObject(13);
                     tamRS = 0;
+                    String nomeUsuario = new String();
 
                     while(rs.next()){
+                        nomeUsuario = rs.getString("NM_PRIM_NOME") + rs.getString("NM_ULT_NOME");
                         tamRS++;
                     }
 
                     if (tamRS != 1){
                         throw new Exception();
                     }
-
-                    String nomeUsuario = rs.getString("NM_PRIM_NOME") + rs.getString("NM_ULT_NOME");
 
                     cstmt = this.conn.prepareCall("begin APPP_SEL_OBJETO(?,?,?,?,?,?,?,?); end;");
 
@@ -115,17 +120,17 @@ public class AvaliaObjeto {
                     rs = (ResultSet) cstmt.getObject(7);
                     tamRS = 0;
 
+                    String nomeObj = new String();
                     while(rs.next()){
                         tamRS++;
+                        nomeObj = rs.getString("NM_OBJETO");
                     }
 
                     if (tamRS != 1){
                         throw new Exception();
                     }
 
-                    String nomeObj = rs.getString("NM_OBJETO");
-                    
-                    enviaEmail(nomeUsuario,emailUsuario,nomeObj);
+                    enviaEmail(nomeUsuario,emailUsuario,nomeObj,pCD_OBJ);
                     break;
 
             }
@@ -141,14 +146,20 @@ public class AvaliaObjeto {
      * @param nomeUsuario
      * @param emailUsuario
      */
-     public void enviaEmail(String nomeUsuario, String emailUsuario, String nomeObj) throws EmailException{
+     public void enviaEmail(String nomeUsuario, String emailUsuario, String nomeObj, long codigoObj) throws EmailException{
         try{
-            SimpleEmail email = new SimpleEmail();
+            HtmlEmail email = new HtmlEmail();
+            
+            email.setHtmlMsg("<html></html>");// configura a mensagem para o formato HTML 
+            email.setTextMsg("Seu servidor de e-mail não suporta mensagem HTML"); // configure uma mensagem alternativa caso o servidor não suporte HTML
             email.setHostName("smtp.gmail.com"); // o servidor SMTP para envio do e-mail
             email.addTo(emailUsuario, nomeUsuario); //destinatário
             email.setFrom("teste@gmail.com", "SIGEPAPP - Sistema de Gerenciamento de Patterns, Anti-Patterns e Personas"); // remetente
-            email.setSubject("[SIGEPAPP] Bloqueio de APPP"); // assunto do e-mail
-            email.setMsg("Seu APPP: " + nomeObj + " foi bloqueiado após avaliações.\nVerifique as respostas das avaliações acessando o SIGEPAPP.\n\nAtenciosamente,\nEquipe SIGEPAPP."); //conteudo do e-mail
+            email.setSubject("[SIGEPAPP] Bloqueio de Documento APPP"); // assunto do e-mail
+            email.setMsg("<font> Caro(a)" + nomeUsuario+ ",<br /> Seu documento APPP " +
+                    "<a href='/sigepapp/viewAPPP.jsp?cd_objeto=" + codigoObj + "'>" + nomeObj + "</a>, " +
+                    "foi indisponibilizado devido a baixa nota de avaliação.<br /><br />Atenciosamente,<br />" +
+                    "Equipe Sigepapp</font>"); //conteudo do e-mail
             email.setAuthentication("teste", "xxxxx");
             email.setSmtpPort(465);
             email.setSSL(true);
