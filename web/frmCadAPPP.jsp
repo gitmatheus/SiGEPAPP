@@ -1,15 +1,6 @@
 <%@page import="br.edu.fei.sigepapp.bancodedados.dao.*,br.edu.fei.sigepapp.bancodedados.model.*,java.util.*" %>
 <%@include file="cabecalho.jsp"%>
 <% if (request.getSession().getAttribute("codigo_usuario") != null && request.getSession().getAttribute("codigo_usuario") != "0") {%>
-<style type="text/css">
-    .erro{
-        background-color:#ee957f;
-        border: 2px solid #822007;
-        -moz-border-radius: 5px;
-        -webkit-border-radius: 5px;
-        color:#822007;
-    }
-</style>
 <script type="text/javascript" language="javascript" src="js/jquery.tinysort.js"></script>
 <script type="text/javascript" src="js/jquery-ui-1.7.js" ></script>
 <script type="text/javascript" language="javascript" src="js/i18n/ui.datepicker-pt-BR.js"></script>
@@ -313,7 +304,7 @@
                         strHtml += "<textarea name='" + nome +
                             "' id='" + nome + "' class='edit' cols='55' title='" + $(elemento).find("descricao").text() + "'";
                         if($(elemento).find("flagexpreg").text() == "S"){
-                            strHtml += " onblur='javascript:validaCampo(#" + nome + "," + $(elemento).find("expreg").text() + ")'></textarea>"
+                            strHtml += " onblur='javascript:validaCampo(\"" + $(elemento).find("nome").text() + "\",\"" + nome + "\"," + $(elemento).find("expreg").text() + ")'></textarea>"
                         }else{
                             strHtml += "></textarea>";
                         }
@@ -327,7 +318,7 @@
                         strHtml += "</td><td width='50%' align='left' valign='middle'>";
                         strHtml += "<input id='" + nome + "' name='" + nome + "' type='text' class='edit' title='" + $(elemento).find("descricao").text() + "'";
                         if($(elemento).find("flagexpreg").text() == "S"){
-                            strHtml += " onblur='javascript:validaCampo(#" + nome + "," + $(elemento).find("expreg").text() + ")'/>"
+                            strHtml += " onblur='javascript:validaCampo(\"" + $(elemento).find("nome").text() + "\",\"" + nome + "\"," + $(elemento).find("expreg").text() + ")'/>"
                         }else{
                             strHtml += "/>";
                         }
@@ -337,7 +328,7 @@
                         strHtml += "</td><td width='50%' align='left' valign='middle'>";
                         strHtml += "<input id='" + nome + "' name='" + nome + "' type='text' class='edit' title='" + $(elemento).find("descricao").text() + "'";
                         if($(elemento).find("flagexpreg").text() == "S"){
-                            strHtml += " onblur='javascript:validaCampo(#" + nome + "," + $(elemento).find("expreg").text() + ")'/>"
+                            strHtml += " onblur='javascript:validaCampo(\"" + $(elemento).find("nome").text() + "\",\"" + nome + "\"," + $(elemento).find("expreg").text() + ")'/>"
                         }else{
                             strHtml += "/>";
                         }
@@ -356,17 +347,20 @@
         });
 
     }
-    function validaCampo(campo,exp){
+    function validaCampo(nm,campo,exp){
         try{
             var txtExp = new RegExp(exp);
-            var txtTest=$(campo).val();
+            var txtTest=$("#" + campo).val();
             if(!txtTest.match(txtExp)){
-                $(campo).addClass("erro");
+                $("#msgErroExpr").html("<img src='images/m2brerro.png' style='vertical-align:middle;'/> O atributo " + nm +
+                    " não atende as regras de validação.");
+                $("#" + campo).addClass("erro");
+                $("#alertErroExpr").dialog('open');
             }else{
-                $(campo).removeClass("erro");
+                $("#" + campo).removeClass("erro");
             }
         }catch(e){
-            $(campo).addClass("erro");
+            $("#" + campo).addClass("erro");
         }
     }
 
@@ -500,6 +494,20 @@
         });
 
         $("#alertVazio").dialog({
+            width: 300,
+            modal: true,
+            autoOpen: false,
+            show: 'slide',
+            hide: 'slide',
+            draggable: false,
+            buttons: {
+                "Ok": function(){
+                    $(this).dialog("close");
+                }
+            }
+        });
+        
+        $("#alertErroExpr").dialog({
             width: 300,
             modal: true,
             autoOpen: false,
@@ -659,6 +667,9 @@
     <img src="images/m2bralerta.png" style="vertical-align:middle;"/> Por favor, preencher todos os campos.
 </div>
 <script type="text/javascript">$("#alertVazio").hide();</script>
+<div style="display:block;" id="alertErroExpr">
+    <div id="msgErroExpr"></div>
+</div>
 <% } else {%>
 <center>
     <h2>Cadastro de APPP</h2>
