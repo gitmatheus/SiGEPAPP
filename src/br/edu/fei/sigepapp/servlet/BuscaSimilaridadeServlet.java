@@ -6,6 +6,7 @@ package br.edu.fei.sigepapp.servlet;
 
 import br.edu.fei.sigepapp.bancodedados.dao.GenericDAO;
 import br.edu.fei.sigepapp.bancodedados.model.AtributosBuscaSimilaridade;
+import br.edu.fei.sigepapp.bancodedados.model.AtributosBuscaSimilaridadePE;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -38,47 +39,86 @@ public class BuscaSimilaridadeServlet extends HttpServlet {
         PrintWriter out = response.getWriter();
         try {
 
-            List<AtributosBuscaSimilaridade> buscaSimilaridade;
-            GenericDAO daoGenerica = new GenericDAO();
+            if (request.getParameter("tipo").equals("APP")) {
 
-            buscaSimilaridade = daoGenerica.buscaSimilaridade(request.getParameter("nome"), request.getParameter("contexto"), request.getParameter("problema"), request.getParameter("solucao"));
+                List<AtributosBuscaSimilaridade> buscaSimilaridade;
+                GenericDAO daoGenerica = new GenericDAO();
 
-            daoGenerica.fechaConexao();
+                buscaSimilaridade = daoGenerica.buscaSimilaridade(request.getParameter("nome"), request.getParameter("contexto"), request.getParameter("problema"), request.getParameter("solucao"));
 
-            out.println("<xml>");
+                daoGenerica.fechaConexao();
 
-            NumberFormat nf = new DecimalFormat("0.000");
+                out.println("<xml>");
+
+                NumberFormat nf = new DecimalFormat("0.000");
 
 
-            for (AtributosBuscaSimilaridade registro : buscaSimilaridade) {
-                if (registro.getSimilaridade()!=0) {
-                    out.println("<documento>");
-                    out.println("<codigo>");
-                    out.println(registro.getCd_objeto());
-                    out.println("</codigo>");
-                    out.println("<tipo>");
-                    out.println(registro.getTp_estrutura());
-                    out.println("</tipo>");
-                    out.println("<similaridade>");
-                    //System.out.println("sim:"+ registro.getSimilaridade());
-                    out.println(nf.format(registro.getSimilaridade() * 100));
-                    out.println("</similaridade>");
-                    out.println("<nome>");
-                    out.println(registro.getNm_objeto());
-                    out.println("</nome>");
-                    out.println("<contexto>");
-                    out.println(registro.getContexto());
-                    out.println("</contexto>");
-                    out.println("<problema>");
-                    out.println(registro.getProblema());
-                    out.println("</problema>");
-                    out.println("<solucao>");
-                    out.println(registro.getSolucao());
-                    out.println("</solucao>");
-                    out.println("</documento>");
+                for (AtributosBuscaSimilaridade registro : buscaSimilaridade) {
+                    if (registro.getSimilaridade() != 0) {
+                        out.println("<documento>");
+                        out.println("<codigo>");
+                        out.println(registro.getCd_objeto());
+                        out.println("</codigo>");
+                        out.println("<tipo>");
+                        out.println(registro.getTp_estrutura());
+                        out.println("</tipo>");
+                        out.println("<similaridade>");
+                        //System.out.println("sim:"+ registro.getSimilaridade());
+                        out.println(nf.format(registro.getSimilaridade() * 100));
+                        out.println("</similaridade>");
+                        out.println("<nome>");
+                        out.println(registro.getNm_objeto());
+                        out.println("</nome>");
+                        out.println("<contexto>");
+                        out.println(registro.getContexto());
+                        out.println("</contexto>");
+                        out.println("<problema>");
+                        out.println(registro.getProblema());
+                        out.println("</problema>");
+                        out.println("<solucao>");
+                        out.println(registro.getSolucao());
+                        out.println("</solucao>");
+                        out.println("</documento>");
+                    }
                 }
+                out.println("</xml>");
+            } else if (request.getParameter("tipo").equals("PE")) {
+                
+                List<AtributosBuscaSimilaridadePE> buscaSimilaridade;
+                GenericDAO daoGenerica = new GenericDAO();
+
+                buscaSimilaridade = daoGenerica.buscaSimilaridadePE(request.getParameter("nome"), request.getParameter("descricao"));
+
+                daoGenerica.fechaConexao();
+
+                out.println("<xml>");
+
+                NumberFormat nf = new DecimalFormat("0.000");
+
+
+                for (AtributosBuscaSimilaridadePE registro : buscaSimilaridade) {
+                    if (registro.getSimilaridade() != 0) {
+                        out.println("<documento>");
+                        out.println("<codigo>");
+                        out.println(registro.getCd_objeto());
+                        out.println("</codigo>");
+                        out.println("<similaridade>");
+                        out.println(nf.format(registro.getSimilaridade() * 100));
+                        out.println("</similaridade>");
+                        out.println("<nome>");
+                        out.println(registro.getNm_objeto());
+                        out.println("</nome>");
+                        out.println("<descricao>");
+                        out.println(registro.getDs_objeto());
+                        out.println("</descricao>");
+                        out.println("</documento>");
+                    }
+                }
+                out.println("</xml>");
+                
+                
             }
-            out.println("</xml>");
+
 
         } catch (SQLException ex) {
             Logger.getLogger(BuscaSimilaridadeServlet.class.getName()).log(Level.SEVERE, null, ex);

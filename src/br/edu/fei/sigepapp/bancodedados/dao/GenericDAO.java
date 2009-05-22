@@ -27,6 +27,7 @@ import java.sql.ResultSet;
 import oracle.jdbc.OracleTypes;
 import br.edu.fei.sigepapp.bancodedados.ConnectionFactory;
 import br.edu.fei.sigepapp.bancodedados.model.AtributosBuscaSimilaridade;
+import br.edu.fei.sigepapp.bancodedados.model.AtributosBuscaSimilaridadePE;
 import br.edu.fei.sigepapp.bancodedados.model.Objeto;
 import br.edu.fei.sigepapp.log.GravarLog;
 import br.edu.fei.sigepapp.servlet.CadUsuarioServlet;
@@ -225,6 +226,52 @@ public class GenericDAO {
                 regSimilaridade.setContexto(rs.getString(5));
                 regSimilaridade.setProblema(rs.getString(6));
                 regSimilaridade.setSolucao(rs.getString(7));
+
+                retorno.add(regSimilaridade);
+            }
+
+
+            cstmt.close();
+            rs.close();
+
+            return retorno;
+
+        } catch (SQLException e) {
+            GravarLog.gravaErro(GenericDAO.class.getName() + ": erro ao pesquisar o nome da tabela: " + e.getMessage() + " : " + e.getSQLState() + " : " + e.getLocalizedMessage());
+            return null;
+        }
+    }
+    /*
+     *
+     * Método que retorna objetos do tipo Persona que são similares aos parâmetros fornecidos.
+     *
+     */
+
+    public List<AtributosBuscaSimilaridadePE> buscaSimilaridadePE(String nome_procurado, String descricao_procurado) {
+        List<AtributosBuscaSimilaridadePE> retorno = new Vector<AtributosBuscaSimilaridadePE>();
+
+        try {
+
+            CallableStatement cstmt = this.conn.prepareCall("begin APPP_SEL_PE_SIMILARIDADE(?,?,?,?,?); end;");
+            cstmt.registerOutParameter(1, OracleTypes.CURSOR);
+            //Atributos
+            cstmt.setString(2, nome_procurado);
+            cstmt.setString(3, descricao_procurado);
+            //Pesos
+            cstmt.setDouble(4, 0.5);
+            cstmt.setDouble(5, 0.5);
+
+            cstmt.execute();
+
+            ResultSet rs = (ResultSet) cstmt.getObject(1);
+
+            AtributosBuscaSimilaridadePE regSimilaridade;
+            while (rs.next()) {
+                regSimilaridade = new AtributosBuscaSimilaridadePE();
+                regSimilaridade.setSimilaridade(rs.getDouble(1));
+                regSimilaridade.setCd_objeto(rs.getLong(2));
+                regSimilaridade.setNm_objeto(rs.getString(3));
+                regSimilaridade.setDs_objeto(rs.getString(4));
 
                 retorno.add(regSimilaridade);
             }

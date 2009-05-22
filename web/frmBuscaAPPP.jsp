@@ -54,14 +54,17 @@
     function BuscaAPP(){
 
         var HtmlResultado="";
-        HtmlResultado+="<tr class='ui-widget-header ui-corner-all app_nome' style='border-width:1px;'><td class='app_nome'>";
+        HtmlResultado+="<table width=100%><tr class='ui-widget-header ui-corner-all app_nome' style='border-width:1px;'>"
+        HtmlResultado+="<td class='app_nome'>";
         HtmlResultado+="Nome";
         HtmlResultado+="</td>";
         HtmlResultado+="<td class='app_similaridade' width=15%>";
         HtmlResultado+="Similaridade";
         HtmlResultado+="</td>";
-        HtmlResultado+="</tr>";
-        $.post("BuscaSimilaridadeServlet", {nome: $("#frmBuscaAPPNome").val() ,contexto: $("#frmBuscaAPPContexto").val(), problema: $("#frmBuscaProblema").val(), solucao: $("#frmBuscaAPPSolucao").val()}, function(retorno, msgstatus){
+        HtmlResultado+="</tr></table>";
+
+
+        $.post("BuscaSimilaridadeServlet", {tipo: 'APP', nome: $("#frmBuscaAPPNome").val() ,contexto: $("#frmBuscaAPPContexto").val(), problema: $("#frmBuscaProblema").val(), solucao: $("#frmBuscaAPPSolucao").val()}, function(retorno, msgstatus){
             $(retorno).find("documento").each(function(indice,documento){
 
                 HtmlResultado+="<a href='viewAPPP.jsp?CD_OBJ="+$(documento).find("codigo").text()+"'><div><table width='100%'>";
@@ -108,6 +111,48 @@
         }, "xml");
         $("#tab_resultado").html("<table width='100%' id='tbl_resultado'><tr><td>"+HtmlResultado+"</td></tr></table>");
     }
+function BuscaPE(){
+
+        var HtmlResultado="";
+        HtmlResultado+="<table width=100%><tr class='ui-widget-header ui-corner-all app_nome' style='border-width:1px;'>"
+        HtmlResultado+="<td class='app_nome'>";
+        HtmlResultado+="Nome";
+        HtmlResultado+="</td>";
+        HtmlResultado+="<td class='app_similaridade' width=15%>";
+        HtmlResultado+="Similaridade";
+        HtmlResultado+="</td>";
+        HtmlResultado+="</tr></table>";
+        $.post("BuscaSimilaridadeServlet", {tipo: 'PE', nome: $("#frmBuscaPENome").val() ,descricao: $("#frmBuscaPEDescricao").val()}, function(retorno, msgstatus){
+            $(retorno).find("documento").each(function(indice,documento){
+
+                HtmlResultado+="<a href='viewAPPP.jsp?CD_OBJ="+$(documento).find("codigo").text()+"'><div><table width='100%'>";
+                HtmlResultado+="<tr class='ui-widget-header ui-corner-all app_nome' style='border-width:1px;'><td class='app_nome'>";
+                HtmlResultado+=indice+1+".";
+                HtmlResultado+=$(documento).find("nome").text();
+
+                if($.trim($(documento).find("tipo").text())=='PA'){
+                    HtmlResultado+="&nbsp;<font style='font-size:small;'>[Pattern]</font>";
+                }else{
+                    HtmlResultado+="&nbsp;<font style='font-size:small;'>[Anti-Pattern]</font>";
+                }
+                HtmlResultado+="</td><td align='right' width=15% class='app_similaridade'>";
+
+                HtmlResultado+=$(documento).find("similaridade").text()+"%";
+                HtmlResultado+="</td></tr>";
+                HtmlResultado+="<tr><td colspan=2 class='app_contexto_titulo'>";
+                HtmlResultado+="Descri&ccedil;&atilde;o:";
+                HtmlResultado+="</td></tr>";
+                HtmlResultado+="<tr><td colspan=2 class='app_contexto'>";
+                HtmlResultado+=$(documento).find("descricao").text();
+                HtmlResultado+="</td></tr>";
+                HtmlResultado+="</table></div></a>";
+
+
+
+            });
+        }, "xml");
+        $("#tab_resultado").html("<table width='100%' id='tbl_resultado'><tr><td>"+HtmlResultado+"</td></tr></table>");
+    }
 
 
     $(document).ready(function(){
@@ -142,6 +187,7 @@
             }
 
             $("#tabs_menu").tabs('select',2);
+            BuscaPE();
         });
 
 
@@ -228,7 +274,7 @@
                                         <font class="texto">Nome:</font>
                                     </td>
                                     <td>
-                                        <textarea class="edit" cols="60" rows="3"></textarea>
+                                        <textarea id="frmBuscaPENome" class="edit" cols="60" rows="3"></textarea>
                                     </td>
                                 </tr>
                                 <tr>
@@ -236,7 +282,7 @@
                                         <font>Descri&ccedil;&atilde;o</font>
                                     </td>
                                     <td>
-                                        <textarea class="edit" cols="60" rows="3"></textarea>
+                                        <textarea id="frmBuscaPEDescricao" class="edit" cols="60" rows="3"></textarea>
                                     </td>
                                 </tr>
                                 <tr>
