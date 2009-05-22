@@ -1,5 +1,7 @@
 @echo off
 
+if not exist c:\sigepapp md "c:\sigepapp"
+
 if exist c:\sigepapp\Arquivos (
 @echo Apagando os arquivos existentes
 rd /s /y "c:\sigepapp\Arquivos\*.* " 
@@ -13,5 +15,5 @@ cd ..
 xcopy "Arquivos" "c:\sigepapp\Arquivos\" /s /v
 
 @echo Executando SQL
-sqlplus.exe System/System@xe @c:/sigepapp/arquivos/00-run_create_bd.sql
-exit
+exit | sqlplus.exe System/System@xe @c:/sigepapp/arquivos/00-run_create_bd.sql
+
