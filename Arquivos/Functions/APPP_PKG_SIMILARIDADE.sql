@@ -20,7 +20,8 @@ CREATE OR REPLACE PACKAGE APPP_PKG_SIMILARIDADE AS
     PROCEDURE PREENCHE_LISTA_INDEXADA(Texto IN VARCHAR2,VetorIndexed IN OUT NOCOPY INDEXED_PALAVRAS);
     PROCEDURE PREENCHE_LISTA(Texto IN VARCHAR2, VetorPalavras IN OUT NOCOPY VETOR_PALAVRAS );
     PROCEDURE MAIOR_SUBSTRING(PALAVRA IN VARCHAR2, VETOR_IDX_PALAVRAS IN OUT NOCOPY INDEXED_PALAVRAS, MAX_CARACTER OUT NUMBER, MAX_COMUNS OUT NUMBER);
-    
+    PROCEDURE ELIMINAPALPEQ(TEXTO IN OUT NOCOPY VARCHAR2);
+	
     --Functions
     FUNCTION SIMILARIDADE(TEXTO1 IN VARCHAR2, TEXTO2 IN VARCHAR2) RETURN NUMBER;
     FUNCTION PROCURA_PALAVRA(PALAVRA IN VARCHAR2, VETOR IN VETOR_PALAVRAS) RETURN NUMBER;
@@ -222,16 +223,20 @@ END PROCURA_PALAVRA;
     CaracteresNaoComparados NUMBER:=0;
     SomaTotal NUMBER:=0;
     SomaComuns NUMBER:=0;
-
       BEGIN
-        
+        --Elimina palavras com tamanho menor ou igual à 3 caracteres
+        ELIMINAPALPEQ(TEXT1);
+        ELIMINAPALPEQ(TEXT2);
         --Testa semelhança direta do texto ou se os parâmetros são nulos
         if (TEXT1=TEXT2 or (text1 is null and text2 is null)) then
         return 1;
 		
 		elsif(TEXT1='' or TEXT2='' or TEXT1 is null or TEXT2 is null) then
-        return 0;
-        
+        --Caso o usuário não coloque textos para comparar retorna todos os resultados
+		--Isso foi escolhido por conta do negócio.A busca por similaridade retornaria zero.
+		return 1;
+        --return 0;
+		
         else
         
         --Compara os dois textos para ver qual é maior. Isso deve ser efetuado para
@@ -337,6 +342,38 @@ END PROCURA_PALAVRA;
     RETURN soma;
     END;    
   END QUANTIDADE_DE_PALAVRAS;
+  
+  --Elimina palavras que tenham tamanho menor ou igual à 3 letras
+PROCEDURE ELIMINAPALPEQ(TEXTO IN OUT NOCOPY VARCHAR2) IS
+BEGIN
+DECLARE
+
+posicaoInicioPal number:=1;
+posicaoFimPal number:=1;
+
+
+  BEGIN
+    
+      Texto := translate(Texto,'./\@()[]{},!?;:<>#$%¨&*-=+_','                          ');
+            
+      posicaoFimPal:=INSTR(Texto,' ',1);
+      
+      while (posicaoFimPal>0) loop        
+        IF (posicaoFimPal-posicaoInicioPal<=3) THEN
+          Texto:=substr(Texto,1,posicaoInicioPal-1) || substr(Texto,posicaoFimPal+1);
+        ELSE
+          posicaoInicioPal:=posicaoFimPal+1;
+        END IF;
+          posicaoFimPal:=INSTR(Texto,' ',posicaoInicioPal+1);
+          
+      END LOOP;
+      
+      IF (length(Texto)-posicaoInicioPal<=3) THEN
+          Texto:=substr(Texto,1,posicaoInicioPal-2) || substr(Texto,length(Texto)+1);
+      END IF;
+      
+  END;
+END ELIMINAPALPEQ;
   
 END APPP_PKG_SIMILARIDADE;
 

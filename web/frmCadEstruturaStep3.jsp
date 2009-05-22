@@ -299,7 +299,7 @@
                    // $("#frmFormCadEstruturaStep4").submit();
 
             }else{
-                informa("N&atilde;o foi adicionado nenhum atributo para esta estrutura.", "Erro no cadastro");
+                informa("N&atilde;o foi adicionado nenhum atributo para esta estrutura.<br>Utilize a caixa de sele&ccedil;&atilde;o de atributos abaixo.", "Erro no cadastro");
             }
         });
 
@@ -332,7 +332,7 @@
 
                 <!--Conteudo-->
                 <fieldset style="background-color:#eeeeee;width:90%">
-                    <legend class="legends">Escolha dos atributos:</legend>
+                    <legend class="legends">Sua estrutura:</legend>
 
                     <table class="ui-corner-tl" border="0" cellpadding="0" cellspacing="0" width="300">
 

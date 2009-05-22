@@ -165,6 +165,8 @@ $(document).ready(function(){
                     informa("Nome do tipo n&atilde;o preenchido", "Erro");
                 }else if($("#frmCadTipoTxtExpReg").val()==""){
                     informa("Express&atilde;o n&atilde;o preenchido", "Erro");
+                }else if($("#frmCadTipoTxtExpReg").hasClass("erro")){
+                    informa("A express&atilde;o regular cont&eacute;m erros","Erro");
                 }else{
                     $.post("ExisteTipoServlet",{
                         nome: $("#frmCadTipoTxtNome").val()
@@ -196,7 +198,7 @@ $(document).ready(function(){
     });
     $("#frmCadTipoTxtExpReg").keyup(function(){
         //$("#frmCadTipoTxtTesteExpReg").filter(function(){
-        $("#frmCadTipoTxtExpReg").removeClass("erroRG");
+        $("#frmCadTipoTxtExpReg").removeClass("erro");
 
         $("#frmCadTipoTxtTesteExpReg").keyup(function(){
             try{
@@ -204,12 +206,12 @@ $(document).ready(function(){
                 var txtTest=$("#frmCadTipoTxtTesteExpReg").val();
 
                 if(!txtTest.match(txtRG)){
-                    $("#frmCadTipoTxtTesteExpReg").addClass("erroRG");
+                    $("#frmCadTipoTxtTesteExpReg").addClass("erro");
                 }else{
-                    $("#frmCadTipoTxtTesteExpReg").removeClass("erroRG");
+                    $("#frmCadTipoTxtTesteExpReg").removeClass("erro");
                 }
             }catch(e){
-                $("#frmCadTipoTxtExpReg").addClass("erroRG");
+                $("#frmCadTipoTxtExpReg").addClass("erro");
             }
         });
 

@@ -54,7 +54,13 @@
     function BuscaAPP(){
 
         var HtmlResultado="";
-
+        HtmlResultado+="<tr class='ui-widget-header ui-corner-all app_nome' style='border-width:1px;'><td class='app_nome'>";
+        HtmlResultado+="Nome";
+        HtmlResultado+="</td>";
+        HtmlResultado+="<td class='app_similaridade' width=15%>";
+        HtmlResultado+="Similaridade";
+        HtmlResultado+="</td>";
+        HtmlResultado+="</tr>";
         $.post("BuscaSimilaridadeServlet", {nome: $("#frmBuscaAPPNome").val() ,contexto: $("#frmBuscaAPPContexto").val(), problema: $("#frmBuscaProblema").val(), solucao: $("#frmBuscaAPPSolucao").val()}, function(retorno, msgstatus){
             $(retorno).find("documento").each(function(indice,documento){
 
@@ -68,7 +74,7 @@
                 }else{
                     HtmlResultado+="&nbsp;<font style='font-size:small;'>[Anti-Pattern]</font>";
                 }
-                HtmlResultado+="</td><td align='right' class='app_similaridade'>";
+                HtmlResultado+="</td><td align='right' width=15% class='app_similaridade'>";
 
                 HtmlResultado+=$(documento).find("similaridade").text()+"%";
                 HtmlResultado+="</td></tr>";
@@ -86,9 +92,9 @@
                 HtmlResultado+="</td></tr>";
                 HtmlResultado+="<tr><td colspan=2 class='app_solucao_titulo'>";
                 if($.trim($(documento).find("tipo").text())=='PA'){
-                HtmlResultado+="Solu&ccedil;&atilde;o:";
+                    HtmlResultado+="Solu&ccedil;&atilde;o:";
                 }else{
-                HtmlResultado+="Recomenda&ccedil;&atilde;o:";
+                    HtmlResultado+="Recomenda&ccedil;&atilde;o:";
                 }
                 HtmlResultado+="</td></tr>";
                 HtmlResultado+="<tr><td colspan=2 class='app_solucao'>";
@@ -100,47 +106,47 @@
 
             });
         }, "xml");
-    $("#tab_resultado").html("<table width='100%' id='tbl_resultado'><tr><td>"+HtmlResultado+"</td></tr></table>");
-}
-
-
-$(document).ready(function(){
-$.ajaxSetup({async: false});
-$("#tabs_menu").tabs();
-$("#tabs_menu").tabs('select',0);
-$('#tabs_menu').tabs('option', 'fx', { opacity: 'toggle' });
-
-
-
-$("#btnBuscaAPP").click(function(){
-    if(!tab_adicionada){
-        $("#tabs_menu").append("<div id='tab_resultado'>Result<div>");
-        $("#tabs_menu").tabs('add','#tab_resultado','Resultados');
-        $("#tabs_menu li a[href='#tab_resultado']").attr("style", "background-color:#000000;color:#FFFFFF");
-        tab_adicionada=true;
-    }
-    $("#tabs_menu").tabs('select',2);
-
-    BuscaAPP();
-});
-
-$("#btnBuscaPersona").click(function(){
-    //Abre tab de resultado
-    //$('#tabs_menu').tabs('add' , 'frmCadEstrutura.jsp' , 'Primeira Pagina');
-    //$("#tabs_menu ul").append("<li><a href='#tab_resultado'><span>Resultados</span></a></li>");
-    if(!tab_adicionada){
-        $("#tabs_menu").append("<div id='tab_resultado'>Result<div>");
-        $("#tabs_menu").tabs('add','#tab_resultado','Resultados');
-        $("#tabs_menu li a[href='#tab_resultado']").attr("style", "background-color:#000000;color:#FFFFFF");
-        tab_adicionada=true;
+        $("#tab_resultado").html("<table width='100%' id='tbl_resultado'><tr><td>"+HtmlResultado+"</td></tr></table>");
     }
 
-    $("#tabs_menu").tabs('select',2);
-});
+
+    $(document).ready(function(){
+        $.ajaxSetup({async: false});
+        $("#tabs_menu").tabs();
+        $("#tabs_menu").tabs('select',0);
+        $('#tabs_menu').tabs('option', 'fx', { opacity: 'toggle' });
 
 
 
-});
+        $("#btnBuscaAPP").click(function(){
+            if(!tab_adicionada){
+                $("#tabs_menu").append("<div id='tab_resultado'>Result<div>");
+                $("#tabs_menu").tabs('add','#tab_resultado','Resultados');
+                $("#tabs_menu li a[href='#tab_resultado']").attr("style", "background-color:#000000;color:#FFFFFF");
+                tab_adicionada=true;
+            }
+            $("#tabs_menu").tabs('select',2);
+
+            BuscaAPP();
+        });
+
+        $("#btnBuscaPersona").click(function(){
+            //Abre tab de resultado
+            //$('#tabs_menu').tabs('add' , 'frmCadEstrutura.jsp' , 'Primeira Pagina');
+            //$("#tabs_menu ul").append("<li><a href='#tab_resultado'><span>Resultados</span></a></li>");
+            if(!tab_adicionada){
+                $("#tabs_menu").append("<div id='tab_resultado'>Result<div>");
+                $("#tabs_menu").tabs('add','#tab_resultado','Resultados');
+                $("#tabs_menu li a[href='#tab_resultado']").attr("style", "background-color:#000000;color:#FFFFFF");
+                tab_adicionada=true;
+            }
+
+            $("#tabs_menu").tabs('select',2);
+        });
+
+
+
+    });
 
 
 </script>
