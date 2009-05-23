@@ -30,7 +30,6 @@
     }
     .app_problema_titulo, .app_solucao_titulo,.app_contexto_titulo{
         font-size:medium;
-
     }
     .app_problema{
 
@@ -46,13 +45,18 @@
 
     $(document).keyup(function(event){
         //Caso o usuário tecle enter, a busca é iniciada...
+
         if(event.keyCode==13){
-            $("#btnBuscaAPP").click();
+            if($('#tabs_menu').tabs('option', 'selected')==0){
+                $("#btnBuscaAPP").click();
+            }else if($('#tabs_menu').tabs('option', 'selected')==1){
+                $("#btnBuscaPersona").click();
+            }
         };
     });
 
     function BuscaAPP(){
-
+        
         var HtmlResultado="";
         HtmlResultado+="<table width=100%><tr class='ui-widget-header ui-corner-all app_nome' style='border-width:1px;'>"
         HtmlResultado+="<td class='app_nome'>";
@@ -111,7 +115,7 @@
         }, "xml");
         $("#tab_resultado").html("<table width='100%' id='tbl_resultado'><tr><td>"+HtmlResultado+"</td></tr></table>");
     }
-function BuscaPE(){
+    function BuscaPE(){
 
         var HtmlResultado="";
         HtmlResultado+="<table width=100%><tr class='ui-widget-header ui-corner-all app_nome' style='border-width:1px;'>"
@@ -201,7 +205,7 @@ function BuscaPE(){
 <table border="0" cellpadding="0" cellspacing="0" width="100%" align="right">
     <!--Inicio do titulo-->
     <tr>
-        <td align="center" class="titulo" style="height: 25px; vertical-align: middle;"> <font class="titulo">..:: Busca de APPP ::..</font> </td>
+        <td align="center" class="titulo" style="height: 25px; vertical-align: middle;"> <font class="titulo">..:: Busca de Documentos ::..</font> </td>
     </tr>
     <!--Fim do titulo-->
     <!--Inicio das tabs-->

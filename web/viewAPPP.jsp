@@ -18,7 +18,7 @@
          rs = (ResultSet) cstmt.getObject(2);
 
          int TotalCols = rs.getMetaData().getColumnCount();
-         
+
          while (rs.next()) {
 
 
@@ -34,7 +34,7 @@
 
     }
 
-    .titulo_contexto, .titulo_problema, .titulo_solucao{
+    .titulo_contexto, .titulo_problema, .titulo_solucao, .titulo_geral{
         font-size:small;
         font-weight:bold;
         padding-top:15px;
@@ -180,11 +180,15 @@
                     !rs.getMetaData().getColumnName(i).trim().equalsIgnoreCase(campoCD_Objeto) &&
                     !rs.getMetaData().getColumnName(i).trim().equalsIgnoreCase("DT_CRIACAO") &&
                     !rs.getMetaData().getColumnName(i).trim().equalsIgnoreCase("FL_ATIVO") &&
-                    !rs.getMetaData().getColumnName(i).trim().equalsIgnoreCase("NM_ESTRUTURA")) {%>
-                <tr>
-                    <td style="">
-                        <%= rs.getMetaData().getColumnName(i)%>
-                        <%= rs.getObject(i).toString()%>
+                    !rs.getMetaData().getColumnName(i).trim().equalsIgnoreCase("NM_ESTRUTURA") &&
+                    !rs.getMetaData().getColumnName(i).trim().equalsIgnoreCase("Nome") &&
+                    !rs.getMetaData().getColumnName(i).trim().equalsIgnoreCase("Contexto")) {%>
+                <tr><td class="titulo_geral"><%= rs.getMetaData().getColumnName(i)%></td></tr>
+                <tr class="solucao">
+                    <td colspan="2">
+                        <font>
+                            <%= rs.getObject(i).toString()%>
+                        </font>
                     </td>
                 </tr>
 

@@ -115,7 +115,7 @@
         </tr>
         <tr class="menubv">
             <td>
-                <a id="menubv2" href="/sigepapp/" title="Cadastro disponiveis no sistema" >Cadastro</a>
+                <a id="menubv2" href="/sigepapp/" title="Cadastros disponiveis no sistema" >Cadastro</a>
             </td>
         </tr>
         <tr>
@@ -140,7 +140,7 @@
         <a id="menubv" href="/sigepapp/frmCadUsuario.jsp" title="Cadastro das Estruturas disponiveis no sistema" >Cadastro de Usuário</a></tr>-->
         <tr class="menubv">
             <td>
-                <a id="menubv3" href="/sigepapp/frmBuscaAPPP.jsp" title="Sistema de busca de Patterns, Anti-Patterns e Personas" >Busca de APPP</a>
+                <a id="menubv3" href="/sigepapp/frmBuscaAPPP.jsp" title="Sistema de busca de Patterns, Anti-Patterns e Personas" >Busca de Documentos</a>
             </td>
         </tr>
         <!--<tr class="menubv"><td>
