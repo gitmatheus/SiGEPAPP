@@ -34,6 +34,113 @@
     <tr>
         <td colspan="2" class="titulo" width="50%" style="border-right: 1px dotted #3d414c;">
             <div style="margin-left: 10px; text-align:center;">
+                <font class="titulo">.: &Uacute;ltimos cadastros efetuados :.</font>
+            </div>
+        </td>
+    </tr>
+    <tr class="ui-widget-header ui-corner-all">
+        <td colspan="2" align="center"><h2>Patterns</h2></td>
+    </tr>
+    <tr>
+        <td colspan="2">
+            <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                <tr>
+                    <td>NOME</td>
+                </tr>
+                <tr>
+                    <td><font size="small" ><b>Contexto:</b></font></td>
+                </tr>
+                <tr>
+                    <td><font size="small" >Valor Contexto</font></td>
+                </tr>
+                <tr>
+                    <td><font size="small" ><b>Problema:</b></font></td>
+                </tr>
+                <tr>
+                    <td><font size="small" >Valor Contexto</font></td>
+                </tr>
+                <tr>
+                    <td><font size="small" ><b>Solução:</b></font></td>
+                </tr>
+                <tr>
+                    <td><font size="small" >Clique aqui...</font></td>
+                </tr>
+
+            </table>
+        </td>
+    </tr>
+<!--Ultimos Patterns Cadastrados FIM-->
+<tr class="ui-widget-header ui-corner-all">
+        <td colspan="2" align="center"><h2>Anti-Patterns</h2></td>
+    </tr>
+    <tr>
+        <td colspan="2">
+            <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                <tr>
+                    <td>NOME</td>
+                </tr>
+                <tr>
+                    <td><font size="small" ><b>Contexto:</b></font></td>
+                </tr>
+                <tr>
+                    <td><font size="small" >Valor Contexto</font></td>
+                </tr>
+                <tr>
+                    <td><font size="small" ><b>Problema:</b></font></td>
+                </tr>
+                <tr>
+                    <td><font size="small" >Valor Contexto</font></td>
+                </tr>
+                <tr>
+                    <td><font size="small" ><b>Solução:</b></font></td>
+                </tr>
+                <tr>
+                    <td><font size="small" >Clique aqui...</font></td>
+                </tr>
+
+            </table>
+        </td>
+    </tr>
+    <!--Ultimos Anti-Patterns cadastrados FIM-->
+
+
+    <tr class="ui-widget-header ui-corner-all">
+        <td colspan="2" align="center"><h2>Personas</h2></td>
+    </tr>
+    <tr>
+        <td colspan="2">
+            <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                <tr>
+                    <td>NOME</td>
+                </tr>
+                <tr>
+                    <td><font size="small" ><b>Contexto:</b></font></td>
+                </tr>
+                <tr>
+                    <td><font size="small" >Valor Contexto</font></td>
+                </tr>
+                <tr>
+                    <td><font size="small" ><b>Problema:</b></font></td>
+                </tr>
+                <tr>
+                    <td><font size="small" >Valor Contexto</font></td>
+                </tr>
+                <tr>
+                    <td><font size="small" ><b>Solução:</b></font></td>
+                </tr>
+                <tr>
+                    <td><font size="small" >Clique aqui...</font></td>
+                </tr>
+
+            </table>
+        </td>
+    </tr>
+
+    <!--Ultimas Personas Cadastras FIM-->
+
+    <tr>
+        <td colspan="2" class="titulo" width="50%" style="border-right: 1px dotted #3d414c;">
+            <div style="margin-left: 10px; text-align:center;">
                 <font class="titulo">.: Sobre o SiGePAPP :.</font>
             </div>
         </td>
@@ -41,11 +148,11 @@
     <tr>
         <td colspan="2" class="texto" style="padding:10px">
             O SigePAPP - Sistema de Gerenciamento de Patterns, Anti-Patterns e Personas - visa auxiliar os
-                    desenvolvedores de software através do compartilhamento, busca e gerenciamento de documentações providas
-                    pelos próprios usuários do sistema. Uma base de dados rica em experiência, instruções e perfis de usuários,
-                    aliados a uma poderosa ferramenta de busca por similaridade através de conceitos envolvendo Raciocínio Baseado
-                    em Casos, auxiliam os profissionais a desenvolverem sistemas de qualidade - focados no perfil do usuário - de maneira
-                    mais eficiente, minimizando o retrabalho e reduzindo custos. Bem vindo ao SigePAPP!
+            desenvolvedores de software através do compartilhamento, busca e gerenciamento de documentações providas
+            pelos próprios usuários do sistema. Uma base de dados rica em experiência, instruções e perfis de usuários,
+            aliados a uma poderosa ferramenta de busca por similaridade através de conceitos envolvendo Raciocínio Baseado
+            em Casos, auxiliam os profissionais a desenvolverem sistemas de qualidade - focados no perfil do usuário - de maneira
+            mais eficiente, minimizando o retrabalho e reduzindo custos. Bem vindo ao SigePAPP!
         </td>
     </tr>
 

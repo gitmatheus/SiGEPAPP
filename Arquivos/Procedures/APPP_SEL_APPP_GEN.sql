@@ -23,10 +23,11 @@ create or replace procedure APPP_SEL_APPP_GEN(pCD_OBJETO   IN NUMBER  ,
      FROM   APPP_TB_OBJETO O 
      WHERE O.CD_OBJETO = pCD_OBJETO; 
      
-  CURSOR AOB IS
+   CURSOR AOB IS
    SELECT TRIM(COLUMN_NAME) NM_COLUNA
-   FROM ALL_TAB_COLUMNS 
-   WHERE TABLE_NAME = vNM_TABELA order by COLUMN_ID desc;
+   FROM ALL_TAB_COLUMNS, appp_tb_atributo_obj atrib
+   WHERE TABLE_NAME = vNM_TABELA and
+   atrib.nm_coluna=COLUMN_NAME order by atrib.rowid;
 		
 	CURSOR TAB IS
 	 SELECT EO.NM_TB_ESTRUT 

@@ -133,9 +133,9 @@
             
             
                         <!--Pattern sem relacionamento-->
-                        <%= rs.getString("PROBLEMA PATTERN").trim()%>
+                        <%= rs.getString("PROBLEMA").trim()%>
 
-                        <%TabelaProblema = "PROBLEMA PATTERN";
+                        <%TabelaProblema = "PROBLEMA";
                         } else if (rs.getString("NM_ESTRUTURA").trim().equalsIgnoreCase("ANTI_PATTERN")) {%>
                         
                         <%= rs.getString("DS_PROBLEMA").trim()%>
@@ -150,6 +150,7 @@
                 </tr>
                 <!--Fim Problema do Objeto-->
                 <!--Solução do Objeto-->
+                <%/*
                 <tr><td class="titulo_solucao">Solucao:</td></tr>
                 <tr class="solucao">
                     <td colspan="2">
@@ -157,8 +158,8 @@
                             <%
         TabelaSolucao = new String();
         if (rs.getString("NM_ESTRUTURA").trim().equalsIgnoreCase("PATTERN")) {
-            out.println(rs.getString("Solução Pattern").trim());
-            TabelaSolucao = "Solução Pattern";
+            out.println(rs.getString("Solução").trim());
+            TabelaSolucao = "Solução";
         } else if (rs.getString("NM_ESTRUTURA").trim().equalsIgnoreCase("ANTI-PATTERN")) {
             out.println(rs.getString("DS_RECOMENDACOES").trim());
             TabelaSolucao = "DS_RECOMENDACOES";
@@ -168,7 +169,7 @@
             TabelaSolucao = "Solução";
         }
 
-                            %>
+                    */        %>
                         </font>
                     </td>
                 </tr>
