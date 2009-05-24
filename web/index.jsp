@@ -1,3 +1,4 @@
+<%@page import="br.edu.fei.sigepapp.bancodedados.dao.*, br.edu.fei.sigepapp.bancodedados.model.*, java.util.*" %>
 <%        /**
          * @{#}cabecalho.jsp 0.01 09/01/18
          *
@@ -27,112 +28,103 @@
          * |             |             | e rodape.                            |
          * |------------------------------------------------------------------|
          **/
+        GenericDAO generica = new GenericDAO();
+
+        List<Objeto> listPA = generica.ultimosDocumentos(1);
+        List<Objeto> listAP = generica.ultimosDocumentos(2);
+        List<Objeto> listPE = generica.ultimosDocumentos(3);
+        generica.fechaConexao();
+
 %>
 <%@include file="cabecalho.jsp" %>
+<script type="text/javascript" language="javascript" src="js/jquery-ui-1.7.js"></script>
+<script type="text/javascript">
+    $(document).ready(function(){
+        $("#accordion_listPattern").accordion();
+        $("#accordion_listAntiPattern").accordion();
+        $("#accordion_listPersona").accordion();
+    });
 
+</script>
 <table border="0" cellpadding="0" cellspacing="0" width="100%" align="right">
     <tr>
         <td colspan="2" class="titulo" width="50%" style="border-right: 1px dotted #3d414c;">
             <div style="margin-left: 10px; text-align:center;">
-                <font class="titulo">.: &Uacute;ltimos cadastros efetuados :.</font>
+                <font class="titulo">.: &Uacute;ltimos Patterns Cadastrados :.</font>
             </div>
         </td>
     </tr>
-    <tr class="ui-widget-header ui-corner-all">
-        <td colspan="2" align="center"><h2>Patterns</h2></td>
-    </tr>
     <tr>
         <td colspan="2">
-            <table border="0" cellpadding="0" cellspacing="0" width="100%">
-                <tr>
-                    <td>NOME</td>
-                </tr>
-                <tr>
-                    <td><font size="small" ><b>Contexto:</b></font></td>
-                </tr>
-                <tr>
-                    <td><font size="small" >Valor Contexto</font></td>
-                </tr>
-                <tr>
-                    <td><font size="small" ><b>Problema:</b></font></td>
-                </tr>
-                <tr>
-                    <td><font size="small" >Valor Contexto</font></td>
-                </tr>
-                <tr>
-                    <td><font size="small" ><b>Solução:</b></font></td>
-                </tr>
-                <tr>
-                    <td><font size="small" >Clique aqui...</font></td>
-                </tr>
+            <div id="accordion_listPattern">
+                <%for (int i = 0; i < listPA.size() && i < 5; i++) {%>
 
-            </table>
+                <h3><a href="#"><%= listPA.get(i).getNm_objeto()%></a></h3>
+                <div>
+                    <p>
+                        <%= listPA.get(i).getDs_objeto()%>
+                    </p>
+                    <p>
+                        <div align="right"><a class="ultimosDoc" href="viewAPPP.jsp?CD_OBJ=<%=listPA.get(i).getCd_objeto() %>">Detalhes...</a></div>
+                    </p>
+                </div>
+                <%}%>
+            </div>
         </td>
     </tr>
-<!--Ultimos Patterns Cadastrados FIM-->
-<tr class="ui-widget-header ui-corner-all">
-        <td colspan="2" align="center"><h2>Anti-Patterns</h2></td>
+    <!--Ultimos Patterns Cadastrados FIM-->
+    <tr>
+        <td colspan="2" class="titulo" width="50%" style="border-right: 1px dotted #3d414c;">
+            <div style="margin-left: 10px; text-align:center;">
+                <font class="titulo">.: &Uacute;ltimos Anti-Patterns Cadastrados :.</font>
+            </div>
+        </td>
     </tr>
     <tr>
         <td colspan="2">
-            <table border="0" cellpadding="0" cellspacing="0" width="100%">
-                <tr>
-                    <td>NOME</td>
-                </tr>
-                <tr>
-                    <td><font size="small" ><b>Contexto:</b></font></td>
-                </tr>
-                <tr>
-                    <td><font size="small" >Valor Contexto</font></td>
-                </tr>
-                <tr>
-                    <td><font size="small" ><b>Problema:</b></font></td>
-                </tr>
-                <tr>
-                    <td><font size="small" >Valor Contexto</font></td>
-                </tr>
-                <tr>
-                    <td><font size="small" ><b>Solução:</b></font></td>
-                </tr>
-                <tr>
-                    <td><font size="small" >Clique aqui...</font></td>
-                </tr>
+            <div id="accordion_listAntiPattern">
+                <%for (int i = 0; i < listAP.size() && i < 5; i++) {%>
 
-            </table>
+                <h3><a href=""><%= listAP.get(i).getNm_objeto()%></a></h3>
+                <div>
+                    <p>
+                        <%= listAP.get(i).getDs_objeto()%>
+                    </p>
+                     <p>
+                        <div align="right"><a class="ultimosDoc" href="viewAPPP.jsp?CD_OBJ=<%=listAP.get(i).getCd_objeto() %>">Detalhes...</a></div>
+                    </p>
+                </div>
+
+                <%}%>
+            </div>
         </td>
     </tr>
     <!--Ultimos Anti-Patterns cadastrados FIM-->
 
 
-    <tr class="ui-widget-header ui-corner-all">
-        <td colspan="2" align="center"><h2>Personas</h2></td>
+    <tr>
+        <td colspan="2" class="titulo" width="50%" style="border-right: 1px dotted #3d414c;">
+            <div style="margin-left: 10px; text-align:center;">
+                <font class="titulo">.: &Uacute;ltimas Personas Cadastradas :.</font>
+            </div>
+        </td>
     </tr>
     <tr>
         <td colspan="2">
-            <table border="0" cellpadding="0" cellspacing="0" width="100%">
-                <tr>
-                    <td>NOME</td>
-                </tr>
-                <tr>
-                    <td><font size="small" ><b>Contexto:</b></font></td>
-                </tr>
-                <tr>
-                    <td><font size="small" >Valor Contexto</font></td>
-                </tr>
-                <tr>
-                    <td><font size="small" ><b>Problema:</b></font></td>
-                </tr>
-                <tr>
-                    <td><font size="small" >Valor Contexto</font></td>
-                </tr>
-                <tr>
-                    <td><font size="small" ><b>Solução:</b></font></td>
-                </tr>
-                <tr>
-                    <td><font size="small" >Clique aqui...</font></td>
-                </tr>
+            <div id="accordion_listPersona">
+                <%for (int i = 0; i < listPE.size() && i < 5; i++) {%>
+                <h3><a href=""><%= listPE.get(i).getNm_objeto()%></a></h3>
+                <div>
+                    <p>
+                        <%= listPE.get(i).getDs_objeto()%>
+                    </p>
+                     <p>
+                        <div align="right"><a class="ultimosDoc" href="viewAPPP.jsp?CD_OBJ=<%=listPE.get(i).getCd_objeto() %>">Detalhes...</a></div>
+                    </p>
+                </div>
 
-            </table>
+                <%}%>
+            </div>
         </td>
     </tr>
 

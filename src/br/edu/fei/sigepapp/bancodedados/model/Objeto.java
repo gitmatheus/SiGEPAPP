@@ -17,6 +17,23 @@ public class Objeto {
     private long cd_user_criacao;
     private long fl_ativo;
 
+    public Objeto() {
+    }
+
+    
+
+    public Objeto(long cd_objeto, String nm_objeto, long cd_estrutura, String ds_objeto, Date dt_criacao, long cd_user_criacao, long fl_ativo) {
+        this.cd_objeto = cd_objeto;
+        this.nm_objeto = nm_objeto;
+        this.cd_estrutura = cd_estrutura;
+        this.ds_objeto = ds_objeto;
+        this.dt_criacao = dt_criacao;
+        this.cd_user_criacao = cd_user_criacao;
+        this.fl_ativo = fl_ativo;
+    }
+
+    
+
     public long getCd_estrutura() {
         return cd_estrutura;
     }

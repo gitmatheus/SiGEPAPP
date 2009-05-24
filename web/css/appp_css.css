@@ -127,6 +127,13 @@ a {
     color: #303030;
     text-decoration:none;
 }
+
+.ultimosDoc{
+    color: #303030;
+    text-decoration:none;
+    font-weight:bold;
+}
+
 /* Formatacao do Menu na posicao vertical */
 /* Formatacao global para todos os elementos que possuem este id #menubv */
 .menubv {

@@ -29,11 +29,13 @@ import br.edu.fei.sigepapp.bancodedados.ConnectionFactory;
 import br.edu.fei.sigepapp.bancodedados.model.AtributosBuscaSimilaridade;
 import br.edu.fei.sigepapp.bancodedados.model.AtributosBuscaSimilaridadePE;
 import br.edu.fei.sigepapp.bancodedados.model.Objeto;
+import br.edu.fei.sigepapp.bancodedados.model.Pattern;
 import br.edu.fei.sigepapp.log.GravarLog;
 import br.edu.fei.sigepapp.servlet.CadUsuarioServlet;
 import java.sql.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
 
@@ -284,6 +286,53 @@ public class GenericDAO {
 
         } catch (SQLException e) {
             GravarLog.gravaErro(GenericDAO.class.getName() + ": erro ao pesquisar o nome da tabela: " + e.getMessage() + " : " + e.getSQLState() + " : " + e.getLocalizedMessage());
+            return null;
+        }
+    }
+
+
+    /*
+     *
+     * Últimos APPPs Cadastrados no sistema
+     *
+     */
+    public List<Objeto> ultimosDocumentos(int Tipo) {
+        List<Objeto> retorno = new Vector<Objeto>();
+
+        try {
+            CallableStatement cstmt;
+            if (Tipo == 1) {
+                cstmt = this.conn.prepareCall("begin APPP_SEL_ULTIMOS_PA(?,?); end;");
+            } else if (Tipo == 2) {
+                cstmt = this.conn.prepareCall("begin APPP_SEL_ULTIMOS_AP(?,?); end;");
+            } else if (Tipo == 3) {
+                cstmt = this.conn.prepareCall("begin APPP_SEL_ULTIMOS_PE(?,?); end;");
+            } else {
+                throw new SQLException("Tipo de estrutura inexistente");
+            }
+            cstmt.registerOutParameter(1, OracleTypes.CURSOR);
+            cstmt.registerOutParameter(2, OracleTypes.NUMBER);
+
+            cstmt.execute();
+            long ret = cstmt.getLong(2);
+            ResultSet rs = (ResultSet) cstmt.getObject(1);
+
+            Objeto atual;
+            while (rs.next()) {
+                atual = new Objeto();
+                atual.setCd_objeto(rs.getLong("CD_OBJETO"));
+                atual.setNm_objeto(rs.getString("NM_OBJETO"));
+                atual.setDs_objeto(rs.getString("DS_OBJETO"));
+                retorno.add(atual);
+            }
+
+            cstmt.close();
+            rs.close();
+
+            return retorno;
+
+        } catch (SQLException e) {
+            GravarLog.gravaErro(GenericDAO.class.getName() + ": erro ao pesquisar ultimos Documentos de Tipo:" +Tipo + " no banco: " + e.getMessage() + " : " + e.getSQLState() + " : " + e.getLocalizedMessage());
             return null;
         }
     }
