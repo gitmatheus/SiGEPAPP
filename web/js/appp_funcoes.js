@@ -48,17 +48,19 @@
 $(document).ready(function(){
 
     /*Função de acessibilidade*/
-    var Tamanhos_Texto = new Array( '1em','1.2em','1.4em','1.6em' );
+    var Tamanhos_Texto = new Array( '12px','14px','15px','16px' );
     var Tamanho_Texto_Atual = 0;
     $("#link_aumenta_fonte").click(function(){
         if(Tamanho_Texto_Atual<3){
             Tamanho_Texto_Atual++;
-            $("*").css("font-size", Tamanhos_Texto(Tamanho_Texto_Atual));
+            $("*").css("font-size", Tamanhos_Texto[Tamanho_Texto_Atual]);
         }
     });
     $("#link_diminui_fonte").click(function(){
+        if(Tamanho_Texto_Atual>0){
         Tamanho_Texto_Atual--;
-        $("*").css("font-size", Tamanhos_Texto(Tamanho_Texto_Atual));
+        $("*").css("font-size", Tamanhos_Texto[Tamanho_Texto_Atual]);
+        }
     });
 
 
