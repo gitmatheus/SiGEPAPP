@@ -13,8 +13,8 @@ create or replace procedure APPP_DEL_PATTERN(pCD_PATTERN      in NUMBER  ,
   CURSOR C IS 
        SELECT CD_PATTERN
        FROM APPP_TB_PATTERN
-       WHERE (DS_PAT_PROBLEMA  like ('%'|| pDS_PAT_PROBLEMA || '%') OR pDS_PAT_PROBLEMA IS NULL)
-       AND   (DS_PAT_SOLUCAO   like ('%'|| pDS_PAT_SOLUCAO || '%')  OR pDS_PAT_SOLUCAO  IS NULL);     
+       WHERE (DS_PROBLEMA  like ('%'|| pDS_PAT_PROBLEMA || '%') OR pDS_PAT_PROBLEMA IS NULL)
+       AND   (DS_SOLUCAO   like ('%'|| pDS_PAT_SOLUCAO || '%')  OR pDS_PAT_SOLUCAO  IS NULL);     
  
  vCD_TEMP NUMBER(20);
  vERRO        VARCHAR2(600);

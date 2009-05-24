@@ -86,8 +86,8 @@ vSQL:=vSQL ||' FROM (';
            vSQL := vSQL ||'       ,O.DS_OBJETO ' || chr(10);
 
           IF    vCD_ESTRUTURA = 1 THEN
-                    vSQL := vSQL ||'       ,P.DS_PAT_PROBLEMA PROBLEMA' || chr(10);
-                   vSQL := vSQL ||'       ,P.DS_PAT_SOLUCAO  SOLUCAO'  || chr(10);
+                    vSQL := vSQL ||'       ,P.DS_PROBLEMA PROBLEMA' || chr(10);
+                   vSQL := vSQL ||'       ,P.DS_SOLUCAO  SOLUCAO'  || chr(10);
                    vSQL := vSQL ||'FROM   APPP_TB_OBJETO  O,'          || chr(10);
                    vSQL := vSQL ||'       APPP_TB_PATTERN P'           || chr(10);
                    vSQL := vSQL ||'WHERE  P.CD_PATTERN = O.CD_OBJETO'  || chr(10);

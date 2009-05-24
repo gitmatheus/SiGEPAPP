@@ -14,8 +14,8 @@ begin
        
        open p_cursor FOR
        SELECT CD_PATTERN      , 
-              DS_PAT_PROBLEMA ,
-              DS_PAT_SOLUCAO  
+              DS_PROBLEMA ,
+              DS_SOLUCAO  
                 
        FROM APPP_TB_PATTERN
        WHERE CD_PATTERN = pCD_PATTERN;    
@@ -24,11 +24,11 @@ begin
     
        open p_cursor FOR
        SELECT CD_PATTERN      , 
-              DS_PAT_PROBLEMA ,
-              DS_PAT_SOLUCAO     
+              DS_PROBLEMA ,
+              DS_SOLUCAO     
        FROM APPP_TB_PATTERN AP
-       WHERE (DS_PAT_PROBLEMA  like ('%'|| pDS_PAT_PROBLEMA || '%') OR pDS_PAT_PROBLEMA IS NULL)
-       AND   (DS_PAT_SOLUCAO   like ('%'|| pDS_PAT_SOLUCAO || '%')  OR pDS_PAT_SOLUCAO  IS NULL);     
+       WHERE (DS_PROBLEMA  like ('%'|| pDS_PAT_PROBLEMA || '%') OR pDS_PAT_PROBLEMA IS NULL)
+       AND   (DS_SOLUCAO   like ('%'|| pDS_PAT_SOLUCAO || '%')  OR pDS_PAT_SOLUCAO  IS NULL);     
         
    END IF;                
 end APPP_SEL_PATTERN;

@@ -21,8 +21,8 @@ BEGIN
           SELECT O.CD_OBJETO               ,
                  O.NM_OBJETO               ,
                  O.DS_OBJETO               ,
-                 P.DS_PAT_PROBLEMA PROBLEMA,
-                 P.DS_PAT_SOLUCAO  SOLUCAO        
+                 P.DS_PROBLEMA PROBLEMA,
+                 P.DS_SOLUCAO  SOLUCAO        
           FROM   APPP_TB_OBJETO  O,
                  APPP_TB_PATTERN P
           WHERE  P.CD_PATTERN = pCD_OBJETO
@@ -52,15 +52,15 @@ BEGIN
           SELECT O.CD_OBJETO               ,
                  O.NM_OBJETO               ,
                  O.DS_OBJETO               ,
-                 P.DS_PAT_PROBLEMA PROBLEMA,
-                 P.DS_PAT_SOLUCAO  SOLUCAO        
+                 P.DS_PROBLEMA PROBLEMA,
+                 P.DS_SOLUCAO  SOLUCAO        
           FROM   APPP_TB_OBJETO  O,
                  APPP_TB_PATTERN P
           WHERE  P.CD_PATTERN = O.CD_OBJETO
           AND   (O.NM_OBJETO       LIKE '%'||pNM_OBJETO  ||'%' OR pNM_OBJETO   IS NULL)
           AND   (O.DS_OBJETO       LIKE '%'||pDS_OBJETO  ||'%' OR pDS_OBJETO   IS NULL)
-          AND   (P.DS_PAT_PROBLEMA LIKE '%'||pDS_PROBLEMA||'%' OR pDS_PROBLEMA IS NULL)
-          AND   (P.DS_PAT_SOLUCAO  LIKE '%'||pDS_SOLUCAO ||'%' OR pDS_SOLUCAO  IS NULL);
+          AND   (P.DS_PROBLEMA LIKE '%'||pDS_PROBLEMA||'%' OR pDS_PROBLEMA IS NULL)
+          AND   (P.DS_SOLUCAO  LIKE '%'||pDS_SOLUCAO ||'%' OR pDS_SOLUCAO  IS NULL);
 
       ELSIF UPPER(TRIM(pTP_ESTRUT)) = 'AP' THEN     
           

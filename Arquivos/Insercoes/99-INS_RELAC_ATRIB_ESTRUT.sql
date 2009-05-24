@@ -35,10 +35,10 @@ Insert into APPP_TB_ATRIBUTO_OBJ (CD_TIPO,DS_ATRIBUTO_OBJ,FL_ATRIB_RELAC,NM_ATRI
       values (1,'Onde o problema é encontrado','N','Contexto','DS_DESCRICAO');
 
 Insert into APPP_TB_ATRIBUTO_OBJ (CD_TIPO,DS_ATRIBUTO_OBJ,FL_ATRIB_RELAC,NM_ATRIBUTO_OBJ,NM_COLUNA)
-      values (1,'Descrição do problema','S','Problema','DS_PROBLEMA');
+      values (1,'Descrição do problema','N','Problema','DS_PROBLEMA');
 
 Insert into APPP_TB_ATRIBUTO_OBJ (CD_TIPO,DS_ATRIBUTO_OBJ,FL_ATRIB_RELAC,NM_ATRIBUTO_OBJ,NM_COLUNA)
-      values (1,'Descrição da solução','S','Solução','DS_SOLUCAO');
+      values (1,'Descrição da solução','N','Solução','DS_SOLUCAO');
 
 Insert into APPP_TB_ATRIBUTO_OBJ (CD_TIPO,DS_ATRIBUTO_OBJ,FL_ATRIB_RELAC,NM_ATRIBUTO_OBJ,NM_COLUNA)
       values (1,'Descrição de Barreiras','N','Barreiras','DS_BARREIRAS');
@@ -47,48 +47,26 @@ Insert into APPP_TB_ATRIBUTO_OBJ (CD_TIPO,DS_ATRIBUTO_OBJ,FL_ATRIB_RELAC,NM_ATRI
       values (1,'Sintomas para o problema','N','Sintomas','DS_SINTOMAS');
 
 Insert into APPP_TB_ATRIBUTO_OBJ (CD_TIPO,DS_ATRIBUTO_OBJ,FL_ATRIB_RELAC,NM_ATRIBUTO_OBJ,NM_COLUNA)
-      values (1,'Consequencias do problema','S','Consequencias','DS_CONSEQUEN');
+      values (1,'Consequencias do problema','N','Consequencias','DS_CONSEQUEN');
 
 Insert into APPP_TB_ATRIBUTO_OBJ (CD_TIPO,DS_ATRIBUTO_OBJ,FL_ATRIB_RELAC,NM_ATRIBUTO_OBJ,NM_COLUNA)
-      values (1,'Recomendações para o problema','S','Recomendações','DS_RECOMEN');
+      values (1,'Recomendações para o problema','N','Recomendações','DS_RECOMEN');
 
 Insert into APPP_TB_ATRIBUTO_OBJ (CD_TIPO,DS_ATRIBUTO_OBJ,FL_ATRIB_RELAC,NM_ATRIBUTO_OBJ,NM_COLUNA)
-      values (1,'Url para a foto utilizada na Persona','N','Foto','URL_FOTO');
-
-Insert into APPP_TB_ATRIBUTO_OBJ (CD_TIPO,DS_ATRIBUTO_OBJ,FL_ATRIB_RELAC,NM_ATRIBUTO_OBJ,NM_COLUNA)
-      values (1,'Descrição da Persona','N','Descrição','DS_DESCRICAO_P'); 
-
-Insert into APPP_TB_ATRIBUTO_OBJ (CD_TIPO,DS_ATRIBUTO_OBJ,FL_ATRIB_RELAC,NM_ATRIBUTO_OBJ,NM_COLUNA)
-      values (1,'Problema do Pattern','S','Problema Pattern','DS_PAT_PROBLEMA');  
-			
-Insert into APPP_TB_ATRIBUTO_OBJ (CD_TIPO,DS_ATRIBUTO_OBJ,FL_ATRIB_RELAC,NM_ATRIBUTO_OBJ,NM_COLUNA)
-      values (1,'Solução do Pattern','S','Solução Pattern','DS_PAT_SOLUCAO');			 
-
-Insert into APPP_TB_ATRIBUTO_OBJ (CD_TIPO,DS_ATRIBUTO_OBJ,FL_ATRIB_RELAC,NM_ATRIBUTO_OBJ,NM_COLUNA)
-      values (1,'Solução do Anti-Pattern','S','Solução Anti-Pattern','DS_CONSEQUENCIAS');					
-
-insert into APPP_TB_ATRIBUTO_OBJ(NM_ATRIBUTO_OBJ,DS_ATRIBUTO_OBJ                      ,CD_TIPO,FL_ATRIB_RELAC)
-                          VALUES('Nome Usuário' ,'Nome completo do usuário do Pattern',1      ,'N');
-
-insert into APPP_TB_ATRIBUTO_OBJ(NM_ATRIBUTO_OBJ,DS_ATRIBUTO_OBJ                      ,CD_TIPO,FL_ATRIB_RELAC)
-                          VALUES('Endereço' ,'Nome da Rua do usuário do Pattern'      ,1      ,'N');
-
+      values (1,'Url para utilização de imagens','N','Foto','URL_FOTO');
 
 insert into APPP_TB_ATRIBUTO_OBJ(NM_ATRIBUTO_OBJ,DS_ATRIBUTO_OBJ                                  ,CD_TIPO,FL_ATRIB_RELAC)
-                          VALUES('Data de Nascimento' ,'Data de Nascimento do usuário do Pattern' ,4      ,'N');
+                          VALUES('Data' ,'Data' ,4      ,'N');
 
 
 insert into APPP_TB_ATRIBUTO_OBJ(NM_ATRIBUTO_OBJ,DS_ATRIBUTO_OBJ ,CD_TIPO,FL_ATRIB_RELAC)
-                          VALUES('CPF' ,'CPF do Usuário'         ,8      ,'N');
-
-insert into APPP_TB_ATRIBUTO_OBJ(NM_ATRIBUTO_OBJ        ,DS_ATRIBUTO_OBJ                  ,CD_TIPO,FL_ATRIB_RELAC)
-                          VALUES('Número da Residência' ,'Número da Residência do Usuário',2      ,'N');
+                          VALUES('CPF' ,'CPF'         ,8      ,'N');
 
 insert into APPP_TB_ATRIBUTO_OBJ(NM_ATRIBUTO_OBJ,DS_ATRIBUTO_OBJ ,CD_TIPO,FL_ATRIB_RELAC)
-                          VALUES('E-mail' ,'E-mail do Usuário'         ,7      ,'N');
+                          VALUES('E-mail' ,'E-mail'         ,7      ,'N');
 
 insert into APPP_TB_ATRIBUTO_OBJ(NM_ATRIBUTO_OBJ,DS_ATRIBUTO_OBJ ,CD_TIPO,FL_ATRIB_RELAC)
-                          VALUES('RG' ,'RG do Usuário'           ,11      ,'N');
+                          VALUES('RG' ,'RG'           ,11      ,'N');
 
 COMMIT;
 
@@ -109,11 +87,11 @@ commit;
 
 -- RECRIA DADOS DAS ESTRUTURAS
 
-Insert into APPP_TB_ESTRUT_OBJ (CD_USER,DS_ESTRUTURA,DT_CRIACAO,NM_ESTRUTURA,NM_TB_ESTRUT,TP_ESTRUTURA) values (11111111111,'Pattern Default',SYSDATE,'Pattern','APPP_TB_PATTERN','PA');
+Insert into APPP_TB_ESTRUT_OBJ (CD_USER,DS_ESTRUTURA,DT_CRIACAO,NM_ESTRUTURA,NM_TB_ESTRUT,TP_ESTRUTURA) values (11111111111,'Estrutura Minima Pattern',SYSDATE,'Pattern','APPP_TB_PATTERN','PA');
 
-Insert into APPP_TB_ESTRUT_OBJ (CD_USER,DS_ESTRUTURA,DT_CRIACAO,NM_ESTRUTURA,NM_TB_ESTRUT,TP_ESTRUTURA) values (11111111111,'Anti-Pattern Default',SYSDATE,'Anti-Pattern','APPP_TB_ANTI_PATTERN','AP');
+Insert into APPP_TB_ESTRUT_OBJ (CD_USER,DS_ESTRUTURA,DT_CRIACAO,NM_ESTRUTURA,NM_TB_ESTRUT,TP_ESTRUTURA) values (11111111111,'Estrutura Minima Anti-Pattern',SYSDATE,'Anti-Pattern','APPP_TB_ANTI_PATTERN','AP');
 
-Insert into APPP_TB_ESTRUT_OBJ (CD_USER,DS_ESTRUTURA,DT_CRIACAO,NM_ESTRUTURA,NM_TB_ESTRUT,TP_ESTRUTURA) values (11111111111,'Persona Default',SYSDATE,'Persona','APPP_TB_PERSONA','PE');
+Insert into APPP_TB_ESTRUT_OBJ (CD_USER,DS_ESTRUTURA,DT_CRIACAO,NM_ESTRUTURA,NM_TB_ESTRUT,TP_ESTRUTURA) values (11111111111,'Estrutura Minima Persona',SYSDATE,'Persona','APPP_TB_PERSONA','PE');
 
 COMMIT;
 

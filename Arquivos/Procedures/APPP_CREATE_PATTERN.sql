@@ -37,9 +37,9 @@ begin
    from dual;  
    
    -- INSERE O PATTERN
-   insert into APPP_TB_PATTERN(CD_PATTERN      ,
-                               DS_PAT_PROBLEMA ,
-                               DS_PAT_SOLUCAO
+   insert into APPP_TB_PATTERN(CD_PATTERN  ,
+                               DS_PROBLEMA ,
+                               DS_SOLUCAO
                               )
                         values(vCD_OBJETO     ,
                                pDS_PAT_PROBLEMA,

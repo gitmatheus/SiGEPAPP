@@ -13,8 +13,8 @@ vERRO        VARCHAR2(600);
 begin
     
    insert into APPP_TB_PATTERN(CD_PATTERN      ,
-                               DS_PAT_PROBLEMA ,
-                               DS_PAT_SOLUCAO
+                               DS_PROBLEMA ,
+                               DS_SOLUCAO
                               )
                         values(pCD_PATTERN     ,
                                pDS_PAT_PROBLEMA,

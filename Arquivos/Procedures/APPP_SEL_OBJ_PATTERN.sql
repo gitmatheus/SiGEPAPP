@@ -22,8 +22,8 @@ begin
               O.CD_ESTRUTURA    ,
               O.DS_OBJETO       ,
               O.CD_USER_CRIADOR ,
-              P.DS_PAT_PROBLEMA ,
-              P.DS_PAT_SOLUCAO                  
+              P.DS_PROBLEMA ,
+              P.DS_SOLUCAO                  
        FROM APPP_TB_PATTERN P,
             APPP_TB_OBJETO  O
        WHERE P.CD_PATTERN = pCD_PATTERN
@@ -37,12 +37,12 @@ begin
               O.CD_ESTRUTURA    ,
               O.DS_OBJETO       ,
               O.CD_USER_CRIADOR ,
-              P.DS_PAT_PROBLEMA ,
-              P.DS_PAT_SOLUCAO                  
+              P.DS_PROBLEMA ,
+              P.DS_SOLUCAO                  
        FROM APPP_TB_PATTERN P,
             APPP_TB_OBJETO  O
-       WHERE (P.DS_PAT_PROBLEMA  LIKE ('%'|| pDS_PAT_PROBLEMA || '%') OR pDS_PAT_PROBLEMA IS NULL)
-       AND   (P.DS_PAT_SOLUCAO   LIKE ('%'|| pDS_PAT_SOLUCAO  || '%') OR pDS_PAT_SOLUCAO  IS NULL)
+       WHERE (P.DS_PROBLEMA      LIKE ('%'|| pDS_PAT_PROBLEMA || '%') OR pDS_PAT_PROBLEMA IS NULL)
+       AND   (P.DS_SOLUCAO       LIKE ('%'|| pDS_PAT_SOLUCAO  || '%') OR pDS_PAT_SOLUCAO  IS NULL)
        AND   (O.NM_OBJETO        LIKE ('%'|| pNM_OBJETO       || '%') OR pNM_OBJETO       IS NULL)    
        AND   (O.CD_ESTRUTURA     =           pCD_ESTRUTURA            OR pCD_ESTRUTURA    IS NULL)
        AND   (O.CD_USER_CRIADOR  =           pCD_USER_CRIADOR         OR pCD_USER_CRIADOR IS NULL)       
