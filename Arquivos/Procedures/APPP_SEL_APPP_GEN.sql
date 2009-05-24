@@ -5,6 +5,7 @@
 * History            : 11/05/2009 - Matheus Goncalves - Versao Inicial
 *                    : 13/05/2009 - Matheus Goncalves - Adicao de alias
 *                    : 17/05/2009 - Guilherme Lopes - Adição das colunas TP_ESTRUTURA e NM_ESTRUTURA
+*					 : 23/05/2009 - Ordem dos atributos conforme a estrutura
 ***********************************************************************************************************************/
 create or replace procedure APPP_SEL_APPP_GEN(pCD_OBJETO   IN NUMBER  , 
                                               p_cursor OUT SYS_REFCURSOR   ) is
@@ -25,7 +26,7 @@ create or replace procedure APPP_SEL_APPP_GEN(pCD_OBJETO   IN NUMBER  ,
   CURSOR AOB IS
    SELECT TRIM(COLUMN_NAME) NM_COLUNA
    FROM ALL_TAB_COLUMNS 
-   WHERE TABLE_NAME = vNM_TABELA;
+   WHERE TABLE_NAME = vNM_TABELA order by COLUMN_ID desc;
 		
 	CURSOR TAB IS
 	 SELECT EO.NM_TB_ESTRUT 

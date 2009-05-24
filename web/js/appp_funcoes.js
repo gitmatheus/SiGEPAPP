@@ -46,6 +46,23 @@
 
 /** As funcoes contidas dentro do metodo ready, sao poderam ser executadas apos o carregamento da pagina */
 $(document).ready(function(){
+
+    /*Função de acessibilidade*/
+    var Tamanhos_Texto = new Array( '1em','1.2em','1.4em','1.6em' );
+    var Tamanho_Texto_Atual = 0;
+    $("#link_aumenta_fonte").click(function(){
+        if(Tamanho_Texto_Atual<3){
+            Tamanho_Texto_Atual++;
+            $("*").css("font-size", Tamanhos_Texto(Tamanho_Texto_Atual));
+        }
+    });
+    $("#link_diminui_fonte").click(function(){
+        Tamanho_Texto_Atual--;
+        $("*").css("font-size", Tamanhos_Texto(Tamanho_Texto_Atual));
+    });
+
+
+
     /** Funcao que da o efeito de fadein e fadeout no elemento li do menubv e tambem da classe botao */
 
     $("#divSubMenu").css("top", $("#menubv2").position().top);
