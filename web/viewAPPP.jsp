@@ -1,4 +1,4 @@
-<%@page import="br.edu.fei.sigepapp.log.*,br.edu.fei.sigepapp.bancodedados.*,java.sql.*,oracle.jdbc.*,java.text.*"%>
+<%@page import="br.edu.fei.sigepapp.log.*,br.edu.fei.sigepapp.bancodedados.*,br.edu.fei.sigepapp.bancodedados.dao.*,br.edu.fei.sigepapp.bancodedados.model.*, java.sql.*, oracle.jdbc.*,java.text.*,java.util.List"%>
 <%@include file="cabecalho.jsp" %>
 <% if (request.getSession().getAttribute("codigo_usuario") != null && request.getSession().getAttribute("codigo_usuario") != "0") {%>
 
@@ -10,7 +10,7 @@
      conn = ConnectionFactory.getConnection();
      try {
          cstmt = conn.prepareCall("begin APPP_SEL_APPP_GEN(?,?); end;");
-         cstmt.setLong(1, Long.parseLong(request.getParameter("CD_OBJ")));
+         cstmt.setLong(1, Long.parseLong(request.getParameter("CD_OBJ").trim()));
          cstmt.registerOutParameter(2, OracleTypes.CURSOR);
 
          cstmt.execute();
@@ -20,8 +20,12 @@
          int TotalCols = rs.getMetaData().getColumnCount();
 
          while (rs.next()) {
-
-
+             //Objeto do relacionamento
+             RelacObjetos_View relacProcura = new RelacObjetos_View();
+             RelacObjetoDAO relacionamentoDao = new RelacObjetoDAO();
+             relacProcura.setCd_obj_relacionado(Long.parseLong(request.getParameter("CD_OBJ").trim()));
+             List<RelacObjetos_View> relacionamento = relacionamentoDao.APPP_SEL_OBJ_RELAC(relacProcura);
+             RelacObjetos_View proc_relacionamento = new RelacObjetos_View();
 %>
 
 <style type="text/css">
@@ -104,7 +108,7 @@
                 <!--Fim Nome do Objeto-->
                 <tr><td>&nbsp;</td></tr>
                 <!--Contexto do Objeto-->
-                <tr><td class="titulo_contexto">Contexto:</td></tr>
+                <tr><td class="titulo_contexto"><% if (campoCD_Objeto == "CD_PERSONA") {%>Descri&ccedil;&atilde;o<%} else {%>Contexto:<%}%></td></tr>
                 <tr class="contexto">
                     <td colspan="2">
                         <font>
@@ -115,29 +119,33 @@
                 </tr>
                 <!--Fim Contexto do Objeto-->
                 <!--Problema do Objeto-->
+                <%
+                String TabelaProblema=new String();
+                String TabelaSolucao=new String();
+                if (campoCD_Objeto != "CD_PERSONA"){%>
                 <tr><td class="titulo_problema">Problema:</td></tr>
                 <tr class="problema">
                     <td colspan="2">
-                        <font>
-                            <%
-        String TabelaProblema = new String();
+
+                        <%
+        TabelaProblema = new String();
         if (rs.getString("NM_ESTRUTURA").trim().equalsIgnoreCase("PATTERN")) {%>
+            
+            
+                        <!--Pattern sem relacionamento-->
+                        <%= rs.getString("PROBLEMA PATTERN").trim()%>
 
-                            <%= rs.getString("PROBLEMA PATTERN").trim()%>
+                        <%TabelaProblema = "PROBLEMA PATTERN";
+                        } else if (rs.getString("NM_ESTRUTURA").trim().equalsIgnoreCase("ANTI_PATTERN")) {%>
+                        
+                        <%= rs.getString("DS_PROBLEMA").trim()%>
+                        <%TabelaProblema = "DS_PROBLEMA";
+                        } else {%>
+                        <%= rs.getString("Problema").trim()%>
+                        <%TabelaProblema = "Problema";
+                        }
+                        %>
 
-                            <%TabelaProblema = "PROBLEMA PATTERN";
-                            } else if (rs.getString("NM_ESTRUTURA").trim().equalsIgnoreCase("ANTI_PATTERN")) {%>
-                            <%= rs.getString("DS_PROBLEMA").trim()%>
-                            <%
-                                TabelaProblema = "DS_PROBLEMA";
-                            } else {%>
-                            <%= rs.getString("Problema").trim()%>
-                            <%
-            TabelaProblema = "Problema";
-        }
-
-                            %>
-                        </font>
                     </td>
                 </tr>
                 <!--Fim Problema do Objeto-->
@@ -147,7 +155,7 @@
                     <td colspan="2">
                         <font>
                             <%
-        String TabelaSolucao = new String();
+        TabelaSolucao = new String();
         if (rs.getString("NM_ESTRUTURA").trim().equalsIgnoreCase("PATTERN")) {
             out.println(rs.getString("Solução Pattern").trim());
             TabelaSolucao = "Solução Pattern";
@@ -155,6 +163,7 @@
             out.println(rs.getString("DS_RECOMENDACOES").trim());
             TabelaSolucao = "DS_RECOMENDACOES";
         } else {
+
             out.println(rs.getString("Solução").trim());
             TabelaSolucao = "Solução";
         }
@@ -163,6 +172,7 @@
                         </font>
                     </td>
                 </tr>
+                <%}%>
                 <!--Fim Solução do Objeto-->
                 <%
         //For Principal para cada coluna
@@ -183,15 +193,60 @@
                     !rs.getMetaData().getColumnName(i).trim().equalsIgnoreCase("NM_ESTRUTURA") &&
                     !rs.getMetaData().getColumnName(i).trim().equalsIgnoreCase("Nome") &&
                     !rs.getMetaData().getColumnName(i).trim().equalsIgnoreCase("Contexto")) {%>
-                <tr><td class="titulo_geral"><%= rs.getMetaData().getColumnName(i)%></td></tr>
+                <tr>
+                    <!--Nome do atributo-->
+                    <td class="titulo_geral"><%= rs.getMetaData().getColumnName(i)%>:</td>
+                </tr>
+
+                <%
+
+    proc_relacionamento.setNm_atributo_obj(rs.getMetaData().getColumnName(i));
+    if (relacionamento.contains(proc_relacionamento)) {%>
+                <!--Caso seja relacionado-->
                 <tr class="solucao">
                     <td colspan="2">
+                        <!--Valor do atributo-->
+                        <div id="accordion_<%=rs.getMetaData().getColumnName(i).replace(" ", "_")%>">
+                            <!--Iteração dos relacionamentos-->
+                           <%int pos_relac = relacionamento.indexOf(proc_relacionamento);
+                        while (pos_relac != -1) {
+                            %>
+                            <h3><a href="#"><%=relacionamento.get(pos_relac).getNome_relacionando()%></a></h3>
+                            <div>
+                                <p>
+                                    <%=relacionamento.get(pos_relac).getVl_relac()%>
+                                </p>
+                            </div>
+                            <%
+                            relacionamento.remove(pos_relac);
+                            pos_relac = relacionamento.indexOf(proc_relacionamento);
+                        }%>
+                            <!--Fim Iteração dos relacionamentos-->
+                        </div>
+
+                        <!--O comando abaixo executa o Accordion do Jquery-->
+                        <script type="text/javascript">
+                            $(document).ready(function() {
+                                $("#accordion_<%=rs.getMetaData().getColumnName(i).replace(" ", "_")%>").accordion();
+                            });
+                        </script>
+                        <!--Fim Accordiom-->
+
+                    </td>
+                </tr>
+                <!--Fim Caso seja relacionado-->
+                <%} else {%>
+                <!--Caso não seja relacionado-->
+                <tr class="solucao">
+                    <td colspan="2">
+                        <!--Valor do atributo-->
                         <font>
                             <%= rs.getObject(i).toString()%>
                         </font>
                     </td>
                 </tr>
-
+                <%}%>
+                <!--Fim Caso não seja relacionado-->
                 <%}
         //Fim do for principal das colunas
         }%>
@@ -201,6 +256,7 @@
     </tr>
 </table>
 <%
+             relacionamentoDao.fechaConexao();
          }
          rs.close();
          cstmt.close();

@@ -13,6 +13,44 @@ public class RelacObjetos {
     private long cd_atributo_obj;
     private String vl_relac;
 
+    public RelacObjetos() {
+    }
+
+    public RelacObjetos(long cd_relac, long cd_obj_relacionado, long cd_obj_relacionando, long cd_atributo_obj, String vl_relac) {
+        this.cd_relac = cd_relac;
+        this.cd_obj_relacionado = cd_obj_relacionado;
+        this.cd_obj_relacionando = cd_obj_relacionando;
+        this.cd_atributo_obj = cd_atributo_obj;
+        this.vl_relac = vl_relac;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final RelacObjetos other = (RelacObjetos) obj;
+        if (this.cd_obj_relacionado != other.cd_obj_relacionado) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        return hash;
+    }
+
+    
+
+    
+
+    
+
     public long getCd_atributo_obj() {
         return cd_atributo_obj;
     }

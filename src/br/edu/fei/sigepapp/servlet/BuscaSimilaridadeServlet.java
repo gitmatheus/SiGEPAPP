@@ -44,7 +44,7 @@ public class BuscaSimilaridadeServlet extends HttpServlet {
                 List<AtributosBuscaSimilaridade> buscaSimilaridade;
                 GenericDAO daoGenerica = new GenericDAO();
 
-                buscaSimilaridade = daoGenerica.buscaSimilaridade(request.getParameter("nome"), request.getParameter("contexto"), request.getParameter("problema"), request.getParameter("solucao"));
+                buscaSimilaridade = daoGenerica.buscaSimilaridade(request.getParameter("nome").trim(), request.getParameter("contexto").trim(), request.getParameter("problema").trim(), request.getParameter("solucao").trim());
 
                 daoGenerica.fechaConexao();
 
@@ -87,14 +87,13 @@ public class BuscaSimilaridadeServlet extends HttpServlet {
                 List<AtributosBuscaSimilaridadePE> buscaSimilaridade;
                 GenericDAO daoGenerica = new GenericDAO();
 
-                buscaSimilaridade = daoGenerica.buscaSimilaridadePE(request.getParameter("nome"), request.getParameter("descricao"));
+                buscaSimilaridade = daoGenerica.buscaSimilaridadePE(request.getParameter("nome").trim(), request.getParameter("descricao").trim());
 
                 daoGenerica.fechaConexao();
 
                 out.println("<xml>");
 
                 NumberFormat nf = new DecimalFormat("0.000");
-
 
                 for (AtributosBuscaSimilaridadePE registro : buscaSimilaridade) {
                     if (registro.getSimilaridade() != 0) {

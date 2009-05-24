@@ -13,6 +13,7 @@
          * |   Autor     |   Data      |   Descricao                          |
          * |------------------------------------------------------------------|
          * |  Guilherme  |  10/05/09   | Criacao do Arquivo                   |
+         * |  Guilherme  |  23/05/09   | Inclusão de relacionamento           |
          * |------------------------------------------------------------------|
          **/
 %>
@@ -56,7 +57,7 @@
     });
 
     function BuscaAPP(){
-        
+        var achei=false;
         var HtmlResultado="";
         HtmlResultado+="<table width=100%><tr class='ui-widget-header ui-corner-all app_nome' style='border-width:1px;'>"
         HtmlResultado+="<td class='app_nome'>";
@@ -71,6 +72,7 @@
         $.post("BuscaSimilaridadeServlet", {tipo: 'APP', nome: $("#frmBuscaAPPNome").val() ,contexto: $("#frmBuscaAPPContexto").val(), problema: $("#frmBuscaProblema").val(), solucao: $("#frmBuscaAPPSolucao").val()}, function(retorno, msgstatus){
             $(retorno).find("documento").each(function(indice,documento){
 
+                achei=true;
                 HtmlResultado+="<a href='viewAPPP.jsp?CD_OBJ="+$(documento).find("codigo").text()+"'><div><table width='100%'>";
                 HtmlResultado+="<tr class='ui-widget-header ui-corner-all app_nome' style='border-width:1px;'><td class='app_nome'>";
                 HtmlResultado+=indice+1+".";
@@ -113,10 +115,15 @@
 
             });
         }, "xml");
-        $("#tab_resultado").html("<table width='100%' id='tbl_resultado'><tr><td>"+HtmlResultado+"</td></tr></table>");
+        if (achei){
+            $("#tab_resultado").html("<table width='100%' id='tbl_resultado'><tr><td>"+HtmlResultado+"</td></tr></table>");
+        }else{
+            $("#tab_resultado").html("<table width='100%' id='tbl_resultado'><tr><td align='center'>Nenhum resultado encontrado</td></tr></table>");
+        }
+
     }
     function BuscaPE(){
-
+        var achei=false;
         var HtmlResultado="";
         HtmlResultado+="<table width=100%><tr class='ui-widget-header ui-corner-all app_nome' style='border-width:1px;'>"
         HtmlResultado+="<td class='app_nome'>";
@@ -128,17 +135,13 @@
         HtmlResultado+="</tr></table>";
         $.post("BuscaSimilaridadeServlet", {tipo: 'PE', nome: $("#frmBuscaPENome").val() ,descricao: $("#frmBuscaPEDescricao").val()}, function(retorno, msgstatus){
             $(retorno).find("documento").each(function(indice,documento){
-
+                achei=true;
                 HtmlResultado+="<a href='viewAPPP.jsp?CD_OBJ="+$(documento).find("codigo").text()+"'><div><table width='100%'>";
                 HtmlResultado+="<tr class='ui-widget-header ui-corner-all app_nome' style='border-width:1px;'><td class='app_nome'>";
                 HtmlResultado+=indice+1+".";
                 HtmlResultado+=$(documento).find("nome").text();
-
-                if($.trim($(documento).find("tipo").text())=='PA'){
-                    HtmlResultado+="&nbsp;<font style='font-size:small;'>[Pattern]</font>";
-                }else{
-                    HtmlResultado+="&nbsp;<font style='font-size:small;'>[Anti-Pattern]</font>";
-                }
+                HtmlResultado+="&nbsp;<font style='font-size:small;'>[Persona]</font>";
+                
                 HtmlResultado+="</td><td align='right' width=15% class='app_similaridade'>";
 
                 HtmlResultado+=$(documento).find("similaridade").text()+"%";
@@ -150,14 +153,14 @@
                 HtmlResultado+=$(documento).find("descricao").text();
                 HtmlResultado+="</td></tr>";
                 HtmlResultado+="</table></div></a>";
-
-
-
             });
         }, "xml");
-        $("#tab_resultado").html("<table width='100%' id='tbl_resultado'><tr><td>"+HtmlResultado+"</td></tr></table>");
+        if (achei){
+            $("#tab_resultado").html("<table width='100%' id='tbl_resultado'><tr><td>"+HtmlResultado+"</td></tr></table>");
+        }else{
+            $("#tab_resultado").html("<table width='100%' id='tbl_resultado'><tr><td align='center'>Nenhum resultado encontrado</td></tr></table>");
+        }
     }
-
 
     $(document).ready(function(){
         $.ajaxSetup({async: false});
@@ -184,7 +187,7 @@
             //$('#tabs_menu').tabs('add' , 'frmCadEstrutura.jsp' , 'Primeira Pagina');
             //$("#tabs_menu ul").append("<li><a href='#tab_resultado'><span>Resultados</span></a></li>");
             if(!tab_adicionada){
-                $("#tabs_menu").append("<div id='tab_resultado'>Result<div>");
+                $("#tabs_menu").append("<div id='tab_resultado'><div>");
                 $("#tabs_menu").tabs('add','#tab_resultado','Resultados');
                 $("#tabs_menu li a[href='#tab_resultado']").attr("style", "background-color:#000000;color:#FFFFFF");
                 tab_adicionada=true;

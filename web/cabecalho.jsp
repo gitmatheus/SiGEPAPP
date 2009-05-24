@@ -76,6 +76,7 @@
                     <a href="/sigepapp/"> <img border="0" title="SiGePAPP - Sistema de Gerenciamento de Patterns, Anti-Patterns e Personas" align="left" src="images/logo.png" style='display: block' /> </a>
                 </td>
                 <td width="220px" class="top_td" align="right">
+                    <img alt="Aumentar fonte" src="images/amais.gif"><img alt="Diminuir fonte" src="images/amenos.gif">
                     <form name="login" method="post">
                         <table>
                             <tr>

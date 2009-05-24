@@ -39,6 +39,9 @@
  * |  Andrey     |  09/03/16   |    Inclusão das funções apenasNumeros|
  * |             |             | e Asc                                |
  * |------------------------------------------------------------------|
+ * |  Guilherme  |  09/05/23   |  Inclusão da função para alterar o   |
+ * |             |             |  Tamanho dos textos                  |
+ * |------------------------------------------------------------------|
  */
 
 /** As funcoes contidas dentro do metodo ready, sao poderam ser executadas apos o carregamento da pagina */
