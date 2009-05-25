@@ -14,6 +14,8 @@ public class AvalObjUser {
     long cd_obj;
 
     public AvalObjUser() {
+        cd_user=0;
+        cd_obj=0;
     }
 
     public AvalObjUser(long cd_user, long cd_obj) {

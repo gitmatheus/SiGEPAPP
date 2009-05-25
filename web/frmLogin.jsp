@@ -53,6 +53,7 @@
     <!-- |<a id='envia_avaliacoes' href='frmAvaliacoesPendentes.jsp' class='painelcontrole' title='Avaliar APPP pendentes'>Avalia&ccedil;&otilde;es</a>&nbsp;|-->
     <a id='aleracao_senha' href='frmAlteraSenha.jsp' class='painelcontrole' title='Altera&ccedil;&atilde;o de senha do usu&aacute;rio'>Alterar Senha</a>&nbsp;|
     <a id='envia_logoff' href='#' class='painelcontrole' title='Sair do sistema' onclick='javascript:LogoffSigepapp();' >Sair</a>
+    <p><a href="frmAvaliacoesPendentes.jsp">Lista de utiliza&ccedil;&atilde;o</a></p>
 </div> 
 <input type='hidden' id='status' value='logoff' />
 <%}%> 
