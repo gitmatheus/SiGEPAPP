@@ -113,6 +113,9 @@ spool /SiGEPAPP/Arquivos/Procedures/LogProcedures.log
 @ /SiGEPAPP/Arquivos/Procedures/APPP_SEL_APP_GERAL.sql
 @ /SiGEPAPP/Arquivos/Procedures/APPP_SEL_APP_SIMILARIDADE.sql
 @ /SiGEPAPP/Arquivos/Procedures/APPP_SEL_PE_SIMILARIDADE.sql
+@ /SiGEPAPP/Arquivos/Procedures/APPP_SEL_ULTIMOS_PE.sql
+@ /SiGEPAPP/Arquivos/Procedures/APPP_SEL_ULTIMOS_PA.sql
+@ /SiGEPAPP/Arquivos/Procedures/APPP_SEL_ULTIMOS_AP.sql
 
 SPOOL OFF
 
