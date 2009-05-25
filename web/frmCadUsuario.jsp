@@ -12,6 +12,11 @@
 <script type="text/javascript" language="javascript" src="js/i18n/ui.datepicker-pt-BR.js"></script>
 <script type="text/javascript" language="javascript" src="js/appp_frmCadUsuario.js"></script>
 <form name="frmCadUser" method="post">
+    <% if (request.getSession().getAttribute("codigo_usuario") != null && request.getSession().getAttribute("codigo_usuario") != "0") {%>
+    <input type="hidden" id="flagEdit" name="flagEdit" value="sim" />
+    <%} else {%>
+    <input type="hidden" id="flagEdit" name="flagEdit" value="nao" />
+    <%}%>
     <table border="0" cellpadding="0" cellspacing="0" width="100%" align="right">
         <tr>
             <td align="center" class="titulo" style="height: 25px; vertical-align: middle;"> <font class="titulo">..:: Cadastro de Usu&aacute;rio ::..</font> </td>
@@ -31,6 +36,7 @@
                             </div>
                         </td>
                     </tr>
+                    <% if (request.getSession().getAttribute("codigo_usuario") == null || request.getSession().getAttribute("codigo_usuario") == "0") {%>
                     <tr>
                         <td width="30%" align="right">
                             <div style="margin-right: 10px;">
@@ -69,6 +75,7 @@
                             </div>
                         </td>
                     </tr>
+                    <%}%>
                     <tr><td>&nbsp;</td><td>&nbsp;</td></tr>
                     <tr><td colspan="2">
                             <div id="cademail">
@@ -82,7 +89,7 @@
                                         <td width="70%" align="left">
                                             <div style="margin-left: 5px;">
                                                 <input id="frmCadUserEmail" type="text" name="frmCadUserEmail" class="edit" style="width: 260px;" maxlength="100" title="Digite seu email" />
-                                            <!-- <font class="texto"> Tipo: </font>
+                                                <!-- <font class="texto"> Tipo: </font>
                                                 <select id="frmCadUserTipoEmail" name="frmCadUserTipoEmail" class="edit" style="width: auto;">
                                                     <option value="P">Pessoal</option>
                                                     <option value="C">Comercial</option>
@@ -95,6 +102,7 @@
                             </div>
                     </td></tr>
                     <tr><td>&nbsp;</td><td>&nbsp;</td></tr>
+                    <% if (request.getSession().getAttribute("codigo_usuario") == null || request.getSession().getAttribute("codigo_usuario") == "0") {%>
                     <tr>
                         <td width="30%" align="right">
                             <div style="margin-right: 10px;">
@@ -108,6 +116,7 @@
                         </td>
                     </tr>
                     <tr><td>&nbsp;</td><td>&nbsp;</td></tr>
+                    <%}%>
                     <tr>
                         <td width="30%" align="right">
                             <div style="margin-right: 10px;">
@@ -174,7 +183,7 @@
                                     <td width="70%" align="left">
                                         <div  style="margin-left: 5px;">
                                             <input id="frmCadUserEndComplemento" value=" " type="text" name="frmCadUserEndComplemento" class="edit" style="width: 150px;" maxlength="80" title="Digite o complemento de seu endere&ccedil;o" />
-                                           <!-- <font class="texto"> Tipo: </font>
+                                            <!-- <font class="texto"> Tipo: </font>
                                             <select id="frmCadUserTipoEnd" name="frmCadUserTipoEnd" class="edit" style="width: auto;">
                                                 <option value="R">Residencial</option>
                                                 <option value="C">Comercial</option>
@@ -270,7 +279,7 @@
                             <td width="70%" align="left">
                                 <div  style="margin-left: 5px;">
                                     <input id="frmCadUserTelefone" name="frmCadUserTelefone" class="edit" style="width: 90px;" maxlength="15" title="Digite o número de telefone de seu interesse"/>
-                                   <!-- <font class="texto"> Tipo: </font>
+                                    <!-- <font class="texto"> Tipo: </font>
                                     <select id="frmCadUserTipoTel" name="frmCadUserTipoTel" class="edit" style="width: auto;">
                                         <option value="R">Residencial</option>
                                         <option value="C">Comercial</option>
@@ -327,16 +336,16 @@
                             &nbsp;&nbsp;
                             <input type="button" id="cancela_cad_user" name="cancela_cad_user" class="botao" value="Cancelar" title="Cancelar cadastro de usuário">
                             <div id="alertaCadastrado" title="Cadastro de Usuário">
-                                 Usuário cadastrado com sucesso!
+                                Usuário cadastrado com sucesso!
                             </div>
                             <div id="alertaExistente" title="Cadastro de Usuário">
-                                 Usuário já está cadastrado no banco!
+                                Usuário já está cadastrado no banco!
                             </div>
                             <div id="alertaErro" title="Erro no cadastro">
-                                 <center><b style="color: red;">Erro</b></center>
-                                 <p>Ocorreu um erro no cadastro de usuário.<br>
+                                <center><b style="color: red;">Erro</b></center>
+                                <p>Ocorreu um erro no cadastro de usuário.<br>
                                     Por favor, tente mais tarde!
-                                 </p>
+                                </p>
                             </div>
                         </td>
                     </tr>

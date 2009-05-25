@@ -1,6 +1,11 @@
 package br.edu.fei.sigepapp.bancodedados.model;
 
-public class AntiPattern {
+/**
+ *
+ * @author Andrey
+ * @version 0.01 Mai 12, 2009
+ */
+public class AntiPattern extends Objeto {
 
     public AntiPattern() {
     }
@@ -12,9 +17,8 @@ public class AntiPattern {
         setDs_Consequencias(ds_Consequencias);
         setDs_Recomendacoes(ds_Recomendacoes);
         setDs_Sintomas(ds_Sintomas);
-        
-    }
 
+    }
     private long cd_AntiPattern;
     private String ds_Sintomas;
     private String ds_Recomendacoes;
@@ -41,7 +45,7 @@ public class AntiPattern {
     public void setDs_Recomendacoes(String ds_recomendacoes) {
         this.ds_Recomendacoes = ds_recomendacoes;
     }
-    
+
     public void setDs_Consequencias(String ds_consequencias) {
         this.ds_Consequencias = ds_consequencias;
     }
@@ -49,21 +53,24 @@ public class AntiPattern {
     public void setDs_Barreiras(String ds_barreiras) {
         this.ds_Barreiras = ds_barreiras;
     }
-    
-    public long getCd_AntiPattern(){
+
+    public long getCd_AntiPattern() {
         return this.cd_AntiPattern;
     }
-    
-    public String getDs_Barreiras(){
-        return this.ds_Barreiras ;
+
+    public String getDs_Barreiras() {
+        return this.ds_Barreiras;
     }
-    public String getDs_Consequencias(){
-        return this.ds_Consequencias ;
+
+    public String getDs_Consequencias() {
+        return this.ds_Consequencias;
     }
-    public String getDs_Recomendacoes(){
-        return this.ds_Recomendacoes ;
+
+    public String getDs_Recomendacoes() {
+        return this.ds_Recomendacoes;
     }
-    public String getDs_Sintomas(){
-        return this.ds_Sintomas ;
+
+    public String getDs_Sintomas() {
+        return this.ds_Sintomas;
     }
 }

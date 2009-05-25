@@ -124,7 +124,7 @@ Tom Mix Petreca</description>
         <servlet-name>AlteraSenhaServlet</servlet-name>
         <servlet-class>br.edu.fei.sigepapp.servlet.AlteraSenhaServlet</servlet-class>
     </servlet>
-    <servlet-mapping>
+    <servlet><servlet-name>GetUsuarioServlet</servlet-name><servlet-class>br.edu.fei.sigepapp.servlet.GetUsuarioServlet</servlet-class></servlet><servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
         <url-pattern>/LoginServlet</url-pattern>
     </servlet-mapping>
@@ -262,6 +262,10 @@ Tom Mix Petreca</description>
     <servlet-mapping>
         <servlet-name>AlteraSenhaServlet</servlet-name>
         <url-pattern>/AlteraSenhaServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>GetUsuarioServlet</servlet-name>
+        <url-pattern>/GetUsuarioServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

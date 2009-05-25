@@ -72,23 +72,26 @@
     <td>
         <table border="0" cellpadding="0" cellspacing="0" align="center">
             <tr>
-                <td width="530px" class="top_td">
-                    <a href="/sigepapp/"> <img border="0" title="SiGePAPP - Sistema de Gerenciamento de Patterns, Anti-Patterns e Personas" align="left" src="images/logo.png" style='display: block' /> </a>
+                <td width="530px" class="top_td" valign="bottom">
+                    <a href="/sigepapp/"> <img border="0" title="SiGePAPP - Sistema de Gerenciamento de Patterns, Anti-Patterns e Personas" align="left" src="images/logo.png" style='display: block; vertical-align: bottom;' /> </a>
                 </td>
-                <td width="220px" class="top_td" align="right">
-                    <a href="#" id="link_aumenta_fonte"><img border="0" alt="Aumentar fonte" src="images/amais.gif"></a><a id="link_diminui_fonte" href="#"><img border="0" alt="Diminuir fonte" src="images/amenos.gif"></a>
+                <td width="220px" class="top_td" align="right" valign="middle">
+                    <font class="texto" style="vertical-align:middle;">Ajuste da fonte:&nbsp;</font><a href="#" id="link_aumenta_fonte" title="Aumentar fonte"><img border="0" alt="Aumentar fonte" src="images/amais.gif" style="vertical-align:middle;"></a>&nbsp;|<a id="link_diminui_fonte" href="#" title="Diminuir fonte"><img border="0" alt="Diminuir fonte" src="images/amenos.gif" style="vertical-align:middle;"></a>
                     <form name="login" method="post">
                         <table>
+                            <tr><td colspan="2" valign="top" align="right"><hr /></td></tr>
                             <tr>
                                 <td colspan="2" valign="top" align="right">
                                     <div style="font-size: 11px; margin-right: 5px;">.: <script>Data();</script></div>
                                 </td>
                             </tr>
+                            <% if (request.getSession().getAttribute("codigo_usuario") != null && request.getSession().getAttribute("codigo_usuario") != "0") {%>
                             <tr>
                                 <td colspan="2">&nbsp;
 
                                 </td>
                             </tr>
+                            <% }%>
                             <tr>
                                 <td colspan="2">
                                     <div id="syslogin">
@@ -125,14 +128,27 @@
                     <table class="menubv submenu" border="0" bgcolor="#EEEEEE" cellpadding="0" cellspacing="0" width="90%" id="tableSubMenu" align="right">
                         <tr class="menubv submenu">
                             <td>
-                                <a id="menubv submenu" href="/sigepapp/frmCadEstruturaStep1.jsp" title="Cadastro das Estruturas disponiveis no sistema" >Estruturas</a>
+                                <a id="menubv submenu" href="/sigepapp/frmCadEstruturaStep1.jsp" title="Cadastro das Estruturas dos Patterns, Anti-Patterns e Personas" >Estrutura</a>
                             </td>
                         </tr>
                         <tr class="menubv submenu">
                             <td>
-                                <a id="menubv submenu" href="/sigepapp/frmCadAPPP.jsp" title="Cadastro de Patterns, Anti-Patterns e Personas" >Documentos</a>
+                                <a id="menubv submenu" href="/sigepapp/frmCadAPPP.jsp" title="Cadastro do conte&uacute; dos Patterns, Anti-Patterns e Personas" >Conte&uacute;do</a>
                             </td>
                         </tr>
+                        <%
+        try {
+            Long user = new Long("11111111111");
+            if (Long.parseLong(request.getSession().getAttribute("codigo_usuario").toString()) == user) {
+                        %>
+                        <tr class="menubv submenu">
+                            <td>
+                                <a id="menubv submenu" href="/sigepapp/frmCadQuestionarioStep1.jsp" title="Cadastro do question&aacute;rio" >Question&aacute;rio</a>
+                            </td>
+                        </tr>
+                        <%            }
+        } catch (Exception e) {
+        }%>
                     </table>
                 </div>
             </td>
@@ -141,9 +157,13 @@
         <a id="menubv" href="/sigepapp/frmCadUsuario.jsp" title="Cadastro das Estruturas disponiveis no sistema" >Cadastro de Usuário</a></tr>-->
         <tr class="menubv">
             <td>
-                <a id="menubv3" href="/sigepapp/frmBuscaAPPP.jsp" title="Sistema de busca de Patterns, Anti-Patterns e Personas" >Busca de Documentos</a>
+                <a id="menubv3" href="/sigepapp/frmBuscaAPPP.jsp" title="Sistema de busca para Patterns, Anti-Patterns e Personas" >Busca de Conte&uacute;do</a>
             </td>
         </tr>
+        <tr class="menubv"><td>
+        <a id="menubv" href="/sigepapp/frmCadUsuario.jsp" title="Cadastro e Edição de perfil dos usu&aacute;rios" >Registre-se</a></tr>
+        <tr class="menubv"><td>
+        <a id="menubv" href="/sigepapp/help.jsp" title="FAQ do SiGePAPP" >Ajuda</a></tr>
         <!--<tr class="menubv"><td>
         <a id="menubv" href="/sigepapp/frmCadQuestionarioStep1.jsp" title="Cadastro das Perguntas e Respostas do questionário" >Question&aacute;rio</a></tr>-->
 

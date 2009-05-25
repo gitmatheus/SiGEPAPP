@@ -26,6 +26,9 @@ import br.edu.fei.sigepapp.bancodedados.ConnectionFactory;
 import br.edu.fei.sigepapp.bancodedados.model.Telefone;
 import br.edu.fei.sigepapp.log.GravarLog;
 import java.sql.CallableStatement;
+import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
 import oracle.jdbc.OracleTypes;
 
 /**
@@ -117,6 +120,94 @@ public class TelefoneDAO {
         }catch(SQLException e){
             GravarLog.gravaErro(TelefoneDAO.class.getName() + ": erro na execucao do metodo delete: " + e.getSQLState() + " : " + e.getMessage());
             return false;
+        }
+    }
+
+    public List<Telefone> seleciona(Telefone telefone){
+        List<Telefone> telefones = new ArrayList<Telefone>();
+        try{
+            CallableStatement cstmt = this.conn.prepareCall("begin APPP_SEL_USER_TELEFONE(?,?,?,?,?,?); end;");
+
+            if(telefone.getCd_user() > 0){
+                cstmt.setLong(1, telefone.getCd_user());
+            }else{
+                cstmt.setNull(1, OracleTypes.NUMBER);
+            }
+
+            if(telefone.getNr_ddi() > 0){
+                cstmt.setLong(2, telefone.getNr_ddi());
+            }else{
+                cstmt.setNull(2, OracleTypes.NUMBER);
+            }
+
+            if(telefone.getNr_ddd() > 0){
+                cstmt.setLong(3, telefone.getNr_ddd());
+            }else{
+                cstmt.setNull(3, OracleTypes.NUMBER);
+            }
+
+            if(telefone.getNr_telefone() > 0){
+                cstmt.setLong(4, telefone.getNr_telefone());
+            }else{
+                cstmt.setNull(4, OracleTypes.NUMBER);
+            }
+
+            cstmt.setString(5, telefone.getTp_telefone());
+            cstmt.registerOutParameter(6, OracleTypes.CURSOR);
+
+            cstmt.execute();
+
+            ResultSet rs = (ResultSet) cstmt.getObject(6);
+
+            while(rs.next()){
+                Telefone t = new Telefone();
+
+                t.setCd_user(rs.getLong("CD_USER"));
+                t.setNr_ddi(rs.getLong("NR_DDI"));
+                t.setNr_ddd(rs.getLong("NR_DDD"));
+                t.setNr_telefone(rs.getLong("NR_TELEFONE"));
+                t.setTp_telefone(rs.getString("TP_TELEFONE"));
+
+                telefones.add(t);
+            }
+
+            rs.close();
+            cstmt.close();
+
+            GravarLog.gravaInformacao(TelefoneDAO.class.getName() + ": pesquisa no banco de dados realizada com sucesso");
+
+            return telefones;
+        }catch(SQLException e){
+            GravarLog.gravaErro(TelefoneDAO.class.getName() + ": erro na execucao do metodo seleciona: " + e.getSQLState() + " : " + e.getMessage());
+            return null;
+        }
+    }
+
+    public int atualiza(Telefone telefone){
+        try{
+            CallableStatement cstmt = this.conn.prepareCall("begin APPP_UPD_USER_TELEFONE(?,?,?,?,?,?); end;");
+
+            cstmt.setLong(1, telefone.getCd_user());
+            cstmt.setLong(2, telefone.getNr_ddi());
+            cstmt.setLong(3, telefone.getNr_ddd());
+            cstmt.setLong(4, telefone.getNr_telefone());
+            cstmt.setString(5, telefone.getTp_telefone());
+            cstmt.registerOutParameter(6, OracleTypes.NUMBER);
+
+            cstmt.execute();
+
+            int cResult = (int) cstmt.getLong(6);
+
+            if (cResult != 1) {
+                GravarLog.gravaErro(TelefoneDAO.class.getName() + ": erro na atualização");
+                return 0;
+            } else {
+                GravarLog.gravaInformacao(TelefoneDAO.class.getName() + ": atualizado com sucesso");
+                return 1;
+            }
+        }catch(SQLException e){
+            GravarLog.gravaErro(TelefoneDAO.class.getName() + ": erro na execucao do metodo atualiza: " + e.getSQLState() + " : " + e.getMessage());
+            return 0;
         }
     }
 

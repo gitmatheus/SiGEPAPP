@@ -176,7 +176,7 @@ function LogonSigepapp(){
                 LogoffSigepapp(); // apos evento do click no identificador chama a funçao de logoff
             //$("#syslogin").html("<h2>Funcionou!</h2>");
             });
-
+            window.location = "/sigepapp/";
         }else{
             $("#syslogin").html( // em caso de erro exibe mensagem de erro no a tela e espera 2 seg para liberar o formulario de login
                 "<center><h2 style='color: red;'>Erro no login!</h2></center>" +

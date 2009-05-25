@@ -58,8 +58,8 @@ public class PatternDAO {
         //Cria e preenche uma lista contendo os nomes das colunas da tabela
         Vector<String> camposDaTabela = new Vector<String>();
         camposDaTabela.add("CD_PATTERN");
-        camposDaTabela.add("DS_PAT_PROBLEMA");
-        camposDaTabela.add("DS_PAT_SOLUCAO");
+        camposDaTabela.add("DS_PROBLEMA");
+        camposDaTabela.add("DS_SOLUCAO");
         
         while (rs.next()) {
             // Cria um objeto do tipo Estrutura

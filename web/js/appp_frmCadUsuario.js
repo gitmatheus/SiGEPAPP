@@ -80,6 +80,10 @@ $(document).ready(function(){
         buttonImage: 'images/smallcalendar.png'
     });
     
+    if($("#flagEdit").val() == 'sim'){
+        carregaUsuario();
+    }
+
     $("#frmCadUserDataNasc").val("");
 
     $("#frmCadUserEstado").change(function(){
@@ -99,6 +103,11 @@ $(document).ready(function(){
 //$("#adicionaendereco").click(function(){$("#adicionaendereco").fadeOut('slow')});
 
 });
+
+function carregaUsuario(){
+    
+}
+
 function verificaExisteLogin(){
     var login = $("#frmCadUserLogin").val();
     $("#existelogin").html(

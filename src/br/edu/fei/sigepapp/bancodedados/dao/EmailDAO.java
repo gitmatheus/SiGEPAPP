@@ -26,6 +26,9 @@ import br.edu.fei.sigepapp.bancodedados.ConnectionFactory;
 import br.edu.fei.sigepapp.bancodedados.model.Email;
 import br.edu.fei.sigepapp.log.GravarLog;
 import java.sql.CallableStatement;
+import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
 import oracle.jdbc.OracleTypes;
 
 /**
@@ -49,7 +52,7 @@ public class EmailDAO {
         try {
             //Instancia um objeto da classe PreparedStatement com o comando para inserção do registro no banco
             CallableStatement cstmt = this.conn.prepareCall("begin APPP_INS_USER_EMAIL(?,?,?,?); end;");
-            
+
             //Seta os valores para os pontos de interrogação indexados pela ordem deles na string
             cstmt.setLong(1, email.getCd_user());
             cstmt.setString(2, email.getNm_email());
@@ -65,11 +68,11 @@ public class EmailDAO {
                 GravarLog.gravaInformacao(EmailDAO.class.getName() + ": inserção no banco de dados realizada com sucesso");
                 cstmt.close();
                 return 1;
-            } else if(cResult == -1){
+            } else if (cResult == -1) {
                 GravarLog.gravaInformacao(EmailDAO.class.getName() + ": Email já cadastrado");
                 cstmt.close();
                 return 2;
-            }else{
+            } else {
                 GravarLog.gravaAlerta(EmailDAO.class.getName() + ": " + cResult + ": erro ao cadastrar novo usuário.");
                 cstmt.close();
                 return 3;
@@ -85,8 +88,8 @@ public class EmailDAO {
         }
     }
 
-    public boolean deleta(Email email){
-        try{
+    public boolean deleta(Email email) {
+        try {
             CallableStatement cstmt = this.conn.prepareCall("begin APPP_DEL_USER_EMAIL(?,?,?,?); end;");
 
             cstmt.setLong(1, email.getCd_user());
@@ -98,20 +101,100 @@ public class EmailDAO {
 
             int cResult = (int) cstmt.getLong(4);
 
-            if (cResult == 1){
+            if (cResult == 1) {
                 GravarLog.gravaInformacao(EmailDAO.class.getName() + ": email removido com sucesso");
                 cstmt.close();
                 return true;
-            }else{
-                GravarLog.gravaAlerta(EmailDAO.class.getName() + ": problema durante a remoção: retorno " + cResult );
+            } else {
+                GravarLog.gravaAlerta(EmailDAO.class.getName() + ": problema durante a remoção: retorno " + cResult);
                 cstmt.close();
                 return false;
             }
-        }catch(SQLException e){
+        } catch (SQLException e) {
             GravarLog.gravaErro(EmailDAO.class.getName() + ": erro na execucao do metodo delete: " + e.getSQLState() + " : " + e.getMessage());
             return false;
         }
     }
+
+    /**
+     * Busca email cadastrado
+     *
+     * @param email
+     * @return lista de emails
+     */
+    public List<Email> seliona(Email email) {
+        List<Email> emails = new ArrayList<Email>();
+        try {
+            CallableStatement cstmt = this.conn.prepareCall("begin APPP_SEL_USER_EMAIL(?,?,?,?); end;");
+
+            if (email.getCd_user() > 0) {
+                cstmt.setLong(1, email.getCd_user());
+            } else {
+                cstmt.setNull(1, OracleTypes.NUMBER);
+            }
+            cstmt.setString(3, email.getNm_email());
+            cstmt.setString(3, email.getTp_email());
+            cstmt.registerOutParameter(4, OracleTypes.CURSOR);
+
+            cstmt.execute();
+
+            ResultSet rs = (ResultSet) cstmt.getObject(4);
+
+            while (rs.next()) {
+                Email e = new Email();
+
+                e.setCd_user(rs.getLong("CD_USER"));
+                e.setNm_email(rs.getString("NM_EMAIL"));
+                e.setTp_email(rs.getString("TP_EMAIL"));
+
+                emails.add(e);
+            }
+
+            rs.close();
+            cstmt.close();
+
+            GravarLog.gravaInformacao(EmailDAO.class.getName() + ": pesquisa no banco de dados realizada com sucesso");
+
+            return emails;
+        } catch (SQLException e) {
+            GravarLog.gravaErro(EmailDAO.class.getName() + ": erro na execucao do metodo seleciona: " + e.getSQLState() + " : " + e.getMessage());
+            return null;
+        }
+
+    }
+
+    /**
+     * Atualiza cadastro de email
+     * @param email
+     * @return 1 para Ok - 0 para NOk
+     */
+    public int atualiza(Email email) {
+        try {
+            CallableStatement cstmt = this.conn.prepareCall("begin APPP_UPD_USER_EMAIL(?,?,?,?); end;");
+
+            cstmt.setLong(1, email.getCd_user());
+            cstmt.setString(2, email.getNm_email());
+            cstmt.setString(3, email.getTp_email());
+            cstmt.registerOutParameter(4, OracleTypes.NUMBER);
+
+            cstmt.execute();
+
+            int cResult = (int) cstmt.getLong(4);
+
+            if (cResult != 1) {
+                GravarLog.gravaErro(EmailDAO.class.getName() + ": erro na atualização");
+                return 0;
+            } else {
+                GravarLog.gravaInformacao(EmailDAO.class.getName() + ": atualizado com sucesso");
+                return 1;
+            }
+        } catch (SQLException e) {
+            GravarLog.gravaErro(EmailDAO.class.getName() + ": erro na execucao do metodo atualiza: " + e.getSQLState() + " : " + e.getMessage());
+            return 0;
+        }
+
+    }
+
     /**
      * Metodo para fechar o banco de dados da classe
      */
