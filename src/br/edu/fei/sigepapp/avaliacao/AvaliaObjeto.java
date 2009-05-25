@@ -4,18 +4,14 @@ package br.edu.fei.sigepapp.avaliacao;
 import br.edu.fei.sigepapp.bancodedados.ConnectionFactory;
 import br.edu.fei.sigepapp.log.GravarLog;
 import java.lang.Exception;
-import java.net.URI;
-import java.net.URL;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import javax.swing.text.html.HTML;
 import oracle.jdbc.OracleTypes;
 
 import org.apache.commons.mail.EmailException;  
 import org.apache.commons.mail.HtmlEmail;
-import org.apache.commons.mail.SimpleEmail;
 
 /**
  *
@@ -134,8 +130,10 @@ public class AvaliaObjeto {
                     break;
 
             }
+            this.conn.close();
 
         }catch(SQLException e){
+            this.conn.close();
             GravarLog.gravaErro(AvaliaObjeto.class.getName() + ": erro ao realizar avaliação: " + e.getSQLState() + " : " + e.getMessage());
         }
         
