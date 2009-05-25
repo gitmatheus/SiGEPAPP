@@ -5,9 +5,10 @@
 *                      : 1 = Permanece, 2 = Não há quantidade mínima para avaliação, 3 = Bloqueio
 * Author               : WeeDo
 * History              : 28/04/2009 - Andrey Araujo Masiero
+*		       : 25/05/2009 - Guilherme Lopes - Transformado em Procedure.
 ***************************************************************************************************/
-CREATE OR REPLACE FUNCTION APPP_FN_AVALIA_QUEST
-(pCD_OBJ in NUMBER, pCD_USER in NUMBER) RETURN LONG IS
+CREATE OR REPLACE PROCEDURE APPP_PROC_AVALIA_QUEST
+(pCD_OBJ in NUMBER, pCD_USER in NUMBER, pRetorno out NUMBER) IS
   Result LONG;
   pQTDE_AVALIACOES number := 0;
   pMEDIA number := 0;
@@ -43,6 +44,6 @@ BEGIN
   WHERE CD_OBJETO = pCD_OBJ  AND
         CD_USER   = pCD_USER;
 
-  RETURN(Result);
-END APPP_FN_AVALIA_QUEST;
+  pRetorno:=Result;
+END APPP_PROC_AVALIA_QUEST;
 /

@@ -3,7 +3,6 @@ package br.edu.fei.sigepapp.avaliacao;
 
 import br.edu.fei.sigepapp.bancodedados.ConnectionFactory;
 import br.edu.fei.sigepapp.log.GravarLog;
-import java.lang.Exception;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -28,16 +27,16 @@ public class AvaliaObjeto {
 
     public void executaAcoes(long pCD_OBJ, long pCD_USER) throws Exception{
         try{
-            CallableStatement cstmt = this.conn.prepareCall("{? = call APPP_FN_AVALIA_QUEST(?,?)}");
+            CallableStatement cstmt = this.conn.prepareCall("begin APPP_PROC_AVALIA_QUEST(?,?,?); end;");
 
-            cstmt.registerOutParameter(1, OracleTypes.NUMBER);
-            cstmt.setLong(2, pCD_OBJ);
-            cstmt.setLong(3, pCD_USER);
+            cstmt.registerOutParameter(3, OracleTypes.NUMBER);
+            cstmt.setLong(1, pCD_OBJ);
+            cstmt.setLong(2, pCD_USER);
 
             cstmt.execute();
 
-            int cResult = (int) cstmt.getLong(1);
-
+            int cResult = (int) cstmt.getLong(3);
+            cResult=3;
             switch(cResult){
                 case 1:
                     GravarLog.gravaInformacao(AvaliaObjeto.class.getName() + ": nota da avaliação do APPP acima do limite de bloqueio.");
@@ -68,7 +67,7 @@ public class AvaliaObjeto {
                     if (tamRS != 1){
                         throw new Exception();
                     }
-
+                    rs.close();
                     cstmt = this.conn.prepareCall("begin APPP_SEL_USERS(?,?,?,?,?,?,?,?,?,?,?,?,?); end;");
 
                     cstmt.setLong(1, pCD_USER);
@@ -99,8 +98,8 @@ public class AvaliaObjeto {
                     if (tamRS != 1){
                         throw new Exception();
                     }
-
-                    cstmt = this.conn.prepareCall("begin APPP_SEL_OBJETO(?,?,?,?,?,?,?,?); end;");
+                    rs.close();
+                    cstmt = this.conn.prepareCall("begin APPP_SEL_OBJETO(?,?,?,?,?,?,?,?,?); end;");
 
                     cstmt.setLong(1, pCD_OBJ);
                     cstmt.setNull(2, OracleTypes.VARCHAR);
@@ -109,11 +108,12 @@ public class AvaliaObjeto {
                     cstmt.setNull(5, OracleTypes.DATE);
                     cstmt.setNull(6, OracleTypes.DATE);
                     cstmt.setNull(7, OracleTypes.NUMBER);
-                    cstmt.registerOutParameter(8, OracleTypes.CURSOR);
+                    cstmt.setNull(8, OracleTypes.NUMBER);
+                    cstmt.registerOutParameter(9, OracleTypes.CURSOR);
 
                     cstmt.execute();
 
-                    rs = (ResultSet) cstmt.getObject(7);
+                    rs = (ResultSet) cstmt.getObject(9);
                     tamRS = 0;
 
                     String nomeObj = new String();
@@ -156,13 +156,13 @@ public class AvaliaObjeto {
             email.setTextMsg("Seu servidor de e-mail não suporta mensagem HTML"); // configure uma mensagem alternativa caso o servidor não suporte HTML
             email.setHostName("smtp.gmail.com"); // o servidor SMTP para envio do e-mail
             email.addTo(emailUsuario, nomeUsuario); //destinatário
-            email.setFrom("teste@gmail.com", "SIGEPAPP - Sistema de Gerenciamento de Patterns, Anti-Patterns e Personas"); // remetente
+            email.setFrom("no.reply.sigepapp@gmail.com", "SIGEPAPP - Sistema de Gerenciamento de Patterns, Anti-Patterns e Personas"); // remetente
             email.setSubject("[SIGEPAPP] Bloqueio de Documento APPP"); // assunto do e-mail
             email.setMsg("<font> Caro(a)" + nomeUsuario+ ",<br /> Seu documento APPP " +
                     "<a href='/sigepapp/viewAPPP.jsp?cd_objeto=" + codigoObj + "'>" + nomeObj + "</a>, " +
                     "foi indisponibilizado devido a baixa nota de avaliação.<br /><br />Atenciosamente,<br />" +
                     "Equipe Sigepapp</font>"); //conteudo do e-mail
-            email.setAuthentication("teste", "xxxxx");
+            email.setAuthentication("no.reply.sigepapp@gmail.com", "apppsigepapp");
             email.setSmtpPort(465);
             email.setSSL(true);
             email.setTLS(true);
