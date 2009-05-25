@@ -105,7 +105,7 @@ $(document).ready(function(){
 });
 
 function carregaUsuario(){
-    
+    $.get("GetUsuarioServlet", function(xml){});
 }
 
 function verificaExisteLogin(){
