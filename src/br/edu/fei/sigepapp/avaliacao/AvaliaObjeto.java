@@ -126,11 +126,15 @@ public class AvaliaObjeto {
                         throw new Exception();
                     }
 
+                    rs.close();
+                    cstmt.close();
+                    this.conn.close();
+
                     enviaEmail(nomeUsuario,emailUsuario,nomeObj,pCD_OBJ);
                     break;
 
             }
-            this.conn.close();
+            
 
         }catch(SQLException e){
             this.conn.close();
