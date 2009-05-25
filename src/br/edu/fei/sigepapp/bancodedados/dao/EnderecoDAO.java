@@ -3,6 +3,7 @@ package br.edu.fei.sigepapp.bancodedados.dao;
 import br.edu.fei.sigepapp.bancodedados.ConnectionFactory;
 import br.edu.fei.sigepapp.bancodedados.model.Endereco;
 import br.edu.fei.sigepapp.log.GravarLog;
+import com.sun.net.ssl.internal.ssl.Debug;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -122,11 +123,11 @@ public class EnderecoDAO {
             while (rs.next()) {
                 Endereco e = new Endereco();
 
-                endereco.setCd_user(rs.getLong("CD_USER"));
-                endereco.setNr_cep(rs.getLong("NR_CEP"));
-                endereco.setNr_numero(rs.getLong("NR_NUMERO"));
-                endereco.setDs_complemento(rs.getString("DS_COMPLEMENTO"));
-                endereco.setTp_endereco(rs.getString("TP_ENDERECO"));
+                e.setCd_user(rs.getLong("CD_USER"));
+                e.setNr_cep(rs.getLong("NR_CEP"));
+                e.setNr_numero(rs.getLong("NR_NUMERO"));
+                e.setDs_complemento(rs.getString("DS_COMPLEMENTO"));
+                e.setTp_endereco(rs.getString("TP_ENDERECO"));
 
                 enderecos.add(e);
             }

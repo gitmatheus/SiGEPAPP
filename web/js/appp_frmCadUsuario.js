@@ -105,7 +105,12 @@ $(document).ready(function(){
 });
 
 function carregaUsuario(){
-    $.get("GetUsuarioServlet", function(xml){});
+    $.post("GetUsuarioServlet",{}, function(xml){
+        $("#frmCadUserEmail").val($("Email",xml).text());
+        $("#frmCadUserNome").val($("PrimNome",xml).text());
+        $("#frmCadUserSobrenome").val($("SobreNome",xml).text());
+        $("#frmCadUserDataNasc").val($("DataNasc",xml).text());
+    });
 }
 
 function verificaExisteLogin(){
@@ -330,25 +335,25 @@ $(function(){
     });
 
     $("#alert").dialog({
-            width: 300,
-            modal: true,
-            autoOpen: false,
-            show: 'slide',
-            hide: 'slide',
-            draggable: false,
-            buttons: {
-                "Ok": function(){
-                    $(this).dialog("close");
-                }
-            },
-            open: function(){
-                $(this).html(msgAlerta);
-            },
-            close: function(){
-                $("#alert").html("");
-                msgAlerta = "";
+        width: 300,
+        modal: true,
+        autoOpen: false,
+        show: 'slide',
+        hide: 'slide',
+        draggable: false,
+        buttons: {
+            "Ok": function(){
+                $(this).dialog("close");
             }
-        });
+        },
+        open: function(){
+            $(this).html(msgAlerta);
+        },
+        close: function(){
+            $("#alert").html("");
+            msgAlerta = "";
+        }
+    });
 
     $("#envia_cad_user").click(function(){
         EnviaCadUsuario();

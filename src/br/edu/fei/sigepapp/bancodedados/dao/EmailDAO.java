@@ -132,7 +132,7 @@ public class EmailDAO {
             } else {
                 cstmt.setNull(1, OracleTypes.NUMBER);
             }
-            cstmt.setString(3, email.getNm_email());
+            cstmt.setString(2, email.getNm_email());
             cstmt.setString(3, email.getTp_email());
             cstmt.registerOutParameter(4, OracleTypes.CURSOR);
 

@@ -50,9 +50,8 @@ public class GetUsuarioServlet extends HttpServlet {
             usuario.setCd_user(cod_usuario);
             UsuarioDAO usuarioDao = new UsuarioDAO();
             Collection<Usuario> usuarios = usuarioDao.seleciona(usuario);
+            usuarioDao.fechaConexao();
             if (usuarios.size() == 1) {
-                Debug.println("Passo", "1");
-                usuarioDao.fechaConexao();
                 for (Usuario u : usuarios) {
                     usuario.setCd_user(u.getCd_user());
                     usuario.setNm_prim_nome(u.getNm_prim_nome());
@@ -67,9 +66,8 @@ public class GetUsuarioServlet extends HttpServlet {
                 endereco.setCd_user(usuario.getCd_user());
                 EnderecoDAO enderecoDao = new EnderecoDAO();
                 Collection<Endereco> enderecos = enderecoDao.seleciona(endereco);
+                enderecoDao.fechaConexao();
                 if (enderecos.size() == 1) {
-                    Debug.println("Passo", "2");
-                    enderecoDao.fechaConexao();
                     for (Endereco end : enderecos) {
                         endereco.setCd_user(end.getCd_user());
                         endereco.setNr_cep(end.getNr_cep());
@@ -78,13 +76,10 @@ public class GetUsuarioServlet extends HttpServlet {
                         endereco.setTp_endereco(end.getTp_endereco());
                     }
                     CodigoPostalDAO cpDao = new CodigoPostalDAO();
-                    Debug.println("CEP", Long.toString(endereco.getNr_cep()));
                     codigoPostal.setCd_cep(endereco.getNr_cep());
                     Collection<CodigoPostal> cpostais = cpDao.seleciona(codigoPostal);
-                    Debug.println("Tamanho da lista de codigos postais", Integer.toString(cpostais.size()));
+                    cpDao.fechaConexao();
                     if (cpostais.size() == 1) {
-                        Debug.println("Passo", "3");
-                        cpDao.fechaConexao();
                         for (CodigoPostal cp : cpostais) {
                             codigoPostal.setCd_cep(cp.getCd_cep());
                             codigoPostal.setNm_rua(cp.getNm_rua());
@@ -93,9 +88,8 @@ public class GetUsuarioServlet extends HttpServlet {
                         CidadeDAO cidadeDao = new CidadeDAO();
                         cidade.setCd_cidade(codigoPostal.getCd_cidade());
                         Collection<Cidade> cidades = cidadeDao.APPP_SEL_CIDADE(cidade);
+                        cidadeDao.fechaConexao();
                         if (cidades.size() == 1) {
-                            Debug.println("Passo", "4");
-                            cidadeDao.fechaConexao();
                             for (Cidade c : cidades) {
                                 cidade.setCd_cidade(c.getCd_cidade());
                                 cidade.setNm_cidade(c.getNm_cidade());
@@ -105,9 +99,8 @@ public class GetUsuarioServlet extends HttpServlet {
                             EstadoDAO estadoDao = new EstadoDAO();
                             estado.setCd_estado(cidade.getCd_estado());
                             Collection<Estado> estados = estadoDao.APPP_SEL_ESTADO(estado);
+                            estadoDao.fechaConexao();
                             if (estados.size() == 1) {
-                                Debug.println("Passo", "5");
-                                estadoDao.fechaConexao();
                                 for (Estado e : estados) {
                                     estado.setCd_estado(e.getCd_estado());
                                     estado.setNm_estado(e.getNm_estado());
@@ -116,9 +109,8 @@ public class GetUsuarioServlet extends HttpServlet {
                                 EmailDAO emailDao = new EmailDAO();
                                 email.setCd_user(usuario.getCd_user());
                                 Collection<Email> emails = emailDao.seliona(email);
+                                emailDao.fechaConexao();
                                 if (emails.size() == 1) {
-                                    Debug.println("Passo", "6");
-                                    emailDao.fechaConexao();
                                     for (Email e : emails) {
                                         email.setCd_user(e.getCd_user());
                                         email.setNm_email(e.getNm_email());
@@ -127,9 +119,8 @@ public class GetUsuarioServlet extends HttpServlet {
                                     TelefoneDAO telefoneDao = new TelefoneDAO();
                                     telefone.setCd_user(usuario.getCd_user());
                                     Collection<Telefone> telefones = telefoneDao.seleciona(telefone);
+                                    telefoneDao.fechaConexao();
                                     if (telefones.size() == 1) {
-                                        Debug.println("Passo", "7");
-                                        telefoneDao.fechaConexao();
                                         for (Telefone t : telefones) {
                                             telefone.setCd_user(t.getCd_user());
                                             telefone.setNr_ddi(t.getNr_ddi());
@@ -146,7 +137,7 @@ public class GetUsuarioServlet extends HttpServlet {
                                         out.println("<Complemento>" + endereco.getDs_complemento() + "</Complemento>");
                                         out.println("<CdEstado>" + estado.getCd_estado() + "</CdEstado>");
                                         out.println("<Estado>" + estado.getSg_sigla() + " - " + estado.getNm_estado() + "</Estado>");
-                                        out.println("<CdCidade>" + cidade.getCd_cidade() + "</CdCidade");
+                                        out.println("<CdCidade>" + cidade.getCd_cidade() + "</CdCidade>");
                                         out.println("<Cidade>" + cidade.getNm_cidade() + "</Cidade>");
                                         out.println("<Telefone>" + telefone.getNr_ddd() + telefone.getNr_telefone() + "</Telefone>");
                                         out.println("<Msn>" + usuario.getNm_msn() + "</Msn>");
@@ -154,27 +145,21 @@ public class GetUsuarioServlet extends HttpServlet {
                                         out.println("<AreaInteresse>" + usuario.getDs_area_interesse() + "</AreaInteresse>");
                                         out.println("<erro>0</erro>");
                                     } else {
-                                        Debug.println("PassoErro", "7");
                                         out.println("<erro>1</erro>");
                                     }
                                 } else {
-                                    Debug.println("PassoErro", "6");
                                     out.println("<erro>1</erro>");
                                 }
                             } else {
-                                Debug.println("PassoErro", "5");
                                 out.println("<erro>1</erro>");
                             }
                         } else {
-                            Debug.println("PassoErro", "4");
                             out.println("<erro>1</erro>");
                         }
                     } else {
-                        Debug.println("PassoErro", "3");
                         out.println("<erro>1</erro>");
                     }
                 } else {
-                    Debug.println("PassoErro", "2");
                     out.println("<erro>1</erro>");
                 }
 
