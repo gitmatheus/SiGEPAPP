@@ -4,6 +4,7 @@
  */
 package br.edu.fei.sigepapp.servlet;
 
+import br.edu.fei.sigepapp.avaliacao.AvaliaObjeto;
 import br.edu.fei.sigepapp.bancodedados.dao.QuestPreenchDAO;
 import br.edu.fei.sigepapp.bancodedados.dao.RelacPergRespDAO;
 import br.edu.fei.sigepapp.bancodedados.dao.Resp_Quest_PreenchDAO;
@@ -87,29 +88,37 @@ public class CadQuestPreenchServlet extends HttpServlet {
             QuestPreenchDAO preencheDao = new QuestPreenchDAO();
 
             QuestPreench questionario = new QuestPreench();
-            out.print("asdsadlç");
+            
             questionario.setCd_objeto(Long.parseLong(request.getParameter("CD_OBJ")));
             questionario.setCd_user(Long.parseLong(request.getSession().getAttribute("codigo_usuario").toString()));
             questionario.setVl_avaliacao(Soma);
             questionario.setDt_aplicacao(new Date(Calendar.getInstance().getTimeInMillis()));
-            out.print("Vou inserir");
+            
             long retorno = preencheDao.APPP_INS_QUEST_PREENCH(questionario);
-            out.print("Ja inseri");
+            boolean ins_respostas=true;
             if (retorno > 1) {
-                out.print("Ok");
+                
                 Resp_Quest_PreenchDAO quest_PreenchDAO = new Resp_Quest_PreenchDAO();
                 for (int i = 0; i < listaAtributos.size() - 1; i++) {
                     Resp_Quest_Preench respostas_quest = new Resp_Quest_Preench();
                     respostas_quest.setCd_quest_preench(retorno);
                     respostas_quest.setCd_pergunta(list_perguntas.get(i));
                     respostas_quest.setCd_resposta(list_respostas.get(i));
-                    quest_PreenchDAO.APPP_INS_RESP_QUEST_PREENCH(respostas_quest);
+                    if(quest_PreenchDAO.APPP_INS_RESP_QUEST_PREENCH(respostas_quest)==false){
+                        ins_respostas=false;
+                    }
                 }
-                //response.sendRedirect("/frmAvaliacao2.jsp");
-
                 quest_PreenchDAO.fechaConexao();
+
+                new AvaliaObjeto().executaAcoes(Long.parseLong(request.getParameter("CD_OBJ")), Long.parseLong(request.getSession().getAttribute("codigo_usuario").toString()));
+
+                if(ins_respostas){
+                response.sendRedirect("frmAvaliacao2.jsp");
+                }else{
+                response.sendRedirect("frmAvaliacao2.jsp?erro=1");
+                }
             } else {
-                out.print("fudeu!");
+                response.sendRedirect("frmAvaliacao2.jsp?erro=1");
             }
             preencheDao.fechaConexao();
 
