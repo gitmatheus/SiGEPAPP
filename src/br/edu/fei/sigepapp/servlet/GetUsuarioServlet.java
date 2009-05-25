@@ -11,7 +11,9 @@ import com.sun.net.ssl.internal.ssl.Debug;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.Collection;
+import java.util.Date;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -56,6 +58,7 @@ public class GetUsuarioServlet extends HttpServlet {
                     usuario.setCd_user(u.getCd_user());
                     usuario.setNm_prim_nome(u.getNm_prim_nome());
                     usuario.setNm_ult_nome(u.getNm_ult_nome());
+                    SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
                     usuario.setDt_nasc(u.getDt_nasc());
                     usuario.setNr_nota(u.getNr_nota());
                     usuario.setDt_cadastro(u.getDt_cadastro());
