@@ -1,5 +1,5 @@
-
 $(document).ready(function(){
+
     carregaListaPerguntas();
 
     $("#frmCadQuestionarioEnviaPerg").click(function(){
@@ -10,25 +10,30 @@ $(document).ready(function(){
 });
 
 function carregaListaPerguntas(){
-        $("#FrmCadQuestionarioComboPerg").empty();
-        $.post("GetPerguntaServlet", {},
+    $("#FrmCadQuestionarioComboPerg").empty();
+    $.ajaxSetup({
+        async: false
+    });
+    $.post("GetPerguntaServlet", {},
         function(retorno, status){
             $(retorno).find("Pergunta").each(
-            function(indice, conteudo){
-                //$(conteudo).find("Cod").text();
-                $("#FrmCadQuestionarioComboPerg").append("<option>"+$(conteudo).find("DescPergunta").text()+"</option>");
-            });
-       });
-    }
+                function(indice, conteudo){
+                    //$(conteudo).find("Cod").text();
+                    $("#FrmCadQuestionarioComboPerg").append("<option>"+$(conteudo).find("DescPergunta").text()+"</option>");
+                });
+        });
+}
 
 function LimpaDescPergunta(){
-       $("#frmCadQuestionarioDescPerg").val('');
+    $("#frmCadQuestionarioDescPerg").val('');
 }
 
 function EnviaCadPergunta(){
     var cd_pergunta = 1;
     var ds_pergunta = $("#frmCadQuestionarioDescPerg").val();
-
+    $.ajaxSetup({
+        async: false
+    });
     $.post("CadPerguntaServlet", {
         cd_pergunta: cd_pergunta,
         ds_pergunta: ds_pergunta

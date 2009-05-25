@@ -55,7 +55,7 @@ public class QuestPreenchDAO {
 
             //Seta os valores para os pontos de interrogação indexados pela ordem deles na string
             cstmt.setLong(1, questPreench.getCd_quest_preench());
-            
+
             cstmt.setLong(2, questPreench.getVl_avaliacao());
             cstmt.setString(3, questPreench.getDs_proj_aplic());
             cstmt.setLong(4, questPreench.getCd_user());
@@ -69,15 +69,12 @@ public class QuestPreenchDAO {
             long cResult = cstmt.getLong(6);
 
             //Grava log com a informação de sucesso
-            if (cResult == 1) {
+            if (cResult > 1) {
                 GravarLog.gravaInformacao(QuestPreenchDAO.class.getName() + ": inserção no banco de dados do questionario preenchido realizado com sucesso");
-                cstmt.close();
-                return 1;
             } else if (cResult < 1) {
                 GravarLog.gravaInformacao(QuestPreenchDAO.class.getName() + ": " + cResult + ": erro ao cadastrar questionario preenchido no banco de dados");
-                cstmt.close();
-                return 2;
             }
+            cstmt.close();
             return cResult;
 
         } catch (SQLException e) {

@@ -4,6 +4,7 @@
 * Author                    : WeeDo 
 * History                   : 24/03/2009 - Matheus Goncalves
 *                           : 06/05/2009 - Matheus Goncalves - Adicao de campos CD_USER e CD_OBJETO
+*						    : 24/05/2009 - Guilherme Wachs Lopes - Sequence
 ***********************************************************************************************************************/
 
 -- Create table
@@ -48,6 +49,22 @@ alter table APPP_TB_QUEST_PREENCH
 grant select, insert, UPDATE, delete, references, alter, index on APPP_TB_QUEST_PREENCH to admin;
 grant select, insert, update, delete, references on APPP_TB_QUEST_PREENCH to usuario;
 
- 
+ -- Create/Recreate PK_APPP_TB_RESPOSTA 
+alter table APPP_TB_RESPOSTA
+  add constraint PK_APPP_TB_RESPOSTA primary key (CD_RESPOSTA);
+
+ -- Grant/Revoke object privileges 
+grant select, insert, UPDATE, delete, references, alter, index on APPP_TB_RESPOSTA to admin;
+grant select, insert, update, delete, references on APPP_TB_RESPOSTA to usuario;
+
+/
+
+   -- Sequences
+  create sequence APPP_SEQ_QUEST_PREE
+  minvalue 1
+  maxvalue 9999999999
+  start with 1
+  increment by 1;
+  
 
 /

@@ -42,5 +42,29 @@ public class Relac_Perg_Resp {
         this.nro_valor_resp = nro_valor_resp;
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Relac_Perg_Resp other = (Relac_Perg_Resp) obj;
+        if (this.cd_pergunta != other.cd_pergunta) {
+            return false;
+        }
+        if (this.cd_resposta != other.cd_resposta) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        return hash;
+    }
+
 
 }

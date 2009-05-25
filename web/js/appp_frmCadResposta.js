@@ -9,14 +9,23 @@ $(document).ready(function(){
 
 function carregaListaRespostas(){
     
-    $("#frmCadResp select").empty();
+    $.ajaxSetup({
+        async: false
+        });
     $.post("GetRespostaServlet", {},
         function(retorno, estado){
-            $(retorno).find("Resposta").each(function(indice, conteudo){
-                $("#frmCadResp select").each(function(indice2, combotemp){
-                    $(combotemp).append("<option>"+$(conteudo).find("DescResposta").text().toString()+"</option>");
+            $("#frmCadResp select").each(function(indice2, combotemp){
+                var selecionado= $(combotemp).find("option:selected").text();
+                $(combotemp).empty();
+                $(combotemp).append("<option> </option>");
+                $(retorno).find("Resposta").each(function(indice, conteudo){
+                    if($.trim($(conteudo).find("DescResposta").text().toString()) ==$.trim(selecionado)){
+                        $(combotemp).append("<option selected>"+$(conteudo).find("DescResposta").text().toString()+"</option>");
+                    }else{
+                        $(combotemp).append("<option>"+$(conteudo).find("DescResposta").text().toString()+"</option>");
+                    }
                 });
-                    
+                
             });
         });
         
@@ -29,7 +38,9 @@ function LimpaDescRespostas(){
 function EnviaCadResposta(){
     var cd_resposta = 1;
     var ds_resposta = $("#frmCadQuestionarioDescResp").val();
-
+    $.ajaxSetup({
+        async: false
+    });
     $.post("CadRespostaServlet", {
         cd_resposta: cd_resposta,
         ds_resposta: ds_resposta

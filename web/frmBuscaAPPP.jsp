@@ -1,5 +1,5 @@
 <%        /**
-         * @{#}cabecalho.jsp 0.01 09/01/18
+         * @{#}frmBuscaAPPP.jsp 0.01 09/01/18
          *
          * Copyright (c) 2009 Equipe SiGePAPP
          *

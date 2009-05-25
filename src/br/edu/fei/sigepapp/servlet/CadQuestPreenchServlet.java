@@ -1,112 +1,158 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package br.edu.fei.sigepapp.servlet;
 
 import br.edu.fei.sigepapp.bancodedados.dao.QuestPreenchDAO;
 import br.edu.fei.sigepapp.bancodedados.dao.RelacPergRespDAO;
+import br.edu.fei.sigepapp.bancodedados.dao.Resp_Quest_PreenchDAO;
+import br.edu.fei.sigepapp.bancodedados.dao.RespostaDAO;
 import br.edu.fei.sigepapp.bancodedados.model.QuestPreench;
 import br.edu.fei.sigepapp.bancodedados.model.Relac_Perg_Resp;
-import br.edu.fei.sigepapp.log.GravarLog;
+import br.edu.fei.sigepapp.bancodedados.model.Resp_Quest_Preench;
+import br.edu.fei.sigepapp.bancodedados.model.Resposta;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.SQLException;
+import java.sql.Date;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Enumeration;
 import java.util.List;
 import java.util.Vector;
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import oracle.jdbc.oracore.OracleTypeDATE;
 
 /**
  *
- * @author Tom Mix
- * @version 0.12 Abr 18, 2009
+ * @author lopespt
  */
 public class CadQuestPreenchServlet extends HttpServlet {
 
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-
-        response.setContentType("text/xml");
+    /** 
+     * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        response.setContentType("text/plain;charset=UTF-8");
         response.setHeader("Cache-Control", "no-cache");
-        PrintWriter writer = response.getWriter();
-        boolean inserido = false;
-        boolean erro = false;
-        QuestPreench questPreench = new QuestPreench();
+        PrintWriter out = response.getWriter();
+        Enumeration NomesAtributos;
+        List<String> listaAtributos = new ArrayList<String>();
         SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
 
         try {
-            RelacPergRespDAO relacDAO = new RelacPergRespDAO();
-
-            List<Long> perguntas = new Vector<Long>();
-            List<Long> respostas = new Vector<Long>();
-            List<Long> pesos = new Vector<Long>();
 
 
-            //Pegando parametros
-            //questPreench.setCd_quest_preench(Long.parseLong(request.getParameter("cd_quest_preench")));
-            perguntas = (List<Long>) request.getParameterNames();
+            NomesAtributos = request.getParameterNames();
 
-            for (Long cdpergunta : perguntas) {
-                pesos.add(Long.parseLong(request.getParameter(cdpergunta.toString())));
+            RelacPergRespDAO respostaDao = new RelacPergRespDAO();
+
+
+            List<Long> list_perguntas = new ArrayList<Long>();
+            List<Long> list_respostas = new ArrayList<Long>();
+            List<Long> list_pesos = new ArrayList<Long>();
+
+            while (NomesAtributos.hasMoreElements()) {
+                listaAtributos.add(NomesAtributos.nextElement().toString());
             }
 
-            for (int i = 0; i < pesos.size(); i++) {
-                Relac_Perg_Resp r = relacDAO.APPP_SEL_RELAC_PERG_RESP(new Relac_Perg_Resp(perguntas.get(i), 0, pesos.get(i))).get(0);
-                respostas.add(r.getCd_resposta());
+            for (int i = listaAtributos.size() - 2; i >= 0; i--) {
+                list_perguntas.add(Long.parseLong(listaAtributos.get(i)));
             }
 
-
-
-            //respostas
-
-            pesos = (List<Long>) request.getParameterNames();
-
-            long notaFinal = pesos.get(0);
-
-            for (int i = 1; i < perguntas.size(); i++) {
-                notaFinal = (notaFinal + pesos.get(i)) / 2l;
+            for (Long cd_pergunta : list_perguntas) {
+                list_respostas.add(Long.parseLong(request.getParameter(cd_pergunta.toString())));
+                //list_pesos.add(Long.parseLong(request.getParameter("valor_resp"+cd_pergunta.toString())));
             }
 
-            questPreench.setVl_avaliacao(notaFinal);
-            questPreench.setDs_proj_aplic(request.getParameter("ds_proj_aplic"));
-            questPreench.setCd_user(Long.parseLong(request.getSession().getAttribute("codigo_usuario").toString()));
-            questPreench.setCd_objeto(Long.parseLong(request.getParameter("CD_OBJ")));
+            List<Relac_Perg_Resp> pesquisaResp = respostaDao.APPP_SEL_RELAC_PERG_RESP(new Relac_Perg_Resp());
+            respostaDao.fechaConexao();
+            Long Soma = 0l;
+            for (int i = 0; i < listaAtributos.size() - 1; i++) {
+                list_pesos.add(pesquisaResp.get(
+                        pesquisaResp.indexOf(new Relac_Perg_Resp(list_perguntas.get(i), list_respostas.get(i), 0))).getNro_valor_resp());
+                Soma += list_pesos.get(i);
+                out.println(list_perguntas.get(i) + "::" + list_respostas.get(i) + "->" + list_pesos.get(i));
+            }
 
+            QuestPreenchDAO preencheDao = new QuestPreenchDAO();
 
-            QuestPreenchDAO questPreenchDAO = new QuestPreenchDAO();
-            long c = 0;
-            if (!erro) {
-                c = questPreenchDAO.APPP_INS_QUEST_PREENCH(questPreench);
-                if (c == 1) {
-                    erro = false;
-                    inserido = true;
-                    questPreenchDAO.fechaConexao();
-                } else {
-                    erro = true;
-                    questPreenchDAO.fechaConexao();
+            QuestPreench questionario = new QuestPreench();
+            out.print("asdsadlç");
+            questionario.setCd_objeto(Long.parseLong(request.getParameter("CD_OBJ")));
+            questionario.setCd_user(Long.parseLong(request.getSession().getAttribute("codigo_usuario").toString()));
+            questionario.setVl_avaliacao(Soma);
+            questionario.setDt_aplicacao(new Date(Calendar.getInstance().getTimeInMillis()));
+            out.print("Vou inserir");
+            long retorno = preencheDao.APPP_INS_QUEST_PREENCH(questionario);
+            out.print("Ja inseri");
+            if (retorno > 1) {
+                out.print("Ok");
+                Resp_Quest_PreenchDAO quest_PreenchDAO = new Resp_Quest_PreenchDAO();
+                for (int i = 0; i < listaAtributos.size() - 1; i++) {
+                    Resp_Quest_Preench respostas_quest = new Resp_Quest_Preench();
+                    respostas_quest.setCd_quest_preench(retorno);
+                    respostas_quest.setCd_pergunta(list_perguntas.get(i));
+                    respostas_quest.setCd_resposta(list_respostas.get(i));
+                    quest_PreenchDAO.APPP_INS_RESP_QUEST_PREENCH(respostas_quest);
                 }
+                //response.sendRedirect("/frmAvaliacao2.jsp");
+
+                quest_PreenchDAO.fechaConexao();
+            } else {
+                out.print("fudeu!");
             }
-
-            relacDAO.fechaConexao();
-
-
-        } catch (SQLException ex) {
-            GravarLog.gravaErro(CadQuestPreenchServlet.class.getName() + ": erro SQL durante o cadastro do questionario preenchido: " + ex.getMessage());
+            preencheDao.fechaConexao();
 
         } catch (Exception e) {
-            GravarLog.gravaErro(CadQuestPreenchServlet.class.getName() + ": erro durante o cadastro do questionario preenchido: " + e.getMessage());
-            inserido = false;
-            erro = true;
+            out.print(e.getMessage()+"Erro");
+        } finally {
+            out.close();
         }
-
-
-        if (inserido) {
-            writer.println("<xml><sucesso>sim</sucesso></xml>");
-        } else {
-            writer.println("<xml><sucesso>nao</sucesso><xml>");
-        }
-        writer.flush();
-        writer.close();
-
-
     }
+
+    // <editor-fold defaultstate="collapsed" desc="Métodos HttpServlet. Clique no sinal de + à esquerda para editar o código.">
+    /** 
+     * Handles the HTTP <code>GET</code> method.
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        processRequest(request, response);
+    }
+
+    /** 
+     * Handles the HTTP <code>POST</code> method.
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        processRequest(request, response);
+    }
+
+    /** 
+     * Returns a short description of the servlet.
+     * @return a String containing servlet description
+     */
+    @Override
+    public String getServletInfo() {
+        return "Short description";
+    }// </editor-fold>
 }

@@ -20,8 +20,12 @@
          * |  Tom Mix    |  20/04/09   | Atualizacao das Steps e criacao da   |
          * |             |             | Step4 como feeback do cadastro       |
          * |------------------------------------------------------------------|
+         * | Guilherme   |  24/05/09   | Ajax async desativado                |
+         * |------------------------------------------------------------------|
          **/
 %>
+
+<%@page import="br.edu.fei.sigepapp.bancodedados.dao.*,br.edu.fei.sigepapp.bancodedados.model.*,java.util.*" %>
 
 <%@include file="cabecalho.jsp"%>
 
@@ -42,7 +46,7 @@
         <td id="titulo" style="padding-left:10px">
             <a href="#">Passo 1: Cadastro de Perguntas</a>&nbsp;>&nbsp;
             Passo 2: Cadastro de Respostas&nbsp;>&nbsp;
-            Passo 3: Associa&ccedil;&atilde;o
+            Passo 3: Confirma&ccedil;&atilde;o
         </td>
     </tr>
 
@@ -84,12 +88,11 @@
         </td>
     </tr>
 
-    <!--Botoes de sequencia ao final da pagina-->
+ <!--Botoes de sequencia ao final da pagina-->
     <tr>
         <td>
             <table align="center" border="0" width="92%" style="background-color:#ffffff;">
                 <tr>
-                    <!--Botao Avançar Passo-->
                     <td align="right" style="padding-top:10px;padding-bottom:10px">
                         <div align="right" style="width:100%">
                             <a id="linkProximo" class="navProximo ui-widget-header" href="frmCadQuestionarioStep2.jsp">

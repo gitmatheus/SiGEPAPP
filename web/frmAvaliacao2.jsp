@@ -21,6 +21,15 @@
 
 <script type="text/javascript" language="javascript" src="js/appp_frmCadResposta.js"></script>
 <script type="text/javascript">
+    $(document).ready(function(){
+
+        $("#cadQuest").click(function(){
+            $.post("cadQuestPreenchServlet", {CD_OBJ: <%= request.getParameter("CD_OBJ")%> }, function(texto,estado){
+                alert(texto);
+            });
+        });
+
+    });
 
 </script>
 
@@ -35,7 +44,7 @@
     <tr>
         <td align="center" style="padding-top:20px;">
             <fieldset title="Respostas" style="width:90%">
-                <form id="formCad" action="CadQuestPreenchServlet?CD_OBJ=<%= request.getParameter("CD_OBJ")%>" method="post">
+                <form id="frmAvaliacao2.jsp?CD_OBJ=<%= request.getParameter("CD_OBJ")%>" action="CadRelacPergRespServlet" method="post">
                     <table align="center" border="0" cellspacing="0" cellpadding="0" width="100%">
                         <tr>
                             <td align="justify" valign="middle" colspan="3" style="padding-top:5px;padding-bottom:15px">
@@ -82,7 +91,7 @@
                         </tr>
                         <tr>
                             <td align="right" style="border-top-style:solid;border-top-color:black;border-top-width:1px;border-top-color:silver;padding-top:10px;">
-                                <input class="botao" type="submit" name="" value="Enviar" id="cadQuest">
+                                <input class="botao" type="button" name="CadastraQuest" value="Enviar" onclick="return false;" id="cadQuest">
                                 <input class="botao" type="reset" name="ResetQuest" value="Limpar" id="resQuest">
                             </td>
                         </tr>

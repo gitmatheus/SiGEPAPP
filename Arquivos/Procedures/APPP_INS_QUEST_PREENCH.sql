@@ -6,6 +6,7 @@
 * History                : 06/03/2009 - Matheus Goncalves
 *                        : 06/05/2009 - Matheus Goncalves - Adicao de Campos CD_USER e CD_OBJETO
 *			             : 15/05/2009 - Guilherme Lopes	  - SYSTDATE na inclusao de Questionario
+*				 		 : 24/05/2009 - Guilherme Lopes   - Retorno do código do questionário
 ***********************************************************************************************************************/
 create or replace procedure APPP_INS_QUEST_PREENCH(pCD_QUEST_PREENCH  IN NUMBER   ,
                                                    pVL_AVALIACAO      IN NUMBER   ,
@@ -31,8 +32,8 @@ begin
 																		 pCD_OBJETO                                                
                                     );
                                     
-   vResult := 1;
    commit;
+   select CD_QUEST_PREENCH into vResult from APPP_TB_QUEST_PREENCH;
    
    EXCEPTION
      WHEN OTHERS THEN
