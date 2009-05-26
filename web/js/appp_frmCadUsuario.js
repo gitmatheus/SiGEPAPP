@@ -109,7 +109,12 @@ function carregaUsuario(){
         $("#frmCadUserEmail").val($("Email",xml).text());
         $("#frmCadUserNome").val($("PrimNome",xml).text());
         $("#frmCadUserSobrenome").val($("SobreNome",xml).text());
-        $("#frmCadUserDataNasc").val($("DataNasc",xml).text());
+        dt = $("DataNasc",xml).text();
+        $("#frmCadUserDataNasc").val(dt.substring(8, 10) + "/" + dt.substring(5, 7) + "/" + dt.substring(0, 4));
+        $("#frmCadUserEndereco").val($("Endereco",xml).text());
+        $("#frmCadUserNumEnd").val($("Nro",xml).text());
+        $("#frmCadUserEndComplemento").val($("Complemento",xml).text());
+        $("#frmCadUserCEP").val($.mask.string($("Cep",xml).text(),'99999-999'));
     });
 }
 

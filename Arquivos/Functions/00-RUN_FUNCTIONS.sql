@@ -20,7 +20,7 @@ spool /SiGEPAPP/Arquivos/Functions/LogFunctions.log
 
 @ /SiGEPAPP/Arquivos/Functions/APPP_FN_SIMILARIDADE.sql
 
-@ /SiGEPAPP/Arquivos/Functions/APPP_FN_AVALIA_QUEST.sql
+--@ /SiGEPAPP/Arquivos/Functions/APPP_FN_AVALIA_QUEST.sql
 
 SPOOL OFF
 

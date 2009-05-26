@@ -10,6 +10,7 @@
 <script type="text/javascript" src="js/jquery-ui-1.7.js" ></script>
 <script type="text/javascript" src="js/jquery.maskedinput-1.2.1.js"></script>
 <script type="text/javascript" language="javascript" src="js/i18n/ui.datepicker-pt-BR.js"></script>
+<script type="text/javascript" language="javascript" src="js/jquery.meio.mask.js"></script>
 <script type="text/javascript" language="javascript" src="js/appp_frmCadUsuario.js"></script>
 <form name="frmCadUser" method="post">
     <% if (request.getSession().getAttribute("codigo_usuario") != null && request.getSession().getAttribute("codigo_usuario") != "0") {%>

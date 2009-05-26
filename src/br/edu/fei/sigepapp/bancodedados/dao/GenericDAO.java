@@ -29,13 +29,11 @@ import br.edu.fei.sigepapp.bancodedados.ConnectionFactory;
 import br.edu.fei.sigepapp.bancodedados.model.AtributosBuscaSimilaridade;
 import br.edu.fei.sigepapp.bancodedados.model.AtributosBuscaSimilaridadePE;
 import br.edu.fei.sigepapp.bancodedados.model.Objeto;
-import br.edu.fei.sigepapp.bancodedados.model.Pattern;
 import br.edu.fei.sigepapp.log.GravarLog;
 import br.edu.fei.sigepapp.servlet.CadUsuarioServlet;
 import java.sql.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
 

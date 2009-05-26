@@ -5,6 +5,7 @@
 <script type="text/javascript" src="js/jquery-ui-1.7.js" ></script>
 <script type="text/javascript" language="javascript" src="js/i18n/ui.datepicker-pt-BR.js"></script>
 <script type="text/javascript" language="javascript" src="js/fckeditor/fckeditor.js"></script>
+<script type="text/javascript" src="js/jquery.maskedinput-1.2.1.js"></script>
 <script type="text/javascript" language="javascript">
     var cod_estrutura, pos, tam = 0, flag_relacionado = false, erroCampoVazio = false;
     var codigos_atrib = new Array();
@@ -333,6 +334,7 @@
                             strHtml += "/>";
                         }
                         strHtml += "</td><td width='20%' align='center' valign='middle'>";
+                        $("#" + nome).mask('99/99/9999');
                         break;
                 }
 

@@ -116,6 +116,7 @@ spool /SiGEPAPP/Arquivos/Procedures/LogProcedures.log
 @ /SiGEPAPP/Arquivos/Procedures/APPP_SEL_ULTIMOS_PE.sql
 @ /SiGEPAPP/Arquivos/Procedures/APPP_SEL_ULTIMOS_PA.sql
 @ /SiGEPAPP/Arquivos/Procedures/APPP_SEL_ULTIMOS_AP.sql
+@ /SiGEPAPP/Arquivos/Procedures/APPP_PROC_AVALIA_QUEST.sql
 
 SPOOL OFF
 
