@@ -46,7 +46,6 @@
                             <td colspan="3" align="center">
                                 <table border="0" width="100%">
                                     <%
-
         for (Pergunta p : listPerguntas) {
             i++;
                                     %>
@@ -82,8 +81,8 @@
                         </tr>
                         <tr>
                             <td align="right" style="border-top-style:solid;border-top-color:black;border-top-width:1px;border-top-color:silver;padding-top:10px;">
-                                <input class="botao" type="submit" name="" value="Enviar" id="cadQuest">
-                                <input class="botao" type="reset" name="ResetQuest" value="Limpar" id="resQuest">
+                                <input class="botao" type="submit" id="cadQuest">
+                                <input class="botao" type="reset" id="resQuest">
                             </td>
                         </tr>
                     </table>

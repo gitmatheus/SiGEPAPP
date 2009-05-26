@@ -1,4 +1,3 @@
-
 package br.edu.fei.sigepapp.avaliacao;
 
 import br.edu.fei.sigepapp.bancodedados.ConnectionFactory;
@@ -9,8 +8,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import oracle.jdbc.OracleTypes;
 
-import org.apache.commons.mail.EmailException;  
+import org.apache.commons.mail.EmailException;
 import org.apache.commons.mail.HtmlEmail;
+import org.apache.commons.mail.SimpleEmail;
 
 /**
  *
@@ -21,12 +21,12 @@ public class AvaliaObjeto {
 
     Connection conn;
 
-    public AvaliaObjeto() throws SQLException{
+    public AvaliaObjeto() throws SQLException {
         conn = ConnectionFactory.getConnection();
     }
 
-    public void executaAcoes(long pCD_OBJ, long pCD_USER) throws Exception{
-        try{
+    public void executaAcoes(long pCD_OBJ, long pCD_USER) throws Exception {
+        try {
             CallableStatement cstmt = this.conn.prepareCall("begin APPP_PROC_AVALIA_QUEST(?,?,?); end;");
 
             cstmt.registerOutParameter(3, OracleTypes.NUMBER);
@@ -36,8 +36,8 @@ public class AvaliaObjeto {
             cstmt.execute();
 
             int cResult = (int) cstmt.getLong(3);
-            cResult=3;
-            switch(cResult){
+            cResult = 3;
+            switch (cResult) {
                 case 1:
                     GravarLog.gravaInformacao(AvaliaObjeto.class.getName() + ": nota da avaliação do APPP acima do limite de bloqueio.");
                     break;
@@ -59,12 +59,12 @@ public class AvaliaObjeto {
                     int tamRS = 0;
 
                     String emailUsuario = new String();
-                    while(rs.next()){
+                    while (rs.next()) {
                         tamRS++;
                         emailUsuario = rs.getString("NM_EMAIL");
                     }
 
-                    if (tamRS != 1){
+                    if (tamRS != 1) {
                         throw new Exception();
                     }
                     rs.close();
@@ -90,12 +90,12 @@ public class AvaliaObjeto {
                     tamRS = 0;
                     String nomeUsuario = new String();
 
-                    while(rs.next()){
+                    while (rs.next()) {
                         nomeUsuario = rs.getString("NM_PRIM_NOME") + rs.getString("NM_ULT_NOME");
                         tamRS++;
                     }
 
-                    if (tamRS != 1){
+                    if (tamRS != 1) {
                         throw new Exception();
                     }
                     rs.close();
@@ -117,12 +117,12 @@ public class AvaliaObjeto {
                     tamRS = 0;
 
                     String nomeObj = new String();
-                    while(rs.next()){
+                    while (rs.next()) {
                         tamRS++;
                         nomeObj = rs.getString("NM_OBJETO");
                     }
 
-                    if (tamRS != 1){
+                    if (tamRS != 1) {
                         throw new Exception();
                     }
 
@@ -130,35 +130,35 @@ public class AvaliaObjeto {
                     cstmt.close();
                     this.conn.close();
 
-                    enviaEmail(nomeUsuario,emailUsuario,nomeObj,pCD_OBJ);
+                    enviaEmailSimples(nomeUsuario, emailUsuario, nomeObj, pCD_OBJ);
                     break;
 
             }
-            
 
-        }catch(SQLException e){
+
+        } catch (SQLException e) {
             this.conn.close();
             GravarLog.gravaErro(AvaliaObjeto.class.getName() + ": erro ao realizar avaliação: " + e.getSQLState() + " : " + e.getMessage());
         }
-        
+
     }
-    
+
     /**
      * 
      * @param nomeUsuario
      * @param emailUsuario
      */
-     public void enviaEmail(String nomeUsuario, String emailUsuario, String nomeObj, long codigoObj) throws EmailException{
-        try{
+    public void enviaEmail(String nomeUsuario, String emailUsuario, String nomeObj, long codigoObj) throws EmailException {
+        try {
             HtmlEmail email = new HtmlEmail();
-            
+
             email.setHtmlMsg("<html></html>");// configura a mensagem para o formato HTML 
             email.setTextMsg("Seu servidor de e-mail não suporta mensagem HTML"); // configure uma mensagem alternativa caso o servidor não suporte HTML
             email.setHostName("smtp.gmail.com"); // o servidor SMTP para envio do e-mail
             email.addTo(emailUsuario, nomeUsuario); //destinatário
             email.setFrom("no.reply.sigepapp@gmail.com", "SIGEPAPP - Sistema de Gerenciamento de Patterns, Anti-Patterns e Personas"); // remetente
             email.setSubject("[SIGEPAPP] Bloqueio de Documento APPP"); // assunto do e-mail
-            email.setMsg("<font> Caro(a)" + nomeUsuario+ ",<br /> Seu documento APPP " +
+            email.setMsg("<font> Caro(a)" + nomeUsuario + ",<br /> Seu documento APPP " +
                     "<a href='/sigepapp/viewAPPP.jsp?cd_objeto=" + codigoObj + "'>" + nomeObj + "</a>, " +
                     "foi indisponibilizado devido a baixa nota de avaliação.<br /><br />Atenciosamente,<br />" +
                     "Equipe Sigepapp</font>"); //conteudo do e-mail
@@ -169,10 +169,28 @@ public class AvaliaObjeto {
             email.send();
             GravarLog.gravaInformacao(AvaliaObjeto.class.getName() + ": email enviado com sucesso.");
 
-        }catch(Exception e){
+        } catch (Exception e) {
             GravarLog.gravaErro(AvaliaObjeto.class.getName() + ": erro ao enviar email: " + e.getMessage());
 
         }
+    }
+
+    public void enviaEmailSimples(String nomeUsuario, String emailUsuario, String nomeObj, long codigoObj) throws EmailException {
+
+        SimpleEmail email = new SimpleEmail();
+        email.setHostName("smtp.gmail.com"); // o servidor SMTP para envio do e-mail
+        email.addTo(emailUsuario, nomeUsuario); //destinatário
+        email.setFrom("no.reply.sigepapp@gmail.com", "SIGEPAPP - Sistema de Gerenciamento de Patterns, Anti-Patterns e Personas"); // remetente
+        email.setSubject("[SIGEPAPP] Bloqueio de Documento APPP"); // assunto do e-mail
+        email.setMsg("<font> Caro(a)" + nomeUsuario + ",<br /> Seu documento APPP " +
+                "<a href='/sigepapp/viewAPPP.jsp?cd_objeto=" + codigoObj + "'>" + nomeObj + "</a>, " +
+                "foi indisponibilizado devido a baixa nota de avaliação.<br /><br />Atenciosamente,<br />" +
+                "Equipe Sigepapp</font>"); //conteudo do e-mail
+        email.setAuthentication("no.reply.sigepapp@gmail.com", "apppsigepapp");
+        email.setSmtpPort(465);
+        email.setSSL(true);
+        email.setTLS(true);
+        email.send();
     }
 }
 

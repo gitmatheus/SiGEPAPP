@@ -41,6 +41,7 @@ begin
 							FL_ATIVO   
        FROM APPP_TB_OBJETO
        WHERE (NM_OBJETO like ('%'|| pNM_OBJETO ||'%') OR pNM_OBJETO       IS NULL)
+	   AND   (CD_OBJETO    = pCD_OBJETO         OR pCD_OBJETO    IS NULL)
        AND   (CD_ESTRUTURA    = pCD_ESTRUTURA         OR pCD_ESTRUTURA    IS NULL)
 			 AND   (FL_ATIVO        = pFL_ATIVO             OR pFL_ATIVO        IS NULL)
        AND   (DS_OBJETO LIKE ('%'|| pDS_OBJETO ||'%') OR pDS_OBJETO       IS NULL)

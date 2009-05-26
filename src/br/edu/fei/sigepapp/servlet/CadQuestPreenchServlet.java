@@ -8,11 +8,9 @@ import br.edu.fei.sigepapp.avaliacao.AvaliaObjeto;
 import br.edu.fei.sigepapp.bancodedados.dao.QuestPreenchDAO;
 import br.edu.fei.sigepapp.bancodedados.dao.RelacPergRespDAO;
 import br.edu.fei.sigepapp.bancodedados.dao.Resp_Quest_PreenchDAO;
-import br.edu.fei.sigepapp.bancodedados.dao.RespostaDAO;
 import br.edu.fei.sigepapp.bancodedados.model.QuestPreench;
 import br.edu.fei.sigepapp.bancodedados.model.Relac_Perg_Resp;
 import br.edu.fei.sigepapp.bancodedados.model.Resp_Quest_Preench;
-import br.edu.fei.sigepapp.bancodedados.model.Resposta;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Date;
@@ -21,12 +19,10 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Enumeration;
 import java.util.List;
-import java.util.Vector;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import oracle.jdbc.oracore.OracleTypeDATE;
 
 /**
  *
@@ -66,18 +62,21 @@ public class CadQuestPreenchServlet extends HttpServlet {
                 listaAtributos.add(NomesAtributos.nextElement().toString());
             }
 
-            for (int i = listaAtributos.size() - 2; i >= 0; i--) {
-                list_perguntas.add(Long.parseLong(listaAtributos.get(i)));
+            for (int i = 0; i < listaAtributos.size()-1; i++) {
+                list_perguntas.add(Long.parseLong(listaAtributos.get(i).toString()));
             }
+
 
             for (Long cd_pergunta : list_perguntas) {
                 list_respostas.add(Long.parseLong(request.getParameter(cd_pergunta.toString())));
                 //list_pesos.add(Long.parseLong(request.getParameter("valor_resp"+cd_pergunta.toString())));
             }
 
+
             List<Relac_Perg_Resp> pesquisaResp = respostaDao.APPP_SEL_RELAC_PERG_RESP(new Relac_Perg_Resp());
             respostaDao.fechaConexao();
             Long Soma = 0l;
+
             for (int i = 0; i < listaAtributos.size() - 1; i++) {
                 list_pesos.add(pesquisaResp.get(
                         pesquisaResp.indexOf(new Relac_Perg_Resp(list_perguntas.get(i), list_respostas.get(i), 0))).getNro_valor_resp());
@@ -110,7 +109,8 @@ public class CadQuestPreenchServlet extends HttpServlet {
                 }
                 quest_PreenchDAO.fechaConexao();
 
-                new AvaliaObjeto().executaAcoes(Long.parseLong(request.getParameter("CD_OBJ")), Long.parseLong(request.getSession().getAttribute("codigo_usuario").toString()));
+                AvaliaObjeto avaliacao=new AvaliaObjeto();
+                avaliacao.executaAcoes(Long.parseLong(request.getParameter("CD_OBJ")), Long.parseLong(request.getSession().getAttribute("codigo_usuario").toString()));
 
                 if(ins_respostas){
                 response.sendRedirect("frmAvaliacao2.jsp");
@@ -120,6 +120,7 @@ public class CadQuestPreenchServlet extends HttpServlet {
             } else {
                 response.sendRedirect("frmAvaliacao2.jsp?erro=1");
             }
+
             preencheDao.fechaConexao();
 
         } catch (Exception e) {
