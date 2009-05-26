@@ -130,7 +130,7 @@ public class AvaliaObjeto {
                     cstmt.close();
                     this.conn.close();
 
-                    enviaEmailSimples(nomeUsuario, emailUsuario, nomeObj, pCD_OBJ);
+                    enviaEmail(nomeUsuario, emailUsuario, nomeObj, pCD_OBJ);
                     break;
 
             }
@@ -152,16 +152,14 @@ public class AvaliaObjeto {
         try {
             HtmlEmail email = new HtmlEmail();
 
-            email.setHtmlMsg("<html></html>");// configura a mensagem para o formato HTML 
-            email.setTextMsg("Seu servidor de e-mail não suporta mensagem HTML"); // configure uma mensagem alternativa caso o servidor não suporte HTML
             email.setHostName("smtp.gmail.com"); // o servidor SMTP para envio do e-mail
             email.addTo(emailUsuario, nomeUsuario); //destinatário
             email.setFrom("no.reply.sigepapp@gmail.com", "SIGEPAPP - Sistema de Gerenciamento de Patterns, Anti-Patterns e Personas"); // remetente
             email.setSubject("[SIGEPAPP] Bloqueio de Documento APPP"); // assunto do e-mail
-            email.setMsg("<font> Caro(a)" + nomeUsuario + ",<br /> Seu documento APPP " +
-                    "<a href='/sigepapp/viewAPPP.jsp?cd_objeto=" + codigoObj + "'>" + nomeObj + "</a>, " +
+            email.setHtmlMsg("<html><font> Caro(a) " + nomeUsuario + ",<br /> Seu documento APPP " +
+                    "<a href='http://200.207.91.166/sigepapp/viewAPPP.jsp?cd_objeto=" + codigoObj + "'>" + nomeObj + "</a>, " +
                     "foi indisponibilizado devido a baixa nota de avaliação.<br /><br />Atenciosamente,<br />" +
-                    "Equipe Sigepapp</font>"); //conteudo do e-mail
+                    "Equipe Sigepapp</font></html>"); //conteudo do e-mail
             email.setAuthentication("no.reply.sigepapp@gmail.com", "apppsigepapp");
             email.setSmtpPort(465);
             email.setSSL(true);
