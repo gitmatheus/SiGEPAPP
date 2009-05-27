@@ -328,11 +328,11 @@
                     case "DATE":
                         strHtml += "</td><td width='50%' align='left' valign='middle'>";
                         strHtml += "<input id='" + nome + "' name='" + nome + "' type='text' class='edit' title='" + $(elemento).find("descricao").text() + "'";
-                        if($(elemento).find("flagexpreg").text() == "S"){
-                            strHtml += " onblur='javascript:validaCampo(\"" + $(elemento).find("nome").text() + "\",\"" + nome + "\"," + $(elemento).find("expreg").text() + ")'/>"
-                        }else{
-                            strHtml += "/>";
-                        }
+                        //if($(elemento).find("flagexpreg").text() == "S"){
+                            strHtml += " onblur='javascript:validaCampo(\"" + $(elemento).find("nome").text() + "\",\"" + nome + "\",\"^[0-9]{2}/[0-9]{2}/[0-9]{4}$\")'/>";
+                        //}else{
+                        //    strHtml += "/>";
+                        //}
                         strHtml += "</td><td width='20%' align='center' valign='middle'>";
                         $("#" + nome).mask('99/99/9999');
                         break;
