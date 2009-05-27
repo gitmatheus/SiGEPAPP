@@ -143,7 +143,7 @@ public class GetUsuarioServlet extends HttpServlet {
                                         out.println("<Estado>" + estado.getSg_sigla() + " - " + estado.getNm_estado() + "</Estado>");
                                         out.println("<CdCidade>" + cidade.getCd_cidade() + "</CdCidade>");
                                         out.println("<Cidade>" + cidade.getNm_cidade() + "</Cidade>");
-                                        out.println("<Telefone>" + telefone.getNr_ddd() + telefone.getNr_telefone() + "</Telefone>");
+                                        out.println("<Telefone>(" + telefone.getNr_ddd() +") " + telefone.getNr_telefone() + "</Telefone>");
                                         out.println("<Msn>" + usuario.getNm_msn() + "</Msn>");
                                         out.println("<Skype>" + usuario.getNm_skype() + "</Skype>");
                                         out.println("<AreaInteresse>" + usuario.getDs_area_interesse() + "</AreaInteresse>");

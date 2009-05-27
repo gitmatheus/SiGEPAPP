@@ -10,7 +10,6 @@
 <script type="text/javascript" src="js/jquery-ui-1.7.js" ></script>
 <script type="text/javascript" src="js/jquery.maskedinput-1.2.1.js"></script>
 <script type="text/javascript" language="javascript" src="js/i18n/ui.datepicker-pt-BR.js"></script>
-<script type="text/javascript" language="javascript" src="js/jquery.meio.mask.js"></script>
 <script type="text/javascript" language="javascript" src="js/appp_frmCadUsuario.js"></script>
 <form name="frmCadUser" method="post">
     <% if (request.getSession().getAttribute("codigo_usuario") != null && request.getSession().getAttribute("codigo_usuario") != "0") {%>
@@ -249,8 +248,10 @@
                                             <select id="frmCadUserCidade" name="frmCadUserCidade" class="edit" style="width: auto;"></select>
                                         </div>
                                         <div id="alertaCadCidade" title="Cidades não cadastradas">
+                                            <img src="images/m2bralerta.png" style="vertical-align:middle;"/>
                                             Desculpe, mas não foram encontradas cidades cadastradas para este estado!
                                         </div>
+                                        <script type="text/javascript">$("#alertaCadCidade").hide();</script>
                                     </td>
                                 </tr>
                             </table>
@@ -337,17 +338,21 @@
                             &nbsp;&nbsp;
                             <input type="button" id="cancela_cad_user" name="cancela_cad_user" class="botao" value="Cancelar" title="Cancelar cadastro de usuário">
                             <div id="alertaCadastrado" title="Cadastro de Usuário">
+                                <img src="images/m2brinfo.png" style="vertical-align:middle;"/>
                                 Usuário cadastrado com sucesso!
                             </div>
+                            <script type="text/javascript">$("#alertaCadastrado").hide();</script>
                             <div id="alertaExistente" title="Cadastro de Usuário">
+                                <img src="images/m2bralerta.png" style="vertical-align:middle;"/>
                                 Usuário já está cadastrado no banco!
                             </div>
+                            <script type="text/javascript">$("#alertaExistente").hide();</script>
                             <div id="alertaErro" title="Erro no cadastro">
-                                <center><b style="color: red;">Erro</b></center>
-                                <p>Ocorreu um erro no cadastro de usuário.<br>
+                                <img src="images/m2brerro.png" style="vertical-align:middle;"/>
+                                Ocorreu um erro no cadastro de usuário.<br>
                                     Por favor, tente mais tarde!
-                                </p>
                             </div>
+                            <script type="text/javascript">$("#alertaErro").hide();</script>
                         </td>
                     </tr>
                 </table>
@@ -356,5 +361,7 @@
     </table>
 </form>
 <div style="display:block;" id="alert" title="Alerta">
+</div>
+<div style="display:block;" id="info" title="Informação">
 </div>
 <%@include file="rodape.jsp"%>

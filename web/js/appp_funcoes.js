@@ -164,9 +164,10 @@ function LogonSigepapp(){
             $("#syslogin").html(
                 "<h2>Seja bem-vindo(a),<br /> " + $("usuario",xml).text() + "</h2>" +
                 "<div align='right' style='margin-right: 10px;'>" +
-                //"<a id='envia_avaliacoes' href='frmAvaliacoesPendentes.jsp' class='painelcontrole' title='Avaliar APPP pendentes'>Avalia&ccedil;&otilde;es</a>&nbsp;|&nbsp;"+
+                "<a id='aleracao_usuario' href='frmCadUsuario.jsp' class='painelcontrole' title='Altera&ccedil;&atilde;o do cadastro de usu&aacute;rio'>Editar Perfil</a>&nbsp;|" +
                 "<a id='aleracao_senha' href='frmAlteraSenha.jsp' class='painelcontrole' title='Altera&ccedil;&atilde;o de senha do usu&aacute;rio'>Alterar Senha</a>&nbsp;|" +
                 "<a id='envia_logoff' href='#' class='painelcontrole' title='Sair do sistema'>&nbsp;Sair</a>" +
+                "<br /><a id='avalia_docs' href='frmAvaliacoesPendentes.jsp' class='painelcontrole' title='Lista as avaliações dos documentos'>Lista de avalia&ccedil;&otilde;es</a>" +
                 //"<input id='envia_logoff' type='button' class='painelcontrole' title='Sair do sistema' value='Sair' /></div>" +
                 "</div>"+
                 "<input type='hidden' id='status' value='logoff' />"

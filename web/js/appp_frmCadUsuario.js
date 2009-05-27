@@ -1,20 +1,22 @@
 var msgAlerta = "";
+var cdcidadetemp = "";
+var cidadetemp = "";
 function valida(){
     var retorno=false;
     //Validações do cadastro
-    if ($.trim($("#frmCadUserLogin").val())==""){
+    if ($.trim($("#frmCadUserLogin").val())=="" && $("#flagEdit").val()=='nao'){
         msgAlerta = "<img src='images/m2bralerta.png' style='vertical-align:middle;'/> Por favor, preencha o campo de Login";
         $("#alert").dialog('open');
-    }else if($.trim($("#frmCadUserSenha").val())=="")  {
+    }else if($.trim($("#frmCadUserSenha").val())=="" && $("#flagEdit").val()=='nao')  {
         msgAlerta = "<img src='images/m2bralerta.png' style='vertical-align:middle;'/> Por favor, preencha o campo de Senha";
         $("#alert").dialog('open');
-    }else if($.trim($("#frmCadUserCSenha").val())=="") {
+    }else if($.trim($("#frmCadUserCSenha").val())=="" && $("#flagEdit").val()=='nao') {
         msgAlerta = "<img src='images/m2bralerta.png' style='vertical-align:middle;'/> Por favor, preencha o campo de Confirmação de Senha";
         $("#alert").dialog('open');
     }else if ($.trim($("#frmCadUserEmail").val())=="") {
         msgAlerta = "<img src='images/m2bralerta.png' style='vertical-align:middle;'/> Por favor, preencha o campo de Email";
         $("#alert").dialog('open');
-    }else if($.trim($("#frmCadUserCPF").val())=="") {
+    }else if($.trim($("#frmCadUserCPF").val())=="" && $("#flagEdit").val()=='nao') {
         msgAlerta = "<img src='images/m2bralerta.png' style='vertical-align:middle;'/> Por favor, preencha o campo de CPF";
         $("#alert").dialog('open');
     }else if($.trim($("#frmCadUserNome").val())==""){
@@ -56,6 +58,10 @@ function valida(){
 }
 
 $(document).ready(function(){
+    $.ajaxSetup({
+        async: false
+    });
+        
     $("#frmCadUserLogin").blur(function(){
         if($("#frmCadUserLogin").val() != ""){
             verificaExisteLogin();
@@ -79,12 +85,16 @@ $(document).ready(function(){
         buttonText: 'Clique para escolher uma data',
         buttonImage: 'images/smallcalendar.png'
     });
+
+    $("#frmCadUserCEP").mask("99999-999");
+    $("#frmCadUserDataNasc").mask("99/99/9999");
+    $("#frmCadUserCPF").mask("999.999.999-99");
+    $("#frmCadUserTelefone").mask("(99)9999-9999");
+    $("#frmCadUserDataNasc").val("");
     
     if($("#flagEdit").val() == 'sim'){
         carregaUsuario();
     }
-
-    $("#frmCadUserDataNasc").val("");
 
     $("#frmCadUserEstado").change(function(){
         if($("#frmCadUserEstado").val() != ""){
@@ -92,15 +102,17 @@ $(document).ready(function(){
         }
     });
 
-    $("#frmCadUserCEP").mask("99999-999");
-    $("#frmCadUserDataNasc").mask("99/99/9999");
-    $("#frmCadUserCPF").mask("999.999.999-99");
-    $("#frmCadUserTelefone").mask("(99)9999-9999");
+    
 
     $("#adicionaendereco").click(function(){
         adicionaRemoveEndereco('add')
     });
-//$("#adicionaendereco").click(function(){$("#adicionaendereco").fadeOut('slow')});
+    //$("#adicionaendereco").click(function(){$("#adicionaendereco").fadeOut('slow')});
+
+    $("#alertaCadCidade").show();
+    $("#alertaCadastrado").show();
+    $("#alertaExistente").show();
+    $("#alertaErro").show();
 
 });
 
@@ -114,7 +126,15 @@ function carregaUsuario(){
         $("#frmCadUserEndereco").val($("Endereco",xml).text());
         $("#frmCadUserNumEnd").val($("Nro",xml).text());
         $("#frmCadUserEndComplemento").val($("Complemento",xml).text());
-        $("#frmCadUserCEP").val($.mask.string($("Cep",xml).text(),'99999-999'));
+        $("#frmCadUserCEP").val($("Cep",xml).text());
+        $("#frmCadUserEstado").val($("CdEstado",xml).text());
+        getCidade();
+        $("#frmCadUserCidade").val($("CdCidade",xml).text());
+        $("#frmCadUserTelefone").val($("Telefone",xml).text());
+        $("#frmCadUserMsn").val($("Msn",xml).text());
+        $("#frmCadUserSkype").val($("Skype",xml).text());
+        $("#frmCadUserAreaInt").val($("AreaInteresse",xml).text());
+        
     });
 }
 
@@ -220,6 +240,67 @@ function getCidade(){
         }
         $("#cadcidade").html(strComboCidade);
     });
+}
+
+function AtualizaCadUsuario(){
+    $("#frmCadUserLogin").val("update");
+    $("#frmCadUserSenha").val("update");
+    $("#frmCadUserCPF").val("1111111111");
+    if(valida()){
+        email = $("#frmCadUserEmail").val();
+        tipoemail = "P";
+        nome = $("#frmCadUserNome").val();
+        sobrenome = $("#frmCadUserSobrenome").val();
+        datanasc = $("#frmCadUserDataNasc").val();
+        endereco = $("#frmCadUserEndereco").val();
+        nroendereco = $("#frmCadUserNumEnd").val();
+        endcomplemento = $("#frmCadUserEndComplemento").val();
+        tipoendereco = "R";
+        cep = new String($("#frmCadUserCEP").val());
+        cep = apenasNumeros(cep);
+        bairro = $("#frmCadUserBairro").val();
+        cidade = $("#frmCadUserCidade").val();
+        telefone = new String($("#frmCadUserTelefone").val());
+        telefone =  apenasNumeros(telefone);
+        tipotelefone = "R";
+        msn = $("#frmCadUserMsn").val();
+        skype = $("#frmCadUserSkype").val();
+        areainteresse = $("#frmCadUserAreaInt").val();
+
+        $.post("UpdUsuarioServlet", {
+            email :email,
+            tipoemail: tipoemail,
+            nome: nome,
+            sobrenome: sobrenome,
+            datanasc: datanasc,
+            endereco: endereco,
+            nroendereco: nroendereco,
+            endcomplemento: endcomplemento,
+            tipoendereco: tipoendereco,
+            cep: cep,
+            bairro: bairro,
+            cidade: cidade,
+            telefone: telefone,
+            tipotelefone: tipotelefone,
+            msn: msn,
+            skype: skype,
+            areainteresse: areainteresse
+        }, function(xml){
+            var confirma = $("erro",xml).text();
+            if(confirma == '0'){
+                msgAlerta = "<img src='images/m2brinfo.png' style='vertical-align:middle;'/> Atualização realizada com sucesso.";
+                $("#info").dialog('open');
+                
+            }else if(confirma == '2'){
+                msgAlerta = "<img src='images/m2bralerta.png' style='vertical-align:middle;'/> Alguns de seus dados não sofreram alteração.<br>Por favor confira suas informações.";
+                $("#alerta").dialog('open');
+            }else{
+                msgAlerta = "<img src='images/m2brerro.png' style='vertical-align:middle;'/> Problemas durante a atualização dos seus dados.";
+                $("#alerta").dialog('open');
+            }
+            
+        });
+    }
 }
 
 function EnviaCadUsuario(){
@@ -360,8 +441,34 @@ $(function(){
         }
     });
 
+    $("#info").dialog({
+        width: 300,
+        modal: true,
+        autoOpen: false,
+        show: 'slide',
+        hide: 'slide',
+        draggable: false,
+        buttons: {
+            "Ok": function(){
+                $(this).dialog("close");
+                window.location = '/sigepapp/';
+            }
+        },
+        open: function(){
+            $(this).html(msgAlerta);
+        },
+        close: function(){
+            $("#alert").html("");
+            msgAlerta = "";
+        }
+    });
+
     $("#envia_cad_user").click(function(){
-        EnviaCadUsuario();
+        if($("#flagEdit").val() == 'sim'){
+            AtualizaCadUsuario();
+        }else{
+            EnviaCadUsuario();
+        }
     });
 
     $("#cancela_cad_user").click(function(){
