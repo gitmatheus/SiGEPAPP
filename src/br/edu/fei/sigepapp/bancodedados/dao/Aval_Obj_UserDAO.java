@@ -75,7 +75,7 @@ public class Aval_Obj_UserDAO {
     public boolean APPP_INS_AvalObjUser(AvalObjUser inserir) {
 
         try {
-            CallableStatement cstmt = this.conn.prepareCall("begin APPP_INS_AvalObjUser(? ,? ,? ); end;");
+            CallableStatement cstmt = this.conn.prepareCall("begin APPP_INS_Aval_Obj_User(? ,? ,? ); end;");
 
 
             if (inserir.getCd_user() != 0) {

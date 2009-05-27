@@ -36,7 +36,7 @@ public class AvaliaObjeto {
             cstmt.execute();
 
             int cResult = (int) cstmt.getLong(3);
-            cResult = 3;
+            
             switch (cResult) {
                 case 1:
                     GravarLog.gravaInformacao(AvaliaObjeto.class.getName() + ": nota da avaliação do APPP acima do limite de bloqueio.");

@@ -113,7 +113,7 @@ public class CadQuestPreenchServlet extends HttpServlet {
                 avaliacao.executaAcoes(Long.parseLong(request.getParameter("CD_OBJ")), Long.parseLong(request.getSession().getAttribute("codigo_usuario").toString()));
 
                 if(ins_respostas){
-                response.sendRedirect("frmAvaliacao2.jsp");
+                response.sendRedirect("viewAPPP.jsp?CD_OBJ="+Long.parseLong(request.getParameter("CD_OBJ")));
                 }else{
                 response.sendRedirect("frmAvaliacao2.jsp?erro=1");
                 }

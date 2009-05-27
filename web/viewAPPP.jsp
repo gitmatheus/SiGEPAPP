@@ -3,6 +3,17 @@
 <% if (request.getSession().getAttribute("codigo_usuario") != null && request.getSession().getAttribute("codigo_usuario") != "0") {%>
 
 <%
+
+//Tratamento para solicitação de adicionar documento à lista de utilização
+     boolean mostraMsgIncluir = false;
+     if (request.getParameter("acao") != null) {
+         Aval_Obj_UserDAO avaliaDAO = new Aval_Obj_UserDAO();
+         avaliaDAO.APPP_INS_AvalObjUser(new AvalObjUser(Long.parseLong(request.getSession().getAttribute("codigo_usuario").toString()), Long.parseLong(request.getParameter("CD_OBJ").trim())));
+         avaliaDAO.fechaConexao();
+         mostraMsgIncluir = true;
+     }
+//Fim do tratamento para solicitação de adicionar documento à lista de utilização.
+
      Connection conn;
      ResultSet rs = null;
      CallableStatement cstmt = null;
@@ -14,13 +25,17 @@
          cstmt.registerOutParameter(2, OracleTypes.CURSOR);
 
          cstmt.execute();
+         boolean encontrou = false;
+         try {
+             rs = (ResultSet) cstmt.getObject(2);
+             encontrou = rs.next();
 
-         rs = (ResultSet) cstmt.getObject(2);
+         } catch (Exception e) {
+         }
 
-         int TotalCols = rs.getMetaData().getColumnCount();
-
-         while (rs.next()) {
+         if (encontrou) {
              //Objeto do relacionamento
+             int TotalCols = rs.getMetaData().getColumnCount();
              RelacObjetos_View relacProcura = new RelacObjetos_View();
              RelacObjetoDAO relacionamentoDao = new RelacObjetoDAO();
              relacProcura.setCd_obj_relacionado(Long.parseLong(request.getParameter("CD_OBJ").trim()));
@@ -98,8 +113,8 @@
                                     <%}%>
                                 </td>
                                 <td width="150">Cria&ccedil;&atilde;o:&nbsp;<%
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-        out.println(sdf.format(rs.getDate("DT_CRIACAO")));
+             SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+             out.println(sdf.format(rs.getDate("DT_CRIACAO")));
                                 %></td>
                             </tr>
                         </table>
@@ -120,24 +135,24 @@
                 <!--Fim Contexto do Objeto-->
                 <!--Problema do Objeto-->
                 <%
-                String TabelaProblema=new String();
-                String TabelaSolucao=new String();
-                if (campoCD_Objeto != "CD_PERSONA"){%>
+             String TabelaProblema = new String();
+             String TabelaSolucao = new String();
+             if (campoCD_Objeto != "CD_PERSONA") {%>
                 <tr><td class="titulo_problema">Problema:</td></tr>
                 <tr class="problema">
                     <td colspan="2">
 
                         <%
-        TabelaProblema = new String();
-        if (rs.getString("NM_ESTRUTURA").trim().equalsIgnoreCase("PATTERN")) {%>
-            
-            
+                 TabelaProblema = new String();
+                 if (rs.getString("NM_ESTRUTURA").trim().equalsIgnoreCase("PATTERN")) {%>
+
+
                         <!--Pattern sem relacionamento-->
                         <%= rs.getString("PROBLEMA").trim()%>
 
                         <%TabelaProblema = "PROBLEMA";
                         } else if (rs.getString("NM_ESTRUTURA").trim().equalsIgnoreCase("ANTI_PATTERN")) {%>
-                        
+
                         <%= rs.getString("DS_PROBLEMA").trim()%>
                         <%TabelaProblema = "DS_PROBLEMA";
                         } else {%>
@@ -151,49 +166,47 @@
                 <!--Fim Problema do Objeto-->
                 <!--Solução do Objeto-->
                 <%/*
-                <tr><td class="titulo_solucao">Solucao:</td></tr>
-                <tr class="solucao">
-                    <td colspan="2">
-                        <font>
-                            <%
-        TabelaSolucao = new String();
-        if (rs.getString("NM_ESTRUTURA").trim().equalsIgnoreCase("PATTERN")) {
-            out.println(rs.getString("Solução").trim());
-            TabelaSolucao = "Solução";
-        } else if (rs.getString("NM_ESTRUTURA").trim().equalsIgnoreCase("ANTI-PATTERN")) {
-            out.println(rs.getString("DS_RECOMENDACOES").trim());
-            TabelaSolucao = "DS_RECOMENDACOES";
-        } else {
+             <tr><td class="titulo_solucao">Solucao:</td></tr>
+             <tr class="solucao">
+             <td colspan="2">
+             <font>
+             <%
+             TabelaSolucao = new String();
+             if (rs.getString("NM_ESTRUTURA").trim().equalsIgnoreCase("PATTERN")) {
+             out.println(rs.getString("Solução").trim());
+             TabelaSolucao = "Solução";
+             } else if (rs.getString("NM_ESTRUTURA").trim().equalsIgnoreCase("ANTI-PATTERN")) {
+             out.println(rs.getString("DS_RECOMENDACOES").trim());
+             TabelaSolucao = "DS_RECOMENDACOES";
+             } else {
 
-            out.println(rs.getString("Solução").trim());
-            TabelaSolucao = "Solução";
-        }
+             out.println(rs.getString("Solução").trim());
+             TabelaSolucao = "Solução";
+             }
 
-                    */        %>
-                        </font>
-                    </td>
-                </tr>
+              */%>
+
                 <%}%>
                 <!--Fim Solução do Objeto-->
                 <%
-        //For Principal para cada coluna
-        for (int i = 1; i <= TotalCols; i++) {
+             //For Principal para cada coluna
+             for (int i = 1; i <= TotalCols; i++) {
 
                 %>
 
                 <%if (!rs.getMetaData().getColumnName(i).trim().equalsIgnoreCase("TP_ESTRUTURA") &&
-                    !rs.getMetaData().getColumnName(i).trim().equalsIgnoreCase("NM_OBJETO") &&
-                    !rs.getMetaData().getColumnName(i).trim().equalsIgnoreCase("DS_OBJETO") &&
-                    !rs.getMetaData().getColumnName(i).trim().equalsIgnoreCase(TabelaProblema) &&
-                    !rs.getMetaData().getColumnName(i).trim().equalsIgnoreCase(TabelaSolucao) &&
-                    !rs.getMetaData().getColumnName(i).trim().equalsIgnoreCase("CD_USER_CRIADOR") &&
-                    !rs.getMetaData().getColumnName(i).trim().equalsIgnoreCase("CD_OBJETO") &&
-                    !rs.getMetaData().getColumnName(i).trim().equalsIgnoreCase(campoCD_Objeto) &&
-                    !rs.getMetaData().getColumnName(i).trim().equalsIgnoreCase("DT_CRIACAO") &&
-                    !rs.getMetaData().getColumnName(i).trim().equalsIgnoreCase("FL_ATIVO") &&
-                    !rs.getMetaData().getColumnName(i).trim().equalsIgnoreCase("NM_ESTRUTURA") &&
-                    !rs.getMetaData().getColumnName(i).trim().equalsIgnoreCase("Nome") &&
-                    !rs.getMetaData().getColumnName(i).trim().equalsIgnoreCase("Contexto")) {%>
+                         !rs.getMetaData().getColumnName(i).trim().equalsIgnoreCase("NM_OBJETO") &&
+                         !rs.getMetaData().getColumnName(i).trim().equalsIgnoreCase("DS_OBJETO") &&
+                         !rs.getMetaData().getColumnName(i).trim().equalsIgnoreCase(TabelaProblema) &&
+                         !rs.getMetaData().getColumnName(i).trim().equalsIgnoreCase(TabelaSolucao) &&
+                         !rs.getMetaData().getColumnName(i).trim().equalsIgnoreCase("CD_USER_CRIADOR") &&
+                         !rs.getMetaData().getColumnName(i).trim().equalsIgnoreCase("CD_OBJETO") &&
+                         !rs.getMetaData().getColumnName(i).trim().equalsIgnoreCase(campoCD_Objeto) &&
+                         !rs.getMetaData().getColumnName(i).trim().equalsIgnoreCase("DT_CRIACAO") &&
+                         !rs.getMetaData().getColumnName(i).trim().equalsIgnoreCase("FL_ATIVO") &&
+                         !rs.getMetaData().getColumnName(i).trim().equalsIgnoreCase("NM_ESTRUTURA") &&
+                         !rs.getMetaData().getColumnName(i).trim().equalsIgnoreCase("Nome") &&
+                         !rs.getMetaData().getColumnName(i).trim().equalsIgnoreCase("Contexto")) {%>
                 <tr>
                     <!--Nome do atributo-->
                     <td class="titulo_geral"><%= rs.getMetaData().getColumnName(i)%>:</td>
@@ -248,9 +261,32 @@
                 </tr>
                 <%}%>
                 <!--Fim Caso não seja relacionado-->
-                <%}
-        //Fim do for principal das colunas
-        }%>
+                <tr>
+                    <td align="right" style="padding-top:15px">
+                        <%}
+             //Fim do for principal das colunas
+             }
+             //Verificar se esse documento está na lista de avaliação do usuário.
+             Aval_Obj_UserDAO avaliaDAO = new Aval_Obj_UserDAO();
+             List<AvalObjUser> listaAvalia = avaliaDAO.APPP_SEL_AvalObjUser(new AvalObjUser(Long.parseLong(request.getSession().getAttribute("codigo_usuario").toString()), Long.parseLong(request.getParameter("CD_OBJ").trim())));
+             avaliaDAO.fechaConexao();
+
+             if (listaAvalia.size() != 0) {%>
+                        <!--Caso Documento está na Lista-->
+                        <form action="frmAvaliacao.jsp" method="GET">
+                            <input type="hidden" name="CD_OBJ" value="<%= Long.parseLong(request.getParameter("CD_OBJ").trim())%>">
+                            <input class="botao" type="submit" name="avaliar" value="Avaliar Documento"/>
+
+                        </form>
+                        <%} else {%>
+                        <!--Caso documento não está na lista-->
+                        <form action="viewAPPP.jsp" method="get">
+                            <input type="hidden" name="CD_OBJ" value="<%= Long.parseLong(request.getParameter("CD_OBJ").trim())%>">
+                            <input class="botao" type="submit" name="acao" value="Adicionar este documento na minha lista de utilização" />
+                        </form>
+                        <%}%>
+                    </td>
+                </tr>
             </table>
             <!--Fim Exibição APPP-->
         </td>
@@ -258,16 +294,33 @@
 </table>
 <%
              relacionamentoDao.fechaConexao();
-         }
-         rs.close();
-         cstmt.close();
-         conn.close();
+             rs.close();
+         } else {%>
+<table border="0" cellpadding="0" cellspacing="0" width="100%" align="right">
+    <!--Inicio do titulo-->
+    <tr>
+        <td align="center" class="titulo" style="height: 25px; vertical-align: middle;"> <font class="titulo">..:: APPP ::..</font> </td>
+    </tr>
+    <!--Fim do titulo-->
+    <tr><td style="padding:10px;"></td></tr>
+    <tr>
+        <td align="center" style="background-color:rgb(238, 149, 127)">
+            <!--Exibição Mensagem de erro-->
+            <p><b>Nenhum objeto com esse código foi encontrado.</b></p>
+            <!--Fim da Exibição de mensagem de erro-->
+        </td>
+    </tr>
+</table>
+
+<%}
+
      } catch (SQLException e) {
          GravarLog.gravaErro("viewAPPP.jsp: erro ao pesquisar o Objeto APPP: " + e.getMessage() + " : " + e.getSQLState());
-
+         e.printStackTrace();
      } finally {
-         rs.close();
+
          cstmt.close();
+         conn.close();
      }
 %>
 

@@ -12,12 +12,15 @@ CREATE OR REPLACE PROCEDURE APPP_PROC_AVALIA_QUEST
   Result LONG;
   pQTDE_AVALIACOES number := 0;
   pMEDIA number := 0;
+  pMediaQuestionario number;
 BEGIN
   
   SELECT COUNT(*)
   INTO pQTDE_AVALIACOES
   FROM APPP_TB_QUEST_PREENCH
   WHERE CD_OBJETO = pCD_OBJ;
+  
+    SELECT (SUM(MIN(NR_VALOR_RESP))+SUM(MAX(NR_VALOR_RESP)))/2 INTO pMediaQuestionario  FROM APPP_TB_RELAC_PERG_RESP GROUP BY CD_PERGUNTA; --Nota Média
   
   IF pQTDE_AVALIACOES < 10 THEN
      Result := 2; -- Sem quantidade para avaliação
@@ -27,7 +30,7 @@ BEGIN
      FROM APPP_TB_QUEST_PREENCH
      WHERE CD_OBJETO = pCD_OBJ;
      
-     IF pMEDIA < 5 THEN
+     IF pMEDIA < pMediaQuestionario THEN
         Result := 3; -- Bloqueia
         
         UPDATE APPP_TB_OBJETO 
