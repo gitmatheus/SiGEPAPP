@@ -90,7 +90,7 @@ public class CadQuestPreenchServlet extends HttpServlet {
                 Soma += list_pesos.get(i - 1);
                 out.println(list_perguntas.get(i - 1) + "::" + list_respostas.get(i - 1) + "->" + list_pesos.get(i - 1));
             }
-            
+
             preencheDao = new QuestPreenchDAO();
 
             QuestPreench questionario = new QuestPreench();
@@ -118,9 +118,9 @@ public class CadQuestPreenchServlet extends HttpServlet {
                 }
                 quest_PreenchDAO.fechaConexao();
 
-//                AvaliaObjeto avaliacao = new AvaliaObjeto();
+                AvaliaObjeto avaliacao = new AvaliaObjeto();
 
-                //              avaliacao.executaAcoes(Long.parseLong(request.getParameter("CD_OBJ")), Long.parseLong(request.getSession().getAttribute("codigo_usuario").toString()));
+                avaliacao.executaAcoes(Long.parseLong(request.getParameter("CD_OBJ")), Long.parseLong(request.getSession().getAttribute("codigo_usuario").toString()));
 
 
                 if (ins_quest > 1 && ins_respostas) {
@@ -136,10 +136,10 @@ public class CadQuestPreenchServlet extends HttpServlet {
 
         } catch (SQLException e) {
             GravarLog.gravaErro(CadQuestPreenchServlet.class + " erro referente à uma excessão SQL : " + e.getMessage() + e.getSQLState());
-            
+
         } catch (Exception e) {
             GravarLog.gravaErro(CadQuestPreenchServlet.class + " erro genérico: " + e.getMessage());
-            //e.printStackTrace(out);
+        //e.printStackTrace(out);
         } finally {
             out.close();
         }
