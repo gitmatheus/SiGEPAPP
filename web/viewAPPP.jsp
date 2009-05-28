@@ -3,7 +3,6 @@
 <% if (request.getSession().getAttribute("codigo_usuario") != null && request.getSession().getAttribute("codigo_usuario") != "0") {%>
 
 <%
-
 //Tratamento para solicitação de adicionar documento à lista de utilização
      boolean mostraMsgIncluir = false;
      if (request.getParameter("acao") != null) {
@@ -29,7 +28,6 @@
          try {
              rs = (ResultSet) cstmt.getObject(2);
              encontrou = rs.next();
-
          } catch (Exception e) {
          }
 

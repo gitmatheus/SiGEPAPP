@@ -36,7 +36,9 @@ public class AvaliaObjeto {
             cstmt.execute();
 
             int cResult = (int) cstmt.getLong(3);
-            
+            //cstmt.close();
+            //this.conn.close();
+
             switch (cResult) {
                 case 1:
                     GravarLog.gravaInformacao(AvaliaObjeto.class.getName() + ": nota da avaliação do APPP acima do limite de bloqueio.");
@@ -68,6 +70,9 @@ public class AvaliaObjeto {
                         throw new Exception();
                     }
                     rs.close();
+                    //cstmt.close();
+                    //this.conn.close();
+
                     cstmt = this.conn.prepareCall("begin APPP_SEL_USERS(?,?,?,?,?,?,?,?,?,?,?,?,?); end;");
 
                     cstmt.setLong(1, pCD_USER);
@@ -99,6 +104,8 @@ public class AvaliaObjeto {
                         throw new Exception();
                     }
                     rs.close();
+                    //cstmt.close();
+                    //this.conn.close();
                     cstmt = this.conn.prepareCall("begin APPP_SEL_OBJETO(?,?,?,?,?,?,?,?,?); end;");
 
                     cstmt.setLong(1, pCD_OBJ);
@@ -130,7 +137,25 @@ public class AvaliaObjeto {
                     cstmt.close();
                     this.conn.close();
 
-                    enviaEmail(nomeUsuario, emailUsuario, nomeObj, pCD_OBJ);
+                    GravarLog.gravaInformacao("Enviei um pedido de bloqueio");
+
+                    final String tr_nome = nomeUsuario;
+                    final String tr_email = emailUsuario;
+                    final String tr_nomeObj = nomeObj;
+                    final long tr_OCD_OBJ = pCD_OBJ;
+
+                    new Thread(new Runnable() {
+
+                        @Override
+                        public void run() {
+                            try {
+                                enviaEmail(tr_nome, tr_email, tr_nomeObj, tr_OCD_OBJ);
+                            } catch (Exception e) {
+                                GravarLog.gravaErro("Erro no envio de Email: " + e.getMessage());
+                            }
+                        }
+                    }).start();
+
                     break;
 
             }

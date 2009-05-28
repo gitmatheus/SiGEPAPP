@@ -51,7 +51,7 @@ public class CadQuestPreenchServlet extends HttpServlet {
 
             NomesAtributos = request.getParameterNames();
 
-            RelacPergRespDAO respostaDao = new RelacPergRespDAO();
+
 
 
             List<Long> list_perguntas = new ArrayList<Long>();
@@ -62,17 +62,17 @@ public class CadQuestPreenchServlet extends HttpServlet {
                 listaAtributos.add(NomesAtributos.nextElement().toString());
             }
 
-            for (int i = 0; i < listaAtributos.size()-1; i++) {
+            for (int i = 0; i < listaAtributos.size() - 1; i++) {
                 list_perguntas.add(Long.parseLong(listaAtributos.get(i).toString()));
             }
 
 
             for (Long cd_pergunta : list_perguntas) {
                 list_respostas.add(Long.parseLong(request.getParameter(cd_pergunta.toString())));
-                //list_pesos.add(Long.parseLong(request.getParameter("valor_resp"+cd_pergunta.toString())));
+            //list_pesos.add(Long.parseLong(request.getParameter("valor_resp"+cd_pergunta.toString())));
             }
 
-
+            RelacPergRespDAO respostaDao = new RelacPergRespDAO();
             List<Relac_Perg_Resp> pesquisaResp = respostaDao.APPP_SEL_RELAC_PERG_RESP(new Relac_Perg_Resp());
             respostaDao.fechaConexao();
             Long Soma = 0l;
@@ -87,44 +87,47 @@ public class CadQuestPreenchServlet extends HttpServlet {
             QuestPreenchDAO preencheDao = new QuestPreenchDAO();
 
             QuestPreench questionario = new QuestPreench();
-            
+
             questionario.setCd_objeto(Long.parseLong(request.getParameter("CD_OBJ")));
             questionario.setCd_user(Long.parseLong(request.getSession().getAttribute("codigo_usuario").toString()));
             questionario.setVl_avaliacao(Soma);
             questionario.setDt_aplicacao(new Date(Calendar.getInstance().getTimeInMillis()));
-            
+
             long retorno = preencheDao.APPP_INS_QUEST_PREENCH(questionario);
-            boolean ins_respostas=true;
+            boolean ins_respostas = true;
+            preencheDao.fechaConexao();
             if (retorno > 1) {
-                
+
                 Resp_Quest_PreenchDAO quest_PreenchDAO = new Resp_Quest_PreenchDAO();
                 for (int i = 0; i < listaAtributos.size() - 1; i++) {
                     Resp_Quest_Preench respostas_quest = new Resp_Quest_Preench();
                     respostas_quest.setCd_quest_preench(retorno);
                     respostas_quest.setCd_pergunta(list_perguntas.get(i));
                     respostas_quest.setCd_resposta(list_respostas.get(i));
-                    if(quest_PreenchDAO.APPP_INS_RESP_QUEST_PREENCH(respostas_quest)==false){
-                        ins_respostas=false;
+                    if (quest_PreenchDAO.APPP_INS_RESP_QUEST_PREENCH(respostas_quest) == false) {
+                        ins_respostas = false;
                     }
                 }
                 quest_PreenchDAO.fechaConexao();
 
-                AvaliaObjeto avaliacao=new AvaliaObjeto();
+                AvaliaObjeto avaliacao = new AvaliaObjeto();
+
                 avaliacao.executaAcoes(Long.parseLong(request.getParameter("CD_OBJ")), Long.parseLong(request.getSession().getAttribute("codigo_usuario").toString()));
 
-                if(ins_respostas){
-                response.sendRedirect("viewAPPP.jsp?CD_OBJ="+Long.parseLong(request.getParameter("CD_OBJ")));
-                }else{
-                response.sendRedirect("frmAvaliacao2.jsp?erro=1");
+
+                if (ins_respostas) {
+                    response.sendRedirect("viewAPPP.jsp?CD_OBJ=" + Long.parseLong(request.getParameter("CD_OBJ")));
+                } else {
+                    response.sendRedirect("frmAvaliacao2.jsp?erro=1");
                 }
             } else {
-                response.sendRedirect("frmAvaliacao2.jsp?erro=1");
+                response.sendRedirect("frmAvaliacao2.jsp?erro=2");
             }
 
-            preencheDao.fechaConexao();
+
 
         } catch (Exception e) {
-            out.print(e.getMessage()+"Erro");
+            out.print(e.getMessage() + "Erro");
         } finally {
             out.close();
         }

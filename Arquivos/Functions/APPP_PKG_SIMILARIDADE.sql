@@ -121,9 +121,9 @@ CREATE OR REPLACE PACKAGE BODY APPP_PKG_SIMILARIDADE AS
       VetorPalavras(i):=TextoTranslated;
       end if;
 
-      for i in 1..VetorPalavras.count loop
-       DBMS_OUTPUT.PUT_LINE('i=' || i ||VetorPalavras(i));
-      end loop;
+      --for i in 1..VetorPalavras.count loop
+      -- DBMS_OUTPUT.PUT_LINE('i=' || i ||VetorPalavras(i));
+      --end loop;
 
     END;
   END PREENCHE_LISTA;
@@ -145,7 +145,7 @@ CREATE OR REPLACE PACKAGE BODY APPP_PKG_SIMILARIDADE AS
     MAX_CARACTER:=0;
     MAX_COMUNS:=0;
   
-    DBMS_OUTPUT.PUT_LINE('Fui chamado para procurar por: ' || palavra);
+    --DBMS_OUTPUT.PUT_LINE('Fui chamado para procurar por: ' || palavra);
 
     --DBMS_OUTPUT.PUT_LINE('Ultimo elemento '||VetorPalavras(VetorPalavras.count));
     --Para Cada Palavra que começa com a mesma letra de Palavra
@@ -183,7 +183,7 @@ CREATE OR REPLACE PACKAGE BODY APPP_PKG_SIMILARIDADE AS
     --Fim Para Cada Palavra
 
     --Elimina Palavra Comparada Do Vetor
-    DBMS_OUTPUT.PUT_LINE('Removendo palavra: '||UltimaPalavraComparada || ' com relacao: ' || MaiorRelacao);
+    --DBMS_OUTPUT.PUT_LINE('Removendo palavra: '||UltimaPalavraComparada || ' com relacao: ' || MaiorRelacao);
     --vetor_idx_palavras(indice).DELETE(PROCURA_PALAVRA(UltimaPalavraComparada,vetor_idx_palavras(indice)));
     DEL_INDICE(PROCURA_PALAVRA(UltimaPalavraComparada,vetor_idx_palavras(indice)),vetor_idx_palavras(indice));
     
@@ -258,8 +258,8 @@ END PROCURA_PALAVRA;
     SomaComuns NUMBER:=0;
       BEGIN
 
-        DBMS_OUTPUT.PUT_LINE('Texto1: '||TEXT1);
-        DBMS_OUTPUT.PUT_LINE('Texto2: '||TEXT2);
+        --DBMS_OUTPUT.PUT_LINE('Texto1: '||TEXT1);
+        --DBMS_OUTPUT.PUT_LINE('Texto2: '||TEXT2);
 
         --Testa semelhança direta do texto ou se os parâmetros são nulos
         if (TEXT1=TEXT2 or (text1 is null and text2 is null)) then
@@ -283,8 +283,8 @@ END PROCURA_PALAVRA;
         --Optamos por comentar a linha abaixo para caso o usuario colocasse uma palavra menor que tres letras
         --na busca...
         ELIMINAPALPEQ(TEXT2);
-        DBMS_OUTPUT.PUT_LINE('Texto1: '||TEXT1);
-        DBMS_OUTPUT.PUT_LINE('Texto2: '||TEXT2);
+        --DBMS_OUTPUT.PUT_LINE('Texto1: '||TEXT1);
+        --DBMS_OUTPUT.PUT_LINE('Texto2: '||TEXT2);
         --Preenche o Vetor Indexado (BiDimensional)
         --Exemplo:
         --[a]= 'Alberto','Amadeu','Alterar'
@@ -310,10 +310,10 @@ END PROCURA_PALAVRA;
           --do algoritmo
 
           SomaTotal:=SomaTotal+Total;
-          DBMS_OUTPUT.PUT_LINE('SomaTotal: '||SomaTotal);
+          --DBMS_OUTPUT.PUT_LINE('SomaTotal: '||SomaTotal);
           
           SomaComuns:=SomaComuns+Comuns;
-          DBMS_OUTPUT.PUT_LINE('SomaComuns: '||SomaComuns);
+          --DBMS_OUTPUT.PUT_LINE('SomaComuns: '||SomaComuns);
 
         END LOOP;
 
@@ -335,7 +335,7 @@ END PROCURA_PALAVRA;
             --Para cada palavra que comeca do a letra de codigo ASCII i
             FOR j in 1..Palavras_Indexadas(i).count+1 loop
               BEGIN
-              dbms_output.put_line('Palavra nao encontrada: ' || Palavras_Indexadas(i)(j));
+              --dbms_output.put_line('Palavra nao encontrada: ' || Palavras_Indexadas(i)(j));
                 --Captura o tamanho da palavra
                 CaracteresNaoComparados:=CaracteresNaoComparados + length(Palavras_Indexadas(i)(j));
               EXCEPTION
@@ -354,9 +354,9 @@ END PROCURA_PALAVRA;
         END LOOP;
 
         --Soma o comprimento das palavras restantes na SomaTotal de caracteres.
-        dbms_output.put_line('Somando ' || CaracteresNaoComparados);
+        --dbms_output.put_line('Somando ' || CaracteresNaoComparados);
         SomaTotal:=SomaTotal+CaracteresNaoComparados;
-        dbms_OUTPUT.put_line('Soma: ' || SomaTotal || ' Comuns: ' || SomaComuns);
+        --dbms_OUTPUT.put_line('Soma: ' || SomaTotal || ' Comuns: ' || SomaComuns);
       --Retorna a similaridade
       if SomaTotal!=0 then
       return (SomaComuns/SomaTotal);

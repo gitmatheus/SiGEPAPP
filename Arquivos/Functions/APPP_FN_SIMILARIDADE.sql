@@ -24,12 +24,12 @@ BEGIN
       Vetor1:=Vetor2;
       Vetor2:= VetorTemp;
     end if;
-
+ 
     for i in 1 .. vetor1.Count loop
         comumChars:=comumChars+appp_fn_maiorsub(Vetor2,vetor1(i),saida);
         totalChars:=totalChars+ saida;
-        dbms_output.put_line(comumchars);
-        dbms_output.put_line(totalChars);
+        --dbms_output.put_line(comumchars);
+        --dbms_output.put_line(totalChars);
     end loop;
 
 
