@@ -11,9 +11,12 @@ import br.edu.fei.sigepapp.bancodedados.dao.Resp_Quest_PreenchDAO;
 import br.edu.fei.sigepapp.bancodedados.model.QuestPreench;
 import br.edu.fei.sigepapp.bancodedados.model.Relac_Perg_Resp;
 import br.edu.fei.sigepapp.bancodedados.model.Resp_Quest_Preench;
+import br.edu.fei.sigepapp.bancodedados.model.Resposta;
+import br.edu.fei.sigepapp.log.GravarLog;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Date;
+import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -45,6 +48,9 @@ public class CadQuestPreenchServlet extends HttpServlet {
         Enumeration NomesAtributos;
         List<String> listaAtributos = new ArrayList<String>();
         SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+        RelacPergRespDAO respostaDao;
+        QuestPreenchDAO preencheDao;
+        Resp_Quest_PreenchDAO quest_PreenchDAO;
 
         try {
 
@@ -62,8 +68,9 @@ public class CadQuestPreenchServlet extends HttpServlet {
                 listaAtributos.add(NomesAtributos.nextElement().toString());
             }
 
-            for (int i = 0; i < listaAtributos.size() - 1; i++) {
+            for (int i = 1; i < listaAtributos.size() - 1; i++) {
                 list_perguntas.add(Long.parseLong(listaAtributos.get(i).toString()));
+                out.println(Long.parseLong(listaAtributos.get(i).toString()));
             }
 
 
@@ -72,36 +79,37 @@ public class CadQuestPreenchServlet extends HttpServlet {
             //list_pesos.add(Long.parseLong(request.getParameter("valor_resp"+cd_pergunta.toString())));
             }
 
-            RelacPergRespDAO respostaDao = new RelacPergRespDAO();
+            respostaDao = new RelacPergRespDAO();
             List<Relac_Perg_Resp> pesquisaResp = respostaDao.APPP_SEL_RELAC_PERG_RESP(new Relac_Perg_Resp());
             respostaDao.fechaConexao();
             Long Soma = 0l;
 
-            for (int i = 0; i < listaAtributos.size() - 1; i++) {
+            for (int i = 1; i < listaAtributos.size() - 1; i++) {
                 list_pesos.add(pesquisaResp.get(
-                        pesquisaResp.indexOf(new Relac_Perg_Resp(list_perguntas.get(i), list_respostas.get(i), 0))).getNro_valor_resp());
-                Soma += list_pesos.get(i);
-                out.println(list_perguntas.get(i) + "::" + list_respostas.get(i) + "->" + list_pesos.get(i));
+                        pesquisaResp.indexOf(new Relac_Perg_Resp(list_perguntas.get(i - 1), list_respostas.get(i - 1), 0))).getNro_valor_resp());
+                Soma += list_pesos.get(i - 1);
+                out.println(list_perguntas.get(i - 1) + "::" + list_respostas.get(i - 1) + "->" + list_pesos.get(i - 1));
             }
-
-            QuestPreenchDAO preencheDao = new QuestPreenchDAO();
+            
+            preencheDao = new QuestPreenchDAO();
 
             QuestPreench questionario = new QuestPreench();
 
             questionario.setCd_objeto(Long.parseLong(request.getParameter("CD_OBJ")));
             questionario.setCd_user(Long.parseLong(request.getSession().getAttribute("codigo_usuario").toString()));
             questionario.setVl_avaliacao(Soma);
+            questionario.setDs_proj_aplic(request.getParameter("Projeto_Aplicado"));
             questionario.setDt_aplicacao(new Date(Calendar.getInstance().getTimeInMillis()));
 
-            long retorno = preencheDao.APPP_INS_QUEST_PREENCH(questionario);
+            long ins_quest = preencheDao.APPP_INS_QUEST_PREENCH(questionario);
             boolean ins_respostas = true;
             preencheDao.fechaConexao();
-            if (retorno > 1) {
+            if (ins_quest > 1) {
 
-                Resp_Quest_PreenchDAO quest_PreenchDAO = new Resp_Quest_PreenchDAO();
-                for (int i = 0; i < listaAtributos.size() - 1; i++) {
+                quest_PreenchDAO = new Resp_Quest_PreenchDAO();
+                for (int i = 0; i < listaAtributos.size() - 2; i++) {
                     Resp_Quest_Preench respostas_quest = new Resp_Quest_Preench();
-                    respostas_quest.setCd_quest_preench(retorno);
+                    respostas_quest.setCd_quest_preench(ins_quest);
                     respostas_quest.setCd_pergunta(list_perguntas.get(i));
                     respostas_quest.setCd_resposta(list_respostas.get(i));
                     if (quest_PreenchDAO.APPP_INS_RESP_QUEST_PREENCH(respostas_quest) == false) {
@@ -110,24 +118,28 @@ public class CadQuestPreenchServlet extends HttpServlet {
                 }
                 quest_PreenchDAO.fechaConexao();
 
-                AvaliaObjeto avaliacao = new AvaliaObjeto();
+//                AvaliaObjeto avaliacao = new AvaliaObjeto();
 
-                avaliacao.executaAcoes(Long.parseLong(request.getParameter("CD_OBJ")), Long.parseLong(request.getSession().getAttribute("codigo_usuario").toString()));
+                //              avaliacao.executaAcoes(Long.parseLong(request.getParameter("CD_OBJ")), Long.parseLong(request.getSession().getAttribute("codigo_usuario").toString()));
 
 
-                if (ins_respostas) {
-                    response.sendRedirect("viewAPPP.jsp?CD_OBJ=" + Long.parseLong(request.getParameter("CD_OBJ")));
+                if (ins_quest > 1 && ins_respostas) {
+                    response.sendRedirect("viewAPPP.jsp?CD_OBJ=" + Long.parseLong(request.getParameter("CD_OBJ")) + "&MSG=1");
                 } else {
-                    response.sendRedirect("frmAvaliacao2.jsp?erro=1");
+                    response.sendRedirect("frmAvaliacao2.jsp?MSG=2");
                 }
             } else {
-                response.sendRedirect("frmAvaliacao2.jsp?erro=2");
+                response.sendRedirect("frmAvaliacao2.jsp?MSG=2");
             }
 
 
 
+        } catch (SQLException e) {
+            GravarLog.gravaErro(CadQuestPreenchServlet.class + " erro referente à uma excessão SQL : " + e.getMessage() + e.getSQLState());
+            
         } catch (Exception e) {
-            out.print(e.getMessage() + "Erro");
+            GravarLog.gravaErro(CadQuestPreenchServlet.class + " erro genérico: " + e.getMessage());
+            //e.printStackTrace(out);
         } finally {
             out.close();
         }

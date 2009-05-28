@@ -7,9 +7,14 @@
      boolean mostraMsgIncluir = false;
      if (request.getParameter("acao") != null) {
          Aval_Obj_UserDAO avaliaDAO = new Aval_Obj_UserDAO();
-         avaliaDAO.APPP_INS_AvalObjUser(new AvalObjUser(Long.parseLong(request.getSession().getAttribute("codigo_usuario").toString()), Long.parseLong(request.getParameter("CD_OBJ").trim())));
-         avaliaDAO.fechaConexao();
-         mostraMsgIncluir = true;
+         try {
+             avaliaDAO.APPP_INS_AvalObjUser(new AvalObjUser(Long.parseLong(request.getSession().getAttribute("codigo_usuario").toString()), Long.parseLong(request.getParameter("CD_OBJ").trim())));
+             mostraMsgIncluir = true;
+         } catch (Exception e) {
+         } finally {
+             avaliaDAO.fechaConexao();
+         }
+
      }
 //Fim do tratamento para solicitação de adicionar documento à lista de utilização.
 
@@ -58,13 +63,42 @@
     }
 </style>
 <script type="text/javascript" language="javascript" src="js/jquery-ui-1.7.js"></script>
+
+<% if (mostraMsgIncluir) {%>
 <script type="text/javascript" language="javascript">
     $(document).ready(function(){
-
+        $("#alertPadrao").dialog({ buttons: { "Ok": function() { $(this).dialog("close")}}});
+        $("#alertPadrao").dialog('option','title','Avaliação');
+        $("#alertPadrao").html("<table width='100%'><tr><td><img src='images/m2bralerta.png' style='vertical-align:middle;'/></td><td>Documento colocado em sua lista de utiliza&ccedil;&atilde;o.<br/><br/><b> Muito obrigado!</b></td>" );
+        $(document).scrollTop(0);
+        $("#alertPadrao").dialog("open");
     });
-
-
 </script>
+<%}%>
+
+
+<% if (request.getParameter("MSG")!=null && request.getParameter("MSG").equals("1")) {%>
+<script type="text/javascript" language="javascript">
+    $(document).ready(function(){
+        $("#alertPadrao").dialog({ buttons: { "Ok": function() { $(this).dialog("close")}}});
+        $("#alertPadrao").dialog('option','title','Avaliação');
+        $("#alertPadrao").html("<table width='100%'><tr><td><img src='images/m2bralerta.png' style='vertical-align:middle;'/></td><td>Documento avaliado com sucesso.<br/><br/><b> Muito obrigado!</b></td>" );
+        $(document).scrollTop(0);
+        $("#alertPadrao").dialog("open");
+    });
+</script>
+<%}else if(request.getParameter("MSG")!=null && request.getParameter("MSG").equals("2")){%>
+<script type="text/javascript" language="javascript">
+    $(document).ready(function(){
+        $("#alertPadrao").dialog({ buttons: { "Ok": function() { $(this).dialog("close")}}});
+        $("#alertPadrao").dialog('option','title','Avaliação');
+        $("#alertPadrao").html("<table width='100%'><tr><td><img src='images/m2bralerta.png' style='vertical-align:middle;'/></td><td>Ocorreu um erro na avaliação.<br/>Por favor, tente novamente mais tarde.<br/><br/><b> Muito obrigado!</b></td>" );
+        $(document).scrollTop(0);
+        $("#alertPadrao").dialog("open");
+    });
+</script>
+<%}%>
+
 
 
 <table border="0" cellpadding="0" cellspacing="0" width="100%" align="right">
@@ -329,5 +363,7 @@
     <p><small><font class="texto">Por favor, efetue o login no canto superior direito da p&aacute;gina</font></small></p>
 </center>
 <%}%>
+<div style="display:block;" id="alertPadrao">
 
+</div>
 <%@include file="rodape.jsp" %>

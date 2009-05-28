@@ -27,7 +27,7 @@ function getTipos(){
 }
 function informa(Texto, Titulo){
     $("#alertPadrao").dialog('option','title',Titulo);
-    $("#alertPadrao").html("<img src='images/m2bralerta.png' style='vertical-align:middle;'/>" + Texto);
+    $("#alertPadrao").html("<table width='100%'><tr><td><img src='images/m2bralerta.png' style='vertical-align:middle;'/></td><td>" + Texto+"</td>");
     $(document).scrollTop(0);
     $("#alertPadrao").dialog("open");
 }
