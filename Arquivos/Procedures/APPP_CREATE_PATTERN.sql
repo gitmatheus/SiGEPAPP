@@ -23,13 +23,15 @@ begin
                               CD_ESTRUTURA   ,
                               DS_OBJETO      ,
                               DT_CRIACAO     ,
-                              CD_USER_CRIADOR
+                              CD_USER_CRIADOR,
+							  FL_ATIVO
                              )
                       values( pNM_OBJETO      ,
                               pCD_ESTRUTURA   ,
                               pDS_OBJETO      ,
                               SYSDATE         , -- DATA DE CRIAÇÃO É AGORA
-                              pCD_USER_CRIADOR 
+                              pCD_USER_CRIADOR,
+							  1
                              );
                              
    select APPP_SEQ_OBJETO.CURRVAL

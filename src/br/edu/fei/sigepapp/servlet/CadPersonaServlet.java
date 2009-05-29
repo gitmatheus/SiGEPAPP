@@ -54,6 +54,7 @@ public class CadPersonaServlet extends HttpServlet {
                 objeto.setNm_objeto(valores[0]);
                 objeto.setDs_objeto(valores[1]);
                 objeto.setCd_user_criacao(cod_usuario);
+                objeto.setFl_ativo(1);
                 persona.setUrl_Foto(valores[2]);
 
                 ObjetoDAO objDao = new ObjetoDAO();

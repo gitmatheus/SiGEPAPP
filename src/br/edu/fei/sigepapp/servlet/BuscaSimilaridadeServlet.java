@@ -48,6 +48,7 @@ public class BuscaSimilaridadeServlet extends HttpServlet {
 
                 daoGenerica.fechaConexao();
 
+                out.println("<?xml version='1.0' encoding='ISO-8859-1'?>");
                 out.println("<xml>");
 
                 NumberFormat nf = new DecimalFormat("0.000");

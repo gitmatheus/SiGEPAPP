@@ -54,6 +54,7 @@ public class CadAntiPatternServlet extends HttpServlet {
                 objeto.setNm_objeto(valores[0]);
                 objeto.setDs_objeto(valores[1]);
                 objeto.setCd_user_criacao(cod_usuario);
+                objeto.setFl_ativo(1);
                 antipattern.setDs_Problema(valores[2]);
                 antipattern.setDs_Barreiras(valores[3]);
                 antipattern.setDs_Sintomas(valores[4]);

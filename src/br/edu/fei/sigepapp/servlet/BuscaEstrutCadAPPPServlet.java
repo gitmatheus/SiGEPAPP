@@ -35,6 +35,7 @@ public class BuscaEstrutCadAPPPServlet extends HttpServlet {
             Collection<Estrutura> estruturas = dao.APPP_SEL_Estrutura_Geral(new Estrutura());
             dao.fechaConexao();
 
+            writer.println("<?xml version='1.0' encoding='ISO-8859-1'?>");
             writer.println("<estruturas>");
 
             switch (Integer.parseInt(request.getParameter("tipos_requisitados"))) {

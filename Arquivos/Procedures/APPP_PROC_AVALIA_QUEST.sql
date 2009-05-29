@@ -9,7 +9,7 @@
 ***************************************************************************************************/
 CREATE OR REPLACE PROCEDURE APPP_PROC_AVALIA_QUEST
 (pCD_OBJ in NUMBER, pCD_USER in NUMBER, pRetorno out NUMBER) IS
-  Result LONG;
+  Result NUMBER;
   pQTDE_AVALIACOES number := 0;
   pMEDIA number := 0;
   pMediaQuestionario number;
