@@ -27,6 +27,9 @@
          * |  Guilherme  |  09/02/21   | Quebra do arquivo index em cabecalho |
          * |             |             | e rodape.                            |
          * |------------------------------------------------------------------|
+         * |  Guilherme  |  09/05/28   | Últimos documentos cadastrados apre- |
+         * |             |             | sentados em forma de tabs.           |
+         * |------------------------------------------------------------------|
          **/
         GenericDAO generica = new GenericDAO();
 
@@ -40,13 +43,20 @@
 <script type="text/javascript" language="javascript" src="js/jquery-ui-1.7.js"></script>
 <script type="text/javascript">
     $(document).ready(function(){
-        $("#accordion_listPattern").accordion();
-        $("#accordion_listAntiPattern").accordion();
-        $("#accordion_listPersona").accordion();
-    });
+    <%if (listPA.size() > 0) {%>
+            $("#tabs_Patterns").tabs();
+    <%}%>
+<%if (listAP.size() > 0) {%>
+        $("#tabs_Anti_Patterns").tabs();
+    <%}%>
+    <%if (listPE.size() > 0) {%>
+            $("#tabs_Persona").tabs();
+        <%}%>
+            });
 
 </script>
 <table border="0" cellpadding="0" cellspacing="0" width="100%" align="right">
+    <%if (listPA.size() > 0) {%>
     <tr>
         <td colspan="2" class="titulo" width="50%" style="border-right: 1px dotted #3d414c;">
             <div style="margin-left: 10px; text-align:center;">
@@ -56,23 +66,28 @@
     </tr>
     <tr>
         <td colspan="2">
-            <div id="accordion_listPattern">
+            <div id="tabs_Patterns">
+                <ul>
+                    <%for (int i = 0; i < listPA.size() && i < 5; i++) {%>
+                    <li><a href="#tabs_Pat_<%= listPA.get(i).getCd_objeto()%>"><%= listPA.get(i).getNm_objeto()%></a></li>
+                    <%}%>
+                </ul>
                 <%for (int i = 0; i < listPA.size() && i < 5; i++) {%>
-
-                <h3><a href="#"><%= listPA.get(i).getNm_objeto()%></a></h3>
-                <div>
-                    <p>
-                        <%= listPA.get(i).getDs_objeto()%>
+                <div id="tabs_Pat_<%= listPA.get(i).getCd_objeto()%>">
+                    <p class="texto">
+                        <%=listPA.get(i).getDs_objeto()%>
                     </p>
                     <p>
-                        <div align="right"><a class="ultimosDoc" href="viewAPPP.jsp?CD_OBJ=<%=listPA.get(i).getCd_objeto() %>">Detalhes...</a></div>
+                        <div align="right"><a class="ultimosDoc" href="viewAPPP.jsp?CD_OBJ=<%=listPA.get(i).getCd_objeto()%>">Detalhes...</a></div>
                     </p>
                 </div>
                 <%}%>
             </div>
         </td>
     </tr>
+    <%}%>
     <!--Ultimos Patterns Cadastrados FIM-->
+    <%if (listAP.size() > 0) {%>
     <tr>
         <td colspan="2" class="titulo" width="50%" style="border-right: 1px dotted #3d414c;">
             <div style="margin-left: 10px; text-align:center;">
@@ -82,26 +97,29 @@
     </tr>
     <tr>
         <td colspan="2">
-            <div id="accordion_listAntiPattern">
+            <div id="tabs_Anti_Patterns">
+                <ul>
+                    <%for (int i = 0; i < listAP.size() && i < 5; i++) {%>
+                    <li><a href="#tabs_Pat_<%= listAP.get(i).getCd_objeto()%>"><%= listAP.get(i).getNm_objeto()%></a></li>
+                    <%}%>
+                </ul>
                 <%for (int i = 0; i < listAP.size() && i < 5; i++) {%>
-
-                <h3><a href=""><%= listAP.get(i).getNm_objeto()%></a></h3>
-                <div>
-                    <p>
-                        <%= listAP.get(i).getDs_objeto()%>
+                <div id="tabs_Pat_<%= listAP.get(i).getCd_objeto()%>">
+                    <p class="texto">
+                        <%=listAP.get(i).getDs_objeto()%>
                     </p>
-                     <p>
-                        <div align="right"><a class="ultimosDoc" href="viewAPPP.jsp?CD_OBJ=<%=listAP.get(i).getCd_objeto() %>">Detalhes...</a></div>
+                    <p>
+                        <div align="right"><a class="ultimosDoc" href="viewAPPP.jsp?CD_OBJ=<%=listAP.get(i).getCd_objeto()%>">Detalhes...</a></div>
                     </p>
                 </div>
-
                 <%}%>
             </div>
         </td>
     </tr>
+    <%}%>
     <!--Ultimos Anti-Patterns cadastrados FIM-->
 
-
+    <%if (listPE.size() > 0) {%>
     <tr>
         <td colspan="2" class="titulo" width="50%" style="border-right: 1px dotted #3d414c;">
             <div style="margin-left: 10px; text-align:center;">
@@ -111,22 +129,27 @@
     </tr>
     <tr>
         <td colspan="2">
-            <div id="accordion_listPersona">
+            <div id="tabs_Persona">
+                <ul>
+                    <%for (int i = 0; i < listPE.size() && i < 5; i++) {%>
+                    <li><a href="#tabs_Pat_<%= listPE.get(i).getCd_objeto()%>"><%= listPE.get(i).getNm_objeto()%></a></li>
+                    <%}%>
+                </ul>
                 <%for (int i = 0; i < listPE.size() && i < 5; i++) {%>
-                <h3><a href=""><%= listPE.get(i).getNm_objeto()%></a></h3>
-                <div>
-                    <p>
-                        <%= listPE.get(i).getDs_objeto()%>
+                <div id="tabs_Pat_<%= listPE.get(i).getCd_objeto()%>">
+                    <p class="texto">
+                        <%=listPE.get(i).getDs_objeto()%>
                     </p>
-                     <p>
-                        <div align="right"><a class="ultimosDoc" href="viewAPPP.jsp?CD_OBJ=<%=listPE.get(i).getCd_objeto() %>">Detalhes...</a></div>
+                    <p>
+                        <div align="right"><a class="ultimosDoc" href="viewAPPP.jsp?CD_OBJ=<%=listPE.get(i).getCd_objeto()%>">Detalhes...</a></div>
                     </p>
                 </div>
-
                 <%}%>
             </div>
         </td>
     </tr>
+    <%}%>
+
 
     <!--Ultimas Personas Cadastras FIM-->
 
@@ -145,61 +168,6 @@
             aliados a uma poderosa ferramenta de busca por similaridade através de conceitos envolvendo Raciocínio Baseado
             em Casos, auxiliam os profissionais a desenvolverem sistemas de qualidade - focados no perfil do usuário - de maneira
             mais eficiente, minimizando o retrabalho e reduzindo custos. Bem vindo ao SigePAPP!
-        </td>
-    </tr>
-
-    <tr>
-        <td class="titulo" width="50%">
-            <div style="margin-left: 10px; text-align:left">
-                <font class="titulo">.: Patterns</font>
-            </div>
-        </td>
-        <td class="titulo" width="50%">
-            <div style="margin-left: 10px; text-align:left">
-                <font class="titulo">.: Anti-Patterns</font>
-            </div>
-        </td>
-    </tr>
-    <tr>
-        <td width="50%" style="border-right: 1px dotted #3d414c;">
-            <div style=" margin-left: 10px; margin-right: 10px; margin-top: 5px; margin-bottom: 15px; text-align:justify;">
-                <font class="texto">
-                    Os patterns são utilizados para documentar boas práticas.A vantagem na utilização dos patterns está em localizar as soluções para problemas recorrentes sem muito despreender muito tempo.
-                </font>
-            </div>
-        </td>
-        <td width="50%">
-            <div style=" margin-left: 10px; margin-right: 10px; margin-top: 5px; margin-bottom: 15px; text-align:justify;">
-                <font class="texto">
-                    Os anti-patterns são utilizados para documentar más práticas e recomendações na tentativa de informar o caminho para se encontrar uma solução.
-                </font>
-            </div>
-        </td>
-    </tr>
-    <tr>
-        <td class="titulo" width="50%" style="border-right: 1px dotted #3d414c;">
-            <div style="margin-left: 10px; text-align:left;">
-                <font class="titulo">.: Personas</font>
-            </div>
-        </td>
-        <td class="titulo" width="50%">
-            <div style="margin-left: 10px; text-align:left">
-                <font class="titulo"> &nbsp;</font>
-            </div>
-        </td>
-    </tr>
-    <tr>
-        <td width="50%" style="border-right: 1px dotted #3d414c;">
-            <div style=" margin-left: 10px; margin-right: 10px; margin-top: 5px; margin-bottom: 15px; text-align:justify;">
-                <font class="texto">
-                    São perfis de usuários utilizados para compreender as características de um determinado grupo de usuários.Isso é importante para manter o foco do projetista no usuário final.
-                </font>
-            </div>
-        </td>
-        <td width="50%">
-            <div style=" margin-left: 10px; margin-right: 10px; margin-top: 5px; margin-bottom: 15px; text-align:justify;">
-                <font class="texto">&nbsp;</font>
-            </div>
         </td>
     </tr>
 </table>

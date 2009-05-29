@@ -77,7 +77,7 @@
 <%}%>
 
 
-<% if (request.getParameter("MSG")!=null && request.getParameter("MSG").equals("1")) {%>
+<% if (request.getParameter("MSG") != null && request.getParameter("MSG").equals("1")) {%>
 <script type="text/javascript" language="javascript">
     $(document).ready(function(){
         $("#alertPadrao").dialog({ buttons: { "Ok": function() { $(this).dialog("close")}}});
@@ -87,7 +87,7 @@
         $("#alertPadrao").dialog("open");
     });
 </script>
-<%}else if(request.getParameter("MSG")!=null && request.getParameter("MSG").equals("2")){%>
+<%} else if (request.getParameter("MSG") != null && request.getParameter("MSG").equals("2")) {%>
 <script type="text/javascript" language="javascript">
     $(document).ready(function(){
         $("#alertPadrao").dialog({ buttons: { "Ok": function() { $(this).dialog("close")}}});

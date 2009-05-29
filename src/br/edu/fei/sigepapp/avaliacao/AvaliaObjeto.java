@@ -43,9 +43,13 @@ public class AvaliaObjeto {
 
             switch (cResult) {
                 case 1:
+                    cstmt.close();
+                    conn.close();
                     GravarLog.gravaInformacao(AvaliaObjeto.class.getName() + ": nota da avaliação do APPP acima do limite de bloqueio.");
                     break;
                 case 2:
+                    cstmt.close();
+                    conn.close();
                     GravarLog.gravaInformacao(AvaliaObjeto.class.getName() + ": número de avaliações não atingiu o minimo para comparações.");
                     break;
                 case 3:
@@ -219,6 +223,7 @@ public class AvaliaObjeto {
                 "<a href='/sigepapp/viewAPPP.jsp?cd_objeto=" + codigoObj + "'>" + nomeObj + "</a>, " +
                 "foi indisponibilizado devido a baixa nota de avaliação.<br /><br />Atenciosamente,<br />" +
                 "Equipe Sigepapp</font>"); //conteudo do e-mail
+
         email.setAuthentication("no.reply.sigepapp@gmail.com", "apppsigepapp");
         email.setSmtpPort(465);
         email.setSSL(true);
