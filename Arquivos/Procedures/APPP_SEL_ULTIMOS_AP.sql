@@ -90,7 +90,7 @@ BEGIN
 
 											FETCH AOB INTO vNM_COLUNA;
 									 END LOOP;
-
+									CLOSE AOB;
                    vSQL := vSQL ||'FROM   APPP_TB_OBJETO O,' || chr(10);
 		               vSQL := vSQL ||'       '||TRIM(vNM_TABELA)|| ' G '   || chr(10);
                    vSQL := vSQL ||'WHERE  G.CD_OBJETO = O.CD_OBJETO' || chr(10);

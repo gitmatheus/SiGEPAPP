@@ -24,7 +24,7 @@ begin
 																			CD_USER          ,
 																			CD_OBJETO 
                                     )
-                             values( pCD_QUEST_PREENCH ,
+                             values( APPP_SEQ_QUEST_PREE.NEXTVAL	,
                                      SYSDATE           ,
                                      pVL_AVALIACAO     ,
                                      pDS_PROJ_APLIC    ,
@@ -33,7 +33,7 @@ begin
                                     );
                                     
    commit;
-   select CD_QUEST_PREENCH into vResult from APPP_TB_QUEST_PREENCH;
+      select APPP_SEQ_QUEST_PREE.CURRVAL into vResult from DUAL;
    
    EXCEPTION
      WHEN OTHERS THEN
