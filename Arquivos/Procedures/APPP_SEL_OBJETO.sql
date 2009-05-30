@@ -27,7 +27,7 @@ begin
               CD_USER_CRIADOR ,
 							FL_ATIVO        
        FROM APPP_TB_OBJETO
-       WHERE CD_OBJETO = pCD_OBJETO;    
+       WHERE CD_ESTRUTURA = pCD_ESTRUTURA;    
     
     ELSE      
     

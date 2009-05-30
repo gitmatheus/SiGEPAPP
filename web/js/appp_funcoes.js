@@ -105,13 +105,26 @@ $(document).ready(function(){
     $("#divSubMenu").css("top", $("#menubv2").position().top);
     $("#divSubMenu").hide();
 
+    $("#divSubMenu2").css("top", $("#menubv3").position().top);
+    $("#divSubMenu2").hide();
+
     $("#menubv2, #divSubMenu").hover(function(){
         $("#divSubMenu").show();
+    });
+
+    $("#menubv3, #divSubMenu2").hover(function(){
+        $("#divSubMenu2").show();
     });
 
     $("#tableSubMenu, .menubv:not(#tableSubMenu *)").hover(function(){},
         function(){
             $("#divSubMenu").hide();
+        });
+
+
+    $("#tableSubMenu2, .menubv:not(#tableSubMenu2 *)").hover(function(){},
+        function(){
+            $("#divSubMenu2").hide();
         });
 
 

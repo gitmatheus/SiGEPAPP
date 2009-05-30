@@ -119,7 +119,7 @@
         </tr>
         <tr class="menubv">
             <td>
-                <a id="menubv2" href="/sigepapp/" title="Cadastros disponiveis no sistema" >Cadastro</a>
+                <a id="menubv2" href="#" title="Cadastros disponiveis no sistema" >Cadastro</a>
             </td>
         </tr>
         <tr>
@@ -157,9 +157,28 @@
         <a id="menubv" href="/sigepapp/frmCadUsuario.jsp" title="Cadastro das Estruturas disponiveis no sistema" >Cadastro de Usuário</a></tr>-->
         <tr class="menubv">
             <td>
-                <a id="menubv3" href="/sigepapp/frmBuscaAPPP.jsp" title="Sistema de busca para Patterns, Anti-Patterns e Personas" >Busca de Conte&uacute;do</a>
+                <a id="menubv3" href="#" title="Buscas de conteúdos disponíveis no sistema" >Busca de Conte&uacute;do</a>
             </td>
         </tr>
+        <tr>
+            <td>
+                <div style="z-index:1" id="divSubMenu2">
+                    <table class="menubv submenu" border="0" bgcolor="#EEEEEE" cellpadding="0" cellspacing="0" width="90%" id="tableSubMenu2" align="right">
+                        <tr class="menubv submenu">
+                            <td>
+                                <a id="menubv submenu" href="/sigepapp/frmBuscaAPPP.jsp" title="Busca de conteúdo por similaridade" >Por similaridade</a>
+                            </td>
+                        </tr>
+                        <tr class="menubv submenu">
+                            <td>
+                                <a id="menubv submenu" href="/sigepapp/frmBuscaPorEstrutura.jsp" title="Busca de conteúdo por sua estrutura" >Por estrutura</a>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </td>
+        </tr>
+
         <tr class="menubv"><td>
         <a id="menubv" href="/sigepapp/frmCadUsuario.jsp" title="Cadastro e Edição de perfil dos usu&aacute;rios" >Registre-se</a></tr>
         <tr class="menubv"><td>
