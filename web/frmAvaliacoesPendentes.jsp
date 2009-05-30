@@ -19,6 +19,7 @@
         Aval_Obj_UserDAO avaliaDAO = new Aval_Obj_UserDAO();
         List<AvalObjUser> listaAvalia = avaliaDAO.APPP_SEL_AvalObjUser(new AvalObjUser(Long.parseLong(request.getSession().getAttribute("codigo_usuario").toString()), 0));
         avaliaDAO.fechaConexao();
+        int indice = 1;
 %>
 <%@include file="cabecalho.jsp" %>
 <style type="text/css">
@@ -38,7 +39,7 @@
     <!--Fim do titulo-->
     <!--Inicio do Conteudo-->
     <tr>
-        <td style="font-size:medium">
+        <td style="font-size:medium;padding: 1em 2em;" class="texto">
             A lista abaixo apresenta o(s) APPP(s) que est&atilde;o na sua lista de utiliza&ccedil;&atilde;o e ainda n&atilde;o foram avaliados:
         </td>
     </tr>
@@ -49,8 +50,9 @@
                 <% for (AvalObjUser item_lista : listaAvalia) {%>
                 <tr>
                     <td align="center">
-                        <%= item_lista.getCd_obj()%>
-                        <!--Item da lista-->
+                        <p style="font-size:17px;text-align:center"><%= indice%>
+                        
+                            <!--Item da lista-->
                 <%
      Connection conn;
      ResultSet rs = null;
@@ -65,10 +67,9 @@
          cstmt.execute();
 
          rs = (ResultSet) cstmt.getObject(2);
-         while (rs.next()) {
-                        %>
-                       <a href="viewAPPP.jsp?CD_OBJ=<%= item_lista.getCd_obj() %>"><%= rs.getString("NM_OBJETO")%></a>
-                        <%
+         while (rs.next()) {%>
+                            <a style="font-size:17px;" href="viewAPPP.jsp?CD_OBJ=<%= item_lista.getCd_obj()%>"><%= rs.getString("NM_OBJETO")%></a>
+                            <%
          }
          rs.close();
          cstmt.close();
@@ -76,14 +77,17 @@
 
      } catch (Exception e) {
          out.println("Erro ao pesquisar por esta estrutura. Os desenvolvedores já foram informados sobre o erro.Favor tente novamente mais tarde");
-         GravarLog.gravaErro("Página de AvaliaçõesPendentes : erro na pesquisa referente a uma exceção:" + e.getMessage()+" - "+e.getLocalizedMessage());
+         GravarLog.gravaErro("Página de AvaliaçõesPendentes : erro na pesquisa referente a uma exceção:" + e.getMessage() + " - " + e.getLocalizedMessage());
      } finally {
      }
 
-                        %>
+                            %>
+                        </p>
                     </td>
                 </tr>
-                <%}%>
+                <%
+            indice++;
+        }%>
             </table>
             <!--Fim lista de avaliações pendentes-->
         </td>

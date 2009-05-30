@@ -243,6 +243,12 @@
 
     $(document).ready(function(){
 
+        $(document).keyup(function(evento){
+            if (evento.keyCode==13){
+                $("#linkProximo").click();
+            }
+        });
+
         $("#alertConfirma").dialog({
             width: 300,
             modal: true,
@@ -250,7 +256,6 @@
             buttons: {
                 Nao: function(){
                     $("#alertConfirma").dialog('close');
-                    
                 },
                 Sim: function(){
                     $("#alertConfirma").dialog('close');
@@ -296,7 +301,7 @@
 
                 $("#alertConfirma").dialog('open');
 
-                   // $("#frmFormCadEstruturaStep4").submit();
+                // $("#frmFormCadEstruturaStep4").submit();
 
             }else{
                 informa("N&atilde;o foi adicionado nenhum atributo para esta estrutura.<br>Utilize a caixa de sele&ccedil;&atilde;o de atributos abaixo.", "Erro no cadastro");

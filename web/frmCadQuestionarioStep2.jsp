@@ -23,6 +23,7 @@ a<%@page import="br.edu.fei.sigepapp.bancodedados.dao.*,br.edu.fei.sigepapp.banc
 <%@include file="cabecalho.jsp"%>
 
 <script type="text/javascript" language="javascript" src="js/appp_frmCadResposta.js"></script>
+<script type="text/javascript" language="javascript" src="js/jquery-ui-1.7.js"></script>
 
 <!--Inicio do formulário-->
 <table border="0" cellpadding="0" cellspacing="0" width="100%" align="center" class="formulario">
@@ -153,4 +154,9 @@ a<%@page import="br.edu.fei.sigepapp.bancodedados.dao.*,br.edu.fei.sigepapp.banc
 </table>
 
 <!--Fim do formulário-->
+
+<div style="display:block;" id="alertPadrao">
+
+</div>
+
 <%@include file="rodape.jsp"%>

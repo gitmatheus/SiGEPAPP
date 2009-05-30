@@ -110,4 +110,10 @@
 </table>
 
 <!--Fim do formulário-->
+
+<div style="display:block;" id="alertPadrao">
+
+</div>
+
+
 <%@include file="rodape.jsp"%>

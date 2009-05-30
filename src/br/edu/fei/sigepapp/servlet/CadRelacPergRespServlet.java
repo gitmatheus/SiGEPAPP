@@ -32,7 +32,7 @@ public class CadRelacPergRespServlet extends HttpServlet {
             String PesoResp[] = request.getParameterValues("PesoResp");
 
             for (int i = 0; i < CDPerg.length; i++) {
-                if (!CDResp[i].equals("0")) {
+                if (CDResp[i]!=null && !CDResp[i].equals("0")) {
                     relacPergResp.APPP_INS_RELAC_PERG_RESP(new Relac_Perg_Resp(Long.parseLong(CDPerg[i]), Long.parseLong(CDResp[i]), Long.parseLong(PesoResp[i])));
                 }
                 out.println(CDPerg[i] + " " + CDResp[i]);

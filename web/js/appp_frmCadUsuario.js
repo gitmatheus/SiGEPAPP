@@ -49,6 +49,9 @@ function valida(){
     }else if($.trim($("#frmCadUserTelefone").val())==""){
         msgAlerta = "<img src='images/m2bralerta.png' style='vertical-align:middle;'/> Por favor, preencha o campo de Telefone";
         $("#alert").dialog('open');
+    }else if($.trim($("#frmCadUserEndComplemento").val())==""){
+        $("#frmCadUserEndComplemento").val(" ");
+        retorno=true;
     }else{
         retorno=true;
     }
@@ -90,6 +93,7 @@ $(document).ready(function(){
     $("#frmCadUserDataNasc").mask("99/99/9999");
     $("#frmCadUserCPF").mask("999.999.999-99");
     $("#frmCadUserTelefone").mask("(99)9999-9999");
+    $("#frmCadUserNumEnd").mask("99999");
     $("#frmCadUserDataNasc").val("");
     
     if($("#flagEdit").val() == 'sim'){

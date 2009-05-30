@@ -1,5 +1,17 @@
 $(document).ready(function(){
 
+    $("#alertPadrao").dialog({
+        width: 300,
+        modal: true,
+        autoOpen: false,
+        buttons: {
+            Ok: function(){
+                $(this).dialog('close');
+            }
+        }
+    });
+
+
     $("#frmCadQuestionarioEnviaResp").click(function(){
         EnviaCadResposta();
         LimpaDescRespostas();
@@ -7,11 +19,19 @@ $(document).ready(function(){
     });
 });
 
+function informa(Texto, Titulo){
+    $("#alertPadrao").dialog('option','title',Titulo);
+    $("#alertPadrao").html("<table width='100%'><tr><td><img src='images/m2bralerta.png' style='vertical-align:middle;'/></td><td>" + Texto+"</td>");
+    $(document).scrollTop(0);
+    $("#alertPadrao").dialog("open");
+}
+
+
 function carregaListaRespostas(){
     
     $.ajaxSetup({
         async: false
-        });
+    });
     $.post("GetRespostaServlet", {},
         function(retorno, estado){
             $("#frmCadResp select").each(function(indice2, combotemp){
@@ -49,9 +69,9 @@ function EnviaCadResposta(){
         var confirma = $("sucesso",xml).text();
 
         if (confirma == "sim"){
-            alert("Resposta cadastrada com sucesso!");
+            informa("Resposta cadastrada com sucesso!","Cadastro de Respostas");
         }else{
-            alert("Resposta nao cadastrada devido a um erro!\nTente novamente mais tarde.");
+            informa("Resposta nao cadastrada devido a um erro!\nTente novamente mais tarde.","Cadastro de Respostas");
         }
     });
 }

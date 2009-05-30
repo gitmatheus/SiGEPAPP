@@ -1,5 +1,16 @@
 $(document).ready(function(){
 
+    $("#alertPadrao").dialog({
+        width: 300,
+        modal: true,
+        autoOpen: false,
+        buttons: {
+            Ok: function(){
+                $(this).dialog('close');
+            }
+        }
+        });
+
     carregaListaPerguntas();
 
     $("#frmCadQuestionarioEnviaPerg").click(function(){
@@ -8,6 +19,13 @@ $(document).ready(function(){
         carregaListaPerguntas();
     });
 });
+
+function informa(Texto, Titulo){
+    $("#alertPadrao").dialog('option','title',Titulo);
+    $("#alertPadrao").html("<table width='100%'><tr><td><img src='images/m2bralerta.png' style='vertical-align:middle;'/></td><td>" + Texto+"</td>");
+    $(document).scrollTop(0);
+    $("#alertPadrao").dialog("open");
+}
 
 function carregaListaPerguntas(){
     $("#FrmCadQuestionarioComboPerg").empty();
@@ -42,9 +60,9 @@ function EnviaCadPergunta(){
         var confirma = $("sucesso",xml).text();
         
         if (confirma == "sim"){
-            alert("Pergunta cadastrada com sucesso!");
+            informa("Pergunta cadastrada com sucesso!", "Cadastro de perguntas");
         }else{
-            alert("Pergunta nao cadastrada devido a um erro!\nTente novamente mais tarde.");
+            informa("Pergunta nao cadastrada devido a um erro!\nTente novamente mais tarde.", "Cadastro de perguntas");
         }
     });
 }

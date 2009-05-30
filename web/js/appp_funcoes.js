@@ -79,7 +79,7 @@ $(document).ready(function(){
     var Tamanhos_Texto = new Array( '12px','14px','15px','16px' );
     if(Tamanho_Historico!=null){
         Tamanho_Texto_Atual=Tamanho_Historico;
-        $("*").css("font-size", Tamanhos_Texto[Tamanho_Texto_Atual]);
+        $("*>font").css("font-size", Tamanhos_Texto[Tamanho_Texto_Atual]);
     }
 
     $("#link_aumenta_fonte").click(function(){
