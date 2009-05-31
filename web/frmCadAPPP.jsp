@@ -115,7 +115,7 @@
 
                 }
             }});
-        
+
         $("#frmCadAPPPBtnCancelar").click(function(){
             window.location = "/sigepapp";
         });
@@ -329,7 +329,7 @@
                         strHtml += "</td><td width='50%' align='left' valign='middle'>";
                         strHtml += "<input id='" + nome + "' name='" + nome + "' type='text' class='edit' title='" + $(elemento).find("descricao").text() + "'";
                         //if($(elemento).find("flagexpreg").text() == "S"){
-                            strHtml += " onblur='javascript:validaCampo(\"" + $(elemento).find("nome").text() + "\",\"" + nome + "\",\"^[0-9]{2}/[0-9]{2}/[0-9]{4}$\")'/>";
+                        strHtml += " onblur='javascript:validaCampo(\"" + $(elemento).find("nome").text() + "\",\"" + nome + "\",\"^[0-9]{2}/[0-9]{2}/[0-9]{4}$\")'/>";
                         //}else{
                         //    strHtml += "/>";
                         //}
@@ -508,7 +508,7 @@
                 }
             }
         });
-        
+
         $("#alertErroExpr").dialog({
             width: 300,
             modal: true,
@@ -533,34 +533,34 @@
             <td align="center">
                 <br />
                 <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                    
                     <tr>
-                        <tr>
-                            <td colspan="2" align="center">
-                                <fieldset style="width:400px;">
-                                    <legend style="font-weight: bold;">Filtros de busca de estruturas:</legend>
-                                    <table border="0" cellpadding="0" cellspacing="0" width="100%">
-                                        <tr>
-                                            <td align="right">
-                                                <font class="texto">Por nome:&nbsp;&nbsp;</font>
-                                            </td>
-                                            <td>
-                                                <input id="frmTxtBuscaEstrutura" type="text" class="edit" style="width: 250px" onkeyup="filtraCombo('#frmCadAPPPEstrutura','#frmTxtBuscaEstrutura');"></input>
-                                            </td>
-                                        </tr>
-                                        <td colspan="2" align="center">
-                                            <br /><font class="texto">Por tipo:</font>&nbsp;&nbsp;
-                                            <input id="frmCadAPPPChkPattern" name="frmCadAPPPChkPattern" type="checkbox" class="edit" value="PA" checked>
-                                            <font class="texto"> Patterns </font> &nbsp;&nbsp;
-                                            <input id="frmCadAPPPChkAntiPattern" name="frmCadAPPPChkAntiPattern" type="checkbox" class="edit" value="AP" checked>
-                                            <font class="texto"> Anti-Patterns </font> &nbsp;&nbsp;
-                                            <input id="frmCadAPPPChkPersona" name="frmCadAPPPChkPersona" type="checkbox" class="edit" value="PE" checked>
-                                            <font class="texto"> Personas </font>
+                        <td colspan="2" align="center">
+                            <fieldset style="width:400px;">
+                                <legend style="font-weight: bold;">Filtros de busca de estruturas:</legend>
+                                <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                                    <tr>
+                                        <td align="right">
+                                            <font class="texto">Por nome:&nbsp;&nbsp;</font>
                                         </td>
-                                    </table>
-                                </fieldset>
-                            </td>
-                        </tr>
+                                        <td>
+                                            <input id="frmTxtBuscaEstrutura" type="text" class="edit" style="width: 250px" onkeyup="filtraCombo('#frmCadAPPPEstrutura','#frmTxtBuscaEstrutura');"></input>
+                                        </td>
+                                    </tr>
+                                    <td colspan="2" align="center">
+                                        <br /><font class="texto">Por tipo:</font>&nbsp;&nbsp;
+                                        <input id="frmCadAPPPChkPattern" name="frmCadAPPPChkPattern" type="checkbox" class="edit" value="PA" checked>
+                                        <font class="texto"> Patterns </font> &nbsp;&nbsp;
+                                        <input id="frmCadAPPPChkAntiPattern" name="frmCadAPPPChkAntiPattern" type="checkbox" class="edit" value="AP" checked>
+                                        <font class="texto"> Anti-Patterns </font> &nbsp;&nbsp;
+                                        <input id="frmCadAPPPChkPersona" name="frmCadAPPPChkPersona" type="checkbox" class="edit" value="PE" checked>
+                                        <font class="texto"> Personas </font>
+                                    </td>
+                                </table>
+                            </fieldset>
+                        </td>
                     </tr>
+
                     <tr>
                         <td colspan="2" align="center" valign="middle">
                             <br />
@@ -581,11 +581,11 @@
                                 </select>
                             </div>
                             <div id="alertaSelectEstrut" title="Estruturas não encontradas">
-                               <img src="images/m2brerro.png" style="vertical-align:middle;"/> Por favor, selecione um tipo de estrutura.<br />
+                                <img src="images/m2brerro.png" style="vertical-align:middle;"/> Por favor, selecione um tipo de estrutura.<br />
                             </div>
                             <script type="text/javascript">$("#alertaSelectEstrut").hide();</script>
                             <div id="cadastrado" title="Parab&eacute;ns">
-                               <img src="images/m2brinfo.png" style="vertical-align:middle;"/> Documento cadastrado com sucesso.<br />
+                                <img src="images/m2brinfo.png" style="vertical-align:middle;"/> Documento cadastrado com sucesso.<br />
                             </div>
                             <script type="text/javascript">$("#cadastrado").hide();</script>
                             <div id="naoLogado" title="Aviso">

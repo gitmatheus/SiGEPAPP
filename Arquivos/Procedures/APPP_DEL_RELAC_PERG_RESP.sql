@@ -7,12 +7,23 @@
 ***********************************************************************************************************************/
 create or replace procedure APPP_DEL_RELAC_PERG_RESP(pCD_PERGUNTA IN NUMBER,
                                                      pCD_RESPOSTA IN NUMBER,
+													 pNR_VALOR IN NUMBER,
                                                      vResult     out number) is
                                                   
       
 vERRO        VARCHAR2(600);
 begin
-    
+     
+	  IF pNR_VALOR IS NOT NULL AND pCD_RESPOSTA IS NOT NULL THEN
+      
+         DELETE FROM APPP_TB_RELAC_PERG_RESP
+              WHERE NR_VALOR_RESP = pNR_VALOR
+              AND   CD_RESPOSTA = pCD_RESPOSTA ;
+              commit;
+      
+      ELSE
+		
+	
       IF  pCD_PERGUNTA IS NOT NULL AND pCD_RESPOSTA IS NOT NULL THEN
       
            SELECT COUNT(*) INTO vResult
@@ -58,7 +69,7 @@ begin
           end if;      
       
       END IF; 
-      
+    END IF;
    EXCEPTION
      WHEN NO_DATA_FOUND THEN
         rollback;

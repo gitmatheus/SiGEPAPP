@@ -37,12 +37,12 @@ function carregaListaRespostas(){
             $("#frmCadResp select").each(function(indice2, combotemp){
                 var selecionado= $(combotemp).find("option:selected").text();
                 $(combotemp).empty();
-                $(combotemp).append("<option> </option>");
+                $(combotemp).append("<option value='0'> </option>");
                 $(retorno).find("Resposta").each(function(indice, conteudo){
                     if($.trim($(conteudo).find("DescResposta").text().toString()) ==$.trim(selecionado)){
-                        $(combotemp).append("<option selected>"+$(conteudo).find("DescResposta").text().toString()+"</option>");
+                        $(combotemp).append("<option value='"+$(conteudo).find("Cod").text().toString()+"' selected>"+$(conteudo).find("DescResposta").text().toString()+"</option>");
                     }else{
-                        $(combotemp).append("<option>"+$(conteudo).find("DescResposta").text().toString()+"</option>");
+                        $(combotemp).append("<option value='"+$(conteudo).find("Cod").text().toString()+"'>"+$(conteudo).find("DescResposta").text().toString()+"</option>");
                     }
                 });
                 

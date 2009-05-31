@@ -86,25 +86,33 @@ public class RelacPergRespDAO {
         }
     }
 
-    public boolean APPP_DEL_PERGUNTA(Relac_Perg_Resp relac_perg_resp) {
+    public long APPP_DEL_RELAC_PERG_RESP(Relac_Perg_Resp relac_perg_resp) {
         try {
-            CallableStatement cstmt = this.conn.prepareCall("begin APPP_DEL_RELAC_PERG_RESP(?, ?, ?, ?); end;");
+            CallableStatement cstmt = this.conn.prepareCall("begin APPP_DEL_RELAC_PERG_RESP(?, ?, ?,?); end;");
 
             //Seta os valores para os pontos de interrogação indexados pela ordem deles na string
             cstmt.setLong(1, relac_perg_resp.getCd_pergunta());
-            cstmt.setLong(2, relac_perg_resp.getCd_resposta());
-            cstmt.setLong(3, relac_perg_resp.getNro_valor_resp());
-
-            cstmt.setNull(4, OracleTypes.NUMBER);
+            if (relac_perg_resp.getCd_resposta() == 0) {
+                cstmt.setNull(2, OracleTypes.NUMBER);
+            } else {
+                cstmt.setLong(2, relac_perg_resp.getCd_resposta());
+            }
+            if (relac_perg_resp.getNro_valor_resp() == 0) {
+                cstmt.setNull(3, OracleTypes.NUMBER);
+            } else {
+                cstmt.setLong(3, relac_perg_resp.getNro_valor_resp());
+            }
+            
             cstmt.registerOutParameter(4, OracleTypes.NUMBER);
 
             cstmt.execute();
 
-            long cResult = (int) cstmt.getLong(13);
+            long cResult = (int) cstmt.getLong(4);
 
-            return true;
+            return cResult;
         } catch (SQLException e) {
-            return false;
+            GravarLog.gravaErro(Relac_Perg_Resp.class.getName() + ": erro na exclusão do relacPergResp no banco:" + e.getMessage());
+            return -1;
         }
     }
 

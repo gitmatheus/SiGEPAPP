@@ -31,13 +31,17 @@ public class CadRelacPergRespServlet extends HttpServlet {
             String CDResp[] = request.getParameterValues("CDResp");
             String PesoResp[] = request.getParameterValues("PesoResp");
 
-            for (int i = 0; i < CDPerg.length; i++) {
-                if (CDResp[i]!=null && !CDResp[i].equals("0")) {
-                    relacPergResp.APPP_INS_RELAC_PERG_RESP(new Relac_Perg_Resp(Long.parseLong(CDPerg[i]), Long.parseLong(CDResp[i]), Long.parseLong(PesoResp[i])));
-                }
-                out.println(CDPerg[i] + " " + CDResp[i]);
-            }
 
+            for (int i = 0; i < CDPerg.length; i++) {
+                if (CDResp[i] != null && !CDResp[i].equals("0")) {
+                    relacPergResp.APPP_INS_RELAC_PERG_RESP(new Relac_Perg_Resp(Long.parseLong(CDPerg[i]), Long.parseLong(CDResp[i]), Long.parseLong(PesoResp[i])));
+                } else {
+                    relacPergResp.APPP_DEL_RELAC_PERG_RESP(new Relac_Perg_Resp(Long.parseLong(CDPerg[i]), 0, Long.parseLong(PesoResp[i])));
+                }
+
+                
+            }
+            relacPergResp.fechaConexao();
             response.sendRedirect("frmCadQuestionarioStep4.jsp");
 
         } catch (Exception e) {

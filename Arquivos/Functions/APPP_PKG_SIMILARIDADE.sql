@@ -8,6 +8,7 @@
 * History              : 21/04/2009 - Guilherme Wachs Lopes
                        : 10/05/2009 - Guilherme Wachs Lopes: Melhoria na similaridade
 					   : 23/05/2009 - Guilherme Wachs Lopes: Alguns Bug consertados
+					   : 30/05/2009 - Guilherme Wachs Lopes: Implementado Ordenação de VETOR_PALAVRAS
 ***************************************************************************************************/
 
 CREATE OR REPLACE PACKAGE APPP_PKG_SIMILARIDADE AS
@@ -24,7 +25,8 @@ CREATE OR REPLACE PACKAGE APPP_PKG_SIMILARIDADE AS
     PROCEDURE MAIOR_SUBSTRING(PALAVRA IN VARCHAR2, VETOR_IDX_PALAVRAS IN OUT NOCOPY INDEXED_PALAVRAS, MAX_CARACTER OUT NUMBER, MAX_COMUNS OUT NUMBER);
     PROCEDURE ELIMINAPALPEQ(TEXTO IN OUT NOCOPY VARCHAR2);
     PROCEDURE DEL_INDICE(Indice IN NUMBER, VetorPalavras IN OUT NOCOPY VETOR_PALAVRAS);
-    
+    PROCEDURE ORDENA_VETOR_PALAVRAS(vetor_pal IN OUT NOCOPY VETOR_PALAVRAS);
+	
     --Functions
     FUNCTION SIMILARIDADE(TEXTO1 IN VARCHAR2, TEXTO2 IN VARCHAR2) RETURN NUMBER;
     FUNCTION PROCURA_PALAVRA(PALAVRA IN VARCHAR2, VETOR IN VETOR_PALAVRAS) RETURN NUMBER;
@@ -35,7 +37,8 @@ END APPP_PKG_SIMILARIDADE;
 /
 
 
-CREATE OR REPLACE PACKAGE BODY APPP_PKG_SIMILARIDADE AS
+create or replace
+PACKAGE BODY APPP_PKG_SIMILARIDADE AS
 
   VetorPalavras APPP_PKG_SIMILARIDADE.VETOR_PALAVRAS;
   Indice Number;
@@ -51,7 +54,10 @@ CREATE OR REPLACE PACKAGE BODY APPP_PKG_SIMILARIDADE AS
   PROCEDURE ADD_PALAVRA( Indice IN NUMBER, Palavra IN VARCHAR2, VetorIndexed IN OUT NOCOPY INDEXED_PALAVRAS) AS
   BEGIN
       IF PROCURA_PALAVRA(Palavra,VetorIndexed(Indice))=-1 THEN
+        
         VetorIndexed(Indice) (VetorIndexed(Indice).count+1):=Palavra;
+        ordena_vetor_palavras(VetorIndexed(Indice));
+        
       END IF;
         EXCEPTION WHEN NO_DATA_FOUND THEN
         VetorIndexed(Indice)(1):=Palavra;
@@ -75,9 +81,9 @@ CREATE OR REPLACE PACKAGE BODY APPP_PKG_SIMILARIDADE AS
 
         --Encontrada a palavra, adicioná-la no indice do vetor que corresponda a sua primeira letra.
             --Descobrir o indice do vetor
-            --dbms_output.put_line(palavraencontrada);
+            ----dbms_output.put_line(palavraencontrada);
             IndiceNoVetor:=ASCII(SUBSTR(PalavraEncontrada,1,1))-64;
-            --DBMS_OUTPUT.PUT_LINE('Adicionando palavra: '||PalavraEncontrada);
+            ----dbms_output.PUT_LINE('Adicionando palavra: '||PalavraEncontrada);
             --Insere a Palavra em sua posição correta
             add_palavra(IndiceNoVetor,PalavraEncontrada,VetorIndexed);
 
@@ -91,6 +97,8 @@ CREATE OR REPLACE PACKAGE BODY APPP_PKG_SIMILARIDADE AS
         IndiceNoVetor:=ASCII(SUBSTR(TextoTranslated,1,1))-64;
         add_palavra(IndiceNoVetor,TextoTranslated,VetorIndexed);
         end if;
+
+      
 
   END PREENCHE_LISTA_INDEXADA;
 
@@ -109,7 +117,6 @@ CREATE OR REPLACE PACKAGE BODY APPP_PKG_SIMILARIDADE AS
         PalavraEncontrada:=SUBSTR(TextoTranslated,1,INSTR(TextoTranslated,' ',1) - 1);
         
         if PalavraEncontrada!=' ' and PROCURA_PALAVRA(PalavraEncontrada, VetorPalavras)=-1 then
-
         VetorPalavras(i):=PalavraEncontrada;
         i:=i+1;
 
@@ -122,7 +129,7 @@ CREATE OR REPLACE PACKAGE BODY APPP_PKG_SIMILARIDADE AS
       end if;
 
       --for i in 1..VetorPalavras.count loop
-      -- DBMS_OUTPUT.PUT_LINE('i=' || i ||VetorPalavras(i));
+      -- ----dbms_output.PUT_LINE('i=' || i ||VetorPalavras(i));
       --end loop;
 
     END;
@@ -145,14 +152,14 @@ CREATE OR REPLACE PACKAGE BODY APPP_PKG_SIMILARIDADE AS
     MAX_CARACTER:=0;
     MAX_COMUNS:=0;
   
-    --DBMS_OUTPUT.PUT_LINE('Fui chamado para procurar por: ' || palavra);
+    --dbms_output.PUT_LINE('Fui chamado para procurar por: ' || palavra);
 
-    --DBMS_OUTPUT.PUT_LINE('Ultimo elemento '||VetorPalavras(VetorPalavras.count));
+    ----dbms_output.PUT_LINE('Ultimo elemento '||VetorPalavras(VetorPalavras.count));
     --Para Cada Palavra que começa com a mesma letra de Palavra
     for x in 1..VetorPalavras.Count loop
 
       PalavraComparada:=VetorPalavras(x);
-      --dbms_output.put_line('Palavra Comparada: ' || PalavraComparada);
+      ----dbms_output.put_line('Palavra Comparada: ' || PalavraComparada);
       --Para cada letra a partir da segunda
         for y in 1..length(PALAVRA) loop
           --Se o encadeamento for satisfatório no intervalo 1..y faça
@@ -183,11 +190,11 @@ CREATE OR REPLACE PACKAGE BODY APPP_PKG_SIMILARIDADE AS
     --Fim Para Cada Palavra
 
     --Elimina Palavra Comparada Do Vetor
-    --DBMS_OUTPUT.PUT_LINE('Removendo palavra: '||UltimaPalavraComparada || ' com relacao: ' || MaiorRelacao);
+    --dbms_output.PUT_LINE('Removendo palavra: '||UltimaPalavraComparada || ' com relacao: ' || MaiorRelacao);
     --vetor_idx_palavras(indice).DELETE(PROCURA_PALAVRA(UltimaPalavraComparada,vetor_idx_palavras(indice)));
     DEL_INDICE(PROCURA_PALAVRA(UltimaPalavraComparada,vetor_idx_palavras(indice)),vetor_idx_palavras(indice));
     
-    --DBMS_OUTPUT.PUT_LINE('Total no vetor: '||vetor_idx_palavras(indice).count || ' indice: ' || indice);        
+    ----dbms_output.PUT_LINE('Total no vetor: '||vetor_idx_palavras(indice).count || ' indice: ' || indice);        
    
     EXCEPTION
     --Caso não tenha nenhuma palavra no indice retorna comuns=0    
@@ -210,10 +217,11 @@ PROCEDURE DEL_INDICE(Indice IN NUMBER, VetorPalavras IN OUT NOCOPY VETOR_PALAVRA
 i number:=indice;
 BEGIN
     
-    for i in indice..VetorPalavras.Last-1 loop
+    for i in indice..VetorPalavras.count-1 loop
       VetorPalavras(i):=VetorPalavras(i+1);
     end loop;
      VetorPalavras.DELETE(VetorPalavras.Last);  
+    
 
 END DEL_INDICE;
 --FIM DA PROCEDURE DEL_INDICE
@@ -258,9 +266,14 @@ END PROCURA_PALAVRA;
     SomaComuns NUMBER:=0;
       BEGIN
 
-        --DBMS_OUTPUT.PUT_LINE('Texto1: '||TEXT1);
-        --DBMS_OUTPUT.PUT_LINE('Texto2: '||TEXT2);
-
+        ----dbms_output.PUT_LINE('Texto1: '||TEXT1);
+        ----dbms_output.PUT_LINE('Texto2: '||TEXT2);
+        --Elimina palavras com tamanho menor ou igual à 3 caracteres
+        ELIMINAPALPEQ(TEXT1);
+        --Optamos por comentar a linha abaixo para caso o usuario colocasse uma palavra menor que tres letras
+        --na busca...
+        --ELIMINAPALPEQ(TEXT2);
+        
         --Testa semelhança direta do texto ou se os parâmetros são nulos
         if (TEXT1=TEXT2 or (text1 is null and text2 is null)) then
         return 1;
@@ -278,42 +291,48 @@ END PROCURA_PALAVRA;
           TEXT1:=TEXT3;
         end if;
 
-        --Elimina palavras com tamanho menor ou igual à 3 caracteres
-        ELIMINAPALPEQ(TEXT1);
-        --Optamos por comentar a linha abaixo para caso o usuario colocasse uma palavra menor que tres letras
-        --na busca...
-        ELIMINAPALPEQ(TEXT2);
-        --DBMS_OUTPUT.PUT_LINE('Texto1: '||TEXT1);
-        --DBMS_OUTPUT.PUT_LINE('Texto2: '||TEXT2);
+        
+        
         --Preenche o Vetor Indexado (BiDimensional)
         --Exemplo:
         --[a]= 'Alberto','Amadeu','Alterar'
         --[c]= 'cachorro','caneta'
         --...
-        preenche_lista_indexada(TEXT1,Palavras_Indexadas);
+        preenche_lista_indexada(TEXT2,Palavras_Indexadas);
 
         --Abaixo um vetor unidimensional é preenchido sem indexação, pois será varrido
         --palavra por palavra no "FOR" Externo.
-        preenche_lista(TEXT2, Vetor_Palavras);
+        preenche_lista(TEXT1, Vetor_Palavras);
       
-       
-
+        ordena_vetor_palavras(Vetor_Palavras);
+        
+        --for i in 1..Vetor_palavras.count loop
+        --dbms_output.PUT_LINE(i || '=' ||Vetor_Palavras(i));
+        --end loop;
+        
+        
+        --dbms_output.PUT_LINE('Texto1(Loop): '||TEXT1);
+        --dbms_output.PUT_LINE('Texto2(Indexado): '||TEXT2);
+        --dbms_output.PUT_LINE('Quantidade em VETOR_PALAVRAS: '||Vetor_Palavras.Count);
+        
+        
+        
         --Loop Externo: Palavra por palavra do texto que tem mais palavras
         FOR x in 1..Vetor_Palavras.Count LOOP
           --Encontra a maior relação (CharacteresComuns / TotalCaracteres) entre as palavras
           --do vetor indexado.
 
           maior_substring(Vetor_Palavras(x), Palavras_Indexadas, Total, comuns);
-          --dbms_output.put_line('x= ' || x);
+          
           --Os retornos da procedure acima(Total e Comuns) são usados para incrementar
           --as variáves que serão utilizadas para descobrir a taxa total no final
           --do algoritmo
 
           SomaTotal:=SomaTotal+Total;
-          --DBMS_OUTPUT.PUT_LINE('SomaTotal: '||SomaTotal);
+          ----dbms_output.PUT_LINE('SomaTotal: '||SomaTotal);
           
           SomaComuns:=SomaComuns+Comuns;
-          --DBMS_OUTPUT.PUT_LINE('SomaComuns: '||SomaComuns);
+          ----dbms_output.PUT_LINE('SomaComuns: '||SomaComuns);
 
         END LOOP;
 
@@ -329,13 +348,13 @@ END PROCURA_PALAVRA;
 
 
         --Para cada letra do vetor indexado
-        FOR i in 1..256 loop
+        FOR i in 1..255 loop
 
           BEGIN
             --Para cada palavra que comeca do a letra de codigo ASCII i
             FOR j in 1..Palavras_Indexadas(i).count+1 loop
               BEGIN
-              --dbms_output.put_line('Palavra nao encontrada: ' || Palavras_Indexadas(i)(j));
+              --dbms_output.put_line('Palavra nao encontrada(sobrando): ' || Palavras_Indexadas(i)(j));
                 --Captura o tamanho da palavra
                 CaracteresNaoComparados:=CaracteresNaoComparados + length(Palavras_Indexadas(i)(j));
               EXCEPTION
@@ -354,9 +373,9 @@ END PROCURA_PALAVRA;
         END LOOP;
 
         --Soma o comprimento das palavras restantes na SomaTotal de caracteres.
-        --dbms_output.put_line('Somando ' || CaracteresNaoComparados);
+        ----dbms_output.put_line('Somando ' || CaracteresNaoComparados);
         SomaTotal:=SomaTotal+CaracteresNaoComparados;
-        --dbms_OUTPUT.put_line('Soma: ' || SomaTotal || ' Comuns: ' || SomaComuns);
+        ----dbms_output.put_line('Soma: ' || SomaTotal || ' Comuns: ' || SomaComuns);
       --Retorna a similaridade
       if SomaTotal!=0 then
       return (SomaComuns/SomaTotal);
@@ -430,6 +449,32 @@ posicaoFimPal number:=1;
 
   END;
 END ELIMINAPALPEQ;
+--Procedure para ordenar palavras em um VETOR_PALAVRAS
+PROCEDURE ordena_vetor_palavras(vetor_pal in out nocopy vetor_palavras) is
+
+type vetor_pal_sort_type is table of varchar2(100) index by varchar2(100);
+vetor_pal_sort vetor_pal_sort_type;
+
+indice_sort varchar2(100);
+indice_vet_pal NUMBER(5):=1;
+begin
+
+for i in 1..vetor_pal.count
+loop
+vetor_pal_sort(vetor_pal(i)):=vetor_pal(i);
+end loop;
+
+indice_sort:= vetor_pal_sort.first;
+
+loop
+
+vetor_pal(indice_vet_pal):=vetor_pal_sort(indice_sort);
+indice_sort:=vetor_pal_sort.next(indice_sort);
+indice_vet_pal:=indice_vet_pal+1;
+exit when indice_sort is null;
+end loop;
+
+end ordena_vetor_palavras;
 
 END APPP_PKG_SIMILARIDADE;
 

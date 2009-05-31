@@ -5,9 +5,11 @@
 package br.edu.fei.sigepapp.servlet;
 
 import br.edu.fei.sigepapp.avaliacao.AvaliaObjeto;
+import br.edu.fei.sigepapp.bancodedados.dao.PerguntaDAO;
 import br.edu.fei.sigepapp.bancodedados.dao.QuestPreenchDAO;
 import br.edu.fei.sigepapp.bancodedados.dao.RelacPergRespDAO;
 import br.edu.fei.sigepapp.bancodedados.dao.Resp_Quest_PreenchDAO;
+import br.edu.fei.sigepapp.bancodedados.model.Pergunta;
 import br.edu.fei.sigepapp.bancodedados.model.QuestPreench;
 import br.edu.fei.sigepapp.bancodedados.model.Relac_Perg_Resp;
 import br.edu.fei.sigepapp.bancodedados.model.Resp_Quest_Preench;
@@ -51,44 +53,35 @@ public class CadQuestPreenchServlet extends HttpServlet {
         RelacPergRespDAO respostaDao;
         QuestPreenchDAO preencheDao;
         Resp_Quest_PreenchDAO quest_PreenchDAO;
+        PerguntaDAO perguntaDAO;
 
         try {
 
 
+
+
             NomesAtributos = request.getParameterNames();
 
-
-
-
-            List<Long> list_perguntas = new ArrayList<Long>();
             List<Long> list_respostas = new ArrayList<Long>();
-            List<Long> list_pesos = new ArrayList<Long>();
 
-            while (NomesAtributos.hasMoreElements()) {
-                listaAtributos.add(NomesAtributos.nextElement().toString());
-            }
-
-            for (int i = 1; i < listaAtributos.size() - 1; i++) {
-                list_perguntas.add(Long.parseLong(listaAtributos.get(i).toString()));
-                out.println(Long.parseLong(listaAtributos.get(i).toString()));
-            }
-
-
-            for (Long cd_pergunta : list_perguntas) {
-                list_respostas.add(Long.parseLong(request.getParameter(cd_pergunta.toString())));
-            //list_pesos.add(Long.parseLong(request.getParameter("valor_resp"+cd_pergunta.toString())));
-            }
+            perguntaDAO=new PerguntaDAO();
+            List<Pergunta> list_perguntas = perguntaDAO.APPP_SEL_PERGUNTA(new Pergunta());
+            perguntaDAO.fechaConexao();
 
             respostaDao = new RelacPergRespDAO();
             List<Relac_Perg_Resp> pesquisaResp = respostaDao.APPP_SEL_RELAC_PERG_RESP(new Relac_Perg_Resp());
             respostaDao.fechaConexao();
             Long Soma = 0l;
+            int i=0;
+            List<Long> list_pesos = new ArrayList<Long>();
 
-            for (int i = 1; i < listaAtributos.size() - 1; i++) {
+            for (Pergunta pergunta : list_perguntas) {
+                list_respostas.add(Long.parseLong(request.getParameter(Long.toString(pergunta.getCd_pergunta()))));
                 list_pesos.add(pesquisaResp.get(
-                        pesquisaResp.indexOf(new Relac_Perg_Resp(list_perguntas.get(i - 1), list_respostas.get(i - 1), 0))).getNro_valor_resp());
-                Soma += list_pesos.get(i - 1);
-                out.println(list_perguntas.get(i - 1) + "::" + list_respostas.get(i - 1) + "->" + list_pesos.get(i - 1));
+                        pesquisaResp.indexOf(new Relac_Perg_Resp(pergunta.getCd_pergunta(), list_respostas.get(i), 0))).getNro_valor_resp());
+                Soma += list_pesos.get(i);
+                out.println(list_perguntas.get(i).getCd_pergunta() + "::" + list_respostas.get(i) + "->" + list_pesos.get(i));
+                i++;
             }
 
             preencheDao = new QuestPreenchDAO();
@@ -106,15 +99,17 @@ public class CadQuestPreenchServlet extends HttpServlet {
             preencheDao.fechaConexao();
             if (ins_quest > 1) {
 
+                i=0;
                 quest_PreenchDAO = new Resp_Quest_PreenchDAO();
-                for (int i = 0; i < listaAtributos.size() - 2; i++) {
+                for (Pergunta pergunta : list_perguntas) {
                     Resp_Quest_Preench respostas_quest = new Resp_Quest_Preench();
                     respostas_quest.setCd_quest_preench(ins_quest);
-                    respostas_quest.setCd_pergunta(list_perguntas.get(i));
+                    respostas_quest.setCd_pergunta(pergunta.getCd_pergunta());
                     respostas_quest.setCd_resposta(list_respostas.get(i));
                     if (quest_PreenchDAO.APPP_INS_RESP_QUEST_PREENCH(respostas_quest) == false) {
                         ins_respostas = false;
                     }
+                    i++;
                 }
                 quest_PreenchDAO.fechaConexao();
 

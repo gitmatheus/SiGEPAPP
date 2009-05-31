@@ -174,6 +174,11 @@
                                 <a id="menubv submenu" href="/sigepapp/frmBuscaPorEstrutura.jsp" title="Busca de conteúdo por sua estrutura" >Por estrutura</a>
                             </td>
                         </tr>
+                        <tr class="menubv submenu">
+                            <td>
+                                <a id="menubv submenu" href="/sigepapp/frmBuscaPorEstrutura.jsp?cd_est=0" title="Busca todos documentos" >Todos</a>
+                            </td>
+                        </tr>
                     </table>
                 </div>
             </td>

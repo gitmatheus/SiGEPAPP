@@ -290,3 +290,27 @@ a {
     font-size: 12px;
     color:#000000;
 }
+
+table .paginacao{
+    padding-top:10px;
+}
+
+table .paginacao tr{
+    background-color:#3d414c;
+}
+
+table .paginacao tr td{
+    color:#ffffff;
+    width:100px;
+    text-align:center;
+    
+}
+table .paginacao tr td a{
+    color:#ffffff;
+    font-size:1.2em;
+}
+table .paginacao tr td a:hover{
+    color:#ffffff;
+    font-weight:bold;
+    
+}
