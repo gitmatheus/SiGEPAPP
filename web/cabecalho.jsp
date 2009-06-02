@@ -187,8 +187,8 @@
         <tr class="menubv"><td>
         <a id="menubv" href="/sigepapp/frmCadUsuario.jsp" title="Cadastro e Edição de perfil dos usu&aacute;rios" >Registre-se</a></tr>
         <tr class="menubv"><td>
-        <a id="menubv" href="/sigepapp/help.jsp" title="FAQ do SiGePAPP" >Ajuda</a></tr>
-        <!--<tr class="menubv"><td>
+        <!--<a id="menubv" href="/sigepapp/help.jsp" title="FAQ do SiGePAPP" >Ajuda</a></tr>
+        <tr class="menubv"><td>
         <a id="menubv" href="/sigepapp/frmCadQuestionarioStep1.jsp" title="Cadastro das Perguntas e Respostas do questionário" >Question&aacute;rio</a></tr>-->
 
     </table>
