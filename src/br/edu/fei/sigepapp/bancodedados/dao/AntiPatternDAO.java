@@ -35,6 +35,7 @@ import java.util.Vector;
 import oracle.jdbc.OracleTypes;
 
 /**
+ * Classe responsável pela comunicação Modelo-Banco de dados para Anti-Patterns.
  *
  * @author matheus.goncalves
  */
@@ -50,6 +51,13 @@ public class AntiPatternDAO {
         this.conn = ConnectionFactory.getConnection();
     }
 
+    /**
+     * Função que preenche um List dado um recordset
+     * @param rs
+     * @return
+     * @throws java.sql.SQLException
+     *
+     */
     public List<AntiPattern> PreencheList(ResultSet rs) throws SQLException {
         // Cria um array do tipo Estrutura
         List<AntiPattern> AntiPatterns = new ArrayList<AntiPattern>();
@@ -103,6 +111,11 @@ public class AntiPatternDAO {
         return AntiPatterns;
     }
 
+    /**
+     *
+     * @param AntiPatternPesquisa
+     * @return
+     */
     public List<AntiPattern> APPP_SEL_ANTI_PATTERN(AntiPattern AntiPatternPesquisa) {
         CallableStatement cstmt = null;
         ResultSet rs = null;
@@ -167,6 +180,11 @@ public class AntiPatternDAO {
         }
     }
 
+    /**
+     *
+     * @param AntiPatternAdicionar
+     * @return
+     */
     public long APPP_INS_ANTI_PATTERN(AntiPattern AntiPatternAdicionar) {
         CallableStatement cstmt = null;
 

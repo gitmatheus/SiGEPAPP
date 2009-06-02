@@ -18,7 +18,7 @@ BEGIN
          nm_objeto,
          ds_objeto
         from appp_tb_objeto
-        where cd_estrutura in(select cd_estrutura from appp_tb_estrut_obj where tp_estrutura='PE')
+        where cd_estrutura in(select cd_estrutura from appp_tb_estrut_obj where tp_estrutura='PE') and fl_ativo=1
         order by sim desc;
   
 END APPP_SEL_PE_SIMILARIDADE;

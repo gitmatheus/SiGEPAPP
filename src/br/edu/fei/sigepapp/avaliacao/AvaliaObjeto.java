@@ -1,14 +1,11 @@
 package br.edu.fei.sigepapp.avaliacao;
 
 import br.edu.fei.sigepapp.bancodedados.ConnectionFactory;
-import br.edu.fei.sigepapp.bancodedados.dao.ObjetoDAO;
-import br.edu.fei.sigepapp.bancodedados.model.Objeto;
 import br.edu.fei.sigepapp.log.GravarLog;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.List;
 import oracle.jdbc.OracleTypes;
 
 import org.apache.commons.mail.EmailException;
@@ -16,6 +13,8 @@ import org.apache.commons.mail.HtmlEmail;
 import org.apache.commons.mail.SimpleEmail;
 
 /**
+ * Classe responsável pela avaliação de Objetos: Patterns Anti-Patter e Personas.
+ * É utilizada uma procedure no banco de dados para avaliar os documentos.
  *
  * @author Andrey
  * @version 0.01 28 Abr 2009
@@ -24,10 +23,25 @@ public class AvaliaObjeto {
 
     Connection conn;
 
+    /**
+     * Construtor
+     * @throws java.sql.SQLException
+     */
     public AvaliaObjeto() throws SQLException {
         conn = ConnectionFactory.getConnection();
     }
 
+    /**
+     * Faz a avaliação de um Documento. A Avaliação é feita pelo banco de dados.
+     * Caso o banco retorne 1, a nota do documento está acima da média.
+     * Caso o banco retorne 2, não há avaliações suficientes.
+     * Caso o banco retorne 3, o documento é bloqueado e um e-mail é enviando ao
+     * autor do documento.
+     *
+     * @param pCD_OBJ Código do Objeto que está sendo avaliado.
+     * @param pCD_USER Código do usuário que está avaliando uma estrutura.
+     * @throws java.lang.Exception
+     */
     public void executaAcoes(long pCD_OBJ, long pCD_USER) throws Exception {
         long pCD_CRIADOR = 0;
         try {
@@ -184,9 +198,13 @@ public class AvaliaObjeto {
     }
 
     /**
+     * Envia um E-mail em html para um usuário.
      * 
-     * @param nomeUsuario
-     * @param emailUsuario
+     * @param nomeUsuario Nome do usuário
+     * @param emailUsuario Email do usuário
+     * @param nomeObj Nome do objeto
+     * @param codigoObj Código do objeto
+     * @throws EmailException
      */
     public void enviaEmail(String nomeUsuario, String emailUsuario, String nomeObj, long codigoObj) throws EmailException {
         try {
@@ -212,6 +230,15 @@ public class AvaliaObjeto {
         }
     }
 
+    /**
+     * Envia um e-mail simples para um usuário
+     *
+     * @param nomeUsuario Nome do usuário
+     * @param emailUsuario Email do usuário
+     * @param nomeObj Nome do Objeto
+     * @param codigoObj Código do Objeto
+     * @throws org.apache.commons.mail.EmailException
+     */
     public void enviaEmailSimples(String nomeUsuario, String emailUsuario, String nomeObj, long codigoObj) throws EmailException {
 
         SimpleEmail email = new SimpleEmail();

@@ -96,7 +96,7 @@ BEGIN
                    vSQL := vSQL ||'WHERE  G.CD_OBJETO = O.CD_OBJETO' || chr(10);
 					END IF;
 
-
+					vSQL := vSQL ||'AND  O.FL_ATIVO = 1' || chr(10);
 
 					FETCH E INTO vCD_ESTRUTURA, vTP_ESTRUTURA;
 					IF E%FOUND THEN

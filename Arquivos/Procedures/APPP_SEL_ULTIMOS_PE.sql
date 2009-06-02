@@ -45,7 +45,7 @@ BEGIN
                   appp_tb_objeto obj
                   where
                   obj.cd_estrutura in
-                      (select cd_estrutura from appp_tb_estrut_obj est where est.tp_estrutura='PE');
+                      (select cd_estrutura from appp_tb_estrut_obj est where est.tp_estrutura='PE') and fl_ativo=1;
      
      vResult := 1;
 
