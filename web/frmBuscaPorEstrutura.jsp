@@ -263,7 +263,7 @@
         <!--Exibição de um documento-->
         <tr>
             <td align="center">
-                <a href="viewAPPP.jsp?CD_OBJ=%0A3">
+                <a href="viewAPPP.jsp?CD_OBJ=<%= objeto.getCd_objeto() %>">
                     <div>
                         <table width="100%">
                             <tr class="ui-widget-header ui-corner-all app_nome" style="border-width: 1px;">
