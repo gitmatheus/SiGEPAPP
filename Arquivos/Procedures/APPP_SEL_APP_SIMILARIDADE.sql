@@ -42,7 +42,7 @@ vCD_ESTRUTURA  APPP_TB_OBJETO.CD_ESTRUTURA%TYPE;
    SELECT TRIM(COLUMN_NAME) NM_COLUNA
    FROM ALL_TAB_COLUMNS
    WHERE TABLE_NAME = vNM_TABELA
-   AND TRIM(COLUMN_NAME) IN ('DS_PROBLEMA', 'DS_SOLUCAO')
+   AND TRIM(COLUMN_NAME) IN ('DS_PROBLEMA', 'DS_SOLUCAO','DS_RECOMENDACOES')
    ORDER BY NM_COLUNA;
 
 --Para similaridade--
@@ -109,6 +109,8 @@ vSQL:=vSQL ||' FROM (';
                                  vSQL := vSQL ||'       ,G.DS_PROBLEMA PROBLEMA' || chr(10);
                       ELSIF TRIM(vNM_COLUNA) = 'DS_SOLUCAO' THEN
                           vSQL := vSQL ||'       ,G.DS_SOLUCAO SOLUCAO' || chr(10);
+					  ELSIF TRIM(vNM_COLUNA) = 'DS_RECOMENDACOES' THEN
+                          vSQL := vSQL ||'       ,G.DS_RECOMENDACOES SOLUCAO' || chr(10);
 
                       END IF;
 

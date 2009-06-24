@@ -50,7 +50,7 @@ Insert into APPP_TB_ATRIBUTO_OBJ (CD_TIPO,DS_ATRIBUTO_OBJ,FL_ATRIB_RELAC,NM_ATRI
       values (1,'Consequencias do problema','N','Consequencias','DS_CONSEQUEN');
 
 Insert into APPP_TB_ATRIBUTO_OBJ (CD_TIPO,DS_ATRIBUTO_OBJ,FL_ATRIB_RELAC,NM_ATRIBUTO_OBJ,NM_COLUNA)
-      values (1,'Recomendações para o problema','N','Recomendações','DS_RECOMEN');
+      values (1,'Recomendações para o problema','N','Recomendações','DS_RECOMENDACOES');
 
 Insert into APPP_TB_ATRIBUTO_OBJ (CD_TIPO,DS_ATRIBUTO_OBJ,FL_ATRIB_RELAC,NM_ATRIBUTO_OBJ,NM_COLUNA)
       values (1,'Url para utilização de imagens','N','Foto','URL_FOTO');
